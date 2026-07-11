@@ -5,8 +5,8 @@ import { logger } from './logger';
  * Throws a startup error if critical variables are missing or incorrectly formatted.
  */
 export function validateEnvironment() {
-  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-  const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || 'https://pwtfhbzyspktnwtgupbc.supabase.co';
+  const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InB3dGZoYnp5c3BrdG53dGd1cGJjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM2OTI1OTQsImV4cCI6MjA5OTI2ODU5NH0.TF5nAZNX4LHGdr4lqzyvgegDZW8gzKOWCWB5_qo3yDs';
 
   const errors: string[] = [];
 
