@@ -1,0 +1,6 @@
+{
+  "name": "Dr. Nilay Saha Dental Clinic",
+  "description": "Exceptional Care for Your Perfect Smile",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

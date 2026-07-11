@@ -1,0 +1,216 @@
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import { Star, ChevronLeft, ChevronRight, Quote } from "lucide-react";
+
+const testimonialsData = [
+  {
+    id: 1,
+    name: "Rahul Banerjee",
+    date: "2 weeks ago",
+    rating: 5,
+    text: "Excellent experience at Saha Dental Clinic. Dr. Nilay is very professional and explains every step of the treatment. The clinic is extremely clean and hygienic. Highly recommend for any dental issues."
+  },
+  {
+    id: 2,
+    name: "Sneha Ghosh",
+    date: "1 month ago",
+    rating: 5,
+    text: "Got my root canal done here. I was very nervous, but the procedure was completely painless. The staff is polite, and the ambiance is very calming. Premium service at reasonable rates."
+  },
+  {
+    id: 3,
+    name: "Arijit Das",
+    date: "3 months ago",
+    rating: 5,
+    text: "One of the best dental clinics in the area. The equipment is modern, and they maintain high standards of sterilization. The doctor takes time to listen to your problems. Very satisfied with the treatment."
+  },
+  {
+    id: 4,
+    name: "Priya Sharma",
+    date: "4 months ago",
+    rating: 5,
+    text: "Took my 6-year-old for a checkup. Dr. Nilay is very good with kids, made my child feel completely comfortable. The clinic setup is wonderful. Thank you for the great service!"
+  },
+  {
+    id: 5,
+    name: "Souvik Mukherjee",
+    date: "5 months ago",
+    rating: 5,
+    text: "Very transparent with the treatment plan and pricing. No hidden charges. The tooth extraction was quick and I healed perfectly. Best dental care I have received so far."
+  }
+];
+
+export default function Testimonials() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [direction, setDirection] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const slideVariants = {
+    enter: (direction: number) => ({
+      x: direction > 0 ? 100 : -100,
+      opacity: 0,
+      scale: 0.95
+    }),
+    center: {
+      zIndex: 1,
+      x: 0,
+      opacity: 1,
+      scale: 1,
+      transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] }
+    },
+    exit: (direction: number) => ({
+      zIndex: 0,
+      x: direction < 0 ? 100 : -100,
+      opacity: 0,
+      scale: 0.95,
+      transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] }
+    })
+  };
+
+  const swipeConfidenceThreshold = 10000;
+  const swipePower = (offset: number, velocity: number) => {
+    return Math.abs(offset) * velocity;
+  };
+
+  const paginate = (newDirection: number) => {
+    setDirection(newDirection);
+    if (newDirection === 1) {
+      setCurrentIndex((prev) => (prev === testimonialsData.length - 1 ? 0 : prev + 1));
+    } else {
+      setCurrentIndex((prev) => (prev === 0 ? testimonialsData.length - 1 : prev - 1));
+    }
+  };
+
+  // For desktop, we might want to show multiple cards, but a single centered premium card slider is often more elegant and easier to read.
+  // We will use a single centered card slider for all devices, just with different padding/sizing.
+
+  return (
+    <section id="testimonials" className="relative py-24 z-10 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        {/* Section Header */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="text-center mb-16"
+        >
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-xl mb-6 shadow-[0_0_20px_rgba(139,92,246,0.15)]">
+            <Star className="w-4 h-4 text-violet-400 fill-violet-400" />
+            <span className="text-sm font-medium text-gray-200 uppercase tracking-wider">Testimonials</span>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-heading font-bold text-white mb-6">
+            Patient <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-blue-400">Stories</span>
+          </h2>
+          <p className="text-gray-400 text-lg leading-relaxed max-w-2xl mx-auto">
+            Discover what our patients have to say about their experience and care at our clinic.
+          </p>
+        </motion.div>
+
+        {/* Carousel Container */}
+        <div className="relative max-w-4xl mx-auto flex items-center justify-center min-h-[400px]">
+          
+          <div className="absolute w-full h-full flex items-center justify-center overflow-hidden px-4 sm:px-12">
+            <AnimatePresence initial={false} custom={direction}>
+              <motion.div
+                key={currentIndex}
+                custom={direction}
+                variants={slideVariants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                drag="x"
+                dragConstraints={{ left: 0, right: 0 }}
+                dragElastic={1}
+                onDragEnd={(e, { offset, velocity }) => {
+                  const swipe = swipePower(offset.x, velocity.x);
+                  if (swipe < -swipeConfidenceThreshold) {
+                    paginate(1);
+                  } else if (swipe > swipeConfidenceThreshold) {
+                    paginate(-1);
+                  }
+                }}
+                className="absolute w-full max-w-2xl cursor-grab active:cursor-grabbing"
+              >
+                <div className="glass-panel rounded-[2rem] p-8 sm:p-12 border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)] relative group">
+                  <div className="absolute inset-0 bg-gradient-to-br from-violet-500/5 via-transparent to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-[2rem]"></div>
+                  
+                  <Quote className="absolute top-8 right-8 w-12 h-12 text-white/5 transform rotate-180 pointer-events-none" />
+
+                  <div className="flex flex-col gap-6 relative z-10">
+                    <div className="flex gap-1">
+                      {[...Array(testimonialsData[currentIndex].rating)].map((_, i) => (
+                        <Star key={i} className="w-5 h-5 text-yellow-400 fill-yellow-400 drop-shadow-[0_0_8px_rgba(250,204,21,0.4)]" />
+                      ))}
+                    </div>
+                    
+                    <p className="text-lg sm:text-xl text-gray-200 leading-relaxed font-medium italic">
+                      "{testimonialsData[currentIndex].text}"
+                    </p>
+                    
+                    <div className="mt-4 pt-6 border-t border-white/10 flex items-center justify-between">
+                      <div>
+                        <h4 className="text-white font-heading font-semibold text-lg">{testimonialsData[currentIndex].name}</h4>
+                        <p className="text-sm text-gray-500">{testimonialsData[currentIndex].date}</p>
+                      </div>
+                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-violet-500/20 to-blue-500/20 flex items-center justify-center border border-white/10">
+                        <span className="text-white font-semibold text-lg">{testimonialsData[currentIndex].name.charAt(0)}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          {/* Navigation Buttons */}
+          <div className="absolute inset-y-0 left-0 right-0 flex items-center justify-between pointer-events-none z-20">
+            <button 
+              onClick={() => paginate(-1)}
+              className="pointer-events-auto w-12 h-12 rounded-full glass-panel flex items-center justify-center text-white hover:bg-white/10 hover:-translate-x-1 transition-all shadow-[0_0_15px_rgba(0,0,0,0.5)] -ml-4 sm:ml-0"
+              aria-label="Previous testimonial"
+            >
+              <ChevronLeft className="w-6 h-6 mr-1" />
+            </button>
+            <button 
+              onClick={() => paginate(1)}
+              className="pointer-events-auto w-12 h-12 rounded-full glass-panel flex items-center justify-center text-white hover:bg-white/10 hover:translate-x-1 transition-all shadow-[0_0_15px_rgba(0,0,0,0.5)] -mr-4 sm:mr-0"
+              aria-label="Next testimonial"
+            >
+              <ChevronRight className="w-6 h-6 ml-1" />
+            </button>
+          </div>
+
+        </div>
+        
+        {/* Indicators */}
+        <div className="flex justify-center gap-2 mt-8">
+          {testimonialsData.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => {
+                setDirection(idx > currentIndex ? 1 : -1);
+                setCurrentIndex(idx);
+              }}
+              className={`h-1.5 rounded-full transition-all duration-500 ${
+                idx === currentIndex ? 'w-8 bg-violet-400 shadow-[0_0_10px_rgba(139,92,246,0.6)]' : 'w-2 bg-white/20 hover:bg-white/40'
+              }`}
+              aria-label={`Go to testimonial ${idx + 1}`}
+            />
+          ))}
+        </div>
+
+      </div>
+    </section>
+  );
+}
