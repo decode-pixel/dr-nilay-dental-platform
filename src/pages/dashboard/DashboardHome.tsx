@@ -40,6 +40,7 @@ import {
 import { WhatsAppIcon } from '../../components/Icons';
 import { motion, AnimatePresence } from 'motion/react';
 import DashboardPatients from './DashboardPatients';
+import DashboardClinics from './DashboardClinics';
 
 interface DashboardHomeProps {
   onSignOut: () => void;
@@ -118,7 +119,7 @@ export default function DashboardHome({ onSignOut }: DashboardHomeProps) {
   const { showToast } = useToast();
 
   // Navigation tabs state
-  const [activeTab, setActiveTab] = useState<'bookings' | 'patients'>('bookings');
+  const [activeTab, setActiveTab] = useState<'bookings' | 'patients' | 'clinics'>('bookings');
   const [navigatedPatientId, setNavigatedPatientId] = useState<string | null>(null);
 
   // Coordinator Identity
@@ -584,6 +585,20 @@ Status: ${selectedBooking.status.replace('_', ' ').toUpperCase()}`;
             Patients list
           </button>
 
+          {/* Clinics Management Button */}
+          <button
+            type="button"
+            onClick={() => setActiveTab('clinics')}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl border text-sm font-semibold transition-all duration-200 ${
+              activeTab === 'clinics'
+                ? 'bg-white/5 border-white/10 text-white shadow-sm'
+                : 'border-transparent text-gray-400 hover:text-white hover:bg-white/5'
+            }`}
+          >
+            <MapPin className="w-4 h-4 text-emerald-400" />
+            Clinic Centers
+          </button>
+
           <div className="pt-4 px-4 text-xs text-gray-500 uppercase tracking-widest font-semibold">
             COMING SOON
           </div>
@@ -614,7 +629,7 @@ Status: ${selectedBooking.status.replace('_', ' ').toUpperCase()}`;
         <header className="flex items-center justify-between px-6 py-5 sm:px-8 border-b border-white/10 bg-[#050614]/40 backdrop-blur-md shrink-0">
           <div>
             <h1 className="font-heading font-bold text-xl sm:text-2xl text-white">
-              {activeTab === 'bookings' ? 'Appointment Requests' : 'Patient Registry'}
+              {activeTab === 'bookings' ? 'Appointment Requests' : activeTab === 'patients' ? 'Patient Registry' : 'Clinic Centers'}
             </h1>
             <p className="text-xs text-gray-400 mt-0.5">
               Live coordinator dashboard • Saha Dental Clinic
@@ -666,6 +681,8 @@ Status: ${selectedBooking.status.replace('_', ' ').toUpperCase()}`;
               selectedPatientId={navigatedPatientId}
               onClearNavigation={() => setNavigatedPatientId(null)}
             />
+          ) : activeTab === 'clinics' ? (
+            <DashboardClinics />
           ) : (
             <div className="p-6 sm:p-8 space-y-6">
               {/* Top Statistics Row */}

@@ -34,6 +34,7 @@ export const APPOINTMENT_STATUS = {
   CANCELLED: 'cancelled',
   RESCHEDULED: 'rescheduled',
   NO_SHOW: 'no_show',
+  PENDING_MANUAL_SCHEDULING: 'pending_manual_scheduling',
 };
 
 export const STATUS_LABELS: Record<string, string> = {
@@ -46,4 +47,5 @@ export const STATUS_LABELS: Record<string, string> = {
   [APPOINTMENT_STATUS.CANCELLED]: 'Cancelled',
   [APPOINTMENT_STATUS.RESCHEDULED]: 'Rescheduled',
   [APPOINTMENT_STATUS.NO_SHOW]: 'No Show',
+  [APPOINTMENT_STATUS.PENDING_MANUAL_SCHEDULING]: 'Pending Manual Scheduling',
 };

@@ -23,6 +23,7 @@ import {
 } from '../../lib/supabase';
 import { logger } from '../../lib/logger';
 import { useToast } from '../ToastNotification';
+import { ClinicService } from '../../lib/clinicService';
 
 const DRAFT_KEY = 'booking_wizard_draft';
 const OFFLINE_KEY = 'booking_offline_payload';
@@ -79,6 +80,7 @@ export default function BookingWizard({
   // Offline Sync states
   const [offlinePayload, setOfflinePayload] = useState<BookingPayload | null>(null);
   const [showOfflineBanner, setShowOfflineBanner] = useState(false);
+  const [clinics, setClinics] = useState<any[]>([]);
 
   // Load clinic settings & check offline cache on mount
   useEffect(() => {
@@ -87,6 +89,18 @@ export default function BookingWizard({
     getClinicSettings().then((data) => {
       if (isMounted && data) {
         setSettings(data);
+      }
+    });
+
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    const todayStr = `${year}-${month}-${day}`;
+
+    ClinicService.getClinicsWithStatus(todayStr).then((data) => {
+      if (isMounted) {
+        setClinics(data);
       }
     });
 
@@ -215,6 +229,10 @@ export default function BookingWizard({
     setIsSubmitting(true);
     setSubmitError(null);
 
+    const selectedClinic = clinics.find((c) => c.slug === state.clinicId);
+    const isClosed = selectedClinic?.statusInfo?.status !== 'Open';
+    const bookingStatus = isClosed ? 'pending_manual_scheduling' : 'new_request';
+
     const payload: BookingPayload = {
       clinicSlug: state.clinicId,
       serviceSlug: state.treatmentId,
@@ -225,6 +243,7 @@ export default function BookingWizard({
       chiefComplaint: state.chiefComplaint,
       patientAge: state.patientAge ? parseInt(state.patientAge, 10) : null,
       patientGender: state.patientGender || null,
+      status: bookingStatus,
     };
 
     const res = await submitBookingRequest(payload);

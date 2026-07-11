@@ -83,6 +83,7 @@ export interface BookingPayload {
   chiefComplaint: string;
   patientAge?: number | null;
   patientGender?: string | null;
+  status?: string | null;
 }
 
 export interface BookingResponse {
@@ -112,6 +113,7 @@ export async function submitBookingRequest(payload: BookingPayload): Promise<Boo
         p_chief_complaint: payload.chiefComplaint,
         p_patient_age: payload.patientAge || null,
         p_patient_gender: payload.patientGender || null,
+        p_status: payload.status || 'new_request',
       });
 
       if (error) {
