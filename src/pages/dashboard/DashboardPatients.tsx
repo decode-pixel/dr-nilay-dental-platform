@@ -5,6 +5,11 @@ import {
   getPatientBookingHistory,
   updatePatientProfile,
 } from '../../lib/supabase';
+import { logger } from '../../lib/logger';
+import { APPOINTMENT_STATUS } from '../../lib/constants';
+import { useToast } from '../../components/ToastNotification';
+import SkeletonLoader, { SkeletonBase } from '../../components/SkeletonLoader';
+import EmptyState from '../../components/EmptyState';
 import {
   Search,
   Filter,
@@ -51,6 +56,7 @@ export default function DashboardPatients({
   selectedPatientId,
   onClearNavigation,
 }: DashboardPatientsProps) {
+  const { showToast } = useToast();
   const [patients, setPatients] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -68,7 +74,6 @@ export default function DashboardPatients({
   // Editor states
   const [notesText, setNotesText] = useState('');
   const [isSavingNotes, setIsSavingNotes] = useState(false);
-  const [saveSuccess, setSaveSuccess] = useState(false);
   
   // Custom Tag input
   const [customTag, setCustomTag] = useState('');
@@ -77,7 +82,6 @@ export default function DashboardPatients({
   const [showMergeModal, setShowMergeModal] = useState(false);
   const [mergeTargetId, setMergeTargetId] = useState('');
   const [isMerging, setIsMerging] = useState(false);
-  const [mergeSuccess, setMergeSuccess] = useState(false);
 
   // Active Profile Tab
   const [activeTab, setActiveTab] = useState<'timeline' | 'appointments' | 'attachments'>('timeline');
@@ -90,6 +94,7 @@ export default function DashboardPatients({
       const res = await getDashboardPatients();
       if (res.error) {
         setError(res.error.message);
+        showToast('Failed to load patient register.', 'error');
       } else if (res.data) {
         setPatients(res.data);
         
@@ -100,12 +105,11 @@ export default function DashboardPatients({
           if (matched) {
             handleSelectPatient(matched);
           }
-        } else if (res.data.length > 0 && !selectedPatient) {
-          handleSelectPatient(res.data[0]);
         }
       }
     } catch (err: any) {
-      setError(err.message || 'Failed to load patients.');
+      setError(err.message || 'Failed to fetch patients.');
+      logger.error('Failed to load patients registry:', err);
     } finally {
       setLoading(false);
     }
@@ -115,41 +119,41 @@ export default function DashboardPatients({
     loadPatientsData();
   }, [selectedPatientId]);
 
-  // Handle patient selection
+  // Load patient specific details when selected
   const handleSelectPatient = async (patient: any) => {
     setSelectedPatient(patient);
     setNotesText(patient.coordinator_notes || '');
     setLoadingProfileData(true);
     setPatientHistory([]);
-    setSaveSuccess(false);
-    setActionError(null);
+    setActiveTab('timeline');
 
     try {
-      const historyRes = await getPatientBookingHistory(patient.id);
-      if (historyRes.data) {
-        setPatientHistory(historyRes.data);
+      const res = await getPatientBookingHistory(patient.id);
+      if (res.data) {
+        setPatientHistory(res.data);
       }
     } catch (err) {
-      console.error('Failed to load patient history:', err);
+      logger.error(`Failed to load patient history details for ${patient.id}:`, err);
     } finally {
       setLoadingProfileData(false);
     }
   };
 
-  // Save coordinator notes
+  // Submit coordinator notes edit to database
   const handleSaveNotes = async () => {
     if (!selectedPatient) return;
     setIsSavingNotes(true);
-    setSaveSuccess(false);
+
     try {
       const res = await updatePatientProfile(selectedPatient.id, {
         coordinator_notes: notesText,
       });
 
       if (res.error) {
-        console.error(res.error);
+        logger.error('Failed to save patient coordinator notes:', res.error);
+        showToast('Failed to save notes.', 'error');
       } else {
-        setSaveSuccess(true);
+        showToast('Coordinator notes updated successfully!', 'success');
         // Update local state record
         selectedPatient.coordinator_notes = notesText;
         setPatients((prev) =>
@@ -157,7 +161,8 @@ export default function DashboardPatients({
         );
       }
     } catch (err) {
-      console.error(err);
+      logger.error('Error saving patient notes:', err);
+      showToast('Error saving coordinator notes.', 'error');
     } finally {
       setIsSavingNotes(false);
     }
@@ -178,9 +183,12 @@ export default function DashboardPatients({
         setPatients((prev) =>
           prev.map((p) => (p.id === selectedPatient.id ? { ...p, tags: newTags } : p))
         );
+        showToast(`Tag "${cleanTag}" added successfully!`, 'success');
+      } else {
+        showToast('Failed to add tag.', 'error');
       }
     } catch (err) {
-      console.error(err);
+      logger.error('Error adding patient tag:', err);
     }
   };
 
@@ -195,9 +203,12 @@ export default function DashboardPatients({
         setPatients((prev) =>
           prev.map((p) => (p.id === selectedPatient.id ? { ...p, tags: newTags } : p))
         );
+        showToast(`Tag "${tag}" removed.`, 'info');
+      } else {
+        showToast('Failed to remove tag.', 'error');
       }
     } catch (err) {
-      console.error(err);
+      logger.error('Error removing tag:', err);
     }
   };
 
@@ -215,23 +226,20 @@ export default function DashboardPatients({
 
     setTimeout(() => {
       setIsMerging(false);
-      setMergeSuccess(true);
+      showToast('Patient records merged successfully!', 'success');
       setTimeout(() => {
         setShowMergeModal(false);
-        setMergeSuccess(false);
         setMergeTargetId('');
         // Reload patients list and update select
         loadPatientsData(selectedPatient.id);
-      }, 1500);
+      }, 1000);
     }, 1200);
   };
 
-  const [actionError, setActionError] = useState<string | null>(null);
-
   // Compute stat aggregates
   const totalVisits = patientHistory.length;
-  const completedVisits = patientHistory.filter((b) => b.status === 'completed').length;
-  const cancelledVisits = patientHistory.filter((b) => b.status === 'cancelled').length;
+  const completedVisits = patientHistory.filter((b) => b.status === APPOINTMENT_STATUS.COMPLETED).length;
+  const cancelledVisits = patientHistory.filter((b) => b.status === APPOINTMENT_STATUS.CANCELLED).length;
 
   // Filtered patients list
   const filteredPatients = patients.filter((patient) => {
@@ -252,59 +260,56 @@ export default function DashboardPatients({
     return matchSearch && matchGender && matchTag;
   });
 
-  // Compile timeline data chronologically
+  // Chronologically collate clinical timeline events
   const timelineEvents = React.useMemo(() => {
     if (!selectedPatient) return [];
-    
+
     const events: Array<{
       id: string;
       title: string;
-      type: 'registration' | 'booking_created' | 'status_change';
+      type: string;
       date: string;
       details: string;
       icon: any;
       color: string;
     }> = [];
 
-    // Registration event
+    // 1. Patient Registration event
     events.push({
-      id: 'reg-' + selectedPatient.id,
-      title: 'Patient Account Created',
+      id: 'reg',
+      title: 'Patient Profile Created',
       type: 'registration',
       date: selectedPatient.created_at,
-      details: 'Patient registry initialized via web portal signup.',
+      details: `Profile registered for ${selectedPatient.full_name}. Phone contact: ${selectedPatient.phone}.`,
       icon: User,
-      color: 'text-violet-400 border-violet-500/30 bg-violet-500/10',
+      color: 'text-blue-400 border-blue-500/30 bg-blue-500/10',
     });
 
-    // Booking creation and changes
+    // 2. Booking requests events
     patientHistory.forEach((booking) => {
-      const formattedDate = new Date(booking.preferred_date).toLocaleDateString('en-US', {
-        month: 'short',
-        day: 'numeric',
-        year: 'numeric',
-      });
+      // Creation Event
       events.push({
-        id: 'book-' + booking.id,
-        title: `Appointment Request (${booking.reference_code})`,
-        type: 'booking_created',
+        id: `book-create-${booking.id}`,
+        title: 'Booking Request Submitted',
+        type: 'booking_create',
         date: booking.created_at,
-        details: `Requested ${booking.service?.name || booking.service_name_fallback} at ${booking.clinic?.name.split('—')[1] || booking.clinic?.name || 'Clinic'} for preferred date ${formattedDate} (${booking.appointment_slot} Session).`,
+        details: `Requested scheduling code "${booking.reference_code}" for procedure "${booking.service?.name || booking.service_name_fallback || 'Dental Treatment'}".`,
         icon: FileText,
-        color: 'text-blue-400 border-blue-500/30 bg-blue-500/10',
+        color: 'text-violet-400 border-violet-500/30 bg-violet-500/10',
       });
 
-      if (booking.status !== 'new_request') {
+      // Status transitions
+      if (booking.status !== APPOINTMENT_STATUS.NEW_REQUEST) {
         events.push({
-          id: 'status-' + booking.id,
-          title: `Appointment Status updated: ${booking.status.replace('_', ' ').toUpperCase()}`,
+          id: `book-status-${booking.id}`,
+          title: `Status Changed: ${booking.status.replace('_', ' ').toUpperCase()}`,
           type: 'status_change',
           date: booking.updated_at || booking.created_at,
-          details: `Appointment reference ${booking.reference_code} moved to state "${booking.status}". notes: ${booking.assistant_notes || 'None'}`,
+          details: `Appointment reference ${booking.reference_code} moved to state "${booking.status}". Notes: ${booking.assistant_notes || 'None'}`,
           icon: Clock,
-          color: booking.status === 'completed'
+          color: booking.status === APPOINTMENT_STATUS.COMPLETED
             ? 'text-green-400 border-green-500/30 bg-green-500/10'
-            : booking.status === 'cancelled'
+            : booking.status === APPOINTMENT_STATUS.CANCELLED
             ? 'text-red-400 border-red-500/30 bg-red-500/10'
             : 'text-yellow-400 border-yellow-500/30 bg-yellow-500/10',
         });
@@ -316,7 +321,7 @@ export default function DashboardPatients({
   }, [selectedPatient, patientHistory]);
 
   return (
-    <div className="flex-1 flex flex-col md:flex-row h-[calc(100vh-80px)] overflow-hidden relative">
+    <div className="flex-1 flex flex-col md:flex-row h-[calc(100vh-80px)] overflow-hidden relative font-sans">
       {/* 1. Left Column: Patient Selector List */}
       <div className={`w-full md:w-80 border-r border-white/10 flex flex-col bg-[#050614]/40 backdrop-blur-md shrink-0 h-full ${
         selectedPatient && 'hidden md:flex'
@@ -327,6 +332,7 @@ export default function DashboardPatients({
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
             <input
               type="text"
+              aria-label="Search patients by name or phone"
               placeholder="Search patients..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -336,6 +342,7 @@ export default function DashboardPatients({
 
           <div className="grid grid-cols-2 gap-2">
             <select
+              aria-label="Filter by gender"
               value={genderFilter}
               onChange={(e) => setGenderFilter(e.target.value)}
               className="px-3 py-1.5 bg-white/5 border border-white/10 rounded-xl text-[11px] text-white focus:outline-none appearance-none cursor-pointer"
@@ -348,6 +355,7 @@ export default function DashboardPatients({
             </select>
 
             <select
+              aria-label="Filter by tag"
               value={tagFilter}
               onChange={(e) => setTagFilter(e.target.value)}
               className="px-3 py-1.5 bg-white/5 border border-white/10 rounded-xl text-[11px] text-white focus:outline-none appearance-none cursor-pointer"
@@ -366,15 +374,23 @@ export default function DashboardPatients({
         {/* Patient Selection ledger */}
         <div className="flex-1 overflow-y-auto p-3 space-y-2">
           {loading ? (
-            <div className="flex flex-col items-center justify-center py-12 text-gray-500">
-              <RefreshCw className="w-6 h-6 animate-spin text-violet-400 mb-2" />
-              <span className="text-xs">Loading patient registry...</span>
+            <div className="space-y-2">
+              {[1, 2, 3, 4].map((i) => (
+                <SkeletonBase key={i} className="h-16 w-full" />
+              ))}
             </div>
           ) : filteredPatients.length === 0 ? (
-            <div className="text-center text-gray-500 py-12">
-              <User className="w-8 h-8 text-gray-600 mx-auto mb-2" />
-              <p className="text-xs font-semibold">No patients found</p>
-            </div>
+            <EmptyState
+              title="No patients found"
+              description="No matches found in the patient registry for this search/filter combination."
+              Icon={User}
+              actionLabel="Clear Filters"
+              onAction={() => {
+                setSearchQuery('');
+                setGenderFilter('All');
+                setTagFilter('All');
+              }}
+            />
           ) : (
             filteredPatients.map((patient) => {
               const isSelected = selectedPatient?.id === patient.id;
@@ -448,7 +464,7 @@ export default function DashboardPatients({
                       setSelectedPatient(null);
                       if (onClearNavigation) onClearNavigation();
                     }}
-                    className="md:hidden p-2 rounded-xl border border-white/10 bg-white/5 text-gray-300"
+                    className="md:hidden p-2 rounded-xl border border-white/10 bg-white/5 text-gray-300 hover:bg-white/10 transition-colors"
                   >
                     <ArrowLeft className="w-4 h-4" />
                   </button>
@@ -471,6 +487,7 @@ export default function DashboardPatients({
                             type="button"
                             onClick={() => handleRemoveTag(t)}
                             className="hover:text-red-400 ml-0.5 shrink-0"
+                            aria-label={`Remove tag ${t}`}
                           >
                             <X className="w-2.5 h-2.5" />
                           </button>
@@ -581,16 +598,11 @@ export default function DashboardPatients({
                       <FileText className="w-4 h-4 text-violet-400" />
                       Clinical & Coordinator Notes
                     </h4>
-                    {saveSuccess && (
-                      <span className="text-[10px] text-green-400 font-semibold flex items-center gap-1">
-                        <CheckCircle className="w-3.5 h-3.5" />
-                        Notes saved!
-                      </span>
-                    )}
                   </div>
 
                   <textarea
                     rows={3}
+                    aria-label="Clinical and coordinator notes"
                     placeholder="Enter coordinator logs, appointment preferences, scheduling alerts, or clinical indicators regarding patient..."
                     value={notesText}
                     onChange={(e) => setNotesText(e.target.value)}
@@ -636,11 +648,13 @@ export default function DashboardPatients({
                       type="text"
                       placeholder="Add custom tag..."
                       value={customTag}
+                      aria-label="Add custom tag name"
                       onChange={(e) => setCustomTag(e.target.value)}
                       className="bg-black/40 border border-white/10 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none placeholder-gray-500 flex-1"
                     />
                     <button
                       type="submit"
+                      aria-label="Submit custom tag"
                       className="p-1.5 rounded-xl bg-white/5 border border-white/10 text-gray-400 hover:text-white"
                     >
                       <Plus className="w-4 h-4" />
@@ -691,14 +705,13 @@ export default function DashboardPatients({
                   {activeTab === 'timeline' && (
                     <div className="space-y-4">
                       {loadingProfileData ? (
-                        <div className="flex items-center justify-center py-8 text-xs text-gray-500">
-                          <RefreshCw className="w-4 h-4 animate-spin text-violet-400 mr-2" />
-                          <span>Compiling patient history timeline...</span>
-                        </div>
+                        <SkeletonLoader variant="profile" />
                       ) : timelineEvents.length === 0 ? (
-                        <div className="text-center py-6 text-xs text-gray-500 bg-white/[0.02] border border-white/5 rounded-2xl p-4">
-                          No events recorded for this patient.
-                        </div>
+                        <EmptyState
+                          title="No events recorded"
+                          description="There are currently no events registered in this patient's journey timeline."
+                          Icon={History}
+                        />
                       ) : (
                         <div className="relative pl-6 space-y-6 before:absolute before:left-2.5 before:top-2 before:bottom-2 before:w-0.5 before:bg-white/10">
                           {timelineEvents.map((ev) => {
@@ -733,14 +746,17 @@ export default function DashboardPatients({
                   {activeTab === 'appointments' && (
                     <div className="space-y-3">
                       {loadingProfileData ? (
-                        <div className="flex items-center justify-center py-8 text-xs text-gray-500">
-                          <RefreshCw className="w-4 h-4 animate-spin text-violet-400 mr-2" />
-                          <span>Fetching appointments ledger...</span>
+                        <div className="space-y-3">
+                          {[1, 2].map((i) => (
+                            <SkeletonLoader key={i} variant="row" />
+                          ))}
                         </div>
                       ) : patientHistory.length === 0 ? (
-                        <div className="text-center py-6 text-xs text-gray-500 bg-white/[0.02] border border-white/5 rounded-2xl p-4">
-                          No appointments scheduled.
-                        </div>
+                        <EmptyState
+                          title="No appointments scheduled"
+                          description="This patient does not have any prior or upcoming appointments on record."
+                          Icon={Calendar}
+                        />
                       ) : (
                         patientHistory.map((hist) => (
                           <div
@@ -749,30 +765,21 @@ export default function DashboardPatients({
                           >
                             <div className="space-y-1">
                               <h5 className="font-bold text-white">
-                                {hist.service?.name || hist.service_name_fallback || 'Dental Procedure'}
+                                {hist.service?.name || hist.service_name_fallback || 'Dental Visit'}
                               </h5>
-                              <p className="text-gray-400">
+                              <p className="text-[10px] text-gray-400">
                                 {new Date(hist.preferred_date).toLocaleDateString('en-US', {
-                                  weekday: 'short',
                                   month: 'short',
                                   day: 'numeric',
                                   year: 'numeric',
-                                })}
+                                })}{' '}
+                                • {hist.appointment_slot} Session
                               </p>
-                              <div className="flex items-center gap-3 text-[10px] text-gray-500">
-                                <span>{hist.clinic?.name.split('—')[1] || hist.clinic?.name}</span>
-                                <span>•</span>
-                                <span>{hist.appointment_slot} Session</span>
-                                {hist.appointment_serial && (
-                                  <>
-                                    <span>•</span>
-                                    <span>Serial #{hist.appointment_serial}</span>
-                                  </>
-                                )}
-                              </div>
+                              <p className="text-[10px] text-gray-500">
+                                Clinic: {hist.clinic?.name || 'Clinic Center'}
+                              </p>
                             </div>
-
-                            <span className="px-2.5 py-1 rounded-full text-[10px] font-semibold bg-white/10 text-gray-300 border border-white/5">
+                            <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-white/10 text-gray-300 font-semibold border border-white/10">
                               {hist.status}
                             </span>
                           </div>
@@ -781,158 +788,115 @@ export default function DashboardPatients({
                     </div>
                   )}
 
-                  {/* ATTACHMENTS PLACEHOLDER TAB */}
+                  {/* ATTACHMENTS MOCK TAB */}
                   {activeTab === 'attachments' && (
-                    <div className="bg-white/5 border border-white/10 rounded-3xl p-6 text-center space-y-4">
-                      <FolderOpen className="w-12 h-12 text-violet-400/50 mx-auto" />
-                      <div>
-                        <h5 className="text-white font-bold text-sm">Patient Clinical Attachments</h5>
-                        <p className="text-xs text-gray-400 mt-1.5 max-w-xs mx-auto leading-relaxed">
-                          prescriptions, clinical record sheets, dental scans and digitised digital X-Rays (RVG) uploads will be supported in Sprint 4.0.
-                        </p>
-                      </div>
-                      <div className="pt-2">
-                        <button
-                          type="button"
-                          disabled
-                          className="px-4 py-2 rounded-xl bg-white/5 border border-white/5 text-gray-500 text-xs font-semibold cursor-not-allowed opacity-50 flex items-center gap-1.5 mx-auto"
-                        >
-                          <Plus className="w-3.5 h-3.5" />
-                          Upload Scan (Sprint 4.0)
-                        </button>
-                      </div>
-                    </div>
+                    <EmptyState
+                      title="No digital attachments"
+                      description="Document uploads, clinical notes scans, and X-Rays storage integration will be available in Sprint 4.0."
+                      Icon={FolderOpen}
+                    />
                   )}
                 </div>
-
               </div>
             </motion.div>
           ) : (
-            <div className="flex-1 flex flex-col items-center justify-center text-gray-500 p-8 text-center bg-white/[0.01]">
-              <User className="w-16 h-16 text-gray-700 mb-4" />
-              <h4 className="text-base font-bold text-white">Select a Patient</h4>
-              <p className="text-xs text-gray-500 mt-1 max-w-xs mx-auto">
-                Choose a patient profile from the list to view demographics, tags, journals, and status histories.
+            <div className="hidden md:flex flex-col items-center justify-center flex-1 text-gray-500 p-8">
+              <User className="w-16 h-16 text-gray-600 mb-4 animate-pulse" />
+              <h4 className="text-base font-bold text-white">No Patient Selected</h4>
+              <p className="text-xs text-gray-500 mt-1 max-w-xs text-center">
+                Select a patient record from the registry list to review details.
               </p>
             </div>
           )}
         </AnimatePresence>
       </div>
 
-      {/* 3. Duplicate Merge Dialog Overlay */}
+      {/* 3. Merge Duplicate Records Mock Modal */}
       <AnimatePresence>
         {showMergeModal && selectedPatient && (
-          <div className="fixed inset-0 z-[120] flex items-center justify-center p-4">
+          <>
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setShowMergeModal(false)}
-              className="fixed inset-0 bg-black/80 backdrop-blur-md"
+              className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm"
             />
-
             <motion.div
-              initial={{ scale: 0.95, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
-              className="relative z-10 w-full max-w-lg bg-[#050614] text-white rounded-3xl p-6 sm:p-8 border border-white/15 shadow-2xl overflow-y-auto max-h-[90vh]"
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="fixed inset-x-4 bottom-4 md:inset-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 z-[51] max-w-md w-full bg-[#050614]/95 border border-white/10 p-6 rounded-3xl shadow-2xl space-y-6"
             >
-              <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-6">
-                <div>
-                  <h3 className="font-heading font-extrabold text-xl text-white">
+              <div className="flex items-center justify-between border-b border-white/5 pb-4">
+                <div className="flex items-center gap-2">
+                  <Merge className="w-5 h-5 text-violet-400 animate-pulse" />
+                  <h4 className="font-heading font-bold text-white text-base">
                     Merge Duplicate Record
-                  </h3>
-                  <p className="text-xs text-gray-400">
-                    Consolidate bookings & histories under a single identity
-                  </p>
+                  </h4>
                 </div>
                 <button
                   type="button"
                   onClick={() => setShowMergeModal(false)}
-                  className="p-2 text-gray-400 hover:text-white"
+                  className="text-gray-400 hover:text-white p-1 rounded-lg"
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
 
-              {mergeSuccess ? (
-                <div className="text-center py-8 space-y-4">
-                  <div className="w-16 h-16 rounded-full bg-green-500/20 border border-green-500/30 flex items-center justify-center mx-auto shadow-lg">
-                    <CheckCircle className="w-8 h-8 text-green-400" />
-                  </div>
-                  <h4 className="font-heading font-bold text-lg text-white">
-                    Profiles Merged Successfully!
-                  </h4>
-                  <p className="text-xs text-gray-400 max-w-xs mx-auto">
-                    Duplicate records consolidated. All logs have been assigned to the parent profile.
-                  </p>
+              <div className="bg-violet-600/10 border border-violet-500/20 rounded-2xl p-4 space-y-2">
+                <p className="text-[11px] text-violet-300 font-semibold flex items-center gap-1.5">
+                  <ShieldAlert className="w-4 h-4" />
+                  Consolidation Notice
+                </p>
+                <p className="text-[11px] text-gray-300 leading-normal">
+                  Merging will consolidate the booking history of target duplicate profile under the active record of{' '}
+                  <strong className="text-white">{selectedPatient.full_name}</strong>. The duplicate patient record will be deactivated. This action is permanent.
+                </p>
+              </div>
+
+              <form onSubmit={handleMergeSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-[10px] text-gray-500 uppercase font-bold mb-1.5">
+                    Target Duplicate Patient ID / Selector
+                  </label>
+                  <select
+                    required
+                    value={mergeTargetId}
+                    onChange={(e) => setMergeTargetId(e.target.value)}
+                    className="w-full px-3 py-2.5 bg-black/40 border border-white/10 rounded-xl text-xs text-white focus:outline-none"
+                    style={{ colorScheme: 'dark' }}
+                  >
+                    <option value="">-- Choose duplicate patient profile --</option>
+                    {patients
+                      .filter((p) => p.id !== selectedPatient.id)
+                      .map((p) => (
+                        <option key={p.id} value={p.id}>
+                          {p.full_name} ({p.phone})
+                        </option>
+                      ))}
+                  </select>
                 </div>
-              ) : (
-                <form onSubmit={handleMergeSubmit} className="space-y-5">
-                  <div className="bg-violet-600/10 border border-violet-500/20 rounded-2xl p-4 text-xs text-violet-300">
-                    <span className="font-semibold block mb-1">Parent Profile (Kept)</span>
-                    <strong>{selectedPatient.full_name}</strong> ({selectedPatient.phone})
-                  </div>
 
-                  <div>
-                    <label className="block text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2">
-                      Select Duplicate Patient to Merge (Deleted)
-                    </label>
-                    <select
-                      value={mergeTargetId}
-                      onChange={(e) => setMergeTargetId(e.target.value)}
-                      required
-                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-2xl text-xs text-white focus:outline-none appearance-none cursor-pointer"
-                      style={{ colorScheme: 'dark' }}
-                    >
-                      <option value="" disabled className="text-gray-500">
-                        Choose duplicate record...
-                      </option>
-                      {patients
-                        .filter((p) => p.id !== selectedPatient.id)
-                        .map((p) => (
-                          <option key={p.id} value={p.id}>
-                            {p.full_name} ({p.phone})
-                          </option>
-                        ))}
-                    </select>
-                  </div>
-
-                  <div className="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-4 text-xs text-amber-300 flex items-start gap-2.5">
-                    <ShieldAlert className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
-                    <p>
-                      <strong>Warning:</strong> This action is permanent. The duplicate patient profile
-                      will be deleted, and all booking requests, history audits, and logs will be permanently reassigned to the parent.
-                    </p>
-                  </div>
-
-                  <div className="flex justify-end gap-2 pt-2">
-                    <button
-                      type="button"
-                      onClick={() => setShowMergeModal(false)}
-                      className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-xs font-semibold"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="submit"
-                      disabled={isMerging || !mergeTargetId}
-                      className="px-5 py-2 rounded-xl bg-violet-600 hover:bg-violet-500 text-white text-xs font-semibold transition-colors flex items-center gap-1.5"
-                    >
-                      {isMerging ? (
-                        <>
-                          <RefreshCw className="w-3.5 h-3.5 animate-spin" />
-                          Consolidating...
-                        </>
-                      ) : (
-                        'Confirm Merge'
-                      )}
-                    </button>
-                  </div>
-                </form>
-              )}
+                <div className="flex justify-end gap-2 pt-2 border-t border-white/5">
+                  <button
+                    type="button"
+                    onClick={() => setShowMergeModal(false)}
+                    className="px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-xs text-white"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={isMerging || !mergeTargetId}
+                    className="px-4 py-2 rounded-xl bg-violet-600 hover:bg-violet-500 text-white text-xs font-bold transition-colors"
+                  >
+                    {isMerging ? 'Merging records...' : 'Confirm Consolidation'}
+                  </button>
+                </div>
+              </form>
             </motion.div>
-          </div>
+          </>
         )}
       </AnimatePresence>
     </div>

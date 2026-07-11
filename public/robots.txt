@@ -1,0 +1,8 @@
+# http://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+
+# Exclude Coordinator Dashboard from public indexes
+Disallow: /dashboard
+
+Sitemap: https://dr-nilay-dental-platform.vercel.app/sitemap.xml

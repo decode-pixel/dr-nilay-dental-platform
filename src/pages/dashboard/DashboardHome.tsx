@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { supabase, getDashboardBookings, getBookingStatusHistory, getPatientBookingHistory, getUnreadNotificationsCount } from '../../lib/supabase';
 import { AppointmentService } from '../../lib/appointmentService';
+import { logger } from '../../lib/logger';
+import { APPOINTMENT_STATUS, STATUS_LABELS } from '../../lib/constants';
+import { useToast } from '../../components/ToastNotification';
+import SkeletonLoader, { SkeletonBase } from '../../components/SkeletonLoader';
+import EmptyState from '../../components/EmptyState';
 import {
   LogOut,
   Calendar,
@@ -44,63 +49,63 @@ const STATUS_STYLES: Record<
   string,
   { label: string; bg: string; text: string; border: string; glow: string }
 > = {
-  new_request: {
+  [APPOINTMENT_STATUS.NEW_REQUEST]: {
     label: 'New Request',
     bg: 'bg-amber-500/10',
     text: 'text-amber-300',
     border: 'border-amber-500/20',
     glow: 'shadow-[0_0_12px_rgba(245,158,11,0.2)]',
   },
-  pending_review: {
+  [APPOINTMENT_STATUS.PENDING_REVIEW]: {
     label: 'Pending Review',
     bg: 'bg-yellow-500/10',
     text: 'text-yellow-300',
     border: 'border-yellow-500/20',
     glow: 'shadow-[0_0_12px_rgba(234,179,8,0.2)]',
   },
-  confirmed: {
+  [APPOINTMENT_STATUS.CONFIRMED]: {
     label: 'Confirmed',
     bg: 'bg-blue-500/10',
     text: 'text-blue-300',
     border: 'border-blue-500/20',
     glow: 'shadow-[0_0_12px_rgba(59,130,246,0.2)]',
   },
-  checked_in: {
+  [APPOINTMENT_STATUS.CHECKED_IN]: {
     label: 'Checked In',
     bg: 'bg-indigo-500/10',
     text: 'text-indigo-300',
     border: 'border-indigo-500/20',
     glow: 'shadow-[0_0_12px_rgba(99,102,241,0.2)]',
   },
-  in_treatment: {
+  [APPOINTMENT_STATUS.IN_TREATMENT]: {
     label: 'In Treatment',
     bg: 'bg-purple-500/10',
     text: 'text-purple-300',
     border: 'border-purple-500/20',
     glow: 'shadow-[0_0_12px_rgba(168,85,247,0.2)]',
   },
-  completed: {
+  [APPOINTMENT_STATUS.COMPLETED]: {
     label: 'Completed',
     bg: 'bg-green-500/10',
     text: 'text-green-300',
     border: 'border-green-500/20',
     glow: 'shadow-[0_0_12px_rgba(34,197,94,0.2)]',
   },
-  cancelled: {
+  [APPOINTMENT_STATUS.CANCELLED]: {
     label: 'Cancelled',
     bg: 'bg-red-500/10',
     text: 'text-red-300',
     border: 'border-red-500/20',
     glow: 'shadow-[0_0_12px_rgba(239,68,68,0.2)]',
   },
-  rescheduled: {
+  [APPOINTMENT_STATUS.RESCHEDULED]: {
     label: 'Rescheduled',
     bg: 'bg-cyan-500/10',
     text: 'text-cyan-300',
     border: 'border-cyan-500/20',
     glow: 'shadow-[0_0_12px_rgba(6,182,212,0.2)]',
   },
-  no_show: {
+  [APPOINTMENT_STATUS.NO_SHOW]: {
     label: 'No Show',
     bg: 'bg-slate-500/10',
     text: 'text-slate-300',
@@ -110,6 +115,8 @@ const STATUS_STYLES: Record<
 };
 
 export default function DashboardHome({ onSignOut }: DashboardHomeProps) {
+  const { showToast } = useToast();
+
   // Navigation tabs state
   const [activeTab, setActiveTab] = useState<'bookings' | 'patients'>('bookings');
   const [navigatedPatientId, setNavigatedPatientId] = useState<string | null>(null);
@@ -190,6 +197,7 @@ export default function DashboardHome({ onSignOut }: DashboardHomeProps) {
       const bookingsRes = await getDashboardBookings();
       if (bookingsRes.error) {
         setError(bookingsRes.error.message);
+        showToast('Error fetching appointment records.', 'error');
       } else if (bookingsRes.data) {
         setBookings(bookingsRes.data);
       }
@@ -198,6 +206,7 @@ export default function DashboardHome({ onSignOut }: DashboardHomeProps) {
       setUnreadNotifications(notifsCount);
     } catch (err: any) {
       setError(err.message || 'Failed to load dashboard data.');
+      logger.error('Failed to load dashboard statistics:', err);
     } finally {
       setLoading(false);
     }
@@ -237,8 +246,8 @@ export default function DashboardHome({ onSignOut }: DashboardHomeProps) {
           
           // Calculate patient summary counts
           const total = historyRes.data.length;
-          const completed = historyRes.data.filter((b) => b.status === 'completed').length;
-          const cancelled = historyRes.data.filter((b) => b.status === 'cancelled').length;
+          const completed = historyRes.data.filter((b) => b.status === APPOINTMENT_STATUS.COMPLETED).length;
+          const cancelled = historyRes.data.filter((b) => b.status === APPOINTMENT_STATUS.CANCELLED).length;
           setPatientStats({ total, completed, cancelled });
         }
       }
@@ -253,7 +262,7 @@ export default function DashboardHome({ onSignOut }: DashboardHomeProps) {
         fetchConfirmedSerials(booking.preferred_date);
       }
     } catch (err) {
-      console.error('Failed to load drawer audit logs/history:', err);
+      logger.error('Failed to load drawer audit logs/history:', err);
     } finally {
       setLoadingDrawerData(false);
     }
@@ -262,7 +271,7 @@ export default function DashboardHome({ onSignOut }: DashboardHomeProps) {
   // Helper to refresh only the active drawer details
   const refreshDrawerData = async (bookingId: string) => {
     try {
-      const { data, error } = await supabase
+      const { data, error: fetchErr } = await supabase
         .from('booking_requests')
         .select(`
           *,
@@ -272,12 +281,12 @@ export default function DashboardHome({ onSignOut }: DashboardHomeProps) {
         `)
         .eq('id', bookingId)
         .single();
-      if (data && !error) {
+      if (data && !fetchErr) {
         // Update selectedBooking reference and drawer info
         handleSelectBooking(data);
       }
     } catch (err) {
-      console.error('Error refreshing drawer:', err);
+      logger.error('Error refreshing drawer details:', err);
     }
   };
 
@@ -319,11 +328,13 @@ export default function DashboardHome({ onSignOut }: DashboardHomeProps) {
         userId
       );
 
+      showToast('Appointment successfully confirmed and scheduled!', 'success');
       setActionPanel(null);
       await loadDashboardData();
       await refreshDrawerData(selectedBooking.id);
     } catch (err: any) {
       setActionError(err.message || 'Confirmation failed.');
+      showToast('Appointment confirmation failed.', 'error');
     } finally {
       setIsActionSubmitting(false);
     }
@@ -350,11 +361,13 @@ export default function DashboardHome({ onSignOut }: DashboardHomeProps) {
         userId
       );
 
+      showToast('Appointment request rescheduled.', 'info');
       setActionPanel(null);
       await loadDashboardData();
       await refreshDrawerData(selectedBooking.id);
     } catch (err: any) {
       setActionError(err.message || 'Rescheduling failed.');
+      showToast('Appointment rescheduling failed.', 'error');
     } finally {
       setIsActionSubmitting(false);
     }
@@ -376,11 +389,13 @@ export default function DashboardHome({ onSignOut }: DashboardHomeProps) {
         userId
       );
 
+      showToast('Appointment cancelled successfully.', 'warning');
       setActionPanel(null);
       await loadDashboardData();
       await refreshDrawerData(selectedBooking.id);
     } catch (err: any) {
       setActionError(err.message || 'Cancellation failed.');
+      showToast('Failed to cancel appointment.', 'error');
     } finally {
       setIsActionSubmitting(false);
     }
@@ -402,12 +417,14 @@ export default function DashboardHome({ onSignOut }: DashboardHomeProps) {
         userId
       );
 
+      showToast(`Appointment status updated to ${STATUS_LABELS[genericTargetStatus]}`, 'success');
       setActionPanel(null);
       setGenericTargetStatus(null);
       await loadDashboardData();
       await refreshDrawerData(selectedBooking.id);
     } catch (err: any) {
       setActionError(err.message || 'Status transition failed.');
+      showToast('Status change failed.', 'error');
     } finally {
       setIsActionSubmitting(false);
     }
@@ -434,6 +451,7 @@ Status: ${selectedBooking.status.replace('_', ' ').toUpperCase()}`;
 
     navigator.clipboard.writeText(summary);
     setCopied(true);
+    showToast('Summary copied to clipboard!', 'success');
     setTimeout(() => setCopied(false), 2000);
   };
 
@@ -456,11 +474,11 @@ Status: ${selectedBooking.status.replace('_', ' ').toUpperCase()}`;
     const status = selectedBooking.status;
 
     let text = '';
-    if (status === 'confirmed') {
+    if (status === APPOINTMENT_STATUS.CONFIRMED) {
       text = `Hello ${patientName}, your appointment [${refCode}] for ${treatment} at ${clinic} is confirmed on ${date} (${slot} session). Your Serial Number is #${serial}. Please arrive 15 minutes before the session starts. - Dr. Nilay Saha Dental Clinic`;
-    } else if (status === 'rescheduled') {
+    } else if (status === APPOINTMENT_STATUS.RESCHEDULED) {
       text = `Hello ${patientName}, your appointment [${refCode}] for ${treatment} has been rescheduled to ${date} (${slot} session). Please let us know if this works. - Dr. Nilay Saha Dental Clinic`;
-    } else if (status === 'cancelled') {
+    } else if (status === APPOINTMENT_STATUS.CANCELLED) {
       text = `Hello ${patientName}, your appointment [${refCode}] for ${treatment} has been cancelled. If you have questions, please contact us. - Dr. Nilay Saha Dental Clinic`;
     } else {
       text = `Hello ${patientName}, your appointment [${refCode}] status has been updated to ${status.replace('_', ' ')}. - Dr. Nilay Saha Dental Clinic`;
@@ -470,13 +488,18 @@ Status: ${selectedBooking.status.replace('_', ' ').toUpperCase()}`;
     window.open(`https://wa.me/${cleanNumber}?text=${text}`, '_blank');
   };
 
+  const handleSignOut = () => {
+    onSignOut();
+    showToast('Signed out successfully.', 'info');
+  };
+
   // Compute stats
   const totalCount = bookings.length;
   const pendingCount = bookings.filter(
-    (b) => b.status === 'new_request' || b.status === 'pending_review'
+    (b) => b.status === APPOINTMENT_STATUS.NEW_REQUEST || b.status === APPOINTMENT_STATUS.PENDING_REVIEW
   ).length;
-  const confirmedCount = bookings.filter((b) => b.status === 'confirmed').length;
-  const completedCount = bookings.filter((b) => b.status === 'completed').length;
+  const confirmedCount = bookings.filter((b) => b.status === APPOINTMENT_STATUS.CONFIRMED).length;
+  const completedCount = bookings.filter((b) => b.status === APPOINTMENT_STATUS.COMPLETED).length;
 
   // Filtered and sorted bookings
   const processedBookings = React.useMemo(() => {
@@ -745,18 +768,23 @@ Status: ${selectedBooking.status.replace('_', ' ').toUpperCase()}`;
               )}
 
               {loading ? (
-                <div className="flex flex-col items-center justify-center py-20 text-gray-500">
-                  <RefreshCw className="w-8 h-8 animate-spin text-violet-400" />
-                  <p className="text-sm mt-3 font-medium">Fetching clinical records...</p>
+                <div className="space-y-3">
+                  {[1, 2, 3, 4].map((i) => (
+                    <SkeletonLoader key={i} variant="row" />
+                  ))}
                 </div>
               ) : processedBookings.length === 0 ? (
-                <div className="bg-white/5 border border-white/5 rounded-3xl p-12 text-center text-gray-400">
-                  <Calendar className="w-12 h-12 text-gray-600 mx-auto mb-4" />
-                  <p className="text-base font-bold">No appointment requests found</p>
-                  <p className="text-xs text-gray-500 mt-1">
-                    Try modifying your search query or filter controls.
-                  </p>
-                </div>
+                <EmptyState
+                  title="No appointment requests found"
+                  description="Try modifying your search query or filter controls to find matching slots."
+                  Icon={Calendar}
+                  actionLabel="Reset Search Filters"
+                  onAction={() => {
+                    setSearchQuery('');
+                    setClinicFilter('All');
+                    setStatusFilter('All');
+                  }}
+                />
               ) : (
                 <div className="space-y-3">
                   {processedBookings.map((booking) => {
@@ -872,7 +900,7 @@ Status: ${selectedBooking.status.replace('_', ' ').toUpperCase()}`;
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 28, stiffness: 220 }}
-              className="fixed right-0 top-0 bottom-0 z-50 w-full max-w-xl bg-[#050614]/95 border-l border-white/10 shadow-2xl overflow-y-auto flex flex-col font-sans"
+              className="fixed right-0 top-0 bottom-0 z-50 w-full max-w-xl bg-[#050614]/95 border-l border-white/10 shadow-2xl overflow-y-auto flex flex-col font-sans text-white"
             >
               {/* Drawer Header */}
               <div className="flex items-center justify-between p-6 border-b border-white/10 bg-white/[0.01]">
@@ -893,6 +921,7 @@ Status: ${selectedBooking.status.replace('_', ' ').toUpperCase()}`;
                   type="button"
                   onClick={() => setSelectedBooking(null)}
                   className="p-2 text-gray-400 hover:text-white hover:bg-white/10 rounded-xl transition-all"
+                  aria-label="Close details drawer"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -1062,7 +1091,7 @@ Status: ${selectedBooking.status.replace('_', ' ').toUpperCase()}`;
                     <span className="text-xs font-bold uppercase tracking-wider text-gray-400">
                       Appointment Actions
                     </span>
-                    <span className="text-[10px] px-2 py-0.5 rounded bg-violet-500/20 text-violet-300 border border-violet-500/30">
+                    <span className="text-[10px] px-2 py-0.5 rounded bg-violet-500/20 text-violet-300 border border-violet-500/30 font-semibold">
                       Status: {selectedBooking.status}
                     </span>
                   </div>
@@ -1350,9 +1379,9 @@ Status: ${selectedBooking.status.replace('_', ' ').toUpperCase()}`;
                     <div className="flex flex-col gap-2">
                       <div className="grid grid-cols-2 gap-2">
                         {/* Confirm Appointment Trigger */}
-                        {(selectedBooking.status === 'new_request' ||
-                          selectedBooking.status === 'pending_review' ||
-                          selectedBooking.status === 'rescheduled') && (
+                        {(selectedBooking.status === APPOINTMENT_STATUS.NEW_REQUEST ||
+                          selectedBooking.status === APPOINTMENT_STATUS.PENDING_REVIEW ||
+                          selectedBooking.status === APPOINTMENT_STATUS.RESCHEDULED) && (
                           <button
                             type="button"
                             onClick={() => setActionPanel('confirm')}
@@ -1364,7 +1393,7 @@ Status: ${selectedBooking.status.replace('_', ' ').toUpperCase()}`;
                         )}
 
                         {/* Mark Checked-In Trigger */}
-                        {selectedBooking.status === 'confirmed' && (
+                        {selectedBooking.status === APPOINTMENT_STATUS.CONFIRMED && (
                           <button
                             type="button"
                             onClick={() => {
@@ -1379,7 +1408,7 @@ Status: ${selectedBooking.status.replace('_', ' ').toUpperCase()}`;
                         )}
 
                         {/* Mark In Treatment Trigger */}
-                        {selectedBooking.status === 'checked_in' && (
+                        {selectedBooking.status === APPOINTMENT_STATUS.CHECKED_IN && (
                           <button
                             type="button"
                             onClick={() => {
@@ -1394,7 +1423,7 @@ Status: ${selectedBooking.status.replace('_', ' ').toUpperCase()}`;
                         )}
 
                         {/* Mark Completed Trigger */}
-                        {selectedBooking.status === 'in_treatment' && (
+                        {selectedBooking.status === APPOINTMENT_STATUS.IN_TREATMENT && (
                           <button
                             type="button"
                             onClick={() => {
@@ -1409,8 +1438,8 @@ Status: ${selectedBooking.status.replace('_', ' ').toUpperCase()}`;
                         )}
 
                         {/* Reschedule Trigger */}
-                        {selectedBooking.status !== 'completed' &&
-                          selectedBooking.status !== 'cancelled' && (
+                        {selectedBooking.status !== APPOINTMENT_STATUS.COMPLETED &&
+                          selectedBooking.status !== APPOINTMENT_STATUS.CANCELLED && (
                             <button
                               type="button"
                               onClick={() => setActionPanel('reschedule')}
@@ -1422,8 +1451,8 @@ Status: ${selectedBooking.status.replace('_', ' ').toUpperCase()}`;
                           )}
 
                         {/* Cancel Appointment Trigger */}
-                        {selectedBooking.status !== 'completed' &&
-                          selectedBooking.status !== 'cancelled' && (
+                        {selectedBooking.status !== APPOINTMENT_STATUS.COMPLETED &&
+                          selectedBooking.status !== APPOINTMENT_STATUS.CANCELLED && (
                             <button
                               type="button"
                               onClick={() => setActionPanel('cancel')}

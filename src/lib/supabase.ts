@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
+import { logger } from './logger';
 
 // Retrieve credentials from Vite env or fallback to seed project credentials
 const SUPABASE_URL = (import.meta.env?.VITE_SUPABASE_URL as string) || 'https://pwtfhbzyspktnwtgupbc.supabase.co';
@@ -23,25 +24,53 @@ export interface ClinicSettings {
 }
 
 /**
+ * Utility wrapper to execute a promise-returning query with automatic retries on network failures.
+ */
+export async function executeWithRetry<T>(
+  fn: () => Promise<T>,
+  retries = 3,
+  delayMs = 1000
+): Promise<T> {
+  try {
+    return await fn();
+  } catch (err: any) {
+    const isNetworkError =
+      !navigator.onLine ||
+      err.message?.includes('FetchError') ||
+      err.message?.includes('Failed to fetch') ||
+      err.message?.includes('network');
+
+    if (isNetworkError && retries > 0) {
+      logger.warn(`Network connection query failure. Retrying query in ${delayMs}ms... (${retries} retries left)`);
+      await new Promise((resolve) => setTimeout(resolve, delayMs));
+      return executeWithRetry(fn, retries - 1, delayMs * 2);
+    }
+    throw err;
+  }
+}
+
+/**
  * Fetch global clinic settings.
  */
 export async function getClinicSettings(): Promise<ClinicSettings | null> {
-  try {
-    const { data, error } = await supabase
-      .from('settings')
-      .select('*')
-      .limit(1)
-      .maybeSingle();
+  return executeWithRetry(async () => {
+    try {
+      const { data, error } = await supabase
+        .from('settings')
+        .select('*')
+        .limit(1)
+        .maybeSingle();
 
-    if (error) {
-      console.error('Error fetching clinic settings:', error);
+      if (error) {
+        logger.error('Error fetching clinic settings:', error);
+        return null;
+      }
+      return data as ClinicSettings;
+    } catch (err) {
+      logger.error('Network error fetching clinic settings:', err);
       return null;
     }
-    return data as ClinicSettings;
-  } catch (err) {
-    console.error('Network error fetching clinic settings:', err);
-    return null;
-  }
+  });
 }
 
 export interface BookingPayload {
@@ -71,119 +100,155 @@ export interface BookingResponse {
  * Submits a new booking request within a database transaction.
  */
 export async function submitBookingRequest(payload: BookingPayload): Promise<BookingResponse> {
-  try {
-    const { data, error } = await supabase.rpc('create_booking_request_tx', {
-      p_clinic_slug: payload.clinicSlug,
-      p_service_slug: payload.serviceSlug,
-      p_preferred_date: payload.preferredDate,
-      p_preferred_session: payload.preferredSession,
-      p_patient_name: payload.patientName,
-      p_patient_phone: payload.patientPhone,
-      p_chief_complaint: payload.chiefComplaint,
-      p_patient_age: payload.patientAge || null,
-      p_patient_gender: payload.patientGender || null,
-    });
+  return executeWithRetry(async () => {
+    try {
+      const { data, error } = await supabase.rpc('create_booking_request_tx', {
+        p_clinic_slug: payload.clinicSlug,
+        p_service_slug: payload.serviceSlug,
+        p_preferred_date: payload.preferredDate,
+        p_preferred_session: payload.preferredSession,
+        p_patient_name: payload.patientName,
+        p_patient_phone: payload.patientPhone,
+        p_chief_complaint: payload.chiefComplaint,
+        p_patient_age: payload.patientAge || null,
+        p_patient_gender: payload.patientGender || null,
+      });
 
-    if (error) {
-      return { success: false, error: error.message };
+      if (error) {
+        logger.error('Booking submission RPC error:', error);
+        return { success: false, error: error.message };
+      }
+
+      const res = data as any;
+      if (res && res.success === false) {
+        logger.warn('Booking transaction failed:', res.error);
+        return { success: false, error: res.error || 'Failed to create booking request' };
+      }
+
+      logger.info('Booking transaction submitted successfully:', res.reference_code);
+      return {
+        success: true,
+        booking_id: res.booking_id,
+        reference_code: res.reference_code,
+        patient_id: res.patient_id,
+        patient_name: res.patient_name,
+        clinic_name: res.clinic_name,
+        treatment_name: res.treatment_name,
+      };
+    } catch (err: any) {
+      logger.error('Unhandled booking submit exception:', err);
+      return {
+        success: false,
+        error: err.message || 'Network connectivity error occurred.',
+      };
     }
-
-    const res = data as any;
-    if (res && res.success === false) {
-      return { success: false, error: res.error || 'Failed to create booking request' };
-    }
-
-    return {
-      success: true,
-      booking_id: res.booking_id,
-      reference_code: res.reference_code,
-      patient_id: res.patient_id,
-      patient_name: res.patient_name,
-      clinic_name: res.clinic_name,
-      treatment_name: res.treatment_name,
-    };
-  } catch (err: any) {
-    return {
-      success: false,
-      error: err.message || 'Network connectivity error occurred.',
-    };
-  }
+  });
 }
 
 /**
  * Fetch all active booking requests with joined details.
  */
 export async function getDashboardBookings() {
-  return await supabase
-    .from('booking_requests')
-    .select(`
-      *,
-      patient:patients(*),
-      clinic:clinics(*),
-      service:services(*)
-    `)
-    .eq('is_deleted', false)
-    .order('preferred_date', { ascending: true });
+  return executeWithRetry(async () => {
+    const res = await supabase
+      .from('booking_requests')
+      .select(`
+        *,
+        patient:patients(*),
+        clinic:clinics(*),
+        service:services(*)
+      `)
+      .eq('is_deleted', false)
+      .order('preferred_date', { ascending: true });
+    
+    if (res.error) {
+      logger.error('Error fetching dashboard bookings:', res.error);
+    }
+    return res;
+  });
 }
 
 /**
  * Fetch status transition history audit trail for a booking.
  */
 export async function getBookingStatusHistory(bookingId: string) {
-  return await supabase
-    .from('appointment_status_history')
-    .select('*')
-    .eq('booking_id', bookingId)
-    .order('changed_at', { ascending: false });
+  return executeWithRetry(async () => {
+    const res = await supabase
+      .from('appointment_status_history')
+      .select('*')
+      .eq('booking_id', bookingId)
+      .order('changed_at', { ascending: false });
+
+    if (res.error) {
+      logger.error(`Error fetching status history for ${bookingId}:`, res.error);
+    }
+    return res;
+  });
 }
 
 /**
  * Fetch all prior bookings for a specific patient.
  */
 export async function getPatientBookingHistory(patientId: string) {
-  return await supabase
-    .from('booking_requests')
-    .select(`
-      *,
-      service:services(name),
-      clinic:clinics(name)
-    `)
-    .eq('patient_id', patientId)
-    .eq('is_deleted', false)
-    .order('preferred_date', { ascending: false });
+  return executeWithRetry(async () => {
+    const res = await supabase
+      .from('booking_requests')
+      .select(`
+        *,
+        service:services(name),
+        clinic:clinics(name)
+      `)
+      .eq('patient_id', patientId)
+      .eq('is_deleted', false)
+      .order('preferred_date', { ascending: false });
+
+    if (res.error) {
+      logger.error(`Error fetching patient history for ${patientId}:`, res.error);
+    }
+    return res;
+  });
 }
 
 /**
  * Fetch total unread notifications count for assistant dashboard.
  */
 export async function getUnreadNotificationsCount(): Promise<number> {
-  try {
-    const { count, error } = await supabase
-      .from('notifications')
-      .select('*', { count: 'exact', head: true })
-      .eq('is_read', false)
-      .eq('target_role', 'assistant');
+  return executeWithRetry(async () => {
+    try {
+      const { count, error } = await supabase
+        .from('notifications')
+        .select('*', { count: 'exact', head: true })
+        .eq('is_read', false)
+        .eq('target_role', 'assistant');
 
-    if (error) {
-      console.error('Error fetching unread count:', error);
+      if (error) {
+        logger.error('Error fetching unread count:', error);
+        return 0;
+      }
+      return count || 0;
+    } catch (err) {
+      logger.error('Network error fetching unread count:', err);
       return 0;
     }
-    return count || 0;
-  } catch (err) {
-    console.error('Network error fetching unread count:', err);
-    return 0;
-  }
+  });
 }
 
 /**
  * Fetch all patient records for Patient Management.
  */
 export async function getDashboardPatients() {
-  return await supabase
-    .from('patients')
-    .select('*')
-    .eq('is_active', true)
-    .order('full_name', { ascending: true });
+  return executeWithRetry(async () => {
+    const res = await supabase
+      .from('patients')
+      .select('*')
+      .eq('is_active', true)
+      .order('full_name', { ascending: true });
+
+    if (res.error) {
+      logger.error('Error fetching dashboard patients:', res.error);
+    }
+    return res;
+  });
 }
 
 /**
@@ -193,8 +258,15 @@ export async function updatePatientProfile(
   patientId: string,
   updates: { tags?: string[]; coordinator_notes?: string; metadata?: Record<string, any> }
 ) {
-  return await supabase
-    .from('patients')
-    .update(updates)
-    .eq('id', patientId);
+  return executeWithRetry(async () => {
+    const res = await supabase
+      .from('patients')
+      .update(updates)
+      .eq('id', patientId);
+
+    if (res.error) {
+      logger.error(`Error updating patient profile for ${patientId}:`, res.error);
+    }
+    return res;
+  });
 }

@@ -3,14 +3,69 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dr. Nilay Saha Dental Clinic</title>
+    <title>Dr. Nilay Saha Dental Clinic — Advanced Dentistry & Orthodontics</title>
+    <meta name="description" content="Book clinical appointments at Dr. Nilay Saha Dental Clinics. Premium care including Root Canal, Dental Implants, Braces, and general dentistry." />
+    
+    <!-- PWA integration -->
+    <link rel="manifest" href="/site.webmanifest">
+    <meta name="theme-color" content="#02020a">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://dr-nilay-dental-platform.vercel.app/">
+    <meta property="og:title" content="Dr. Nilay Saha Dental Clinic — Premium Dental Platform">
+    <meta property="og:description" content="Schedule online appointments at Dr. Nilay Saha Dental Clinics. Advanced endodontic treatments and digital orthodontic restorations.">
+    
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://dr-nilay-dental-platform.vercel.app/">
+    <meta name="twitter:title" content="Dr. Nilay Saha Dental Clinic">
+    <meta name="twitter:description" content="Book clinical appointments at Dr. Nilay Saha Dental Clinics. Premium endodontic care and digital restorations.">
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Content Security Policy (CSP) -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://pwtfhbzyspktnwtgupbc.supabase.co wss://pwtfhbzyspktnwtgupbc.supabase.co; img-src 'self' data: https://*.supabase.co;">
+
+    <!-- Structured Schema.org JSON-LD Dental Metadata -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Dentist",
+      "name": "Dr. Nilay Saha Dental Clinic",
+      "image": "https://dr-nilay-dental-platform.vercel.app/assets/logo.png",
+      "@id": "https://dr-nilay-dental-platform.vercel.app/#dentist",
+      "url": "https://dr-nilay-dental-platform.vercel.app/",
+      "telephone": "+916290000000",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Belerhat Center, Parulia Center, Nabadwip Center",
+        "addressLocality": "Nadia / West Bengal",
+        "addressCountry": "IN"
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday"
+          ],
+          "opens": "09:00",
+          "closes": "20:00"
+        }
+      ]
+    }
+    </script>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
-

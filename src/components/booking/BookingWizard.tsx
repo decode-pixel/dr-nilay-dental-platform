@@ -21,6 +21,8 @@ import {
   ClinicSettings,
   BookingPayload,
 } from '../../lib/supabase';
+import { logger } from '../../lib/logger';
+import { useToast } from '../ToastNotification';
 
 const DRAFT_KEY = 'booking_wizard_draft';
 const OFFLINE_KEY = 'booking_offline_payload';
@@ -46,6 +48,7 @@ export default function BookingWizard({
   initialTreatmentId,
   onClose,
 }: BookingWizardProps) {
+  const { showToast } = useToast();
   const [step, setStep] = useState<BookingStepIndex>(1);
   const [state, setState] = useState<BookingState>(() => {
     return {
@@ -97,7 +100,7 @@ export default function BookingWizard({
         }
       }
     } catch (err) {
-      // ignore JSON parse errors
+      logger.error('Failed to parse offline payload cache:', err);
     }
 
     return () => {
@@ -117,7 +120,7 @@ export default function BookingWizard({
         }
       }
     } catch (err) {
-      // ignore JSON parse errors
+      logger.error('Failed to parse draft state:', err);
     }
   }, []);
 
@@ -151,54 +154,42 @@ export default function BookingWizard({
       try {
         sessionStorage.setItem(
           DRAFT_KEY,
-          JSON.stringify({ step, state })
+          JSON.stringify({
+            step,
+            state,
+          })
         );
       } catch (err) {
-        // storage error
+        logger.error('Failed to save draft state:', err);
       }
-    } else {
-      sessionStorage.removeItem(DRAFT_KEY);
     }
   }, [step, state]);
 
-  // Handle restoring draft
+  // Handle restoring a saved draft
   const handleRestoreDraft = () => {
     if (savedDraft) {
       setState(savedDraft.state);
       setStep(savedDraft.step);
       setShowRestoreBanner(false);
+      showToast('Booking progress restored successfully!', 'success');
+      logger.info('Restored booking draft from sessionStorage.');
     }
   };
 
+  // Discard saved draft
   const handleDiscardDraft = () => {
     sessionStorage.removeItem(DRAFT_KEY);
     setShowRestoreBanner(false);
-    setSavedDraft(null);
+    showToast('Saved draft discarded.', 'info');
+    logger.info('Discarded draft from sessionStorage.');
   };
 
-  // Handle restoring offline failed payload
-  const handleRestoreOffline = () => {
-    if (offlinePayload) {
-      setState({
-        clinicId: (offlinePayload.clinicSlug as ClinicId) || '',
-        treatmentId: offlinePayload.serviceSlug || 'root-canal',
-        preferredDate: offlinePayload.preferredDate || '',
-        preferredSession: (offlinePayload.preferredSession as SessionType) || '',
-        patientName: offlinePayload.patientName || '',
-        patientPhone: offlinePayload.patientPhone || '',
-        chiefComplaint: offlinePayload.chiefComplaint || '',
-        patientAge: offlinePayload.patientAge ? String(offlinePayload.patientAge) : '',
-        patientGender: (offlinePayload.patientGender as any) || '',
-      });
-      setStep(5); // Go directly to review step for submission
-      setShowOfflineBanner(false);
-    }
-  };
-
+  // Clear offline cache
   const handleDiscardOffline = () => {
     localStorage.removeItem(OFFLINE_KEY);
     setShowOfflineBanner(false);
     setOfflinePayload(null);
+    showToast('Offline cache cleared.', 'info');
   };
 
   // Field change handler
@@ -247,6 +238,7 @@ export default function BookingWizard({
       });
       localStorage.removeItem(OFFLINE_KEY);
       setOfflinePayload(null);
+      showToast('Booking submitted successfully!', 'success');
       setStep(6);
     } else {
       // Check if it is a network error or connection interruption
@@ -262,7 +254,7 @@ export default function BookingWizard({
           localStorage.setItem(OFFLINE_KEY, JSON.stringify(payload));
           setOfflinePayload(payload);
         } catch (e) {
-          console.error('Failed to write offline cache:', e);
+          logger.error('Failed to write offline cache:', e);
         }
 
         setSubmissionResult({
@@ -271,9 +263,11 @@ export default function BookingWizard({
           treatmentName: undefined,
           isOffline: true,
         });
+        showToast('Offline mode active. Booking saved locally to sync later.', 'warning');
         setStep(6);
       } else {
         setSubmitError(res.error || 'Server error occurred. Please try again.');
+        showToast('Booking submission failed.', 'error');
       }
     }
     setIsSubmitting(false);
@@ -300,13 +294,17 @@ export default function BookingWizard({
         });
         localStorage.removeItem(OFFLINE_KEY);
         setOfflinePayload(null);
+        showToast('Booking synced successfully!', 'success');
       } else {
         setSubmitError(res.error || 'Sync retry failed. Connection still offline.');
+        showToast('Sync failed. Please check internet connection.', 'error');
       }
     } catch (err) {
+      logger.error('Sync parsing error:', err);
       setSubmitError('Invalid offline data. Discarding.');
       localStorage.removeItem(OFFLINE_KEY);
       setOfflinePayload(null);
+      showToast('Offline cache discarded due to invalid data.', 'error');
     } finally {
       setIsSubmitting(false);
     }
@@ -321,7 +319,7 @@ export default function BookingWizard({
   };
 
   return (
-    <div className="flex flex-col h-full overflow-hidden">
+    <div className="flex flex-col h-full overflow-hidden font-sans">
       {/* Restore Progress Banner */}
       <AnimatePresence>
         {showRestoreBanner && savedDraft && !showOfflineBanner && (
@@ -349,13 +347,13 @@ export default function BookingWizard({
                 onClick={handleDiscardDraft}
                 className="px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
               >
-                Start Fresh
+                Discard
               </button>
             </div>
           </motion.div>
         )}
 
-        {/* Offline Recovery Banner */}
+        {/* Offline Queue Sync Banner */}
         {showOfflineBanner && offlinePayload && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
@@ -365,37 +363,58 @@ export default function BookingWizard({
           >
             <div className="flex items-center gap-2 text-amber-200">
               <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0" />
-              <span>You have a pending unsubmitted booking request. Restore it?</span>
+              <span>You have a pending booking saved offline. Try to sync it now?</span>
             </div>
             <div className="flex items-center gap-2">
               <button
                 type="button"
-                onClick={handleRestoreOffline}
+                onClick={handleOfflineRetry}
+                disabled={isSubmitting}
                 className="px-3.5 py-1.5 rounded-full bg-amber-600 hover:bg-amber-500 text-white font-semibold transition-colors flex items-center gap-1"
               >
-                <Check className="w-3.5 h-3.5" />
-                Restore & Submit
+                {isSubmitting ? (
+                  <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                ) : (
+                  <Check className="w-3.5 h-3.5" />
+                )}
+                Sync Now
               </button>
               <button
                 type="button"
                 onClick={handleDiscardOffline}
                 className="px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
               >
-                Discard
+                Clear Cache
               </button>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Progress Indicator */}
-      <div className="px-6 pt-4 pb-2 shrink-0 border-b border-white/10">
-        <BookingProgress
-          currentStep={step}
-          onStepClick={(targetStep) => {
-            if (targetStep < step) setStep(targetStep);
-          }}
-        />
+      {/* Progress Stepper Section */}
+      <div className="shrink-0 p-6 border-b border-white/10 bg-white/[0.01]">
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <h3 className="font-heading font-extrabold text-lg text-white tracking-wide">
+              Book Appointment
+            </h3>
+            <p className="text-[11px] text-gray-400 mt-0.5">
+              Secure orthodontic scheduling dashboard
+            </p>
+          </div>
+          {step < 6 && (
+            <button
+              onClick={handleStartNew}
+              className="p-2 rounded-xl border border-white/5 bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 transition-all"
+              title="Reset Wizard Form"
+              aria-label="Reset booking form"
+            >
+              <RotateCcw className="w-4 h-4" />
+            </button>
+          )}
+        </div>
+
+        <BookingProgress currentStep={step} />
       </div>
 
       {/* Step Container */}
