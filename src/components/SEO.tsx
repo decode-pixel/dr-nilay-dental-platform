@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { SettingsService } from "../lib/settingsService";
 
 interface SEOProps {
   title: string;
@@ -7,10 +8,25 @@ interface SEOProps {
   schemaData?: any[];
 }
 
-export default function SEO({ title, description, url, schemaData }: SEOProps) {
+export default function SEO({ title: fallbackTitle, description: fallbackDesc, url: fallbackUrl, schemaData }: SEOProps) {
+  const [seo, setSeo] = useState<any>(null);
+
+  useEffect(() => {
+    const pathName = window.location.pathname;
+    SettingsService.getSeoForPath(pathName).then((data) => {
+      if (data) {
+        setSeo(data);
+      }
+    });
+  }, []);
+
+  const activeTitle = seo?.title || fallbackTitle;
+  const activeDesc = seo?.meta_description || fallbackDesc;
+  const activeUrl = seo?.canonical_url || fallbackUrl;
+
   useEffect(() => {
     // Update Title
-    document.title = `${title} | Dr. Nilay Saha`;
+    document.title = activeTitle;
 
     // Update Meta Description
     let metaDesc = document.querySelector('meta[name="description"]');
@@ -19,7 +35,7 @@ export default function SEO({ title, description, url, schemaData }: SEOProps) {
       metaDesc.setAttribute('name', 'description');
       document.head.appendChild(metaDesc);
     }
-    metaDesc.setAttribute('content', description);
+    metaDesc.setAttribute('content', activeDesc);
 
     // Update Canonical URL
     let canonical = document.querySelector('link[rel="canonical"]');
@@ -28,7 +44,7 @@ export default function SEO({ title, description, url, schemaData }: SEOProps) {
       canonical.setAttribute('rel', 'canonical');
       document.head.appendChild(canonical);
     }
-    canonical.setAttribute('href', url);
+    canonical.setAttribute('href', activeUrl);
 
     // Open Graph Tags
     const setOgTag = (property: string, content: string) => {
@@ -41,28 +57,49 @@ export default function SEO({ title, description, url, schemaData }: SEOProps) {
       tag.setAttribute('content', content);
     };
 
-    setOgTag('og:title', `${title} | Dr. Nilay Saha`);
-    setOgTag('og:description', description);
-    setOgTag('og:url', url);
+    setOgTag('og:title', seo?.og_title || activeTitle);
+    setOgTag('og:description', seo?.og_description || activeDesc);
+    setOgTag('og:url', activeUrl);
     setOgTag('og:type', 'website');
+    if (seo?.og_image) {
+      setOgTag('og:image', seo.og_image);
+    }
+
+    // Twitter Card Tags
+    const setTwitterTag = (name: string, content: string) => {
+      let tag = document.querySelector(`meta[name="${name}"]`);
+      if (!tag) {
+        tag = document.createElement('meta');
+        tag.setAttribute('name', name);
+        document.head.appendChild(tag);
+      }
+      tag.setAttribute('content', content);
+    };
+
+    setTwitterTag('twitter:title', seo?.twitter_title || activeTitle);
+    setTwitterTag('twitter:description', seo?.twitter_description || activeDesc);
+    if (seo?.twitter_image) {
+      setTwitterTag('twitter:image', seo.twitter_image);
+    }
 
     // Schema.org Structured Data
     const existingScripts = document.querySelectorAll('script[type="application/ld+json"]');
     existingScripts.forEach(script => script.remove());
 
-    if (schemaData && schemaData.length > 0) {
+    const activeSchema = seo?.structured_data || schemaData;
+
+    if (activeSchema) {
       const script = document.createElement('script');
       script.setAttribute('type', 'application/ld+json');
-      script.textContent = JSON.stringify(schemaData);
+      script.textContent = JSON.stringify(activeSchema);
       document.head.appendChild(script);
     }
 
     return () => {
-      // Cleanup schemas on unmount
       const scripts = document.querySelectorAll('script[type="application/ld+json"]');
       scripts.forEach(script => script.remove());
     };
-  }, [title, description, url, schemaData]);
+  }, [activeTitle, activeDesc, activeUrl, schemaData, seo]);
 
   return null;
 }

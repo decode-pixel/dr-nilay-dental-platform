@@ -1,14 +1,61 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "motion/react";
 import { Facebook, Instagram, Twitter, Phone, Mail, MapPin } from "lucide-react";
 import { WhatsAppIcon, ToothIcon } from "./Icons";
 import { Link } from "react-router-dom";
+import { CmsService } from "../lib/cmsService";
+import { SettingsService } from "../lib/settingsService";
+import { logger } from "../lib/logger";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
+  const [footerContent, setFooterContent] = useState({
+    copyright_text: "© 2026 Dr. Nilay Saha Dental Clinics. All Rights Reserved.",
+    terms_link_label: "Terms of Service",
+    privacy_link_label: "Privacy Policy"
+  });
+
+  const [contactContent, setContactContent] = useState({
+    primary_phone: "+919609180979",
+    whatsapp_number: "+919609180979",
+    office_email: "contact@sahadental.com"
+  });
+
+  const loadData = async () => {
+    try {
+      const [footer, contact] = await Promise.all([
+        CmsService.getPublishedContent("footer"),
+        SettingsService.getSettingsGroup("contact")
+      ]);
+      if (footer && footer.footer_config) {
+        setFooterContent((p) => ({ ...p, ...footer.footer_config }));
+      }
+      if (contact && Object.keys(contact).length > 0) {
+        setContactContent((p) => ({ ...p, ...contact }));
+      }
+    } catch (err) {
+      logger.error("Failed to load footer CMS values:", err);
+    }
+  };
+
+  useEffect(() => {
+    loadData();
+
+    const handleCmsUpdate = () => loadData();
+    const handleSettingsUpdate = () => loadData();
+
+    window.addEventListener("onCmsUpdate", handleCmsUpdate);
+    window.addEventListener("onSettingsUpdate", handleSettingsUpdate);
+
+    return () => {
+      window.removeEventListener("onCmsUpdate", handleCmsUpdate);
+      window.removeEventListener("onSettingsUpdate", handleSettingsUpdate);
+    };
+  }, []);
+
   return (
-    <footer className="relative z-10 bg-transparent backdrop-blur-3xl border-t border-white/10 pt-16 pb-8 overflow-hidden">
+    <footer className="relative z-10 bg-transparent backdrop-blur-3xl border-t border-white/10 pt-16 pb-8 overflow-hidden font-sans">
       {/* Ambient background glows */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-violet-600/5 rounded-full blur-[100px] pointer-events-none"></div>
       <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-600/5 rounded-full blur-[100px] pointer-events-none"></div>
@@ -64,8 +111,8 @@ export default function Footer() {
               <a href="#" className="text-sm text-gray-400 hover:text-violet-300 transition-colors">FAQ</a>
               <a href="#" className="text-sm text-gray-400 hover:text-violet-300 transition-colors">Dental Tips</a>
               <a href="#" className="text-sm text-rose-400 hover:text-rose-300 transition-colors font-medium">Emergency Care</a>
-              <a href="#" className="text-sm text-gray-400 hover:text-violet-300 transition-colors">Privacy Policy</a>
-              <a href="#" className="text-sm text-gray-400 hover:text-violet-300 transition-colors">Terms & Conditions</a>
+              <a href="#" className="text-sm text-gray-400 hover:text-violet-300 transition-colors">{footerContent.privacy_link_label}</a>
+              <a href="#" className="text-sm text-gray-400 hover:text-violet-300 transition-colors">{footerContent.terms_link_label}</a>
             </div>
           </div>
 
@@ -73,15 +120,15 @@ export default function Footer() {
           <div className="flex flex-col gap-6">
             <h4 className="text-lg font-heading font-semibold text-white">Contact Us</h4>
             <div className="flex flex-col gap-4">
-              <a href="tel:+919609180979" className="flex items-start gap-3 group">
+              <a href={`tel:${contactContent.primary_phone.replace(/[^0-9+]/g, '')}`} className="flex items-start gap-3 group">
                 <div className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:bg-violet-500/20 group-hover:border-violet-500/30 transition-colors">
                   <Phone className="w-3.5 h-3.5 text-gray-400 group-hover:text-violet-300 transition-colors" />
                 </div>
                 <div className="flex flex-col pt-1.5">
-                  <span className="text-sm text-gray-300 group-hover:text-white transition-colors">+91 9609180979</span>
+                  <span className="text-sm text-gray-300 group-hover:text-white transition-colors">{contactContent.primary_phone}</span>
                 </div>
               </a>
-              <a href="https://wa.me/919609180979" target="_blank" rel="noreferrer" className="flex items-start gap-3 group">
+              <a href={`https://wa.me/${contactContent.whatsapp_number.replace(/[^0-9]/g, '')}`} target="_blank" rel="noreferrer" className="flex items-start gap-3 group">
                 <div className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:bg-green-500/20 group-hover:border-green-500/30 transition-colors">
                   <WhatsAppIcon className="w-4 h-4 text-gray-400 group-hover:text-green-400 transition-colors" />
                 </div>
@@ -108,7 +155,7 @@ export default function Footer() {
         {/* Copyright */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-xs text-gray-500">
-            &copy; {currentYear} Dr. Nilay Saha Dental Clinic. All rights reserved.
+            {footerContent.copyright_text}
           </p>
           <p className="text-xs text-gray-600">
             Healthy Smile, Happy Life

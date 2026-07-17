@@ -36,11 +36,16 @@ import {
   Copy,
   Check,
   Users,
+  FolderOpen,
+  Settings,
 } from 'lucide-react';
 import { WhatsAppIcon } from '../../components/Icons';
 import { motion, AnimatePresence } from 'motion/react';
 import DashboardPatients from './DashboardPatients';
 import DashboardClinics from './DashboardClinics';
+import DashboardSettings from './DashboardSettings';
+import DashboardMediaLibrary from './DashboardMediaLibrary';
+import DashboardCms from './DashboardCms';
 
 interface DashboardHomeProps {
   onSignOut: () => void;
@@ -119,7 +124,7 @@ export default function DashboardHome({ onSignOut }: DashboardHomeProps) {
   const { showToast } = useToast();
 
   // Navigation tabs state
-  const [activeTab, setActiveTab] = useState<'bookings' | 'patients' | 'clinics'>('bookings');
+  const [activeTab, setActiveTab] = useState<'bookings' | 'patients' | 'clinics' | 'media' | 'cms' | 'settings'>('bookings');
   const [navigatedPatientId, setNavigatedPatientId] = useState<string | null>(null);
 
   // Coordinator Identity
@@ -599,6 +604,48 @@ Status: ${selectedBooking.status.replace('_', ' ').toUpperCase()}`;
             Clinic Centers
           </button>
 
+          {/* Media Library Button */}
+          <button
+            type="button"
+            onClick={() => setActiveTab('media')}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl border text-sm font-semibold transition-all duration-200 ${
+              activeTab === 'media'
+                ? 'bg-white/5 border-white/10 text-white shadow-sm'
+                : 'border-transparent text-gray-400 hover:text-white hover:bg-white/5'
+            }`}
+          >
+            <FolderOpen className="w-4 h-4 text-amber-400" />
+            Media Library
+          </button>
+
+          {/* CMS Manager Button */}
+          <button
+            type="button"
+            onClick={() => setActiveTab('cms')}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl border text-sm font-semibold transition-all duration-200 ${
+              activeTab === 'cms'
+                ? 'bg-white/5 border-white/10 text-white shadow-sm'
+                : 'border-transparent text-gray-400 hover:text-white hover:bg-white/5'
+            }`}
+          >
+            <FileText className="w-4 h-4 text-blue-400" />
+            Website CMS
+          </button>
+
+          {/* Settings Console Button */}
+          <button
+            type="button"
+            onClick={() => setActiveTab('settings')}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl border text-sm font-semibold transition-all duration-200 ${
+              activeTab === 'settings'
+                ? 'bg-white/5 border-white/10 text-white shadow-sm'
+                : 'border-transparent text-gray-400 hover:text-white hover:bg-white/5'
+            }`}
+          >
+            <Settings className="w-4 h-4 text-violet-400" />
+            Settings Console
+          </button>
+
           <div className="pt-4 px-4 text-xs text-gray-500 uppercase tracking-widest font-semibold">
             COMING SOON
           </div>
@@ -629,7 +676,17 @@ Status: ${selectedBooking.status.replace('_', ' ').toUpperCase()}`;
         <header className="flex items-center justify-between px-6 py-5 sm:px-8 border-b border-white/10 bg-[#050614]/40 backdrop-blur-md shrink-0">
           <div>
             <h1 className="font-heading font-bold text-xl sm:text-2xl text-white">
-              {activeTab === 'bookings' ? 'Appointment Requests' : activeTab === 'patients' ? 'Patient Registry' : 'Clinic Centers'}
+              {activeTab === 'bookings'
+                ? 'Appointment Requests'
+                : activeTab === 'patients'
+                ? 'Patient Registry'
+                : activeTab === 'clinics'
+                ? 'Clinic Centers'
+                : activeTab === 'media'
+                ? 'Media Library'
+                : activeTab === 'cms'
+                ? 'Website CMS'
+                : 'Settings Console'}
             </h1>
             <p className="text-xs text-gray-400 mt-0.5">
               Live coordinator dashboard • Saha Dental Clinic
@@ -683,6 +740,12 @@ Status: ${selectedBooking.status.replace('_', ' ').toUpperCase()}`;
             />
           ) : activeTab === 'clinics' ? (
             <DashboardClinics />
+          ) : activeTab === 'media' ? (
+            <DashboardMediaLibrary />
+          ) : activeTab === 'cms' ? (
+            <DashboardCms />
+          ) : activeTab === 'settings' ? (
+            <DashboardSettings />
           ) : (
             <div className="p-6 sm:p-8 space-y-6">
               {/* Top Statistics Row */}
