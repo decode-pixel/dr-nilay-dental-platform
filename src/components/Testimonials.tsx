@@ -65,14 +65,14 @@ export default function Testimonials() {
       x: 0,
       opacity: 1,
       scale: 1,
-      transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] }
+      transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] as const }
     },
     exit: (direction: number) => ({
       zIndex: 0,
       x: direction < 0 ? 100 : -100,
       opacity: 0,
       scale: 0.95,
-      transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] }
+      transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] as const }
     })
   };
 

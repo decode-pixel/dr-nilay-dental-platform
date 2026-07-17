@@ -3,7 +3,7 @@ import { User, Phone, FileText, AlertCircle, Sparkles } from 'lucide-react';
 import { BookingState, BookingErrors } from '../types';
 import BookingStepLayout from '../BookingStepLayout';
 
-interface PatientStepProps {
+interface PatientStepProps extends React.Attributes {
   state: BookingState;
   errors: BookingErrors;
   onChange: (field: keyof BookingState, value: string) => void;

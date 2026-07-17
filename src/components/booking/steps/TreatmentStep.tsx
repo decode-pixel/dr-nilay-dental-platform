@@ -6,7 +6,7 @@ import BookingStepLayout from '../BookingStepLayout';
 import * as LucideIcons from 'lucide-react';
 import { ToothIcon } from '../../Icons';
 
-interface TreatmentStepProps {
+interface TreatmentStepProps extends React.Attributes {
   selectedTreatmentId: string;
   onSelectTreatment: (treatmentId: string) => void;
   onBack: () => void;

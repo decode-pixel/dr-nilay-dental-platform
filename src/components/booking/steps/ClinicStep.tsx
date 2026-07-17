@@ -1,23 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { MapPin, Clock, CheckCircle2, Sparkles, AlertTriangle, UserCheck, ShieldAlert } from 'lucide-react';
+import { MapPin, Clock, CheckCircle2, Sparkles, AlertTriangle, UserCheck, ShieldAlert, Info } from 'lucide-react';
 import { ClinicId } from '../types';
 import BookingStepLayout from '../BookingStepLayout';
 import { ClinicService } from '../../../lib/clinicService';
 import { logger } from '../../../lib/logger';
 
-interface ClinicStepProps {
+interface ClinicStepProps extends React.Attributes {
   selectedClinicId: ClinicId | '';
   onSelectClinic: (clinicId: ClinicId) => void;
   onContinue: () => void;
 }
 
 const STATUS_STYLE_BADGES: Record<string, { text: string; bg: string; border: string }> = {
-  'Open': { text: 'text-green-400 bg-green-500/10', border: 'border-green-500/20' },
-  'Closed': { text: 'text-red-400 bg-red-500/10', border: 'border-red-500/20' },
-  'Holiday': { text: 'text-amber-400 bg-amber-500/10', border: 'border-amber-500/20' },
-  'Temporary Closure': { text: 'text-rose-400 bg-rose-500/10', border: 'border-rose-500/20' },
-  'Doctor Unavailable': { text: 'text-yellow-400 bg-yellow-500/10', border: 'border-yellow-500/20' },
+  'Open': { text: 'text-green-400', bg: 'bg-green-500/10', border: 'border-green-500/20' },
+  'Closed': { text: 'text-red-400', bg: 'bg-red-500/10', border: 'border-red-500/20' },
+  'Holiday': { text: 'text-amber-400', bg: 'bg-amber-500/10', border: 'border-amber-500/20' },
+  'Temporary Closure': { text: 'text-rose-400', bg: 'bg-rose-500/10', border: 'border-rose-500/20' },
+  'Doctor Unavailable': { text: 'text-yellow-400', bg: 'bg-yellow-500/10', border: 'border-yellow-500/20' },
 };
 
 export default function ClinicStep({
@@ -95,7 +95,7 @@ export default function ClinicStep({
           const isSelected = selectedClinicId === clinic.slug;
           const status = clinic.statusInfo?.status || 'Open';
           const isClosed = status !== 'Open';
-          const badgeStyles = STATUS_STYLE_BADGES[status] || { text: 'text-gray-400 bg-white/5', border: 'border-white/10' };
+          const badgeStyles = STATUS_STYLE_BADGES[status] || { text: 'text-gray-400', bg: 'bg-white/5', border: 'border-white/10' };
 
           return (
             <div key={clinic.id} className="space-y-2">
@@ -149,7 +149,7 @@ export default function ClinicStep({
                         </h4>
                         
                         {/* Dynamic Status Badge */}
-                        <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${badgeStyles.text} ${badgeStyles.border}`}>
+                        <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${badgeStyles.text} ${badgeStyles.bg} ${badgeStyles.border}`}>
                           {status}
                         </span>
 

@@ -3,7 +3,7 @@ import { BookingState } from '../types';
 import BookingStepLayout from '../BookingStepLayout';
 import BookingSuccessCard from '../BookingSuccessCard';
 
-interface SuccessStepProps {
+interface SuccessStepProps extends React.Attributes {
   state: BookingState;
   referenceCode: string;
   isOffline: boolean;

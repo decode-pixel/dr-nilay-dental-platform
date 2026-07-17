@@ -39,6 +39,7 @@ import {
   CreditCard,
   CalendarCheck,
   UserCheck,
+  Users,
   FileText
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
@@ -298,7 +299,7 @@ export default function DashboardClinics() {
 /* ==========================================
    SUB-COMPONENT 1: CLINIC PROFILE FORM
    ========================================== */
-interface ProfileFormProps {
+interface ProfileFormProps extends React.Attributes {
   clinic: Clinic;
   onSave: () => void;
 }
@@ -534,7 +535,7 @@ function ClinicProfileForm({ clinic, onSave }: ProfileFormProps) {
 /* ==========================================
    SUB-COMPONENT 2: WEEKLY SCHEDULE EDITOR
    ========================================== */
-interface ScheduleEditorProps {
+interface ScheduleEditorProps extends React.Attributes {
   clinic: Clinic;
   onSave: () => void;
 }
@@ -656,7 +657,7 @@ function ClinicScheduleEditor({ clinic, onSave }: ScheduleEditorProps) {
 /* ==========================================
    SUB-COMPONENT 3: FACILITIES MANAGER
    ========================================== */
-interface FacilitiesProps {
+interface FacilitiesProps extends React.Attributes {
   clinic: Clinic;
   onSave: () => void;
 }
@@ -764,7 +765,7 @@ function ClinicFacilitiesManager({ clinic, onSave }: FacilitiesProps) {
 /* ==========================================
    SUB-COMPONENT 4: DOCTOR AVAILABILITY
    ========================================== */
-interface AvailProps {
+interface AvailProps extends React.Attributes {
   clinic: Clinic;
 }
 function ClinicDoctorAvailability({ clinic }: AvailProps) {
@@ -912,7 +913,7 @@ function ClinicDoctorAvailability({ clinic }: AvailProps) {
           >
             {doctors.map((d) => (
               <option key={d.id} value={d.id}>
-                {d.name} ({d.specialization})
+                {d.name} ({d.designation || d.qualification || ''})
               </option>
             ))}
           </select>
@@ -990,7 +991,7 @@ function ClinicDoctorAvailability({ clinic }: AvailProps) {
 /* ==========================================
    SUB-COMPONENT 5: HOLIDAYS REGISTRY
    ========================================== */
-interface HolidaysProps {
+interface HolidaysProps extends React.Attributes {
   clinic: Clinic;
 }
 function ClinicHolidaysList({ clinic }: HolidaysProps) {
@@ -1159,7 +1160,7 @@ function ClinicHolidaysList({ clinic }: HolidaysProps) {
 /* ==========================================
    SUB-COMPONENT 6: EMERGENCY CLOSURES
    ========================================== */
-interface ClosureProps {
+interface ClosureProps extends React.Attributes {
   clinic: Clinic;
 }
 function ClinicClosuresLog({ clinic }: ClosureProps) {
@@ -1332,7 +1333,7 @@ function ClinicClosuresLog({ clinic }: ClosureProps) {
 /* ==========================================
    SUB-COMPONENT 7: CLINIC NOTICES MANAGER
    ========================================== */
-interface NoticesProps {
+interface NoticesProps extends React.Attributes {
   clinic: Clinic;
 }
 function ClinicNoticesManager({ clinic }: NoticesProps) {

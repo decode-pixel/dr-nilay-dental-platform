@@ -1,6 +1,6 @@
 import React from 'react';
 
-interface SkeletonProps {
+interface SkeletonProps extends React.Attributes {
   className?: string;
 }
 
@@ -10,7 +10,7 @@ export function SkeletonBase({ className = '' }: SkeletonProps) {
   );
 }
 
-export default function SkeletonLoader({ variant }: { variant: 'card' | 'row' | 'stats' | 'profile' }) {
+export default function SkeletonLoader({ variant }: { variant: 'card' | 'row' | 'stats' | 'profile' } & React.Attributes) {
   if (variant === 'stats') {
     return (
       <div className="bg-white/5 border border-white/10 rounded-2xl p-5 flex flex-col justify-between">

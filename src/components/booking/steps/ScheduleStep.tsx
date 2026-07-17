@@ -4,7 +4,7 @@ import { Calendar as CalendarIcon, Clock, Sun, Sunset, Moon, ChevronLeft, Chevro
 import { SessionType } from '../types';
 import BookingStepLayout from '../BookingStepLayout';
 
-interface ScheduleStepProps {
+interface ScheduleStepProps extends React.Attributes {
   selectedDate: string;
   selectedSession: SessionType | '';
   onSelectDate: (date: string) => void;

@@ -22,11 +22,11 @@ const FACILITY_ICONS: Record<string, any> = {
 };
 
 const STATUS_BADGES: Record<string, { text: string; bg: string; border: string }> = {
-  'Open': { text: 'text-green-400 bg-green-500/10', border: 'border-green-500/20' },
-  'Closed': { text: 'text-red-400 bg-red-500/10', border: 'border-red-500/20' },
-  'Holiday': { text: 'text-amber-400 bg-amber-500/10', border: 'border-amber-500/20' },
-  'Temporary Closure': { text: 'text-rose-400 bg-rose-500/10', border: 'border-rose-500/20' },
-  'Doctor Unavailable': { text: 'text-yellow-400 bg-yellow-500/10', border: 'border-yellow-500/20' },
+  'Open': { text: 'text-green-400', bg: 'bg-green-500/10', border: 'border-green-500/20' },
+  'Closed': { text: 'text-red-400', bg: 'bg-red-500/10', border: 'border-red-500/20' },
+  'Holiday': { text: 'text-amber-400', bg: 'bg-amber-500/10', border: 'border-amber-500/20' },
+  'Temporary Closure': { text: 'text-rose-400', bg: 'bg-rose-500/10', border: 'border-rose-500/20' },
+  'Doctor Unavailable': { text: 'text-yellow-400', bg: 'bg-yellow-500/10', border: 'border-yellow-500/20' },
 };
 
 export default function Clinics() {

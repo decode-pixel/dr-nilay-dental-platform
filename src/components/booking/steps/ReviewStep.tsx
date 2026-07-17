@@ -4,7 +4,7 @@ import { BookingState, BookingStepIndex } from '../types';
 import BookingStepLayout from '../BookingStepLayout';
 import BookingSummaryCard from '../BookingSummaryCard';
 
-interface ReviewStepProps {
+interface ReviewStepProps extends React.Attributes {
   state: BookingState;
   onEditStep: (step: BookingStepIndex) => void;
   onBack: () => void;
