@@ -57,9 +57,11 @@ export default function Hero() {
       }
       if (doctorsList && doctorsList.length > 0) {
         const primaryDoc = doctorsList[0];
+        const quals = await DoctorService.getDoctorQualifications(primaryDoc.id);
+        const qualificationsStr = quals.map((q) => q.title).join(', ') || primaryDoc.qualification || '';
         setAboutContent({
           title: primaryDoc.name,
-          description: `${primaryDoc.qualification || ""}\n${primaryDoc.designation || ""}\nRegistration No. ${primaryDoc.registration_number || ""}`,
+          description: `${qualificationsStr}\n${primaryDoc.designation || ""}\nRegistration No. ${primaryDoc.registration_number || ""}`,
           doctor_signature: primaryDoc.name
         });
       } else if (about && about.about_config) {

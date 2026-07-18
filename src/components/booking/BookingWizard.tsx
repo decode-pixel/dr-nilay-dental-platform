@@ -24,7 +24,7 @@ import {
 import { logger } from '../../lib/logger';
 import { useToast } from '../ToastNotification';
 import { ClinicService } from '../../lib/clinicService';
-import { DoctorService } from '../../lib/doctorService';
+import { DoctorService, DoctorAssignmentResolver } from '../../lib/doctorService';
 
 const DRAFT_KEY = 'booking_wizard_draft';
 const OFFLINE_KEY = 'booking_offline_payload';
@@ -232,9 +232,14 @@ export default function BookingWizard({
     const selectedClinic = clinics.find((c) => c.slug === clinicSlug);
     if (!selectedClinic) return;
     try {
-      const available = await DoctorService.resolveAvailableDoctors(selectedClinic.id, date, session);
-      if (available && available.length > 0) {
-        setState((p) => ({ ...p, doctorId: available[0].id }));
+      const assignedDoc = await DoctorAssignmentResolver.resolveAssignedDoctor(
+        selectedClinic.id,
+        date,
+        session,
+        state.treatmentId
+      );
+      if (assignedDoc) {
+        setState((p) => ({ ...p, doctorId: assignedDoc.id }));
       } else {
         setState((p) => ({ ...p, doctorId: '' }));
       }
