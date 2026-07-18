@@ -46,6 +46,7 @@ import DashboardClinics from './DashboardClinics';
 import DashboardSettings from './DashboardSettings';
 import DashboardMediaLibrary from './DashboardMediaLibrary';
 import DashboardCms from './DashboardCms';
+import DashboardDoctors from './DashboardDoctors';
 
 interface DashboardHomeProps {
   onSignOut: () => void;
@@ -124,7 +125,7 @@ export default function DashboardHome({ onSignOut }: DashboardHomeProps) {
   const { showToast } = useToast();
 
   // Navigation tabs state
-  const [activeTab, setActiveTab] = useState<'bookings' | 'patients' | 'clinics' | 'media' | 'cms' | 'settings'>('bookings');
+  const [activeTab, setActiveTab] = useState<'bookings' | 'patients' | 'clinics' | 'media' | 'cms' | 'settings' | 'doctors'>('bookings');
   const [navigatedPatientId, setNavigatedPatientId] = useState<string | null>(null);
 
   // Coordinator Identity
@@ -646,6 +647,20 @@ Status: ${selectedBooking.status.replace('_', ' ').toUpperCase()}`;
             Settings Console
           </button>
 
+          {/* Doctor Management Button */}
+          <button
+            type="button"
+            onClick={() => setActiveTab('doctors')}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-2xl border text-sm font-semibold transition-all duration-200 ${
+              activeTab === 'doctors'
+                ? 'bg-white/5 border-white/10 text-white shadow-sm'
+                : 'border-transparent text-gray-400 hover:text-white hover:bg-white/5'
+            }`}
+          >
+            <User className="w-4 h-4 text-rose-400" />
+            Doctor Profiles
+          </button>
+
           <div className="pt-4 px-4 text-xs text-gray-500 uppercase tracking-widest font-semibold">
             COMING SOON
           </div>
@@ -686,7 +701,9 @@ Status: ${selectedBooking.status.replace('_', ' ').toUpperCase()}`;
                 ? 'Media Library'
                 : activeTab === 'cms'
                 ? 'Website CMS'
-                : 'Settings Console'}
+                : activeTab === 'settings'
+                ? 'Settings Console'
+                : 'Doctor Management'}
             </h1>
             <p className="text-xs text-gray-400 mt-0.5">
               Live coordinator dashboard • Saha Dental Clinic
@@ -746,6 +763,8 @@ Status: ${selectedBooking.status.replace('_', ' ').toUpperCase()}`;
             <DashboardCms />
           ) : activeTab === 'settings' ? (
             <DashboardSettings />
+          ) : activeTab === 'doctors' ? (
+            <DashboardDoctors />
           ) : (
             <div className="p-6 sm:p-8 space-y-6">
               {/* Top Statistics Row */}

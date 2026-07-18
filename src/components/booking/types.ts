@@ -14,6 +14,7 @@ export interface BookingState {
   chiefComplaint: string;
   patientAge?: string;
   patientGender?: 'Male' | 'Female' | 'Other' | 'Prefer not to say' | '';
+  doctorId?: string;
 }
 
 export interface BookingErrors {

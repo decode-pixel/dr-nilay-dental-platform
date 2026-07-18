@@ -4,6 +4,7 @@ import { motion } from "motion/react";
 import { SmileSwoosh, ToothIcon, WhatsAppIcon } from "./Icons";
 import { CmsService } from "../lib/cmsService";
 import { SettingsService } from "../lib/settingsService";
+import { DoctorService } from "../lib/doctorService";
 import { logger } from "../lib/logger";
 
 const containerVariants = {
@@ -44,16 +45,24 @@ export default function Hero() {
 
   const loadData = async () => {
     try {
-      const [hero, about, contact] = await Promise.all([
+      const [hero, about, contact, doctorsList] = await Promise.all([
         CmsService.getPublishedContent("hero"),
         CmsService.getPublishedContent("about"),
-        SettingsService.getSettingsGroup("contact")
+        SettingsService.getSettingsGroup("contact"),
+        DoctorService.getDoctors()
       ]);
 
       if (hero && hero.hero_config) {
         setHeroContent((p) => ({ ...p, ...hero.hero_config }));
       }
-      if (about && about.about_config) {
+      if (doctorsList && doctorsList.length > 0) {
+        const primaryDoc = doctorsList[0];
+        setAboutContent({
+          title: primaryDoc.name,
+          description: `${primaryDoc.qualification || ""}\n${primaryDoc.designation || ""}\nRegistration No. ${primaryDoc.registration_number || ""}`,
+          doctor_signature: primaryDoc.name
+        });
+      } else if (about && about.about_config) {
         setAboutContent((p) => ({ ...p, ...about.about_config }));
       }
       if (contact && Object.keys(contact).length > 0) {

@@ -24,6 +24,7 @@ import {
 import { logger } from '../../lib/logger';
 import { useToast } from '../ToastNotification';
 import { ClinicService } from '../../lib/clinicService';
+import { DoctorService } from '../../lib/doctorService';
 
 const DRAFT_KEY = 'booking_wizard_draft';
 const OFFLINE_KEY = 'booking_offline_payload';
@@ -43,6 +44,7 @@ const DEFAULT_STATE: BookingState = {
   chiefComplaint: '',
   patientAge: '',
   patientGender: '',
+  doctorId: '',
 };
 
 export default function BookingWizard({
@@ -224,6 +226,23 @@ export default function BookingWizard({
     !errors.patientPhone &&
     !errors.chiefComplaint;
 
+  // Resolve and assign available doctor based on selections
+  const resolveAndAssignDoctor = async (clinicSlug: string, date: string, session: string) => {
+    if (!clinicSlug || !date || !session) return;
+    const selectedClinic = clinics.find((c) => c.slug === clinicSlug);
+    if (!selectedClinic) return;
+    try {
+      const available = await DoctorService.resolveAvailableDoctors(selectedClinic.id, date, session);
+      if (available && available.length > 0) {
+        setState((p) => ({ ...p, doctorId: available[0].id }));
+      } else {
+        setState((p) => ({ ...p, doctorId: '' }));
+      }
+    } catch (err) {
+      logger.error('Failed to resolve doctor during booking step:', err);
+    }
+  };
+
   // Real-time backend submission handler
   const handleSubmitBooking = async () => {
     setIsSubmitting(true);
@@ -244,6 +263,7 @@ export default function BookingWizard({
       patientAge: state.patientAge ? parseInt(state.patientAge, 10) : null,
       patientGender: state.patientGender || null,
       status: bookingStatus,
+      doctorId: state.doctorId || null,
     };
 
     const res = await submitBookingRequest(payload);
@@ -468,7 +488,10 @@ export default function BookingWizard({
                 setState((p) => ({ ...p, preferredSession: session }))
               }
               onBack={() => setStep(2)}
-              onContinue={() => setStep(4)}
+              onContinue={() => {
+                resolveAndAssignDoctor(state.clinicId, state.preferredDate, state.preferredSession);
+                setStep(4);
+              }}
             />
           )}
 

@@ -84,6 +84,7 @@ export interface BookingPayload {
   patientAge?: number | null;
   patientGender?: string | null;
   status?: string | null;
+  doctorId?: string | null;
 }
 
 export interface BookingResponse {
@@ -114,6 +115,7 @@ export async function submitBookingRequest(payload: BookingPayload): Promise<Boo
         p_patient_age: payload.patientAge || null,
         p_patient_gender: payload.patientGender || null,
         p_status: payload.status || 'new_request',
+        p_doctor_id: payload.doctorId || null,
       });
 
       if (error) {
