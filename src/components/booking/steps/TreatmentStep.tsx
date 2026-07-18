@@ -11,6 +11,7 @@ interface TreatmentStepProps extends React.Attributes {
   onSelectTreatment: (treatmentId: string) => void;
   onBack: () => void;
   onContinue: () => void;
+  availableTreatments?: any[];
 }
 
 const getTreatmentIcon = (iconName: string) => {
@@ -78,18 +79,30 @@ export default function TreatmentStep({
   onSelectTreatment,
   onBack,
   onContinue,
+  availableTreatments,
 }: TreatmentStepProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
 
+  const resolvedTreatments = useMemo(() => {
+    const list = availableTreatments && availableTreatments.length > 0 ? availableTreatments : [];
+    if (list.length === 0) return treatmentsData;
+    return list.map((t) => ({
+      id: t.slug,
+      name: t.name,
+      desc: t.description || '',
+      iconName: t.icon || 'ToothIcon',
+      category: t.category
+    }));
+  }, [availableTreatments]);
+
   const featuredTreatment = useMemo(
-    () => treatmentsData.find((t) => t.id === 'root-canal'),
-    []
+    () => resolvedTreatments.find((t) => t.id === 'root-canal'),
+    [resolvedTreatments]
   );
 
   const filteredTreatments = useMemo(() => {
-    return treatmentsData.filter((t) => {
-      // Don't duplicate Root Canal in main list if it's featured unless searching
+    return resolvedTreatments.filter((t) => {
       if (t.id === 'root-canal' && !searchQuery && selectedCategory === 'All') {
         return false;
       }
@@ -99,11 +112,12 @@ export default function TreatmentStep({
 
       const matchesCategory =
         selectedCategory === 'All' ||
-        CATEGORY_MAP[t.id] === selectedCategory;
+        CATEGORY_MAP[t.id] === selectedCategory ||
+        t.category === selectedCategory;
 
       return matchesSearch && matchesCategory;
     });
-  }, [searchQuery, selectedCategory]);
+  }, [searchQuery, selectedCategory, resolvedTreatments]);
 
   return (
     <BookingStepLayout

@@ -25,6 +25,8 @@ import { logger } from '../../lib/logger';
 import { useToast } from '../ToastNotification';
 import { ClinicService } from '../../lib/clinicService';
 import { DoctorService, DoctorAssignmentResolver } from '../../lib/doctorService';
+import { TreatmentService } from '../../lib/treatmentService';
+import { supabase } from '../../lib/supabase';
 
 const DRAFT_KEY = 'booking_wizard_draft';
 const OFFLINE_KEY = 'booking_offline_payload';
@@ -83,6 +85,8 @@ export default function BookingWizard({
   const [offlinePayload, setOfflinePayload] = useState<BookingPayload | null>(null);
   const [showOfflineBanner, setShowOfflineBanner] = useState(false);
   const [clinics, setClinics] = useState<any[]>([]);
+  const [dbTreatments, setDbTreatments] = useState<any[]>([]);
+  const [clinicTreatments, setClinicTreatments] = useState<any[]>([]);
 
   // Load clinic settings & check offline cache on mount
   useEffect(() => {
@@ -103,6 +107,16 @@ export default function BookingWizard({
     ClinicService.getClinicsWithStatus(todayStr).then((data) => {
       if (isMounted) {
         setClinics(data);
+      }
+    });
+
+    Promise.all([
+      TreatmentService.getTreatments(),
+      supabase.from('clinic_treatments').select('*')
+    ]).then(([treatList, mappingsRes]) => {
+      if (isMounted) {
+        setDbTreatments(treatList.filter((t) => t.is_active));
+        setClinicTreatments(mappingsRes.data || []);
       }
     });
 
@@ -225,6 +239,17 @@ export default function BookingWizard({
     !errors.patientName &&
     !errors.patientPhone &&
     !errors.chiefComplaint;
+
+  // Filter treatments offered at selected clinic
+  const getFilteredTreatments = () => {
+    if (!state.clinicId) return dbTreatments;
+    const selectedClinic = clinics.find((c) => c.slug === state.clinicId);
+    if (!selectedClinic) return dbTreatments;
+    const allowedIds = clinicTreatments
+      .filter((ct) => ct.clinic_id === selectedClinic.id)
+      .map((ct) => ct.service_id);
+    return dbTreatments.filter((t) => allowedIds.includes(t.id));
+  };
 
   // Resolve and assign available doctor based on selections
   const resolveAndAssignDoctor = async (clinicSlug: string, date: string, session: string) => {
@@ -480,6 +505,7 @@ export default function BookingWizard({
               onSelectTreatment={(id) => setState((p) => ({ ...p, treatmentId: id }))}
               onBack={() => setStep(1)}
               onContinue={() => setStep(3)}
+              availableTreatments={getFilteredTreatments()}
             />
           )}
 
