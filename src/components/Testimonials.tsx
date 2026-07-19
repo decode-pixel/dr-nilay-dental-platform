@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { Star, ChevronLeft, ChevronRight, Quote } from "lucide-react";
+import { Star, ChevronLeft, ChevronRight, Quote, ShieldCheck } from "lucide-react";
+import OptimizedImage from "./OptimizedImage";
 
 const testimonialsData = [
   {
@@ -8,6 +9,8 @@ const testimonialsData = [
     name: "Rahul Banerjee",
     date: "2 weeks ago",
     rating: 5,
+    treatment: "Laser Root Canal & Crown",
+    avatar: "/DNS_Patient_Avatar_1_202607.webp",
     text: "Excellent experience at Saha Dental Clinic. Dr. Nilay is very professional and explains every step of the treatment. The clinic is extremely clean and hygienic. Highly recommend for any dental issues."
   },
   {
@@ -15,6 +18,8 @@ const testimonialsData = [
     name: "Sneha Ghosh",
     date: "1 month ago",
     rating: 5,
+    treatment: "Full Mouth Rehabilitation",
+    avatar: "/DNS_Patient_Avatar_2_202607.webp",
     text: "Got my root canal done here. I was very nervous, but the procedure was completely painless. The staff is polite, and the ambiance is very calming. Premium service at reasonable rates."
   },
   {
@@ -22,6 +27,8 @@ const testimonialsData = [
     name: "Arijit Das",
     date: "3 months ago",
     rating: 5,
+    treatment: "Orthodontic & Aligner Care",
+    avatar: "/DNS_Patient_Avatar_3_202607.webp",
     text: "One of the best dental clinics in the area. The equipment is modern, and they maintain high standards of sterilization. The doctor takes time to listen to your problems. Very satisfied with the treatment."
   },
   {
@@ -29,6 +36,8 @@ const testimonialsData = [
     name: "Priya Sharma",
     date: "4 months ago",
     rating: 5,
+    treatment: "Pediatric Preventive Checkup",
+    avatar: "/DNS_Patient_Avatar_4_202607.webp",
     text: "Took my 6-year-old for a checkup. Dr. Nilay is very good with kids, made my child feel completely comfortable. The clinic setup is wonderful. Thank you for the great service!"
   },
   {
@@ -36,6 +45,8 @@ const testimonialsData = [
     name: "Souvik Mukherjee",
     date: "5 months ago",
     rating: 5,
+    treatment: "Painless Wisdom Tooth Surgery",
+    avatar: "/DNS_Patient_Avatar_5_202607.webp",
     text: "Very transparent with the treatment plan and pricing. No hidden charges. The tooth extraction was quick and I healed perfectly. Best dental care I have received so far."
   }
 ];
@@ -145,10 +156,21 @@ export default function Testimonials() {
                   <Quote className="absolute top-8 right-8 w-12 h-12 text-white/5 transform rotate-180 pointer-events-none" />
 
                   <div className="flex flex-col gap-6 relative z-10">
-                    <div className="flex gap-1">
-                      {[...Array(testimonialsData[currentIndex].rating)].map((_, i) => (
-                        <Star key={i} className="w-5 h-5 text-yellow-400 fill-yellow-400 drop-shadow-[0_0_8px_rgba(250,204,21,0.4)]" />
-                      ))}
+                    <div className="flex items-center justify-between flex-wrap gap-2">
+                      <div className="flex gap-1">
+                        {[...Array(testimonialsData[currentIndex].rating)].map((_, i) => (
+                          <Star key={i} className="w-5 h-5 text-yellow-400 fill-yellow-400 drop-shadow-[0_0_8px_rgba(250,204,21,0.4)]" />
+                        ))}
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-[11px] font-semibold px-3 py-1 rounded-full glass-1 text-[#8B7BF7] border border-white/10">
+                          {testimonialsData[currentIndex].treatment}
+                        </span>
+                        <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">
+                          <ShieldCheck className="w-3.5 h-3.5" />
+                          Verified Review
+                        </span>
+                      </div>
                     </div>
                     
                     <p className="text-lg sm:text-xl text-[#F5F5F7] leading-[1.6] font-medium italic">
@@ -156,12 +178,19 @@ export default function Testimonials() {
                     </p>
                     
                     <div className="mt-4 pt-6 border-t border-white/10 flex items-center justify-between">
-                      <div>
-                        <h4 className="text-[#F5F5F7] font-display font-semibold text-lg">{testimonialsData[currentIndex].name}</h4>
-                        <p className="text-xs text-[#A1A1A6] mt-0.5">{testimonialsData[currentIndex].date}</p>
-                      </div>
-                      <div className="w-12 h-12 rounded-2xl bg-[#8B7BF7]/15 flex items-center justify-center border border-[#8B7BF7]/30 shadow-[0_0_15px_rgba(139,123,247,0.2)]">
-                        <span className="text-[#8B7BF7] font-display font-bold text-lg">{testimonialsData[currentIndex].name.charAt(0)}</span>
+                      <div className="flex items-center gap-3.5">
+                        <div className="w-12 h-12 rounded-2xl overflow-hidden bg-[#8B7BF7]/15 flex items-center justify-center border border-[#8B7BF7]/30 shadow-[0_0_15px_rgba(139,123,247,0.2)] shrink-0">
+                          <OptimizedImage
+                            src={testimonialsData[currentIndex].avatar}
+                            fallbackSrc=""
+                            alt={testimonialsData[currentIndex].name}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <div>
+                          <h4 className="text-[#F5F5F7] font-display font-semibold text-lg">{testimonialsData[currentIndex].name}</h4>
+                          <p className="text-xs text-[#A1A1A6] mt-0.5">{testimonialsData[currentIndex].date} • Google Reviews</p>
+                        </div>
                       </div>
                     </div>
                   </div>
