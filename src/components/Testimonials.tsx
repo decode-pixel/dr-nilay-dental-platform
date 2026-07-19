@@ -90,12 +90,9 @@ export default function Testimonials() {
     }
   };
 
-  // For desktop, we might want to show multiple cards, but a single centered premium card slider is often more elegant and easier to read.
-  // We will use a single centered card slider for all devices, just with different padding/sizing.
-
   return (
-    <section id="testimonials" className="relative py-24 z-10 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="testimonials" className="relative py-20 sm:py-24 z-10 overflow-hidden font-sans">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8">
         
         {/* Section Header */}
         <motion.div 
@@ -103,22 +100,22 @@ export default function Testimonials() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="text-center mb-16"
+          className="text-center mb-16 sm:mb-20"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-xl mb-6 shadow-[0_0_20px_rgba(139,92,246,0.15)]">
-            <Star className="w-4 h-4 text-violet-400 fill-violet-400" />
-            <span className="text-sm font-medium text-gray-200 uppercase tracking-wider">Testimonials</span>
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-1 mb-4 text-[#8B7BF7] text-xs font-semibold uppercase tracking-widest">
+            <Star className="w-4 h-4 text-[#8B7BF7] fill-[#8B7BF7]" />
+            <span>Testimonials</span>
           </div>
-          <h2 className="text-4xl md:text-5xl font-heading font-bold text-white mb-6">
-            Patient <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-blue-400">Stories</span>
+          <h2 className="text-[36px] sm:text-[48px] lg:text-[56px] font-display font-bold text-[#F5F5F7] tracking-tight leading-[1.12] mb-5">
+            Patient <span className="text-[#8B7BF7]">Stories</span>
           </h2>
-          <p className="text-gray-400 text-lg leading-relaxed max-w-2xl mx-auto">
+          <p className="text-[#A1A1A6] text-base sm:text-lg leading-[1.6] max-w-2xl mx-auto font-normal">
             Discover what our patients have to say about their experience and care at our clinic.
           </p>
         </motion.div>
 
         {/* Carousel Container */}
-        <div className="relative max-w-4xl mx-auto flex items-center justify-center min-h-[400px]">
+        <div className="relative max-w-4xl mx-auto flex items-center justify-center min-h-[420px]">
           
           <div className="absolute w-full h-full flex items-center justify-center overflow-hidden px-4 sm:px-12">
             <AnimatePresence initial={false} custom={direction}>
@@ -142,8 +139,8 @@ export default function Testimonials() {
                 }}
                 className="absolute w-full max-w-2xl cursor-grab active:cursor-grabbing"
               >
-                <div className="glass-panel rounded-[2rem] p-8 sm:p-12 border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)] relative group">
-                  <div className="absolute inset-0 bg-gradient-to-br from-violet-500/5 via-transparent to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-[2rem]"></div>
+                <div className="glass-2 rounded-[2.5rem] p-8 sm:p-12 border border-white/10 shadow-[0_16px_48px_rgba(0,0,0,0.5)] relative group">
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#8B7BF7]/5 via-transparent to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-[2.5rem]" />
                   
                   <Quote className="absolute top-8 right-8 w-12 h-12 text-white/5 transform rotate-180 pointer-events-none" />
 
@@ -154,17 +151,17 @@ export default function Testimonials() {
                       ))}
                     </div>
                     
-                    <p className="text-lg sm:text-xl text-gray-200 leading-relaxed font-medium italic">
+                    <p className="text-lg sm:text-xl text-[#F5F5F7] leading-[1.6] font-medium italic">
                       "{testimonialsData[currentIndex].text}"
                     </p>
                     
                     <div className="mt-4 pt-6 border-t border-white/10 flex items-center justify-between">
                       <div>
-                        <h4 className="text-white font-heading font-semibold text-lg">{testimonialsData[currentIndex].name}</h4>
-                        <p className="text-sm text-gray-500">{testimonialsData[currentIndex].date}</p>
+                        <h4 className="text-[#F5F5F7] font-display font-semibold text-lg">{testimonialsData[currentIndex].name}</h4>
+                        <p className="text-xs text-[#A1A1A6] mt-0.5">{testimonialsData[currentIndex].date}</p>
                       </div>
-                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-violet-500/20 to-blue-500/20 flex items-center justify-center border border-white/10">
-                        <span className="text-white font-semibold text-lg">{testimonialsData[currentIndex].name.charAt(0)}</span>
+                      <div className="w-12 h-12 rounded-2xl bg-[#8B7BF7]/15 flex items-center justify-center border border-[#8B7BF7]/30 shadow-[0_0_15px_rgba(139,123,247,0.2)]">
+                        <span className="text-[#8B7BF7] font-display font-bold text-lg">{testimonialsData[currentIndex].name.charAt(0)}</span>
                       </div>
                     </div>
                   </div>
@@ -177,17 +174,17 @@ export default function Testimonials() {
           <div className="absolute inset-y-0 left-0 right-0 flex items-center justify-between pointer-events-none z-20">
             <button 
               onClick={() => paginate(-1)}
-              className="pointer-events-auto w-12 h-12 rounded-full glass-panel flex items-center justify-center text-white hover:bg-white/10 hover:-translate-x-1 transition-all shadow-[0_0_15px_rgba(0,0,0,0.5)] -ml-4 sm:ml-0"
+              className="pointer-events-auto w-12 h-12 rounded-full glass-2 flex items-center justify-center text-[#F5F5F7] hover:bg-white/[0.12] active:scale-95 transition-all shadow-[0_0_20px_rgba(0,0,0,0.5)] -ml-4 sm:ml-0"
               aria-label="Previous testimonial"
             >
-              <ChevronLeft className="w-6 h-6 mr-1" />
+              <ChevronLeft className="w-6 h-6 mr-0.5 text-violet-300" />
             </button>
             <button 
               onClick={() => paginate(1)}
-              className="pointer-events-auto w-12 h-12 rounded-full glass-panel flex items-center justify-center text-white hover:bg-white/10 hover:translate-x-1 transition-all shadow-[0_0_15px_rgba(0,0,0,0.5)] -mr-4 sm:mr-0"
+              className="pointer-events-auto w-12 h-12 rounded-full glass-2 flex items-center justify-center text-[#F5F5F7] hover:bg-white/[0.12] active:scale-95 transition-all shadow-[0_0_20px_rgba(0,0,0,0.5)] -mr-4 sm:mr-0"
               aria-label="Next testimonial"
             >
-              <ChevronRight className="w-6 h-6 ml-1" />
+              <ChevronRight className="w-6 h-6 ml-0.5 text-violet-300" />
             </button>
           </div>
 
@@ -203,7 +200,7 @@ export default function Testimonials() {
                 setCurrentIndex(idx);
               }}
               className={`h-1.5 rounded-full transition-all duration-500 ${
-                idx === currentIndex ? 'w-8 bg-violet-400 shadow-[0_0_10px_rgba(139,92,246,0.6)]' : 'w-2 bg-white/20 hover:bg-white/40'
+                idx === currentIndex ? 'w-8 bg-[#8B7BF7] shadow-[0_0_10px_rgba(139,123,247,0.6)]' : 'w-2 bg-white/20 hover:bg-white/40'
               }`}
               aria-label={`Go to testimonial ${idx + 1}`}
             />

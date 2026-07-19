@@ -32,10 +32,6 @@ export default function HomePage() {
       </AnimatePresence>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10" id="home">
-        {/* Ambient background glows */}
-        <div className="absolute top-[-10%] left-[-10%] w-[40rem] h-[40rem] bg-violet-600/10 rounded-full blur-[120px] pointer-events-none"></div>
-        <div className="absolute top-[40%] right-[-10%] w-[30rem] h-[30rem] bg-blue-600/10 rounded-full blur-[120px] pointer-events-none"></div>
-        
         <Navbar />
         <main className="pt-28 sm:pt-32 pb-24 relative z-10">
           <Hero />
@@ -52,11 +48,11 @@ export default function HomePage() {
             transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }}
             className="mt-12 flex justify-center"
           >
-            <button className="group btn-sweep flex items-center justify-center gap-3 px-8 py-3.5 rounded-full border border-white/20 bg-[#0a0a0a]/50 backdrop-blur-xl text-white font-medium shadow-[0_8px_32px_rgba(0,0,0,0.4)] hover:shadow-[0_8px_32px_rgba(139,92,246,0.2)] hover:bg-white/10 hover:-translate-y-1 transition-all duration-300">
-              <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-white/20 transition-colors">
-                <Play className="w-4 h-4 ml-0.5" />
+            <button className="group flex items-center justify-center gap-3 px-8 py-4 rounded-full glass-2 text-[#F5F5F7] font-semibold text-base hover:bg-white/[0.08] hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300">
+              <div className="w-8 h-8 rounded-full bg-[#8B7BF7]/20 border border-[#8B7BF7]/30 flex items-center justify-center group-hover:scale-110 transition-transform">
+                <Play className="w-4 h-4 text-[#8B7BF7] ml-0.5" />
               </div>
-              Watch Clinic Tour
+              <span>Watch Clinic Tour</span>
             </button>
           </motion.div>
         </main>

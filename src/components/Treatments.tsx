@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion } from "motion/react";
 import { ChevronLeft, ChevronRight, Check } from "lucide-react";
 import * as LucideIcons from "lucide-react";
 import { ToothIcon } from "./Icons";
@@ -88,10 +88,8 @@ export default function Treatments() {
   };
 
   return (
-    <section id="treatments" className="relative py-24 z-10 overflow-hidden">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-violet-600/5 rounded-full blur-[120px] pointer-events-none"></div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <section id="treatments" className="relative py-20 sm:py-24 z-10 overflow-hidden font-sans">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 relative z-10">
         
         {/* Section Header */}
         <motion.div 
@@ -99,16 +97,16 @@ export default function Treatments() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="text-center max-w-3xl mx-auto mb-16"
+          className="text-center max-w-3xl mx-auto mb-16 sm:mb-20"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-white/10 bg-white/5 backdrop-blur-xl mb-6 shadow-[0_0_20px_rgba(139,92,246,0.15)]">
-            <ToothIcon className="w-4 h-4 text-violet-400" />
-            <span className="text-sm font-medium text-gray-200 uppercase tracking-wider">Our Services</span>
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-1 mb-4 text-[#8B7BF7] text-xs font-semibold uppercase tracking-widest">
+            <ToothIcon className="w-4 h-4 text-[#8B7BF7]" />
+            <span>Our Services</span>
           </div>
-          <h2 className="text-4xl md:text-5xl font-heading font-bold text-white mb-6">
-            Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-blue-400">Treatments</span>
+          <h2 className="text-[36px] sm:text-[48px] lg:text-[56px] font-display font-bold text-[#F5F5F7] tracking-tight leading-[1.12] mb-5">
+            Our <span className="text-[#8B7BF7]">Treatments</span>
           </h2>
-          <p className="text-gray-400 text-lg leading-relaxed">
+          <p className="text-[#A1A1A6] text-base sm:text-lg leading-[1.6] max-w-2xl mx-auto font-normal">
             Comprehensive dental care delivered with modern technology, gentle techniques, and over 10 years of clinical experience.
           </p>
         </motion.div>
@@ -141,43 +139,43 @@ export default function Treatments() {
                   className={`absolute w-[300px] sm:w-[360px] h-[460px] cursor-grab active:cursor-grabbing ${!isActive ? 'hover:scale-[0.87] transition-transform duration-300' : ''}`}
                   style={{ pointerEvents: style.pointerEvents }}
                 >
-                  <div className={`w-full h-full glass-panel backdrop-blur-2xl rounded-[2rem] p-8 flex flex-col relative group transition-all duration-500 overflow-hidden ${
+                  <div className={`w-full h-full rounded-[2.2rem] p-8 flex flex-col relative group transition-all duration-500 overflow-hidden ${
                     isActive 
-                      ? 'border-violet-500/50 shadow-[0_20px_50px_rgba(139,92,246,0.2)]' 
-                      : 'border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.5)]'
+                      ? 'glass-3 border-[#8B7BF7]/50 shadow-[0_24px_64px_rgba(139,123,247,0.25)]' 
+                      : 'glass-1 border-white/10 shadow-[0_12px_32px_rgba(0,0,0,0.5)]'
                   }`}>
                     
                     {/* Active Glow */}
                     {isActive && (
-                      <div className="absolute inset-0 bg-gradient-to-br from-violet-600/10 via-transparent to-blue-600/10 pointer-events-none"></div>
+                      <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#8B7BF7] to-transparent pointer-events-none" />
                     )}
                     
                     {/* Card Content */}
                     <div className="relative z-10 flex flex-col h-full">
-                      <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-8 transition-colors duration-300 ${
-                        isActive ? 'bg-violet-500/20 border-violet-500/30 text-violet-400 shadow-[0_0_20px_rgba(139,92,246,0.3)]' : 'bg-white/5 border-white/10 text-gray-400 group-hover:bg-white/10 group-hover:text-white'
-                      } border`}>
-                        <Icon className="w-8 h-8" />
+                      <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 transition-colors duration-300 ${
+                        isActive ? 'bg-[#8B7BF7]/20 border border-[#8B7BF7]/40 text-[#8B7BF7] shadow-[0_0_20px_rgba(139,123,247,0.3)]' : 'bg-white/5 border border-white/10 text-[#A1A1A6] group-hover:bg-white/10 group-hover:text-white'
+                      }`}>
+                        <Icon className="w-7 h-7" />
                       </div>
                       
-                      <h3 className={`text-2xl font-bold font-heading mb-4 transition-colors duration-300 ${
-                        isActive ? 'text-white' : 'text-gray-300 group-hover:text-white'
+                      <h3 className={`text-2xl font-bold font-display mb-3 transition-colors duration-300 ${
+                        isActive ? 'text-[#F5F5F7]' : 'text-gray-300 group-hover:text-white'
                       }`}>
                         {treatment.name}
                       </h3>
                       
-                      <p className={`leading-relaxed flex-1 transition-colors duration-300 ${
-                        isActive ? 'text-gray-300' : 'text-gray-500 group-hover:text-gray-400'
+                      <p className={`leading-[1.6] text-sm flex-1 transition-colors duration-300 ${
+                        isActive ? 'text-[#A1A1A6]' : 'text-gray-500 group-hover:text-gray-400'
                       }`}>
                         {treatment.desc}
                       </p>
                       
-                      <Link to={`/treatments/${treatment.id}`} className={`mt-auto w-full py-4 rounded-xl font-medium transition-all duration-300 flex items-center justify-center gap-2 btn-sweep ${
+                      <Link to={`/treatments/${treatment.id}`} className={`mt-auto w-full py-3.5 rounded-full font-semibold text-sm transition-all duration-300 flex items-center justify-center gap-2 ${
                         isActive 
-                          ? 'bg-white text-black hover:shadow-[0_0_25px_rgba(255,255,255,0.3)] hover:-translate-y-1' 
-                          : 'bg-white/5 text-gray-300 border border-white/10 hover:bg-white/10 hover:text-white'
+                          ? 'bg-gradient-to-r from-[#7C6BDF] to-[#6366F1] text-white shadow-[0_0_20px_rgba(139,123,247,0.4)] hover:shadow-[0_0_35px_rgba(139,123,247,0.6)] active:scale-[0.98]' 
+                          : 'glass-2 text-[#F5F5F7] hover:bg-white/[0.08] active:scale-[0.98]'
                       }`}>
-                        Learn More
+                        <span>Learn More</span>
                       </Link>
                     </div>
                   </div>
@@ -187,30 +185,32 @@ export default function Treatments() {
           </div>
 
           {/* Navigation Controls */}
-          <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between pointer-events-none px-2 sm:px-8 z-30">
+          <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between pointer-events-none px-2 sm:px-6 z-30">
             <button 
               onClick={handlePrev}
-              className="pointer-events-auto w-12 h-12 rounded-full glass-panel flex items-center justify-center text-white hover:bg-white/10 hover:-translate-x-1 transition-all shadow-[0_0_20px_rgba(0,0,0,0.5)]"
+              aria-label="Previous Treatment"
+              className="pointer-events-auto w-12 h-12 rounded-full glass-2 flex items-center justify-center text-[#F5F5F7] hover:bg-white/[0.12] active:scale-95 transition-all shadow-[0_0_20px_rgba(0,0,0,0.5)]"
             >
-              <ChevronLeft className="w-6 h-6 mr-0.5" />
+              <ChevronLeft className="w-6 h-6 mr-0.5 text-violet-300" />
             </button>
             <button 
               onClick={handleNext}
-              className="pointer-events-auto w-12 h-12 rounded-full glass-panel flex items-center justify-center text-white hover:bg-white/10 hover:translate-x-1 transition-all shadow-[0_0_20px_rgba(0,0,0,0.5)]"
+              aria-label="Next Treatment"
+              className="pointer-events-auto w-12 h-12 rounded-full glass-2 flex items-center justify-center text-[#F5F5F7] hover:bg-white/[0.12] active:scale-95 transition-all shadow-[0_0_20px_rgba(0,0,0,0.5)]"
             >
-              <ChevronRight className="w-6 h-6 ml-0.5" />
+              <ChevronRight className="w-6 h-6 ml-0.5 text-violet-300" />
             </button>
           </div>
         </div>
 
         {/* Pagination Indicators (Mobile) */}
-        <div className="flex justify-center gap-2 mt-8 lg:hidden">
+        <div className="flex justify-center gap-2 mt-6 sm:hidden">
           {treatmentsData.map((_, idx) => (
             <button
               key={idx}
               onClick={() => setCurrentIndex(idx)}
               className={`h-1.5 rounded-full transition-all duration-500 ${
-                idx === currentIndex ? 'w-6 bg-violet-400 shadow-[0_0_10px_rgba(139,92,246,0.6)]' : 'w-1.5 bg-white/20'
+                idx === currentIndex ? 'w-6 bg-[#8B7BF7] shadow-[0_0_10px_rgba(139,123,247,0.6)]' : 'w-1.5 bg-white/20'
               }`}
               aria-label={`Go to treatment ${idx + 1}`}
             />
@@ -223,14 +223,14 @@ export default function Treatments() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-          className="mt-16 flex flex-wrap justify-center gap-x-8 gap-y-4 border-t border-white/10 pt-8"
+          className="mt-16 sm:mt-20 flex flex-wrap justify-center gap-x-8 gap-y-4 border-t border-white/10 pt-8"
         >
           {trustFeatures.map((feature, idx) => (
-            <div key={idx} className="flex items-center gap-2 text-gray-400">
-              <div className="w-5 h-5 rounded-full bg-violet-500/10 border border-violet-500/20 flex items-center justify-center shrink-0">
-                <Check className="w-3 h-3 text-violet-400" />
+            <div key={idx} className="flex items-center gap-2.5 text-[#A1A1A6]">
+              <div className="w-5 h-5 rounded-full bg-[#8B7BF7]/15 border border-[#8B7BF7]/30 flex items-center justify-center shrink-0">
+                <Check className="w-3 h-3 text-[#8B7BF7]" />
               </div>
-              <span className="text-sm font-medium tracking-wide uppercase">{feature}</span>
+              <span className="text-xs sm:text-sm font-medium tracking-wide uppercase">{feature}</span>
             </div>
           ))}
         </motion.div>

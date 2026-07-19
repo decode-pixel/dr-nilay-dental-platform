@@ -6,7 +6,7 @@ const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.1, delayChildren: 0.8 },
+    transition: { staggerChildren: 0.1, delayChildren: 0.2 },
   },
 } as const;
 
@@ -26,7 +26,7 @@ export default function BottomBanner() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-      className="w-full glass-panel rounded-3xl p-6 sm:p-8 mt-12"
+      className="w-full glass-1 rounded-3xl p-6 sm:p-8 mt-12 font-sans"
     >
       <motion.div 
         variants={containerVariants}
@@ -38,45 +38,45 @@ export default function BottomBanner() {
         
         {/* Item 1 */}
         <motion.div variants={itemVariants} className="flex items-start gap-4 pt-4 md:pt-0 pl-0 group cursor-default">
-          <div className="w-12 h-12 rounded-full bg-violet-500/10 flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(139,92,246,0.2)] group-hover:bg-violet-500/20 group-hover:shadow-[0_0_25px_rgba(139,92,246,0.4)] group-hover:scale-110 transition-all duration-300">
-             <ToothIcon className="w-6 h-6 text-violet-400 group-hover:text-violet-300 transition-colors" />
+          <div className="w-12 h-12 rounded-2xl bg-[#8B7BF7]/15 border border-[#8B7BF7]/30 flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(139,123,247,0.2)] group-hover:bg-[#8B7BF7]/25 group-hover:scale-105 transition-all duration-300">
+             <ToothIcon className="w-6 h-6 text-[#8B7BF7]" />
           </div>
           <div>
-            <h4 className="text-white font-semibold text-sm mb-1 group-hover:text-violet-200 transition-colors">Advanced Technology</h4>
-            <p className="text-xs text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors">State-of-the-art equipment<br/>for the best results.</p>
+            <h4 className="text-[#F5F5F7] font-semibold text-sm mb-1 group-hover:text-white transition-colors">Advanced Technology</h4>
+            <p className="text-xs text-[#A1A1A6] leading-[1.6] group-hover:text-gray-300 transition-colors">State-of-the-art equipment<br/>for the best results.</p>
           </div>
         </motion.div>
 
         {/* Item 2 */}
         <motion.div variants={itemVariants} className="flex items-start gap-4 pt-4 md:pt-0 md:pl-6 xl:pl-8 group cursor-default">
-          <div className="w-12 h-12 rounded-full bg-blue-500/10 flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(59,130,246,0.2)] group-hover:bg-blue-500/20 group-hover:shadow-[0_0_25px_rgba(59,130,246,0.4)] group-hover:scale-110 transition-all duration-300">
-            <Shield className="w-5 h-5 text-blue-400 group-hover:text-blue-300 transition-colors" />
+          <div className="w-12 h-12 rounded-2xl bg-blue-500/15 border border-blue-500/30 flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(59,130,246,0.2)] group-hover:bg-blue-500/25 group-hover:scale-105 transition-all duration-300">
+            <Shield className="w-5 h-5 text-blue-400" />
           </div>
           <div>
-            <h4 className="text-white font-semibold text-sm mb-1 group-hover:text-blue-200 transition-colors">Expert Dentists</h4>
-            <p className="text-xs text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors">Highly skilled professionals<br/>you can trust.</p>
+            <h4 className="text-[#F5F5F7] font-semibold text-sm mb-1 group-hover:text-white transition-colors">Expert Dentists</h4>
+            <p className="text-xs text-[#A1A1A6] leading-[1.6] group-hover:text-gray-300 transition-colors">Highly skilled professionals<br/>you can trust.</p>
           </div>
         </motion.div>
 
         {/* Item 3 */}
         <motion.div variants={itemVariants} className="flex items-start gap-4 pt-4 md:pt-0 lg:pl-6 xl:pl-8 group cursor-default">
-          <div className="w-12 h-12 rounded-full bg-emerald-500/10 flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(16,185,129,0.2)] group-hover:bg-emerald-500/20 group-hover:shadow-[0_0_25px_rgba(16,185,129,0.4)] group-hover:scale-110 transition-all duration-300">
-            <Leaf className="w-5 h-5 text-emerald-400 group-hover:text-emerald-300 transition-colors" />
+          <div className="w-12 h-12 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(16,185,129,0.2)] group-hover:bg-emerald-500/25 group-hover:scale-105 transition-all duration-300">
+            <Leaf className="w-5 h-5 text-emerald-400" />
           </div>
           <div>
-            <h4 className="text-white font-semibold text-sm mb-1 group-hover:text-emerald-200 transition-colors">Personalized Care</h4>
-            <p className="text-xs text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors">Tailored treatment for<br/>your unique needs.</p>
+            <h4 className="text-[#F5F5F7] font-semibold text-sm mb-1 group-hover:text-white transition-colors">Personalized Care</h4>
+            <p className="text-xs text-[#A1A1A6] leading-[1.6] group-hover:text-gray-300 transition-colors">Tailored treatment for<br/>your unique needs.</p>
           </div>
         </motion.div>
 
         {/* Item 4 */}
         <motion.div variants={itemVariants} className="flex items-start gap-4 pt-4 md:pt-0 lg:pl-6 xl:pl-8 group cursor-default">
-          <div className="w-12 h-12 rounded-full bg-amber-500/10 flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(245,158,11,0.2)] group-hover:bg-amber-500/20 group-hover:shadow-[0_0_25px_rgba(245,158,11,0.4)] group-hover:scale-110 transition-all duration-300">
-            <Calendar className="w-5 h-5 text-amber-400 group-hover:text-amber-300 transition-colors" />
+          <div className="w-12 h-12 rounded-2xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(245,158,11,0.2)] group-hover:bg-amber-500/25 group-hover:scale-105 transition-all duration-300">
+            <Calendar className="w-5 h-5 text-amber-400" />
           </div>
           <div>
-            <h4 className="text-white font-semibold text-sm mb-1 group-hover:text-amber-200 transition-colors">Flexible Scheduling</h4>
-            <p className="text-xs text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors">Easy appointment booking<br/>that fits your life.</p>
+            <h4 className="text-[#F5F5F7] font-semibold text-sm mb-1 group-hover:text-white transition-colors">Flexible Scheduling</h4>
+            <p className="text-xs text-[#A1A1A6] leading-[1.6] group-hover:text-gray-300 transition-colors">Easy appointment booking<br/>that fits your life.</p>
           </div>
         </motion.div>
 
