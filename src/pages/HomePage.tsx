@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import MeetDrNilaySaha from "../components/MeetDrNilaySaha";
-import BottomBanner from "../components/BottomBanner";
+import WhyChooseUsBento from "../components/WhyChooseUsBento";
 import Treatments from "../components/Treatments";
 import Clinics from "../components/Clinics";
 import FAQ from "../components/FAQ";
@@ -37,7 +37,7 @@ export default function HomePage() {
           <Hero />
           <div id="about">
             <MeetDrNilaySaha />
-            <BottomBanner />
+            <WhyChooseUsBento />
           </div>
           
           {/* Watch Clinic Tour Action */}
