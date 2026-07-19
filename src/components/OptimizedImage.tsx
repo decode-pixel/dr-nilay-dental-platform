@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ImageOff } from 'lucide-react';
 
 export interface OptimizedImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
@@ -32,9 +32,22 @@ export default function OptimizedImage({
   const [hasError, setHasError] = useState(false);
   const [currentSrc, setCurrentSrc] = useState(src);
 
+  useEffect(() => {
+    setCurrentSrc(src);
+    setHasError(false);
+    setIsLoaded(false);
+  }, [src]);
+
   // Helper to generate AVIF and WebP candidate URLs if src is standard webp/png/jpg
   const getSourceVariants = (url: string) => {
-    if (!url || url.startsWith('data:') || url.startsWith('http')) {
+    if (
+      !url || 
+      url.startsWith('data:') || 
+      url.startsWith('http') || 
+      url.toLowerCase().includes('dr-nilay') || 
+      url.toLowerCase().includes('dr_nilay') || 
+      url.includes('DNS_')
+    ) {
       return { avif: null, webp: null };
     }
     const base = url.substring(0, url.lastIndexOf('.'));
