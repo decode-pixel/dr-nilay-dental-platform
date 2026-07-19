@@ -3,11 +3,12 @@ import { motion, AnimatePresence } from "motion/react";
 import { 
   MapPin, Clock, Phone, Navigation, CalendarDays, 
   Car, Wind, Droplet, CreditCard, Users, CalendarCheck, ShieldCheck, UserCheck, Stethoscope,
-  AlertTriangle, Info, ShieldAlert, Sparkles, Star
+  AlertTriangle, Info, ShieldAlert, Sparkles, Star, ChevronDown, Bus
 } from "lucide-react";
 import { WhatsAppIcon } from "./Icons";
 import { ClinicService } from "../lib/clinicService";
 import { logger } from "../lib/logger";
+import OptimizedImage from "./OptimizedImage";
 
 const FACILITY_ICONS: Record<string, any> = {
   Users,
@@ -33,6 +34,7 @@ export default function Clinics() {
   const [clinics, setClinics] = useState<any[]>([]);
   const [activeTab, setActiveTab] = useState<string>('');
   const [loading, setLoading] = useState(true);
+  const [showWeeklySchedule, setShowWeeklySchedule] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -148,22 +150,20 @@ export default function Clinics() {
             <div className="absolute inset-0 bg-gradient-to-br from-[#8B7BF7]/5 via-transparent to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
             <div className="w-full lg:w-5/12 flex flex-col">
-              {activeClinic.cover_image ? (
-                <div className="w-full h-64 lg:h-full relative overflow-hidden bg-black/40 flex items-center justify-center border-b lg:border-b-0 lg:border-r border-white/10">
-                  <img src={activeClinic.cover_image} alt={activeClinic.name} className="w-full h-full object-cover" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+              <div className="w-full h-64 lg:h-full relative overflow-hidden bg-black/40 flex items-center justify-center border-b lg:border-b-0 lg:border-r border-white/10">
+                <OptimizedImage
+                  src={activeClinic.cover_image || `/DNS_Clinic_${activeClinic.slug}_Reception_16x9_202607.webp`}
+                  fallbackSrc="/DNS_Hero_TwilightExterior_16x9_202607.webp"
+                  alt={`${activeClinic.name} Exterior and Reception Facility`}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+                <div className="absolute bottom-6 left-6 right-6 z-10 flex items-center justify-between">
+                  <span className="px-3 py-1 rounded-full glass-2 text-[11px] font-bold uppercase tracking-wider text-[#8B7BF7] border border-white/20">
+                    Verified Healthcare Center
+                  </span>
                 </div>
-              ) : (
-                <div className="w-full h-64 lg:h-full relative overflow-hidden bg-transparent flex flex-col items-center justify-center border-b lg:border-b-0 lg:border-r border-white/10 p-8 text-center group/placeholder">
-                  <div className="absolute inset-0 bg-gradient-to-b from-white/[0.02] to-transparent" />
-                  
-                  <div className="w-20 h-20 rounded-2xl glass-1 border border-white/10 flex items-center justify-center mb-6 shadow-[0_0_20px_rgba(255,255,255,0.05)] relative z-10">
-                    <Stethoscope className="w-8 h-8 text-[#A1A1A6]" />
-                  </div>
-                  <h3 className="text-xl font-display font-semibold text-[#F5F5F7] mb-2 relative z-10">Clinic Photos</h3>
-                  <p className="text-xs text-[#A1A1A6] uppercase tracking-widest font-semibold relative z-10">Coming Soon</p>
-                </div>
-              )}
+              </div>
             </div>
 
             <div className="w-full lg:w-7/12 p-6 sm:p-10 lg:p-12 flex flex-col relative z-10">
@@ -211,7 +211,7 @@ export default function Clinics() {
                   </div>
                 )}
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 mb-10">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 mb-8">
                   {/* Location & Timings */}
                   <div className="space-y-8">
                     <div className="flex items-start gap-4">
@@ -235,25 +235,56 @@ export default function Clinics() {
                       <div className="w-12 h-12 rounded-2xl bg-blue-500/15 border border-blue-500/30 flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(59,130,246,0.2)]">
                         <Clock className="w-5 h-5 text-blue-400" />
                       </div>
-                      <div>
+                      <div className="w-full">
                         <h4 className="text-[#F5F5F7] font-semibold mb-1.5 text-base font-display">Opening Status & Hours</h4>
                         <p className="text-sm text-[#F5F5F7] font-semibold leading-[1.6]">
                           {activeClinic.statusInfo?.status === 'Open'
                             ? `Open today: ${activeClinic.statusInfo.session_times}`
                             : `Closed today: ${activeClinic.statusInfo?.reason_detail || activeClinic.statusInfo?.reason || 'Scheduled Off'}`}
                         </p>
-                        <div className="mt-3.5 flex items-center gap-3 p-3 rounded-2xl glass-1 border border-white/10 max-w-sm">
+
+                        {/* Weekly schedule toggle */}
+                        <button
+                          onClick={() => setShowWeeklySchedule(!showWeeklySchedule)}
+                          className="mt-2.5 text-xs text-[#8B7BF7] hover:underline flex items-center gap-1 font-semibold"
+                        >
+                          <span>{showWeeklySchedule ? 'Hide Weekly Timings' : 'View Weekly Timings'}</span>
+                          <ChevronDown className={`w-3.5 h-3.5 transition-transform ${showWeeklySchedule ? 'rotate-180' : ''}`} />
+                        </button>
+
+                        <AnimatePresence>
+                          {showWeeklySchedule && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: 'auto', opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              className="overflow-hidden mt-3"
+                            >
+                              <div className="glass-1 rounded-2xl p-3.5 border border-white/10 space-y-2 text-xs">
+                                {[
+                                  { day: 'Mon - Fri', hours: '10:00 AM - 1:30 PM, 5:00 PM - 8:30 PM' },
+                                  { day: 'Saturday', hours: '10:00 AM - 2:00 PM, 6:00 PM - 9:00 PM' },
+                                  { day: 'Sunday', hours: 'By Appointment Only / Emergency' }
+                                ].map((slot, idx) => (
+                                  <div key={idx} className="flex justify-between items-center text-[#A1A1A6] py-1 border-b border-white/5 last:border-0">
+                                    <span className="font-semibold text-white">{slot.day}</span>
+                                    <span>{slot.hours}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+
+                        <div className="mt-4 flex items-center gap-3 p-3 rounded-2xl glass-1 border border-white/10 max-w-sm">
                           <div className="w-11 h-11 rounded-xl overflow-hidden border border-white/20 shrink-0 shadow-md">
-                            <img src="/dr-nilay-saha.jpg" alt="Dr. Nilay Saha" className="w-full h-full object-cover object-top" />
+                            <OptimizedImage src="/DNS_Portrait_DrNilay_Headshot_4x5_202607.webp" fallbackSrc="/dr-nilay-saha.jpg" alt="Dr. Nilay Saha" className="w-full h-full object-cover object-top" />
                           </div>
                           <div>
                             <span className="text-[10px] text-[#8B7BF7] uppercase tracking-wider font-bold block">Attending Surgeon</span>
                             <span className="text-xs sm:text-sm font-display font-bold text-[#F5F5F7]">{activeClinic.statusInfo?.available_doctor || "Dr. Nilay Saha"}</span>
                           </div>
                         </div>
-                        <p className="text-[11px] text-[#A1A1A6] mt-3 italic border-l-2 border-white/10 pl-2.5">
-                          Weekly hours and doctor schedules can be configured dynamically in the dashboard.
-                        </p>
                       </div>
                     </div>
                   </div>
@@ -295,6 +326,39 @@ export default function Clinics() {
                         )}
                       </div>
                     </div>
+                  </div>
+                </div>
+
+                {/* Additional Patient Guidance Grid (Parking, Transit, Payment) */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6 border-t border-white/10 mb-4">
+                  <div className="glass-1 rounded-2xl p-4 border border-white/10 space-y-1.5">
+                    <div className="flex items-center gap-2 text-[#8B7BF7]">
+                      <Car className="w-4 h-4" />
+                      <h5 className="text-xs font-bold uppercase tracking-wider text-white">Parking Facility</h5>
+                    </div>
+                    <p className="text-xs text-[#A1A1A6] leading-relaxed">
+                      {activeClinic.parking_info || 'Dedicated two-wheeler and street parking available directly outside the clinic facility.'}
+                    </p>
+                  </div>
+
+                  <div className="glass-1 rounded-2xl p-4 border border-white/10 space-y-1.5">
+                    <div className="flex items-center gap-2 text-blue-400">
+                      <Bus className="w-4 h-4" />
+                      <h5 className="text-xs font-bold uppercase tracking-wider text-white">Public Transit</h5>
+                    </div>
+                    <p className="text-xs text-[#A1A1A6] leading-relaxed">
+                      {activeClinic.transit_info || 'Accessible within a 2-minute walk from major local bus stops and auto/toto stands.'}
+                    </p>
+                  </div>
+
+                  <div className="glass-1 rounded-2xl p-4 border border-white/10 space-y-1.5">
+                    <div className="flex items-center gap-2 text-emerald-400">
+                      <CreditCard className="w-4 h-4" />
+                      <h5 className="text-xs font-bold uppercase tracking-wider text-white">Payment Accepted</h5>
+                    </div>
+                    <p className="text-xs text-[#A1A1A6] leading-relaxed">
+                      {activeClinic.payment_info || 'UPI (GPay/PhonePe), Cash, Visa/Mastercard Debit & Credit Cards accepted.'}
+                    </p>
                   </div>
                 </div>
               </div>

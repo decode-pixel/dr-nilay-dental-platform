@@ -10,11 +10,14 @@ import {
   CheckCircle2,
   BadgeCheck,
   HeartPulse,
-  UserCheck
+  UserCheck,
+  Clock,
+  History
 } from 'lucide-react';
 import { DoctorService, Doctor, DoctorProfileItem } from '../lib/doctorService';
 import { CmsService } from '../lib/cmsService';
 import { logger } from '../lib/logger';
+import OptimizedImage from './OptimizedImage';
 
 export default function MeetDrNilaySaha() {
   const [doctor, setDoctor] = useState<Doctor | null>(null);
@@ -24,7 +27,7 @@ export default function MeetDrNilaySaha() {
   const [languages, setLanguages] = useState<string[]>(['English', 'Bengali', 'Hindi']);
   const [specializations, setSpecializations] = useState<string[]>([]);
   const [aboutConfig, setAboutConfig] = useState<{ title?: string; description?: string }>({});
-  const [activeTab, setActiveTab] = useState<'qualifications' | 'specializations' | 'awards' | 'memberships'>('qualifications');
+  const [activeTab, setActiveTab] = useState<'qualifications' | 'specializations' | 'awards' | 'memberships' | 'journey'>('qualifications');
 
   const loadDoctorProfile = async () => {
     try {
@@ -157,12 +160,14 @@ export default function MeetDrNilaySaha() {
                 <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#8B7BF7] to-transparent z-20" />
 
                 <div className="relative aspect-[3.8/4.8] sm:aspect-[4/5] w-full overflow-hidden [mask-image:linear-gradient(to_bottom,black_80%,transparent_100%)]">
-                  <img
-                    src="/dr-nilay-saha.jpg"
+                  <OptimizedImage
+                    src={doctor.profile_image || "/DNS_Portrait_DrNilay_HalfBody_4x5_202607.webp"}
+                    fallbackSrc="/dr-nilay-saha.jpg"
                     alt={doctor.name}
-                    className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                    priority={true}
+                    className="w-full h-full transition-transform duration-700 group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0F] via-transparent to-transparent opacity-60" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0F] via-transparent to-transparent opacity-60 pointer-events-none" />
                 </div>
 
                 {/* Floating Experience Badge */}
@@ -233,15 +238,22 @@ export default function MeetDrNilaySaha() {
           {/* Right Column: Dynamic CMS Content & Biography (~7 cols) */}
           <div className="lg:col-span-7 flex flex-col justify-between space-y-8">
             
-            {/* Bio Box */}
+            {/* Bio Box with Signature Placeholder */}
             <div className="glass-1 rounded-3xl p-6 sm:p-8 shadow-xl">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-xl bg-[#8B7BF7]/20 text-[#8B7BF7] border border-[#8B7BF7]/30 flex items-center justify-center shrink-0">
-                  <UserCheck className="w-5 h-5" />
+              <div className="flex items-center justify-between gap-4 mb-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-[#8B7BF7]/20 text-[#8B7BF7] border border-[#8B7BF7]/30 flex items-center justify-center shrink-0">
+                    <UserCheck className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="font-display font-bold text-xl text-[#F5F5F7]">Clinical Biography & Philosophy</h3>
+                    <span className="text-xs text-[#A1A1A6]">Mission, Vision & Patient Promise</span>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-display font-bold text-xl text-[#F5F5F7]">Clinical Biography</h3>
-                  <span className="text-xs text-[#A1A1A6]">Philosophy of care & expertise</span>
+                {/* Doctor Signature Block */}
+                <div className="hidden sm:flex flex-col items-end opacity-80">
+                  <span className="font-serif italic text-lg text-[#8B7BF7] tracking-wider">Dr. Nilay Saha</span>
+                  <span className="text-[10px] text-[#A1A1A6] uppercase tracking-widest font-mono">Principal Surgeon</span>
                 </div>
               </div>
 
@@ -266,7 +278,7 @@ export default function MeetDrNilaySaha() {
               </div>
             </div>
 
-            {/* Interactive Tabs for Qualifications, Specializations, Awards, Memberships */}
+            {/* Interactive Tabs for Qualifications, Specializations, Awards, Memberships, Journey */}
             <div className="glass-1 rounded-3xl p-6 sm:p-8 shadow-xl">
               <div className="flex flex-wrap gap-2 border-b border-white/10 pb-4 mb-6">
                 <button
@@ -319,6 +331,19 @@ export default function MeetDrNilaySaha() {
                 >
                   <ShieldCheck className="w-4 h-4" />
                   Memberships
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('journey')}
+                  className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 ${
+                    activeTab === 'journey'
+                      ? 'bg-gradient-to-r from-[#7C6BDF] to-[#6366F1] text-white shadow-[0_0_15px_rgba(139,123,247,0.4)]'
+                      : 'bg-white/5 text-[#A1A1A6] hover:text-[#F5F5F7] hover:bg-white/10'
+                  }`}
+                >
+                  <History className="w-4 h-4" />
+                  Clinical Journey
                 </button>
               </div>
 
@@ -390,6 +415,27 @@ export default function MeetDrNilaySaha() {
                         </div>
                       </div>
                     ))}
+                  </div>
+                )}
+
+                {activeTab === 'journey' && (
+                  <div className="space-y-4 pt-1">
+                    <div className="flex items-start gap-4 p-4 rounded-2xl bg-black/25 border border-white/10">
+                      <div className="w-2 h-2 rounded-full bg-[#8B7BF7] mt-2 shrink-0" />
+                      <div>
+                        <span className="text-xs font-mono text-[#8B7BF7] font-bold">2014 - Present</span>
+                        <h4 className="font-semibold text-[#F5F5F7] text-sm mt-0.5">Principal Surgeon & Clinical Director</h4>
+                        <p className="text-xs text-[#A1A1A6] mt-1">Founded and expanded regional clinical centers across Belerhat, Parulia, and Nabadwip with zero-compromise sterilization protocols.</p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-4 p-4 rounded-2xl bg-black/25 border border-white/10">
+                      <div className="w-2 h-2 rounded-full bg-blue-400 mt-2 shrink-0" />
+                      <div>
+                        <span className="text-xs font-mono text-blue-400 font-bold">Clinical Residency</span>
+                        <h4 className="font-semibold text-[#F5F5F7] text-sm mt-0.5">Fellowship & Advanced Endodontic Training</h4>
+                        <p className="text-xs text-[#A1A1A6] mt-1">Specialized in micro-endodontics, rotary instrumentation, and single-visit painless root canal therapy.</p>
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>

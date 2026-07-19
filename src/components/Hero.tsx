@@ -6,6 +6,8 @@ import { CmsService } from "../lib/cmsService";
 import { SettingsService } from "../lib/settingsService";
 import { DoctorService } from "../lib/doctorService";
 import { logger } from "../lib/logger";
+import OptimizedImage from "./OptimizedImage";
+import OptimizedVideo from "./OptimizedVideo";
 
 // CountUp Component for Trust Bar animation on enter viewport
 function CountUp({ value, suffix = "" }: { value: number; suffix?: string }) {
@@ -168,6 +170,18 @@ export default function Hero() {
       
       {/* TASK 1: Cinematic Background Glows & Floating Particles */}
       <div className="absolute inset-0 pointer-events-none z-0">
+        {/* Ambient Video Reel Loop Layer (Phase 4 integration) */}
+        <div className="absolute inset-0 opacity-15 [mask-image:radial-gradient(ellipse_at_top_right,black_30%,transparent_75%)]">
+          <OptimizedVideo
+            src="/DNS_Hero_Loop_4K_202607.mp4"
+            poster="/DNS_Hero_TwilightExterior_16x9_202607.webp"
+            alt="Dr. Nilay Saha Dental Platform Background Reel"
+            isBackgroundLoop={true}
+            aspectRatio="aspect-auto h-full w-full"
+            className="w-full h-full object-cover border-0 rounded-none"
+          />
+        </div>
+
         {/* Cinematic gradient spotlight */}
         <motion.div 
           animate={{ scale: [1, 1.05, 1], opacity: [0.4, 0.6, 0.4] }}
@@ -289,12 +303,14 @@ export default function Hero() {
               <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#8B7BF7] to-transparent z-20 pointer-events-none" />
 
               <div className="relative w-full aspect-[4/5] sm:aspect-[3/3.6] overflow-hidden [mask-image:linear-gradient(to_bottom,black_80%,transparent_100%)]">
-                <img 
-                  src="/dr-nilay-saha.jpg" 
+                <OptimizedImage 
+                  src="/DNS_Portrait_DrNilay_Headshot_4x5_202607.webp" 
+                  fallbackSrc="/dr-nilay-saha.jpg"
                   alt={aboutContent.title}
-                  className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-103"
+                  priority={true}
+                  className="w-full h-full transition-transform duration-700 group-hover:scale-103"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0F] via-transparent to-transparent opacity-50" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0F] via-transparent to-transparent opacity-50 pointer-events-none" />
               </div>
 
               {/* TASK 5 & 6: Interactive Glass Overlay details inside frame */}
