@@ -5,6 +5,7 @@
 
 import React, { Suspense, lazy } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 import ScrollToTop from "./components/ScrollToTop";
 import BackgroundSystem from "./components/BackgroundSystem";
 import ErrorBoundary from "./components/ErrorBoundary";
@@ -47,6 +48,7 @@ export default function App() {
             <Route path="*" element={<ErrorPages code={404} />} />
           </Routes>
         </Suspense>
+        <SpeedInsights />
       </BrowserRouter>
     </ErrorBoundary>
   );
