@@ -167,11 +167,11 @@ export default function TreatmentDetails() {
                 {doctors.map((doc) => (
                   <div
                     key={doc.id}
-                    className="glass-panel border border-white/5 bg-[#050614]/20 rounded-2xl p-4 flex items-center gap-4 hover:border-white/10 transition-colors"
+                    className="glass-panel border border-white/10 bg-[#050614]/40 rounded-2xl p-4 flex items-center gap-4 hover:border-violet-500/40 shadow-xl transition-all duration-300 group"
                   >
-                    <div className="w-12 h-12 rounded-full overflow-hidden bg-white/5 shrink-0">
+                    <div className="w-14 h-14 rounded-2xl overflow-hidden border border-white/20 bg-white/5 shadow-lg shrink-0 group-hover:scale-105 transition-transform [mask-image:linear-gradient(to_bottom,black_85%,transparent_100%)]">
                       {doc.profile_image ? (
-                        <img src={doc.profile_image} alt={doc.name} className="w-full h-full object-cover" />
+                        <img src={doc.profile_image} alt={doc.name} className="w-full h-full object-cover object-top" />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center text-gray-500">
                           <Users className="w-5 h-5" />
@@ -179,8 +179,9 @@ export default function TreatmentDetails() {
                       )}
                     </div>
                     <div>
-                      <h4 className="font-heading font-bold text-sm text-white">{doc.name}</h4>
-                      <p className="text-[10px] text-gray-500">{doc.designation || 'Consultant Surgeon'}</p>
+                      <h4 className="font-heading font-bold text-sm text-white group-hover:text-violet-300 transition-colors">{doc.name}</h4>
+                      <p className="text-xs text-violet-300 font-medium mt-0.5">{doc.qualification || 'BDS, FIE'}</p>
+                      <p className="text-[11px] text-gray-400 mt-0.5">{doc.designation || 'Dental Surgeon & Oral Physician'}</p>
                     </div>
                   </div>
                 ))}

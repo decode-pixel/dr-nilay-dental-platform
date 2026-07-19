@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
+import MeetDrNilaySaha from "../components/MeetDrNilaySaha";
 import BottomBanner from "../components/BottomBanner";
 import Treatments from "../components/Treatments";
 import Clinics from "../components/Clinics";
@@ -36,9 +37,10 @@ export default function HomePage() {
         <div className="absolute top-[40%] right-[-10%] w-[30rem] h-[30rem] bg-blue-600/10 rounded-full blur-[120px] pointer-events-none"></div>
         
         <Navbar />
-        <main className="pt-8 pb-24 relative z-10">
+        <main className="pt-28 sm:pt-32 pb-24 relative z-10">
           <Hero />
           <div id="about">
+            <MeetDrNilaySaha />
             <BottomBanner />
           </div>
           

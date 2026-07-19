@@ -86,13 +86,21 @@ export default function TreatmentStep({
 
   const resolvedTreatments = useMemo(() => {
     const list = availableTreatments && availableTreatments.length > 0 ? availableTreatments : [];
-    if (list.length === 0) return treatmentsData;
+    if (list.length === 0) {
+      return treatmentsData.map((t) => ({
+        id: t.id,
+        name: t.name,
+        desc: t.desc,
+        iconName: t.iconName,
+        category: (t as any).category || CATEGORY_MAP[t.id] || 'General'
+      }));
+    }
     return list.map((t) => ({
       id: t.slug,
       name: t.name,
       desc: t.description || '',
       iconName: t.icon || 'ToothIcon',
-      category: t.category
+      category: t.category || CATEGORY_MAP[t.slug] || 'General'
     }));
   }, [availableTreatments]);
 

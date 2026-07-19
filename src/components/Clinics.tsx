@@ -243,9 +243,15 @@ export default function Clinics() {
                             ? `Open today: ${activeClinic.statusInfo.session_times}`
                             : `Closed today: ${activeClinic.statusInfo?.reason_detail || activeClinic.statusInfo?.reason || 'Scheduled Off'}`}
                         </p>
-                        <p className="text-xs text-gray-500 mt-2">
-                          Available Doctor: {activeClinic.statusInfo?.available_doctor || "Dr. Nilay Saha"}
-                        </p>
+                        <div className="mt-3.5 flex items-center gap-3 p-3 rounded-2xl bg-white/5 border border-white/10 max-w-sm">
+                          <div className="w-11 h-11 rounded-xl overflow-hidden border border-white/20 shrink-0 shadow-md [mask-image:linear-gradient(to_bottom,black_85%,transparent_100%)]">
+                            <img src="/dr-nilay-saha.jpg" alt="Dr. Nilay Saha" className="w-full h-full object-cover object-top" />
+                          </div>
+                          <div>
+                            <span className="text-[10px] text-violet-400 uppercase tracking-wider font-semibold block">Attending Surgeon</span>
+                            <span className="text-xs sm:text-sm font-heading font-bold text-white">{activeClinic.statusInfo?.available_doctor || "Dr. Nilay Saha"}</span>
+                          </div>
+                        </div>
                         <p className="text-[11px] text-gray-500 mt-3 italic border-l-2 border-white/10 pl-2">
                           Weekly hours and doctor schedules can be configured dynamically in the dashboard.
                         </p>

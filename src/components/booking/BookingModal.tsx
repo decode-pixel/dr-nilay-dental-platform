@@ -3,18 +3,36 @@ import { motion, AnimatePresence } from 'motion/react';
 import { X, CalendarDays } from 'lucide-react';
 import BookingWizard from './BookingWizard';
 
-export default function BookingModal() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [preselectedTreatmentId, setPreselectedTreatmentId] = useState<string | undefined>(undefined);
+interface BookingModalProps {
+  initialTreatmentId?: string;
+  onClose?: () => void;
+  isOpen?: boolean;
+}
+
+export default function BookingModal({
+  initialTreatmentId: propInitialTreatmentId,
+  onClose: propOnClose,
+  isOpen: propIsOpen
+}: BookingModalProps = {}) {
+  const [internalIsOpen, setInternalIsOpen] = useState(false);
+  const [preselectedTreatmentId, setPreselectedTreatmentId] = useState<string | undefined>(propInitialTreatmentId);
+
+  const isOpen = propIsOpen !== undefined ? propIsOpen : internalIsOpen;
+
+  useEffect(() => {
+    if (propInitialTreatmentId) {
+      setPreselectedTreatmentId(propInitialTreatmentId);
+    }
+  }, [propInitialTreatmentId]);
 
   useEffect(() => {
     const handleOpen = (e: any) => {
       if (e?.detail?.treatmentId) {
         setPreselectedTreatmentId(e.detail.treatmentId);
       } else {
-        setPreselectedTreatmentId(undefined);
+        setPreselectedTreatmentId(propInitialTreatmentId);
       }
-      setIsOpen(true);
+      setInternalIsOpen(true);
     };
 
     window.addEventListener('openContactModal', handleOpen);
@@ -28,7 +46,8 @@ export default function BookingModal() {
 
       const handleKeyDown = (e: KeyboardEvent) => {
         if (e.key === 'Escape') {
-          setIsOpen(false);
+          setInternalIsOpen(false);
+          propOnClose?.();
         }
       };
 
@@ -40,11 +59,12 @@ export default function BookingModal() {
     } else {
       document.body.style.overflow = 'unset';
     }
-  }, [isOpen]);
+  }, [isOpen, propOnClose]);
 
   const handleClose = useCallback(() => {
-    setIsOpen(false);
-  }, []);
+    setInternalIsOpen(false);
+    propOnClose?.();
+  }, [propOnClose]);
 
   return (
     <AnimatePresence>

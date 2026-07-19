@@ -153,62 +153,83 @@ export default function Hero() {
         </motion.div>
       </motion.div>
 
-      {/* Right Content / Feature Cards */}
+      {/* Right Content: Official Portrait & Floating Feature Cards (~40-45% of Hero Area) */}
       <motion.div 
         initial={{ opacity: 0, x: 40 }}
         animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.4 }}
-        className="flex-1 w-full flex justify-center lg:justify-end relative"
+        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
+        className="w-full lg:w-[45%] flex flex-col items-center justify-center lg:items-end relative mt-8 lg:mt-0"
       >
-        {/* Glow behind the card */}
+        {/* Studio Ambient Glow & Lighting */}
         <motion.div 
-          animate={{ scale: [1, 1.05, 1], opacity: [0.5, 0.8, 0.5] }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute inset-0 bg-gradient-to-b from-blue-500/20 to-violet-500/20 rounded-3xl blur-[50px]"
-        ></motion.div>
-        
-        <div className="glass-panel backdrop-blur-2xl bg-[#050505]/40 rounded-3xl p-6 sm:p-8 w-full max-w-md relative z-10 border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
-          <div className="flex flex-col gap-6">
-            
-            {/* Feature 1: Doctor Info */}
-            <div className="flex items-start gap-4 group cursor-default">
-              <div className="w-12 h-12 rounded-full bg-blue-500/10 flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(59,130,246,0.2)] group-hover:bg-blue-500/20 group-hover:shadow-[0_0_25px_rgba(59,130,246,0.4)] group-hover:scale-110 transition-all duration-300">
-                 <Award className="w-6 h-6 text-blue-400 group-hover:text-blue-300 transition-colors" />
+          animate={{ scale: [1, 1.08, 1], opacity: [0.4, 0.7, 0.4] }}
+          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute -top-12 -right-8 w-80 sm:w-96 h-80 sm:h-96 bg-gradient-to-tr from-violet-600/30 via-blue-600/20 to-purple-600/30 rounded-full blur-[90px] pointer-events-none"
+        />
+
+        <div className="relative w-full max-w-md sm:max-w-lg lg:max-w-none flex flex-col items-center">
+          {/* Main Portrait Container with Soft Edge Masking */}
+          <div className="relative w-full overflow-hidden rounded-3xl border border-white/15 bg-gradient-to-b from-white/[0.08] to-transparent shadow-[0_25px_60px_rgba(139,92,246,0.25)] group">
+            {/* Top glass highlight bar */}
+            <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-violet-400/50 to-transparent z-20 pointer-events-none" />
+
+            <div className="relative w-full aspect-[4/5] sm:aspect-[3/3.6] overflow-hidden [mask-image:linear-gradient(to_bottom,black_75%,transparent_100%)]">
+              <img 
+                src="/dr-nilay-saha.jpg" 
+                alt={aboutContent.title}
+                className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+              />
+              {/* Soft studio vignette overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent opacity-60" />
+            </div>
+
+            {/* Doctor Title Badge inside portrait bottom area */}
+            <div className="absolute bottom-6 left-6 right-6 z-20 p-4 sm:p-5 rounded-2xl backdrop-blur-2xl bg-[#0a0a1a]/85 border border-white/20 shadow-2xl">
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex items-center gap-3.5">
+                  <div className="w-11 h-11 rounded-xl bg-violet-600/25 border border-violet-500/40 flex items-center justify-center text-violet-300 shrink-0">
+                    <Award className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-white font-heading font-extrabold text-base sm:text-lg tracking-wide">
+                      {aboutContent.title}
+                    </h3>
+                    <p className="text-xs text-violet-300 font-medium">
+                      {aboutContent.description.split('\n')[0] || "Dental Surgeon & Oral Physician"}
+                    </p>
+                  </div>
+                </div>
+                <div className="hidden sm:flex flex-col items-end text-right">
+                  <span className="text-[10px] uppercase font-bold text-gray-400 tracking-wider">Reg. No.</span>
+                  <span className="text-xs font-mono font-semibold text-gray-200">4858-A</span>
+                </div>
               </div>
-              <div className="flex flex-col">
-                <h3 className="text-white font-semibold mb-1 group-hover:text-blue-200 transition-colors">{aboutContent.title}</h3>
-                <p className="text-sm text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors whitespace-pre-line">
-                  {aboutContent.description}
-                </p>
+            </div>
+          </div>
+
+          {/* Floating Glass Feature Cards underneath/beside */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 w-full mt-4 z-20">
+            {/* Feature: Root Canal Specialist */}
+            <div className="glass-panel backdrop-blur-2xl bg-[#050505]/70 border border-white/15 rounded-2xl p-4 shadow-xl flex items-start gap-3.5 group hover:border-violet-500/40 transition-all duration-300">
+              <div className="w-10 h-10 rounded-xl bg-violet-500/15 border border-violet-500/30 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                <ToothIcon className="w-5 h-5 text-violet-400 group-hover:text-violet-300" />
+              </div>
+              <div>
+                <h4 className="text-sm font-semibold text-white group-hover:text-violet-200 transition-colors">Root Canal Specialist</h4>
+                <p className="text-xs text-gray-400 mt-0.5 line-clamp-2">Fellowship-trained endodontic precision preserving natural teeth.</p>
               </div>
             </div>
 
-            <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
-
-            {/* Feature 2: Root Canal */}
-            <div className="flex items-start gap-4 group cursor-default">
-              <div className="w-12 h-12 rounded-full bg-violet-500/10 flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(139,92,246,0.2)] group-hover:bg-violet-500/20 group-hover:shadow-[0_0_25px_rgba(139,92,246,0.4)] group-hover:scale-110 transition-all duration-300">
-                <ToothIcon className="w-6 h-6 text-violet-400 group-hover:text-violet-300 transition-colors" />
+            {/* Feature: Advanced Sterilization */}
+            <div className="glass-panel backdrop-blur-2xl bg-[#050505]/70 border border-white/15 rounded-2xl p-4 shadow-xl flex items-start gap-3.5 group hover:border-emerald-500/40 transition-all duration-300">
+              <div className="w-10 h-10 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                <Shield className="w-5 h-5 text-emerald-400 group-hover:text-emerald-300" />
               </div>
-              <div className="flex flex-col">
-                <h3 className="text-white font-semibold mb-1 group-hover:text-violet-200 transition-colors">Root Canal Specialist</h3>
-                <p className="text-sm text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors">Advanced fellowship-trained endodontic care focused on preserving natural teeth with precision, comfort, and long-term oral health.</p>
+              <div>
+                <h4 className="text-sm font-semibold text-white group-hover:text-emerald-200 transition-colors">Advanced Sterilization</h4>
+                <p className="text-xs text-gray-400 mt-0.5 line-clamp-2">Strict sterilization protocols for a safe, hygienic environment.</p>
               </div>
             </div>
-
-            <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
-
-            {/* Feature 3: Advanced Sterilization */}
-            <div className="flex items-start gap-4 group cursor-default">
-              <div className="w-12 h-12 rounded-full bg-emerald-500/10 flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(16,185,129,0.2)] group-hover:bg-emerald-500/20 group-hover:shadow-[0_0_25px_rgba(16,185,129,0.4)] group-hover:scale-110 transition-all duration-300">
-                <Shield className="w-6 h-6 text-emerald-400 group-hover:text-emerald-300 transition-colors" />
-              </div>
-              <div className="flex flex-col">
-                <h3 className="text-white font-semibold mb-1 group-hover:text-emerald-200 transition-colors">Advanced Sterilization</h3>
-                <p className="text-sm text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors">Strict sterilization protocols ensuring a clean, safe and hygienic treatment environment for every patient.</p>
-              </div>
-            </div>
-
           </div>
         </div>
       </motion.div>

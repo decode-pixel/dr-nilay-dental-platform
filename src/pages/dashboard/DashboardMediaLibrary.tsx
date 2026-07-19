@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { MediaService, MediaFolder, MediaFile, MediaCategory } from '../../lib/mediaService';
+import { supabase } from '../../lib/supabase';
 import { useToast } from '../../components/ToastNotification';
 import { logger } from '../../lib/logger';
 import {

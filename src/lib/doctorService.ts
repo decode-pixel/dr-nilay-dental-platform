@@ -73,14 +73,55 @@ export interface DoctorDocument {
   is_required: boolean;
 }
 
+const DEFAULT_NILAY_DOCTOR: Doctor = {
+  id: 'dr-nilay-saha-primary',
+  name: 'Dr. Nilay Saha',
+  designation: 'Dental Surgeon & Oral Physician',
+  qualification: 'BDS, FIE',
+  registration_number: 'WBDC Registration No. 4858-A',
+  experience_years: 10,
+  bio: 'Dr. Nilay Saha is a distinguished Dental Surgeon and Oral Physician with over a decade of precision clinical experience in endodontics, oral surgery, and advanced cosmetic diagnostics. Dedicated to patient comfort and rigorous clinical standards.',
+  profile_image: '/dr-nilay-saha.jpg',
+  cover_image: '/dr-nilay-saha.jpg',
+  signature_image: '/dr-nilay-saha.jpg',
+  display_order: 0,
+  is_active: true,
+  status: 'Available',
+  login_enabled: false,
+  profile_visibility: true,
+  public_slug: 'dr-nilay-saha',
+  created_at: new Date().toISOString(),
+  updated_at: new Date().toISOString()
+};
+
+export function normalizeDoctorProfile(doc: Doctor): Doctor {
+  if (!doc) return doc;
+  const isNilay = !doc.name || doc.name.toLowerCase().includes('nilay') || doc.name.toLowerCase().includes('saha');
+  const hasPlaceholder = !doc.profile_image || doc.profile_image.includes('placeholder') || doc.profile_image.includes('dicebear') || doc.profile_image.includes('unsplash');
+  if (isNilay || hasPlaceholder) {
+    return {
+      ...doc,
+      profile_image: '/dr-nilay-saha.jpg',
+      cover_image: '/dr-nilay-saha.jpg',
+      signature_image: '/dr-nilay-saha.jpg'
+    };
+  }
+  return doc;
+}
+
 export const DoctorRepository = {
   async getDoctors(): Promise<Doctor[]> {
-    const { data, error } = await supabase
-      .from('doctors')
-      .select('*')
-      .order('display_order', { ascending: true });
-    if (error) throw error;
-    return data || [];
+    try {
+      const { data, error } = await supabase
+        .from('doctors')
+        .select('*')
+        .order('display_order', { ascending: true });
+      if (error) throw error;
+      if (!data || data.length === 0) return [DEFAULT_NILAY_DOCTOR];
+      return data.map(normalizeDoctorProfile);
+    } catch {
+      return [DEFAULT_NILAY_DOCTOR];
+    }
   },
 
   async updateDoctorProfile(id: string, updates: Partial<Doctor>): Promise<void> {
@@ -349,6 +390,33 @@ export const DoctorRepository = {
       .delete()
       .eq('id', id);
     if (error) throw error;
+  },
+
+  async getDoctorTreatments(doctorId: string): Promise<string[]> {
+    const { data, error } = await supabase
+      .from('doctor_treatments')
+      .select('service_id')
+      .eq('doctor_id', doctorId);
+    if (error) throw error;
+    return (data || []).map((row) => row.service_id);
+  },
+
+  async saveDoctorTreatments(doctorId: string, serviceIds: string[]): Promise<void> {
+    const { error: delErr } = await supabase
+      .from('doctor_treatments')
+      .delete()
+      .eq('doctor_id', doctorId);
+    if (delErr) throw delErr;
+
+    if (serviceIds.length === 0) return;
+    const rows = serviceIds.map((sid) => ({
+      doctor_id: doctorId,
+      service_id: sid
+    }));
+    const { error: insErr } = await supabase
+      .from('doctor_treatments')
+      .insert(rows);
+    if (insErr) throw insErr;
   }
 };
 
@@ -357,7 +425,7 @@ export const DoctorService = {
     try {
       return await DoctorRepository.getDoctors();
     } catch {
-      return [];
+      return [DEFAULT_NILAY_DOCTOR];
     }
   },
 
@@ -579,10 +647,11 @@ export const DoctorService = {
         .in('status', ['Available', 'Visiting']); // Only available or visiting doctors
 
       if (profErr) throw profErr;
-      return profileList || [];
+      if (!profileList || profileList.length === 0) return [DEFAULT_NILAY_DOCTOR];
+      return profileList.map(normalizeDoctorProfile);
     } catch (err) {
       logger.error('Error resolving available doctors:', err);
-      return [];
+      return [DEFAULT_NILAY_DOCTOR];
     }
   },
 
@@ -627,6 +696,18 @@ export const DoctorService = {
         averageRating: 4.8
       };
     }
+  },
+
+  async getDoctorTreatments(doctorId: string): Promise<string[]> {
+    try {
+      return await DoctorRepository.getDoctorTreatments(doctorId);
+    } catch {
+      return [];
+    }
+  },
+
+  async saveDoctorTreatments(doctorId: string, serviceIds: string[]): Promise<void> {
+    await DoctorRepository.saveDoctorTreatments(doctorId, serviceIds);
   }
 };
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { SettingsService, SeoSetting, NotificationTemplate } from '../../lib/settingsService';
+import { SettingsService, SettingsRepository, SeoSetting, NotificationTemplate } from '../../lib/settingsService';
 import { useToast } from '../../components/ToastNotification';
 import { logger } from '../../lib/logger';
 import {
