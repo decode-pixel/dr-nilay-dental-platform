@@ -32,6 +32,10 @@ export default function HomePage() {
       </AnimatePresence>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10" id="home">
+        {/* Ambient Background Glows */}
+        <div className="absolute top-[-10%] left-[-10%] w-[40rem] h-[40rem] bg-[#8B7BF7]/10 rounded-full blur-[130px] pointer-events-none z-0" />
+        <div className="absolute top-[40%] right-[-10%] w-[30rem] h-[30rem] bg-blue-600/10 rounded-full blur-[130px] pointer-events-none z-0" />
+
         <Navbar />
         <main className="pt-28 sm:pt-32 pb-24 relative z-10">
           <Hero />
