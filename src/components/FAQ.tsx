@@ -33,7 +33,7 @@ export default function FAQ() {
   };
 
   return (
-    <section id="faq" className="relative py-20 sm:py-24 z-10 overflow-hidden font-sans">
+    <section id="faq" className="relative py-24 sm:py-32 z-10 overflow-hidden font-sans">
       <div className="max-w-4xl mx-auto px-5 sm:px-8">
         
         {/* Section Header */}
@@ -42,22 +42,22 @@ export default function FAQ() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="text-center mb-16 sm:mb-20"
+          className="text-center mb-16 sm:mb-24"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-1 mb-4 text-[#8B7BF7] text-xs font-semibold uppercase tracking-widest">
-            <MessageCircleQuestion className="w-4 h-4 text-[#8B7BF7]" />
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-1 mb-4 text-[#2563EB] text-xs font-semibold uppercase tracking-widest border border-blue-500/20 shadow-sm">
+            <MessageCircleQuestion className="w-4 h-4 text-[#2563EB]" />
             <span>FAQ</span>
           </div>
-          <h2 className="text-[36px] sm:text-[48px] lg:text-[56px] font-display font-bold text-[#F5F5F7] tracking-tight leading-[1.12] mb-5">
-            Frequently Asked <span className="text-[#8B7BF7]">Questions</span>
+          <h2 className="text-[36px] sm:text-[48px] lg:text-[56px] font-display font-bold text-[#0F172A] tracking-tight leading-[1.12] mb-5">
+            Frequently Asked <span className="text-[#2563EB]">Questions</span>
           </h2>
-          <p className="text-[#A1A1A6] text-base sm:text-lg leading-[1.6] max-w-2xl mx-auto font-normal">
-            Find answers to common questions about our treatments, appointments, and dental care.
+          <p className="text-[#475569] text-base sm:text-lg leading-[1.65] max-w-2xl mx-auto font-normal">
+            Find answers to common questions about our clinical treatments, appointments, hygiene standards, and dental care.
           </p>
         </motion.div>
 
         {/* Accordion */}
-        <div className="space-y-4">
+        <div className="space-y-4 sm:space-y-5">
           {faqData.map((faq, index) => {
             const isOpen = openIndex === index;
             
@@ -67,20 +67,22 @@ export default function FAQ() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className={`rounded-2xl sm:rounded-3xl overflow-hidden border transition-all duration-300 ${
-                  isOpen ? 'glass-2 border-[#8B7BF7]/30 shadow-[0_12px_32px_rgba(139,123,247,0.15)]' : 'glass-1 border-white/10 hover:border-white/20'
+                transition={{ duration: 0.5, delay: index * 0.08 }}
+                className={`rounded-2xl sm:rounded-[2rem] overflow-hidden transition-all duration-300 border ${
+                  isOpen 
+                    ? 'glass-3 border-blue-500/40 shadow-[0_16px_48px_rgba(37,99,235,0.08)] bg-white/95' 
+                    : 'glass-2 border-white/70 hover:border-blue-400/50 shadow-sm hover:shadow-md'
                 }`}
               >
                 <button
                   onClick={() => toggleAccordion(index)}
                   className="w-full flex items-center justify-between p-6 sm:p-8 text-left focus:outline-none group"
                 >
-                  <h3 className={`text-base sm:text-lg lg:text-xl font-display font-semibold pr-8 transition-colors duration-300 ${isOpen ? 'text-[#F5F5F7]' : 'text-gray-300 group-hover:text-white'}`}>
+                  <h3 className={`text-base sm:text-lg lg:text-xl font-display font-semibold pr-8 transition-colors duration-300 ${isOpen ? 'text-[#2563EB]' : 'text-[#0F172A] group-hover:text-[#2563EB]'}`}>
                     {faq.question}
                   </h3>
-                  <div className={`flex-shrink-0 w-8 h-8 rounded-full border flex items-center justify-center transition-all duration-300 ${isOpen ? 'bg-[#8B7BF7]/20 border-[#8B7BF7]/30 text-[#8B7BF7]' : 'bg-white/5 border-white/10 text-gray-400 group-hover:bg-white/10'}`}>
-                    <ChevronDown className={`w-5 h-5 transition-transform duration-300 ${isOpen ? 'rotate-180' : 'rotate-0'}`} />
+                  <div className={`flex-shrink-0 w-10 h-10 rounded-2xl border flex items-center justify-center transition-all duration-300 ${isOpen ? 'bg-blue-500/15 border-blue-500/30 text-[#2563EB]' : 'bg-slate-100/80 border-slate-200/80 text-slate-500 group-hover:bg-blue-50 group-hover:text-[#2563EB]'}`}>
+                    <ChevronDown className={`w-5 h-5 transition-transform duration-350 ease-out ${isOpen ? 'rotate-180' : 'rotate-0'}`} />
                   </div>
                 </button>
                 
@@ -90,11 +92,11 @@ export default function FAQ() {
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3, ease: "easeInOut" }}
+                      transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                     >
                       <div className="px-6 sm:px-8 pb-8 pt-0">
-                        <div className="w-full h-px bg-white/10 mb-6" />
-                        <p className="text-[#A1A1A6] text-sm sm:text-base leading-[1.6]">
+                        <div className="w-full h-px bg-slate-200/70 mb-6" />
+                        <p className="text-[#475569] text-base sm:text-lg leading-[1.65]">
                           {faq.answer}
                         </p>
                       </div>

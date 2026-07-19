@@ -67,9 +67,9 @@ export default function Testimonials() {
 
   const slideVariants = {
     enter: (direction: number) => ({
-      x: direction > 0 ? 100 : -100,
+      x: direction > 0 ? 80 : -80,
       opacity: 0,
-      scale: 0.95
+      scale: 0.96
     }),
     center: {
       zIndex: 1,
@@ -80,9 +80,9 @@ export default function Testimonials() {
     },
     exit: (direction: number) => ({
       zIndex: 0,
-      x: direction < 0 ? 100 : -100,
+      x: direction < 0 ? 80 : -80,
       opacity: 0,
-      scale: 0.95,
+      scale: 0.96,
       transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] as const }
     })
   };
@@ -102,7 +102,7 @@ export default function Testimonials() {
   };
 
   return (
-    <section id="testimonials" className="relative py-20 sm:py-24 z-10 overflow-hidden font-sans">
+    <section id="testimonials" className="relative py-24 sm:py-32 z-10 overflow-hidden font-sans">
       <div className="max-w-7xl mx-auto px-5 sm:px-8">
         
         {/* Section Header */}
@@ -111,24 +111,24 @@ export default function Testimonials() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="text-center mb-16 sm:mb-20"
+          className="text-center mb-16 sm:mb-24"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-1 mb-4 text-[#8B7BF7] text-xs font-semibold uppercase tracking-widest">
-            <Star className="w-4 h-4 text-[#8B7BF7] fill-[#8B7BF7]" />
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-1 mb-4 text-[#2563EB] text-xs font-semibold uppercase tracking-widest border border-blue-500/20 shadow-sm">
+            <Star className="w-4 h-4 text-[#2563EB] fill-[#2563EB]" />
             <span>Testimonials</span>
           </div>
-          <h2 className="text-[36px] sm:text-[48px] lg:text-[56px] font-display font-bold text-[#F5F5F7] tracking-tight leading-[1.12] mb-5">
-            Patient <span className="text-[#8B7BF7]">Stories</span>
+          <h2 className="text-[36px] sm:text-[48px] lg:text-[56px] font-display font-bold text-[#0F172A] tracking-tight leading-[1.12] mb-5">
+            Patient <span className="text-[#2563EB]">Stories</span>
           </h2>
-          <p className="text-[#A1A1A6] text-base sm:text-lg leading-[1.6] max-w-2xl mx-auto font-normal">
-            Discover what our patients have to say about their experience and care at our clinic.
+          <p className="text-[#475569] text-base sm:text-lg leading-[1.65] max-w-2xl mx-auto font-normal">
+            Discover what our patients have to say about their exceptional care, comfort, and clinical experience at our practice.
           </p>
         </motion.div>
 
         {/* Carousel Container */}
-        <div className="relative max-w-4xl mx-auto flex items-center justify-center min-h-[420px]">
+        <div className="relative max-w-5xl mx-auto flex items-center justify-center min-h-[460px] sm:min-h-[480px]">
           
-          <div className="absolute w-full h-full flex items-center justify-center overflow-hidden px-4 sm:px-12">
+          <div className="absolute w-full h-full flex items-center justify-center overflow-hidden px-4 sm:px-16">
             <AnimatePresence initial={false} custom={direction}>
               <motion.div
                 key={currentIndex}
@@ -148,38 +148,39 @@ export default function Testimonials() {
                     paginate(-1);
                   }
                 }}
-                className="absolute w-full max-w-2xl cursor-grab active:cursor-grabbing"
+                className="absolute w-full max-w-3xl cursor-grab active:cursor-grabbing"
               >
-                <div className="glass-2 rounded-[2.5rem] p-8 sm:p-12 border border-white/10 shadow-[0_16px_48px_rgba(0,0,0,0.5)] relative group">
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#8B7BF7]/5 via-transparent to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-[2.5rem]" />
+                <div className="glass-3 rounded-[2.5rem] p-8 sm:p-14 border border-white/80 shadow-[0_20px_60px_rgba(15,23,42,0.08)] relative group overflow-hidden transition-all duration-500">
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/[0.04] via-transparent to-sky-500/[0.04] opacity-100 pointer-events-none rounded-[2.5rem]" />
                   
-                  <Quote className="absolute top-8 right-8 w-12 h-12 text-white/5 transform rotate-180 pointer-events-none" />
+                  {/* Decorative Large Quote Mark */}
+                  <Quote className="absolute top-8 right-8 sm:top-10 sm:right-12 w-16 h-16 sm:w-20 sm:h-20 text-[#2563EB]/15 transform rotate-180 pointer-events-none transition-transform duration-500 group-hover:scale-105" />
 
-                  <div className="flex flex-col gap-6 relative z-10">
-                    <div className="flex items-center justify-between flex-wrap gap-2">
-                      <div className="flex gap-1">
+                  <div className="flex flex-col gap-8 relative z-10">
+                    <div className="flex items-center justify-between flex-wrap gap-3 border-b border-slate-200/60 pb-6">
+                      <div className="flex gap-1.5 items-center">
                         {[...Array(testimonialsData[currentIndex].rating)].map((_, i) => (
-                          <Star key={i} className="w-5 h-5 text-yellow-400 fill-yellow-400 drop-shadow-[0_0_8px_rgba(250,204,21,0.4)]" />
+                          <Star key={i} className="w-5 h-5 text-amber-400 fill-amber-400 drop-shadow-[0_2px_4px_rgba(251,191,36,0.3)]" />
                         ))}
                       </div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-[11px] font-semibold px-3 py-1 rounded-full glass-1 text-[#8B7BF7] border border-white/10">
+                      <div className="flex items-center gap-2.5 flex-wrap">
+                        <span className="text-xs font-semibold px-3.5 py-1 rounded-full bg-blue-50/80 text-[#2563EB] border border-blue-200/60">
                           {testimonialsData[currentIndex].treatment}
                         </span>
-                        <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">
-                          <ShieldCheck className="w-3.5 h-3.5" />
-                          Verified Review
+                        <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-700 bg-emerald-50/90 px-3 py-1 rounded-full border border-emerald-200/70 shadow-sm">
+                          <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                          Verified Patient
                         </span>
                       </div>
                     </div>
                     
-                    <p className="text-lg sm:text-xl text-[#F5F5F7] leading-[1.6] font-medium italic">
+                    <p className="text-xl sm:text-2xl lg:text-[26px] text-[#0F172A] leading-[1.6] font-display font-normal tracking-tight">
                       "{testimonialsData[currentIndex].text}"
                     </p>
                     
-                    <div className="mt-4 pt-6 border-t border-white/10 flex items-center justify-between">
-                      <div className="flex items-center gap-3.5">
-                        <div className="w-12 h-12 rounded-2xl overflow-hidden bg-[#8B7BF7]/15 flex items-center justify-center border border-[#8B7BF7]/30 shadow-[0_0_15px_rgba(139,123,247,0.2)] shrink-0">
+                    <div className="pt-4 flex items-center justify-between flex-wrap gap-4">
+                      <div className="flex items-center gap-4">
+                        <div className="w-14 h-14 rounded-2xl overflow-hidden bg-blue-100/60 flex items-center justify-center border border-blue-200/80 shadow-[0_4px_12px_rgba(37,99,235,0.12)] shrink-0">
                           <OptimizedImage
                             src={testimonialsData[currentIndex].avatar}
                             fallbackSrc=""
@@ -188,8 +189,8 @@ export default function Testimonials() {
                           />
                         </div>
                         <div>
-                          <h4 className="text-[#F5F5F7] font-display font-semibold text-lg">{testimonialsData[currentIndex].name}</h4>
-                          <p className="text-xs text-[#A1A1A6] mt-0.5">{testimonialsData[currentIndex].date} • Google Reviews</p>
+                          <h4 className="text-[#0F172A] font-display font-bold text-lg sm:text-xl leading-tight">{testimonialsData[currentIndex].name}</h4>
+                          <p className="text-xs sm:text-sm text-[#64748B] mt-1 font-medium">{testimonialsData[currentIndex].date} • Google Reviews</p>
                         </div>
                       </div>
                     </div>
@@ -203,24 +204,24 @@ export default function Testimonials() {
           <div className="absolute inset-y-0 left-0 right-0 flex items-center justify-between pointer-events-none z-20">
             <button 
               onClick={() => paginate(-1)}
-              className="pointer-events-auto w-12 h-12 rounded-full glass-2 flex items-center justify-center text-[#F5F5F7] hover:bg-white/[0.12] active:scale-95 transition-all shadow-[0_0_20px_rgba(0,0,0,0.5)] -ml-4 sm:ml-0"
+              className="pointer-events-auto w-14 h-14 rounded-full glass-3 border border-white/90 flex items-center justify-center text-[#2563EB] hover:bg-white hover:scale-105 active:scale-95 transition-all shadow-[0_8px_30px_rgba(15,23,42,0.12)] -ml-2 sm:-ml-4 lg:-ml-6"
               aria-label="Previous testimonial"
             >
-              <ChevronLeft className="w-6 h-6 mr-0.5 text-violet-300" />
+              <ChevronLeft className="w-6 h-6 mr-0.5" strokeWidth={2} />
             </button>
             <button 
               onClick={() => paginate(1)}
-              className="pointer-events-auto w-12 h-12 rounded-full glass-2 flex items-center justify-center text-[#F5F5F7] hover:bg-white/[0.12] active:scale-95 transition-all shadow-[0_0_20px_rgba(0,0,0,0.5)] -mr-4 sm:mr-0"
+              className="pointer-events-auto w-14 h-14 rounded-full glass-3 border border-white/90 flex items-center justify-center text-[#2563EB] hover:bg-white hover:scale-105 active:scale-95 transition-all shadow-[0_8px_30px_rgba(15,23,42,0.12)] -mr-2 sm:-mr-4 lg:-mr-6"
               aria-label="Next testimonial"
             >
-              <ChevronRight className="w-6 h-6 ml-0.5 text-violet-300" />
+              <ChevronRight className="w-6 h-6 ml-0.5" strokeWidth={2} />
             </button>
           </div>
 
         </div>
         
         {/* Indicators */}
-        <div className="flex justify-center gap-2 mt-8">
+        <div className="flex justify-center gap-2.5 mt-12">
           {testimonialsData.map((_, idx) => (
             <button
               key={idx}
@@ -228,8 +229,8 @@ export default function Testimonials() {
                 setDirection(idx > currentIndex ? 1 : -1);
                 setCurrentIndex(idx);
               }}
-              className={`h-1.5 rounded-full transition-all duration-500 ${
-                idx === currentIndex ? 'w-8 bg-[#8B7BF7] shadow-[0_0_10px_rgba(139,123,247,0.6)]' : 'w-2 bg-white/20 hover:bg-white/40'
+              className={`h-2 rounded-full transition-all duration-500 ${
+                idx === currentIndex ? 'w-10 bg-[#2563EB] shadow-[0_2px_10px_rgba(37,99,235,0.4)]' : 'w-2.5 bg-slate-300 hover:bg-slate-400'
               }`}
               aria-label={`Go to testimonial ${idx + 1}`}
             />
