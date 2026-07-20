@@ -192,12 +192,11 @@ export default function WhyChooseUsBento() {
             return (
               <motion.div
                 key={idx}
-                tabIndex={0}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ duration: 0.6, ease: "easeOut", delay: Math.min(0.3, idx * 0.04) }}
-                className={`group relative overflow-hidden rounded-[2rem] border border-white/80 bg-gradient-to-b ${card.color} backdrop-blur-xl p-8 sm:p-10 flex flex-col justify-between ${shadowClass} focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB] transition-all duration-300 hover:-translate-y-1.5 ${hoverShadowClass} ${card.borderColor} ${card.span}`}
+                className={`group relative overflow-hidden rounded-[2rem] border border-white/80 bg-gradient-to-b ${card.color} backdrop-blur-xl p-8 sm:p-10 flex flex-col justify-between ${shadowClass} transition-all duration-300 hover:-translate-y-1.5 ${hoverShadowClass} ${card.borderColor} ${card.span}`}
               >
                 <div className="absolute inset-0 bg-gradient-to-tr from-white/10 via-white/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
 
@@ -240,11 +239,16 @@ export default function WhyChooseUsBento() {
                   </div>
                 )}
 
-                {/* Explore indicator */}
-                <div className="mt-8 flex items-center gap-1.5 text-xs font-bold text-[#2563EB] opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-2 group-hover:translate-x-0 cursor-default">
+                {/* Learn more - opens booking/contact modal so the affordance is real, not decorative */}
+                <button
+                  type="button"
+                  onClick={() => window.dispatchEvent(new CustomEvent('openContactModal'))}
+                  aria-label={`Ask about: ${card.title}`}
+                  className="mt-8 flex items-center gap-1.5 text-xs font-bold text-[#2563EB] opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-2 group-hover:translate-x-0 cursor-pointer focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB] rounded-md"
+                >
                   <span>Learn more</span>
                   <ChevronRight className="w-4 h-4" />
-                </div>
+                </button>
               </motion.div>
             );
           })}
