@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Star, ChevronLeft, ChevronRight, Quote, ShieldCheck } from "lucide-react";
 import OptimizedImage from "./OptimizedImage";
+import TagPill from "./TagPill";
 
 const testimonialsData = [
   {
@@ -118,10 +119,7 @@ export default function Testimonials() {
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="text-center mb-16 sm:mb-24"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-1 mb-4 text-[#2563EB] text-xs font-semibold uppercase tracking-widest border border-blue-500/20 shadow-sm">
-            <Star className="w-4 h-4 text-[#2563EB] fill-[#2563EB]" />
-            <span>Testimonials</span>
-          </div>
+          <TagPill icon={Star} text="Testimonials" />
           <h2 className="text-[36px] sm:text-[48px] lg:text-[56px] font-display font-bold text-[#0F172A] tracking-tight leading-[1.12] mb-5">
             Patient <span className="text-[#2563EB]">Stories</span>
           </h2>

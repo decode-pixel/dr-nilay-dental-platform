@@ -8,6 +8,7 @@ import {
 import { WhatsAppIcon } from "./Icons";
 import { ClinicService } from "../lib/clinicService";
 import { logger } from "../lib/logger";
+import TagPill from "./TagPill";
 import OptimizedImage from "./OptimizedImage";
 
 const FACILITY_ICONS: Record<string, any> = {
@@ -100,10 +101,7 @@ export default function Clinics() {
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="text-center max-w-3xl mx-auto mb-16 sm:mb-20"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-1 mb-4 text-[#2563EB] text-xs font-semibold uppercase tracking-widest border border-blue-500/20 shadow-sm">
-            <MapPin className="w-4 h-4 text-[#2563EB]" />
-            <span>Our Clinics</span>
-          </div>
+          <TagPill icon={MapPin} text="Our Clinics" />
           <h2 className="text-[36px] sm:text-[48px] lg:text-[56px] font-display font-bold text-[#0F172A] tracking-tight leading-[1.12] mb-5">
             Choose the location <span className="text-[#2563EB]">most convenient for you.</span>
           </h2>

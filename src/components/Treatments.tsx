@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight, Check } from "lucide-react";
 import * as LucideIcons from "lucide-react";
 import { ToothIcon } from "./Icons";
 import { Link } from "react-router-dom";
+import TagPill from "./TagPill";
 import { treatmentsData } from "../data/treatments";
 
 const getIcon = (iconName: string) => {
@@ -95,10 +96,7 @@ export default function Treatments() {
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="text-center max-w-3xl mx-auto mb-16 sm:mb-24"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-1 mb-4 text-[#2563EB] text-xs font-semibold uppercase tracking-widest border border-blue-500/20 shadow-sm">
-            <ToothIcon className="w-4 h-4 text-[#2563EB]" />
-            <span>Our Services</span>
-          </div>
+          <TagPill icon={ToothIcon} text="Our Services" />
           <h2 className="text-[36px] sm:text-[48px] lg:text-[56px] font-display font-bold text-[#0F172A] tracking-tight leading-[1.12] mb-5">
             Our <span className="text-[#2563EB]">Treatments</span>
           </h2>
@@ -143,33 +141,33 @@ export default function Treatments() {
                     
                     {/* Active Glow */}
                     {isActive && (
-                      <div className="absolute top-0 inset-x-0 h-[3px] bg-gradient-to-r from-transparent via-[#2563EB] to-transparent pointer-events-none" />
+                      <div className="absolute top-0 inset-x-0 h-[3px] bg-gradient-to-r from-transparent via-[#10B981] to-transparent pointer-events-none" />
                     )}
                     
                     {/* Card Content */}
                     <div className="relative z-10 flex flex-col h-full">
                       <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-6 transition-colors duration-300 shadow-sm ${
-                        isActive ? 'bg-blue-500/15 border border-blue-500/30 text-[#2563EB]' : 'bg-slate-100/80 border border-slate-200 text-[#475569] group-hover:bg-blue-50 group-hover:text-[#2563EB]'
+                        isActive ? 'bg-[#10B981]/15 border border-[#10B981]/30 text-[#10B981]' : 'bg-[#F4F7F4] border border-emerald-900/10 text-[#4B6358] group-hover:bg-emerald-50 group-hover:text-[#10B981]'
                       }`}>
                         <Icon className="w-7 h-7" />
                       </div>
                       
                       <h3 className={`text-2xl font-bold font-display mb-3 transition-colors duration-300 ${
-                        isActive ? 'text-[#0F172A]' : 'text-[#1E293B] group-hover:text-[#2563EB]'
+                        isActive ? 'text-[#122820]' : 'text-[#2C4238] group-hover:text-[#10B981]'
                       }`}>
                         {treatment.name}
                       </h3>
                       
                       <p className={`leading-[1.65] text-sm flex-1 transition-colors duration-300 ${
-                        isActive ? 'text-[#475569]' : 'text-[#64748B]'
+                        isActive ? 'text-[#2C4238]' : 'text-[#4B6358]'
                       }`}>
                         {treatment.desc}
                       </p>
                       
                       <Link to={`/treatments/${treatment.id}`} className={`mt-auto w-full py-3.5 rounded-full font-semibold text-sm transition-all duration-300 flex items-center justify-center gap-2 ${
                         isActive 
-                          ? 'bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] text-white shadow-[0_4px_16px_rgba(37,99,235,0.3)] hover:shadow-[0_6px_24px_rgba(37,99,235,0.5)] active:scale-[0.98]' 
-                          : 'glass-1 border border-slate-200/80 text-[#0F172A] hover:bg-white active:scale-[0.98] shadow-sm'
+                          ? 'bg-gradient-to-r from-[#10B981] to-[#059669] text-white shadow-[0_4px_16px_rgba(16,185,129,0.35)] hover:shadow-[0_6px_24px_rgba(16,185,129,0.5)] active:scale-[0.98]' 
+                          : 'glass-1 border border-emerald-900/10 text-[#122820] hover:bg-white active:scale-[0.98] shadow-sm'
                       }`}>
                         <span>Learn More</span>
                       </Link>

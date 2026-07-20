@@ -7,6 +7,7 @@ import {
   PRIMARY_PHONE_DISPLAY,
   PRIMARY_WHATSAPP_DIGITS 
 } from "../lib/constants";
+import TagPill from "./TagPill";
 
 export default function ContactSection() {
   const contactChannels = [
@@ -66,10 +67,7 @@ export default function ContactSection() {
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16 sm:mb-20">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-1 mb-4 text-[#2563EB] text-xs font-semibold uppercase tracking-widest border border-blue-500/20 shadow-sm">
-            <CalendarDays className="w-4 h-4" />
-            <span>Connect With Us</span>
-          </div>
+          <TagPill icon={CalendarDays} text="Connect With Us" />
           <h2 className="text-[36px] sm:text-[48px] lg:text-[56px] font-display font-bold text-[#0F172A] tracking-tight leading-[1.12] mb-5">
             We are always here <span className="text-[#2563EB]">to care for your smile.</span>
           </h2>

@@ -8,24 +8,24 @@
   --font-outfit: "Outfit", ui-sans-serif, system-ui, sans-serif;
   --font-jakarta: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
 
-  --color-bg-primary: #F8FBFF;
-  --color-bg-elevated: #FCFCFD;
-  --color-bg-surface: rgba(255, 255, 255, 0.72);
-  --color-bg-surface-hover: rgba(255, 255, 255, 0.85);
-  --color-bg-surface-active: rgba(255, 255, 255, 0.95);
-  --color-bg-overlay: rgba(15, 23, 42, 0.65);
+  --color-bg-primary: #F4F7F4;
+  --color-bg-elevated: #FAFDFB;
+  --color-bg-surface: rgba(255, 255, 255, 0.85);
+  --color-bg-surface-hover: rgba(255, 255, 255, 0.95);
+  --color-bg-surface-active: #FFFFFF;
+  --color-bg-overlay: rgba(7, 31, 23, 0.75);
 
-  --color-text-primary: #0F172A;
-  --color-text-secondary: #475569;
-  --color-text-tertiary: #64748B;
-  --color-text-muted: #94A3B8;
+  --color-text-primary: #122820;
+  --color-text-secondary: #2C4238;
+  --color-text-tertiary: #4B6358;
+  --color-text-muted: #7E968B;
   --color-text-inverse: #FFFFFF;
 
-  --color-accent-primary: #2563EB;
-  --color-accent-primary-hover: #1D4ED8;
-  --color-accent-primary-muted: rgba(37, 99, 235, 0.12);
-  --color-accent-warm: #0EA5E9;
-  --color-accent-warm-muted: rgba(14, 165, 233, 0.12);
+  --color-accent-primary: #10B981;
+  --color-accent-primary-hover: #059669;
+  --color-accent-primary-muted: rgba(16, 185, 129, 0.12);
+  --color-accent-warm: #C5A059;
+  --color-accent-warm-muted: rgba(197, 160, 89, 0.12);
 
   --color-success: #10B981;
   --color-warning: #F59E0B;
@@ -61,10 +61,10 @@
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
 
-  /* Footer & Semantic Color Tokens */
-  --color-footer-bg: #0F172A;
-  --color-footer-text: #F5F5F7;
-  --color-footer-link: #94A3B8;
+  /* Footer & Urban Dental Deep Green Tokens */
+  --color-footer-bg: #061D15;
+  --color-footer-text: #F4F7F4;
+  --color-footer-link: #94B0A3;
   --color-footer-link-hover: #FFFFFF;
 
   /* Spacing Scale Tokens */
@@ -72,33 +72,33 @@
 }
 
 :root {
-  --bg-primary: #F8FBFF;
-  --bg-elevated: #FCFCFD;
-  --bg-surface: rgba(255, 255, 255, 0.72);
-  --bg-surface-hover: rgba(255, 255, 255, 0.85);
-  --bg-surface-active: rgba(255, 255, 255, 0.95);
+  --bg-primary: #F4F7F4;
+  --bg-elevated: #FAFDFB;
+  --bg-surface: rgba(255, 255, 255, 0.85);
+  --bg-surface-hover: rgba(255, 255, 255, 0.95);
+  --bg-surface-active: #FFFFFF;
 
-  --text-primary: #0F172A;
-  --text-secondary: #475569;
-  --text-tertiary: #64748B;
-  --text-muted: #94A3B8;
+  --text-primary: #122820;
+  --text-secondary: #2C4238;
+  --text-tertiary: #4B6358;
+  --text-muted: #7E968B;
 
-  --accent-primary: #2563EB;
-  --accent-primary-hover: #1D4ED8;
-  --accent-primary-muted: rgba(37, 99, 235, 0.12);
-  --accent-warm: #0EA5E9;
-  --accent-warm-muted: rgba(14, 165, 233, 0.12);
+  --accent-primary: #10B981;
+  --accent-primary-hover: #059669;
+  --accent-primary-muted: rgba(16, 185, 129, 0.12);
+  --accent-warm: #C5A059;
+  --accent-warm-muted: rgba(197, 160, 89, 0.12);
 
-  --footer-bg: #0F172A;
-  --footer-text: #F5F5F7;
-  --footer-link: #94A3B8;
+  --footer-bg: #061D15;
+  --footer-text: #F4F7F4;
+  --footer-link: #94B0A3;
   --footer-link-hover: #FFFFFF;
   --scroll-offset: 5rem;
 
-  --border-subtle: rgba(255, 255, 255, 0.42);
-  --border-default: rgba(255, 255, 255, 0.60);
-  --border-strong: rgba(255, 255, 255, 0.80);
-  --border-accent: rgba(37, 99, 235, 0.30);
+  --border-subtle: rgba(16, 185, 129, 0.12);
+  --border-default: rgba(16, 185, 129, 0.20);
+  --border-strong: rgba(16, 185, 129, 0.35);
+  --border-accent: rgba(197, 160, 89, 0.40);
 }
 
 html, body, #root {
@@ -108,43 +108,24 @@ html, body, #root {
 }
 
 /* ==========================================
-   GLOBAL MEDICAL COLOR MAPPING & CONTRAST
-   Ensures foreground elements written with #F5F5F7/#A1A1A6 display with crisp navy/slate contrast against Pearl White
-   while dark buttons, gradients, and footer maintain pristine #FFFFFF text.
+   URBAN DENTAL STUDIO BRANDING & CONTRAST
+   Refined luxury typography contrast with deep forest greens, warm sage, and gold accents
    ========================================== */
-body, #root, main, section:not(#footer):not(footer) {
-  color: #0F172A;
-}
-section:not(#footer):not(footer) [class*="text-[#F5F5F7]"],
-section:not(#footer):not(footer) [class*="text-white"]:not(.btn-sweep):not([class*="bg-gradient-to-r"]):not([class*="bg-[#2563EB]"]):not([class*="bg-blue-600"]):not([class*="bg-[#8B7BF7]"]),
-nav [class*="text-[#F5F5F7]"],
-nav [class*="text-white"] {
-  color: #0F172A !important;
-}
-section:not(#footer):not(footer) [class*="text-[#A1A1A6]"],
-section:not(#footer):not(footer) [class*="text-gray-300"],
-section:not(#footer):not(footer) [class*="text-gray-400"],
-nav [class*="text-[#A1A1A6]"] {
-  color: #475569 !important;
-}
-section:not(#footer):not(footer) [class*="text-[#8B7BF7]"] {
-  color: #2563EB !important;
-}
-section:not(#footer):not(footer) [class*="border-[#8B7BF7]"] {
-  border-color: rgba(37, 99, 235, 0.35) !important;
+body, #root, main {
+  color: #122820;
 }
 
-/* Footer remains the ONLY dark section (#0F172A) */
-footer, #footer {
-  background-color: #0F172A !important;
-  color: #F5F5F7 !important;
+/* Footer & Deep Emerald Luxury Sections (#061D15 / #09281D) */
+footer, #footer, .section-dark {
+  background-color: #061D15 !important;
+  color: #F4F7F4 !important;
 }
 footer [class*="text-[#F5F5F7]"], footer [class*="text-white"],
 #footer [class*="text-[#F5F5F7]"], #footer [class*="text-white"] {
-  color: #F5F5F7 !important;
+  color: #F4F7F4 !important;
 }
 footer [class*="text-[#A1A1A6]"], #footer [class*="text-[#A1A1A6]"] {
-  color: #94A3B8 !important;
+  color: #94B0A3 !important;
 }
 
 /* ==========================================
