@@ -90,8 +90,7 @@ export default function MeetDrNilaySaha() {
           ? certs
           : [
               { title: 'Registered Medical Practitioner (Dental)', institution: `West Bengal Dental Council (Reg. No. ${DOCTOR_REGISTRATION_NUMBER})` },
-              { title: 'Life Member', institution: 'Indian Dental Association (IDA)' },
-              { title: 'Fellow Member (FIE)', institution: 'Institution of Engineers India (Fellowship in Dental Engineering & Innovation)' }
+              { title: 'Life Member', institution: 'Indian Dental Association (IDA)' }
             ]
       );
 
