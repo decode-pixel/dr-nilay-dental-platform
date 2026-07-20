@@ -122,13 +122,13 @@ export default function Footer() {
           <div className="flex flex-col gap-5">
             <h4 className="text-base font-display font-semibold text-white tracking-wide">Quick Links</h4>
             <div className="grid grid-cols-2 gap-3.5">
-              <Link to="/#home" className="text-sm text-[#94A3B8] hover:text-[#38BDF8] transition-colors">Home</Link>
-              <Link to="/#about" className="text-sm text-[#94A3B8] hover:text-[#38BDF8] transition-colors">About Us</Link>
-              <Link to="/#treatments" className="text-sm text-[#94A3B8] hover:text-[#38BDF8] transition-colors">Treatments</Link>
-              <Link to="/#locations" className="text-sm text-[#94A3B8] hover:text-[#38BDF8] transition-colors">Our Clinics</Link>
-              <Link to="/#gallery" className="text-sm text-[#94A3B8] hover:text-[#38BDF8] transition-colors">Gallery</Link>
-              <Link to="/#testimonials" className="text-sm text-[#94A3B8] hover:text-[#38BDF8] transition-colors">Testimonials</Link>
-              <Link to="/#contact" className="text-sm text-[#94A3B8] hover:text-[#38BDF8] transition-colors">Contact</Link>
+              <Link to="/#home" className="text-sm text-footer-link hover:text-footer-link-hover transition-colors">Home</Link>
+              <Link to="/#about" className="text-sm text-footer-link hover:text-footer-link-hover transition-colors">About Us</Link>
+              <Link to="/#treatments" className="text-sm text-footer-link hover:text-footer-link-hover transition-colors">Treatments</Link>
+              <Link to="/#locations" className="text-sm text-footer-link hover:text-footer-link-hover transition-colors">Our Clinics</Link>
+              <Link to="/#gallery" className="text-sm text-footer-link hover:text-footer-link-hover transition-colors">Gallery</Link>
+              <Link to="/#testimonials" className="text-sm text-footer-link hover:text-footer-link-hover transition-colors">Testimonials</Link>
+              <Link to="/#contact" className="text-sm text-footer-link hover:text-footer-link-hover transition-colors">Contact</Link>
             </div>
           </div>
 
@@ -136,14 +136,14 @@ export default function Footer() {
           <div className="flex flex-col gap-5">
             <h4 className="text-base font-display font-semibold text-white tracking-wide">Resources</h4>
             <div className="flex flex-col gap-3.5">
-              <Link to="/#faq" className="text-sm text-[#94A3B8] hover:text-[#38BDF8] transition-colors">FAQ</Link>
-              <a href="#" className="text-sm text-[#94A3B8] hover:text-[#38BDF8] transition-colors">Dental Tips</a>
+              <Link to="/#faq" className="text-sm text-footer-link hover:text-footer-link-hover transition-colors">FAQ</Link>
+              <a href="#" className="text-sm text-footer-link hover:text-footer-link-hover transition-colors">Dental Tips</a>
               <a href="#" className="text-sm text-rose-400 hover:text-rose-300 transition-colors font-semibold flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse" />
                 <span>Emergency Care</span>
               </a>
-              <a href="#" className="text-sm text-[#94A3B8] hover:text-[#38BDF8] transition-colors">{footerContent.privacy_link_label}</a>
-              <a href="#" className="text-sm text-[#94A3B8] hover:text-[#38BDF8] transition-colors">{footerContent.terms_link_label}</a>
+              <a href="#" className="text-sm text-footer-link hover:text-footer-link-hover transition-colors">{footerContent.privacy_link_label}</a>
+              <a href="#" className="text-sm text-footer-link hover:text-footer-link-hover transition-colors">{footerContent.terms_link_label}</a>
             </div>
           </div>
 

@@ -32,6 +32,43 @@
   --color-error: #EF4444;
   --color-emergency: #F43F5E;
   --color-google: #FBBC04;
+
+  /* Typography Scale Tokens */
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1rem;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.25rem;
+  --text-base: 1rem;
+  --text-base--line-height: 1.5rem;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.75rem;
+  --text-xl: 1.25rem;
+  --text-xl--line-height: 1.75rem;
+  --text-2xl: 1.5rem;
+  --text-2xl--line-height: 2rem;
+  --text-3xl: 1.875rem;
+  --text-3xl--line-height: 2.25rem;
+  --text-4xl: 2.25rem;
+  --text-4xl--line-height: 2.5rem;
+  --text-5xl: 3rem;
+  --text-5xl--line-height: 1.15;
+  --text-6xl: 3.75rem;
+  --text-6xl--line-height: 1.1;
+
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Footer & Semantic Color Tokens */
+  --color-footer-bg: #0F172A;
+  --color-footer-text: #F5F5F7;
+  --color-footer-link: #94A3B8;
+  --color-footer-link-hover: #FFFFFF;
+
+  /* Spacing Scale Tokens */
+  --spacing-scroll-offset: 5rem;
 }
 
 :root {
@@ -51,6 +88,12 @@
   --accent-primary-muted: rgba(37, 99, 235, 0.12);
   --accent-warm: #0EA5E9;
   --accent-warm-muted: rgba(14, 165, 233, 0.12);
+
+  --footer-bg: #0F172A;
+  --footer-text: #F5F5F7;
+  --footer-link: #94A3B8;
+  --footer-link-hover: #FFFFFF;
+  --scroll-offset: 5rem;
 
   --border-subtle: rgba(255, 255, 255, 0.42);
   --border-default: rgba(255, 255, 255, 0.60);
