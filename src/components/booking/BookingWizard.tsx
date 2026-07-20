@@ -468,7 +468,7 @@ export default function BookingWizard({
               Book Appointment
             </h3>
             <p className="text-[11px] text-gray-400 mt-0.5">
-              Secure orthodontic scheduling dashboard
+              Secure dental appointment scheduling
             </p>
           </div>
           {step < 6 && (
