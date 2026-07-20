@@ -207,3 +207,20 @@ footer [class*="text-[#A1A1A6]"], #footer [class*="text-[#A1A1A6]"] {
     box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04) !important;
   }
 }
+
+/* ==========================================
+   PHASE 3 — NAVIGATION & INFORMATION ARCHITECTURE
+   Anchor scroll-offset: reserves space for the fixed header so in-page
+   navigation (Navbar, Hero, ScrollToTop, MeetDrNilaySaha smooth-scroll
+   targets) never lands a section heading underneath the sticky header.
+   Reuses the --scroll-offset token established in Phase 2 (5rem).
+   ========================================== */
+#home,
+#about,
+#treatments,
+#locations,
+#testimonials,
+#faq,
+#contact {
+  scroll-margin-top: var(--scroll-offset);
+}

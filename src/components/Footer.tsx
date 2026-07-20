@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "motion/react";
-import { Facebook, Instagram, Twitter, Phone, Mail, MapPin, CalendarDays, ArrowRight } from "lucide-react";
+import { Phone, Mail, MapPin, CalendarDays, ArrowRight } from "lucide-react";
 import { WhatsAppIcon, ToothIcon } from "./Icons";
 import { Link } from "react-router-dom";
 import { CmsService } from "../lib/cmsService";
@@ -105,17 +105,6 @@ export default function Footer() {
             <p className="text-sm text-[#94A3B8] leading-[1.65]">
               Modern dental care providing advanced, comfortable, and hygienic treatments for patients of every age.
             </p>
-            <div className="flex items-center gap-3">
-              <a href="#" aria-label="Facebook" className="w-10 h-10 rounded-full bg-white/[0.06] border border-white/15 flex items-center justify-center text-[#94A3B8] hover:text-white hover:bg-white/[0.12] hover:-translate-y-0.5 transition-all duration-300">
-                <Facebook className="w-4 h-4" />
-              </a>
-              <a href="#" aria-label="Instagram" className="w-10 h-10 rounded-full bg-white/[0.06] border border-white/15 flex items-center justify-center text-[#94A3B8] hover:text-white hover:bg-white/[0.12] hover:-translate-y-0.5 transition-all duration-300">
-                <Instagram className="w-4 h-4" />
-              </a>
-              <a href="#" aria-label="Twitter" className="w-10 h-10 rounded-full bg-white/[0.06] border border-white/15 flex items-center justify-center text-[#94A3B8] hover:text-white hover:bg-white/[0.12] hover:-translate-y-0.5 transition-all duration-300">
-                <Twitter className="w-4 h-4" />
-              </a>
-            </div>
           </div>
 
           {/* Quick Links */}
@@ -126,7 +115,6 @@ export default function Footer() {
               <Link to="/#about" className="text-sm text-footer-link hover:text-footer-link-hover transition-colors">About Us</Link>
               <Link to="/#treatments" className="text-sm text-footer-link hover:text-footer-link-hover transition-colors">Treatments</Link>
               <Link to="/#locations" className="text-sm text-footer-link hover:text-footer-link-hover transition-colors">Our Clinics</Link>
-              <Link to="/#gallery" className="text-sm text-footer-link hover:text-footer-link-hover transition-colors">Gallery</Link>
               <Link to="/#testimonials" className="text-sm text-footer-link hover:text-footer-link-hover transition-colors">Testimonials</Link>
               <Link to="/#contact" className="text-sm text-footer-link hover:text-footer-link-hover transition-colors">Contact</Link>
             </div>
@@ -137,13 +125,16 @@ export default function Footer() {
             <h4 className="text-base font-display font-semibold text-white tracking-wide">Resources</h4>
             <div className="flex flex-col gap-3.5">
               <Link to="/#faq" className="text-sm text-footer-link hover:text-footer-link-hover transition-colors">FAQ</Link>
-              <a href="#" className="text-sm text-footer-link hover:text-footer-link-hover transition-colors">Dental Tips</a>
-              <a href="#" className="text-sm text-rose-400 hover:text-rose-300 transition-colors font-semibold flex items-center gap-1.5">
+              <Link to="/tips" className="text-sm text-footer-link hover:text-footer-link-hover transition-colors">Dental Tips</Link>
+              <a
+                href={`tel:${contactContent.primary_phone.replace(/[^0-9+]/g, '')}`}
+                className="text-sm text-rose-400 hover:text-rose-300 transition-colors font-semibold flex items-center gap-1.5"
+              >
                 <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse" />
                 <span>Emergency Care</span>
               </a>
-              <a href="#" className="text-sm text-footer-link hover:text-footer-link-hover transition-colors">{footerContent.privacy_link_label}</a>
-              <a href="#" className="text-sm text-footer-link hover:text-footer-link-hover transition-colors">{footerContent.terms_link_label}</a>
+              <Link to="/privacy" className="text-sm text-footer-link hover:text-footer-link-hover transition-colors">{footerContent.privacy_link_label}</Link>
+              <Link to="/terms" className="text-sm text-footer-link hover:text-footer-link-hover transition-colors">{footerContent.terms_link_label}</Link>
             </div>
           </div>
 

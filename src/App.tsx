@@ -16,6 +16,7 @@ const HomePage = lazy(() => import("./pages/HomePage"));
 const TreatmentDetails = lazy(() => import("./pages/TreatmentDetails"));
 const DashboardRoute = lazy(() => import("./pages/dashboard/DashboardRoute"));
 const ErrorPages = lazy(() => import("./pages/ErrorPages"));
+const LegalPage = lazy(() => import("./pages/LegalPage"));
 
 // Premium loading fallback for Suspense loading segments
 function PageSuspenseFallback() {
@@ -39,6 +40,11 @@ export default function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/treatments/:id" element={<TreatmentDetails />} />
+            <Route path="/privacy" element={<LegalPage type="privacy" />} />
+            <Route path="/privacy-policy" element={<LegalPage type="privacy" />} />
+            <Route path="/terms" element={<LegalPage type="terms" />} />
+            <Route path="/terms-and-conditions" element={<LegalPage type="terms" />} />
+            <Route path="/tips" element={<LegalPage type="tips" />} />
             <Route path="/dashboard" element={<DashboardRoute />} />
             
             {/* HTTP Error Pages */}

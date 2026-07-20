@@ -17,6 +17,7 @@ const Treatments = lazy(() => import("../components/Treatments"));
 const Clinics = lazy(() => import("../components/Clinics"));
 const FAQ = lazy(() => import("../components/FAQ"));
 const Testimonials = lazy(() => import("../components/Testimonials"));
+const ContactSection = lazy(() => import("../components/ContactSection"));
 const Footer = lazy(() => import("../components/Footer"));
 
 export default function HomePage() {
@@ -102,6 +103,11 @@ export default function HomePage() {
       </LazySection>
 
       <div id="contact">
+        <LazySection minHeight="450px" fallback={<SkeletonLoader variant="row" />}>
+          <Suspense fallback={<SkeletonLoader variant="row" />}>
+            <ContactSection />
+          </Suspense>
+        </LazySection>
         <LazySection minHeight="300px">
           <Suspense fallback={<div className="h-60 bg-[#050614] animate-pulse" />}>
             <Footer />

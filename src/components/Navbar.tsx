@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { CalendarDays, Menu, X, Phone, ChevronRight, Sparkles } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { WhatsAppIcon } from "./Icons";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 import { PRIMARY_PHONE_NUMBER, PRIMARY_WHATSAPP_DIGITS } from "../lib/constants";
 
 export default function Navbar() {
@@ -23,11 +23,10 @@ export default function Navbar() {
     { name: "Contact", id: "contact" }
   ];
 
-  const secondaryItems = [
-    { name: "Dental Tips", id: "tips", link: "#" },
-    { name: "Emergency Care", id: "emergency", link: `tel:${PRIMARY_PHONE_NUMBER}` },
-    { name: "Privacy Policy", id: "privacy", link: "#" },
-    { name: "Terms & Conditions", id: "terms", link: "#" }
+  const secondaryItems: { name: string; type: "tel" | "route"; to: string }[] = [
+    { name: "Emergency Care", type: "tel", to: `tel:${PRIMARY_PHONE_NUMBER}` },
+    { name: "Privacy Policy", type: "route", to: "/privacy" },
+    { name: "Terms & Conditions", type: "route", to: "/terms" }
   ];
 
   useEffect(() => {
@@ -206,17 +205,27 @@ export default function Navbar() {
             
             <div className="absolute top-full right-0 mt-3 w-56 bg-white/95 backdrop-blur-2xl border border-slate-200/90 rounded-2xl shadow-[0_16px_56px_rgba(15,23,42,0.15)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 overflow-hidden z-50 transform origin-top-right group-hover:translate-y-0 translate-y-2">
               <div className="py-2 flex flex-col">
-                {secondaryItems.map((item) => (
-                  <a 
-                    key={item.name}
-                    href={item.link} 
-                    onClick={(e) => item.id !== 'emergency' && handleSmoothScroll(e, item.id)}
-                    className="px-4 py-2.5 text-sm text-[#475569] hover:text-[#0F172A] hover:bg-slate-100/80 transition-colors flex items-center justify-between group/sub font-medium"
-                  >
-                    <span>{item.name}</span>
-                    <ChevronRight className="w-3.5 h-3.5 text-[#94A3B8] group-hover/sub:text-[#2563EB] group-hover/sub:translate-x-0.5 transition-all" />
-                  </a>
-                ))}
+                {secondaryItems.map((item) =>
+                  item.type === "tel" ? (
+                    <a
+                      key={item.name}
+                      href={item.to}
+                      className="px-4 py-2.5 text-sm text-[#475569] hover:text-[#0F172A] hover:bg-slate-100/80 transition-colors flex items-center justify-between group/sub font-medium"
+                    >
+                      <span>{item.name}</span>
+                      <ChevronRight className="w-3.5 h-3.5 text-[#94A3B8] group-hover/sub:text-[#2563EB] group-hover/sub:translate-x-0.5 transition-all" />
+                    </a>
+                  ) : (
+                    <Link
+                      key={item.name}
+                      to={item.to}
+                      className="px-4 py-2.5 text-sm text-[#475569] hover:text-[#0F172A] hover:bg-slate-100/80 transition-colors flex items-center justify-between group/sub font-medium"
+                    >
+                      <span>{item.name}</span>
+                      <ChevronRight className="w-3.5 h-3.5 text-[#94A3B8] group-hover/sub:text-[#2563EB] group-hover/sub:translate-x-0.5 transition-all" />
+                    </Link>
+                  )
+                )}
               </div>
             </div>
           </div>
@@ -309,6 +318,30 @@ export default function Navbar() {
                     </motion.a>
                   );
                 })}
+                
+                {/* Secondary/Legal Items in Mobile Menu */}
+                <div className="pt-4 border-t border-white/10 flex flex-wrap gap-x-4 gap-y-2 px-4 justify-center text-xs">
+                  {secondaryItems.map((item) => (
+                    item.type === "tel" ? (
+                      <a
+                        key={item.name}
+                        href={item.to}
+                        className="text-slate-400 hover:text-white font-medium transition-colors"
+                      >
+                        {item.name}
+                      </a>
+                    ) : (
+                      <Link
+                        key={item.name}
+                        to={item.to}
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="text-slate-400 hover:text-white font-medium transition-colors"
+                      >
+                        {item.name}
+                      </Link>
+                    )
+                  ))}
+                </div>
               </div>
 
               <div className="p-6 border-t border-white/10 bg-white/[0.02] space-y-3 mt-auto font-sans">
