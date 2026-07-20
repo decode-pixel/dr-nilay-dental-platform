@@ -141,8 +141,8 @@ export default function Navbar() {
             <div className="absolute inset-0 bg-blue-500/15 rounded-full blur-[14px] pointer-events-none transition-all duration-500 group-hover:bg-blue-500/30" />
             
             <img 
-              src="https://res.cloudinary.com/tud0sobq/image/upload/v1783343231/ChatGPT_Image_Jul_6_2026_06_28_47_PM_1_ipilq6.png" 
-              alt="Dr. Nilay Saha Logo" 
+              src="https://res.cloudinary.com/tud0sobq/image/upload/w_120,q_auto,f_auto/v1783343231/ChatGPT_Image_Jul_6_2026_06_28_47_PM_1_ipilq6.png"
+              alt="Dr. Nilay Saha Logo"
               className="w-full h-full object-contain relative z-10 mix-blend-multiply drop-shadow-sm transition-transform duration-300 group-hover:scale-105"
               onError={(e) => {
                 e.currentTarget.src = "https://api.dicebear.com/7.x/shapes/svg?seed=tooth&backgroundColor=000000";
@@ -270,8 +270,8 @@ export default function Navbar() {
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-xl overflow-hidden bg-white/10 border border-white/20 flex items-center justify-center p-1">
                     <img 
-                      src="https://res.cloudinary.com/tud0sobq/image/upload/v1783343231/ChatGPT_Image_Jul_6_2026_06_28_47_PM_1_ipilq6.png" 
-                      alt="Logo" 
+                      src="https://res.cloudinary.com/tud0sobq/image/upload/w_100,q_auto,f_auto/v1783343231/ChatGPT_Image_Jul_6_2026_06_28_47_PM_1_ipilq6.png"
+                      alt="Logo"
                       className="w-full h-full object-contain"
                     />
                   </div>
