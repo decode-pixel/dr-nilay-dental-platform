@@ -16,7 +16,6 @@ const WhyChooseUsBento = lazy(() => import("../components/WhyChooseUsBento"));
 const Treatments = lazy(() => import("../components/Treatments"));
 const Clinics = lazy(() => import("../components/Clinics"));
 const FAQ = lazy(() => import("../components/FAQ"));
-const Testimonials = lazy(() => import("../components/Testimonials"));
 const ContactSection = lazy(() => import("../components/ContactSection"));
 const Footer = lazy(() => import("../components/Footer"));
 
@@ -93,12 +92,6 @@ export default function HomePage() {
       <LazySection minHeight="350px" fallback={<SkeletonLoader variant="row" />}>
         <Suspense fallback={<SkeletonLoader variant="row" />}>
           <FAQ />
-        </Suspense>
-      </LazySection>
-
-      <LazySection minHeight="400px" fallback={<SkeletonLoader variant="card" />}>
-        <Suspense fallback={<SkeletonLoader variant="card" />}>
-          <Testimonials />
         </Suspense>
       </LazySection>
 

@@ -200,7 +200,6 @@ footer [class*="text-[#A1A1A6]"], #footer [class*="text-[#A1A1A6]"] {
 #about,
 #treatments,
 #locations,
-#testimonials,
 #faq,
 #contact {
   scroll-margin-top: var(--scroll-offset);

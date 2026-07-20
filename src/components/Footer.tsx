@@ -114,7 +114,6 @@ export default function Footer() {
               <Link to="/#about" className="text-sm text-[#94B0A3] hover:text-white transition-colors">About Us</Link>
               <Link to="/#treatments" className="text-sm text-[#94B0A3] hover:text-white transition-colors">Treatments</Link>
               <Link to="/#locations" className="text-sm text-[#94B0A3] hover:text-white transition-colors">Our Clinics</Link>
-              <Link to="/#testimonials" className="text-sm text-[#94B0A3] hover:text-white transition-colors">Testimonials</Link>
               <Link to="/#contact" className="text-sm text-[#94B0A3] hover:text-white transition-colors">Contact</Link>
             </div>
           </div>

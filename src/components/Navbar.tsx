@@ -18,7 +18,6 @@ export default function Navbar() {
     { name: "About", id: "about" },
     { name: "Treatments", id: "treatments" },
     { name: "Clinics", id: "locations" },
-    { name: "Reviews", id: "testimonials" },
     { name: "FAQ", id: "faq" },
     { name: "Contact", id: "contact" }
   ];
