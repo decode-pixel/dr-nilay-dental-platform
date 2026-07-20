@@ -5,9 +5,13 @@ import './index.css';
 import { validateEnvironment } from './lib/env';
 import { ToastProvider } from './components/ToastNotification';
 import OfflineBanner from './components/OfflineBanner';
+import { inject } from '@vercel/analytics';
 
 // Validate environment variables on startup
 validateEnvironment();
+
+// Initialize Vercel Web Analytics
+inject();
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
