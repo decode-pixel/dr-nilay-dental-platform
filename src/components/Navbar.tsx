@@ -159,6 +159,7 @@ export default function Navbar() {
                 key={item.id}
                 href={`#${item.id}`}
                 onClick={(e) => handleSmoothScroll(e, item.id)}
+                aria-current={isActive ? "page" : undefined}
                 className={`relative px-3.5 py-2 rounded-lg transition-all duration-200 flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB] group ${
                   isActive
                     ? "text-[#0F172A] font-bold"
@@ -224,6 +225,8 @@ export default function Navbar() {
           <button 
             onClick={() => setIsMobileMenuOpen(true)}
             aria-label="Open navigation menu"
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="mobile-menu"
             className="lg:hidden text-[#0F172A] w-11 h-11 flex items-center justify-center hover:bg-slate-100/80 rounded-xl border border-slate-200 transition-colors relative z-[60] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB]"
           >
             <Menu className="w-6 h-6" />
@@ -238,6 +241,10 @@ export default function Navbar() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
+              id="mobile-menu"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Navigation Menu"
               className="fixed inset-0 bg-slate-950/98 backdrop-blur-3xl z-[150] lg:hidden flex flex-col justify-between overflow-y-auto text-white"
             >
               <div className="flex items-center justify-between p-6 border-b border-white/10 bg-white/[0.02]">

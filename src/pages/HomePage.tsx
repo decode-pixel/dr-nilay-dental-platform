@@ -52,11 +52,11 @@ export default function HomePage() {
             transition={{ duration: 0.8, ease: "easeOut", delay: 0.3 }}
             className="mt-12 flex justify-center"
           >
-            <button className="group flex items-center justify-center gap-3 px-8 py-4 rounded-full glass-2 text-[#F5F5F7] font-semibold text-base hover:bg-white/[0.08] hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300">
-              <div className="w-8 h-8 rounded-full bg-[#8B7BF7]/20 border border-[#8B7BF7]/30 flex items-center justify-center group-hover:scale-110 transition-transform">
-                <Play className="w-4 h-4 text-[#8B7BF7] ml-0.5" />
+            <button className="group flex items-center justify-center gap-3 px-8 py-4 rounded-full glass-2 text-[#0F172A] border border-slate-200 hover:border-blue-300/60 shadow-sm hover:shadow-md hover:bg-slate-50 hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300">
+              <div className="w-8 h-8 rounded-full bg-blue-50 border border-blue-200 flex items-center justify-center text-[#2563EB] group-hover:scale-110 transition-transform">
+                <Play className="w-4 h-4 text-[#2563EB] fill-[#2563EB]/10 ml-0.5" />
               </div>
-              <span>Watch Clinic Tour</span>
+              <span className="font-semibold text-base">Watch Clinic Tour</span>
             </button>
           </motion.div>
         </main>

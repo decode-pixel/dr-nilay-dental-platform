@@ -86,7 +86,31 @@ export default function SEO({ title: fallbackTitle, description: fallbackDesc, u
     const existingScripts = document.querySelectorAll('script[type="application/ld+json"]');
     existingScripts.forEach(script => script.remove());
 
-    const activeSchema = seo?.structured_data || schemaData;
+    const activeSchema = seo?.structured_data || schemaData || {
+      "@context": "https://schema.org",
+      "@type": "Dentist",
+      "name": "Dr. Nilay Saha Advanced Dental Clinic",
+      "image": "https://res.cloudinary.com/tud0sobq/image/upload/v1783343231/ChatGPT_Image_Jul_6_2026_06_28_47_PM_1_ipilq6.png",
+      "telephone": "+919609180979",
+      "url": "https://www.sahadental.com",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Belerhat & Parulia",
+        "addressLocality": "Purba Bardhaman",
+        "addressRegion": "West Bengal",
+        "postalCode": "713101",
+        "addressCountry": "IN"
+      },
+      "priceRange": "$$",
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+          "opens": "09:00",
+          "closes": "21:00"
+        }
+      ]
+    };
 
     if (activeSchema) {
       const script = document.createElement('script');

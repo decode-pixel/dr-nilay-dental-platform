@@ -11,6 +11,7 @@ const testimonialsData = [
     rating: 5,
     treatment: "Laser Root Canal & Crown",
     avatar: "/DNS_Patient_Avatar_1_202607.webp",
+    fallback: "https://api.dicebear.com/7.x/avataaars/svg?seed=Rahul",
     text: "Excellent experience at Saha Dental Clinic. Dr. Nilay is very professional and explains every step of the treatment. The clinic is extremely clean and hygienic. Highly recommend for any dental issues."
   },
   {
@@ -20,6 +21,7 @@ const testimonialsData = [
     rating: 5,
     treatment: "Full Mouth Rehabilitation",
     avatar: "/DNS_Patient_Avatar_2_202607.webp",
+    fallback: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sneha",
     text: "Got my root canal done here. I was very nervous, but the procedure was completely painless. The staff is polite, and the ambiance is very calming. Premium service at reasonable rates."
   },
   {
@@ -29,6 +31,7 @@ const testimonialsData = [
     rating: 5,
     treatment: "Orthodontic & Aligner Care",
     avatar: "/DNS_Patient_Avatar_3_202607.webp",
+    fallback: "https://api.dicebear.com/7.x/avataaars/svg?seed=Arijit",
     text: "One of the best dental clinics in the area. The equipment is modern, and they maintain high standards of sterilization. The doctor takes time to listen to your problems. Very satisfied with the treatment."
   },
   {
@@ -38,6 +41,7 @@ const testimonialsData = [
     rating: 5,
     treatment: "Pediatric Preventive Checkup",
     avatar: "/DNS_Patient_Avatar_4_202607.webp",
+    fallback: "https://api.dicebear.com/7.x/avataaars/svg?seed=Priya",
     text: "Took my 6-year-old for a checkup. Dr. Nilay is very good with kids, made my child feel completely comfortable. The clinic setup is wonderful. Thank you for the great service!"
   },
   {
@@ -47,6 +51,7 @@ const testimonialsData = [
     rating: 5,
     treatment: "Painless Wisdom Tooth Surgery",
     avatar: "/DNS_Patient_Avatar_5_202607.webp",
+    fallback: "https://api.dicebear.com/7.x/avataaars/svg?seed=Souvik",
     text: "Very transparent with the treatment plan and pricing. No hidden charges. The tooth extraction was quick and I healed perfectly. Best dental care I have received so far."
   }
 ];
@@ -183,7 +188,7 @@ export default function Testimonials() {
                         <div className="w-14 h-14 rounded-2xl overflow-hidden bg-blue-100/60 flex items-center justify-center border border-blue-200/80 shadow-[0_4px_12px_rgba(37,99,235,0.12)] shrink-0">
                           <OptimizedImage
                             src={testimonialsData[currentIndex].avatar}
-                            fallbackSrc=""
+                            fallbackSrc={testimonialsData[currentIndex].fallback}
                             alt={testimonialsData[currentIndex].name}
                             className="w-full h-full object-cover"
                           />
