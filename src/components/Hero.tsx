@@ -12,7 +12,7 @@ import OptimizedVideo from "./OptimizedVideo";
 
 // CountUp Component for Trust Bar animation on enter viewport
 function CountUp({ value, suffix = "" }: { value: number; suffix?: string }) {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(value);
   const [ref, setRef] = useState<HTMLElement | null>(null);
 
   useEffect(() => {
@@ -172,15 +172,12 @@ export default function Hero() {
       
       {/* Cinematic Background Glows & Floating Particles */}
       <div className="absolute inset-0 pointer-events-none z-0">
-        {/* Ambient Video Reel Loop Layer */}
-        <div className="absolute inset-0 opacity-15 [mask-image:radial-gradient(ellipse_at_top_right,black_30%,transparent_75%)]">
-          <OptimizedVideo
-            src="/DNS_Hero_Loop_4K_202607.mp4"
-            poster="/DNS_Hero_TwilightExterior_16x9_202607.webp"
-            alt="Dr. Nilay Saha Dental Platform Background Reel"
-            isBackgroundLoop={true}
-            aspectRatio="aspect-auto h-full w-full"
-            className="w-full h-full object-cover border-0 rounded-none"
+        {/* Ambient Clinic Exterior Background Layer */}
+        <div className="absolute inset-0 opacity-10 [mask-image:radial-gradient(ellipse_at_top_right,black_30%,transparent_75%)]">
+          <OptimizedImage
+            src="/DNS_Hero_TwilightExterior_16x9_202607.webp"
+            alt="Dr. Nilay Saha Clinic Exterior Background"
+            className="w-full h-full object-cover"
           />
         </div>
 
