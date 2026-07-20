@@ -7,6 +7,7 @@ import BookingStepLayout from '../BookingStepLayout';
 interface ScheduleStepProps extends React.Attributes {
   selectedDate: string;
   selectedSession: SessionType | '';
+  clinicId?: string;
   onSelectDate: (date: string) => void;
   onSelectSession: (session: SessionType) => void;
   onBack: () => void;
@@ -46,6 +47,7 @@ const SESSIONS: Array<{
 export default function ScheduleStep({
   selectedDate,
   selectedSession,
+  clinicId,
   onSelectDate,
   onSelectSession,
   onBack,
@@ -229,6 +231,15 @@ export default function ScheduleStep({
         {/* Right Column: Preferred Session Controls */}
         <div className="flex flex-col justify-between space-y-4">
           <div>
+            {(clinicId === 'parulia' || clinicId === 'nabadwip') && (
+              <div className="mb-3.5 p-3 rounded-xl bg-violet-600/10 border border-violet-500/20 text-xs text-violet-200 flex items-start gap-2">
+                <Sparkles className="w-4 h-4 text-violet-400 shrink-0 mt-0.5" />
+                <div>
+                  <span className="font-semibold text-white block">Visiting Schedule Updating Soon</span>
+                  <span>Daily visiting hours for this center are currently updating. You can still select your preferred session window below for coordinator scheduling.</span>
+                </div>
+              </div>
+            )}
             <div className="flex items-center gap-2 mb-3">
               <Clock className="w-4 h-4 text-violet-400" />
               <h4 className="font-heading font-semibold text-white text-sm">

@@ -1,7 +1,9 @@
 import { supabase } from './supabase';
 import { logger } from './logger';
+import { DOCTOR_REGISTRATION_NUMBER } from './constants';
 
 export type DoctorStatus = 'Available' | 'On Leave' | 'Inactive' | 'Retired' | 'Visiting' | 'Emergency Leave';
+
 
 export interface Doctor {
   id: string;
@@ -77,8 +79,8 @@ const DEFAULT_NILAY_DOCTOR: Doctor = {
   id: 'dr-nilay-saha-primary',
   name: 'Dr. Nilay Saha',
   designation: 'Dental Surgeon & Oral Physician',
-  qualification: 'BDS, FIE',
-  registration_number: 'WBDC Registration No. 4858-A',
+  qualification: 'BDS',
+  registration_number: `WBDC Registration No. ${DOCTOR_REGISTRATION_NUMBER}`,
   experience_years: 10,
   bio: 'Dr. Nilay Saha is a distinguished Dental Surgeon and Oral Physician with over a decade of precision clinical experience in endodontics, oral surgery, and advanced cosmetic diagnostics. Dedicated to patient comfort and rigorous clinical standards.',
   profile_image: '/dr-nilay-saha.jpg',

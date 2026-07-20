@@ -514,6 +514,7 @@ export default function BookingWizard({
               key="step-3"
               selectedDate={state.preferredDate}
               selectedSession={state.preferredSession}
+              clinicId={state.clinicId}
               onSelectDate={(date) => setState((p) => ({ ...p, preferredDate: date }))}
               onSelectSession={(session: SessionType) =>
                 setState((p) => ({ ...p, preferredSession: session }))

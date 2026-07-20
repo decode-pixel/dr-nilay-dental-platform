@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { PRIMARY_PHONE_DISPLAY } from '../../lib/constants';
 import {
   CheckCircle2,
   Phone,
@@ -40,8 +41,8 @@ export default function BookingSuccessCard({
   isRetrying = false,
   onRetry,
   onCloseWizard,
-  whatsappNumber = '+91 9609180979',
-  primaryPhone = '+91 9609180979',
+  whatsappNumber = PRIMARY_PHONE_DISPLAY,
+  primaryPhone = PRIMARY_PHONE_DISPLAY,
   clinicNameOverride,
 }: BookingSuccessCardProps) {
   const [copied, setCopied] = useState(false);

@@ -508,7 +508,7 @@ export default function TreatmentDetails() {
                     </div>
                     <div>
                       <h4 className="font-display font-semibold text-base text-[#F5F5F7] group-hover:text-[#8B7BF7] transition-colors">{doc.name}</h4>
-                      <p className="text-xs text-[#8B7BF7] font-medium mt-0.5">{doc.qualification || 'BDS, FIE'}</p>
+                      <p className="text-xs text-[#8B7BF7] font-medium mt-0.5">{doc.qualification || 'BDS'}</p>
                       <p className="text-[11px] text-[#A1A1A6] mt-0.5">{doc.designation || 'Dental Surgeon & Oral Physician'}</p>
                     </div>
                   </div>

@@ -3,6 +3,7 @@ import { CalendarDays, Menu, X, Phone, ChevronRight, Sparkles } from "lucide-rea
 import { motion, AnimatePresence } from "motion/react";
 import { WhatsAppIcon } from "./Icons";
 import { useLocation, useNavigate } from "react-router-dom";
+import { PRIMARY_PHONE_NUMBER, PRIMARY_WHATSAPP_DIGITS } from "../lib/constants";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -24,7 +25,7 @@ export default function Navbar() {
 
   const secondaryItems = [
     { name: "Dental Tips", id: "tips", link: "#" },
-    { name: "Emergency Care", id: "emergency", link: "tel:+919609180979" },
+    { name: "Emergency Care", id: "emergency", link: `tel:${PRIMARY_PHONE_NUMBER}` },
     { name: "Privacy Policy", id: "privacy", link: "#" },
     { name: "Terms & Conditions", id: "terms", link: "#" }
   ];
@@ -321,7 +322,7 @@ export default function Navbar() {
 
                 <div className="grid grid-cols-2 gap-3">
                   <a 
-                    href="https://wa.me/919609180979" 
+                    href={`https://wa.me/${PRIMARY_WHATSAPP_DIGITS}`} 
                     target="_blank" 
                     rel="noreferrer" 
                     className="py-3.5 rounded-full border border-white/15 bg-white/[0.06] hover:bg-white/10 text-white font-semibold text-sm flex items-center justify-center gap-2 active:scale-[0.98] transition-all"
@@ -331,7 +332,7 @@ export default function Navbar() {
                   </a>
 
                   <a 
-                    href="tel:+919609180979" 
+                    href={`tel:${PRIMARY_PHONE_NUMBER}`} 
                     className="py-3.5 rounded-full border border-white/15 bg-slate-900 hover:bg-slate-800 text-slate-300 font-semibold text-sm flex items-center justify-center gap-2 active:scale-[0.98] transition-all"
                   >
                     <Phone className="w-4 h-4 text-blue-400" />

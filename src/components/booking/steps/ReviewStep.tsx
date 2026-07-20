@@ -43,9 +43,9 @@ export default function ReviewStep({
           <ShieldCheck className="w-5 h-5 text-violet-400 shrink-0" />
           <div>
             <p className="font-semibold text-white">
-              HIPAA & Clinical Privacy Guaranteed
+              Clinical Privacy & Secure Handling Guaranteed
             </p>
-            Your details are securely handled by Dr. Nilay Saha Dental Clinic coordinator team. No automated charges apply.
+            Your patient information is treated with strict clinical confidentiality and securely managed by Dr. Nilay Saha's coordination team. No automated charges apply.
           </div>
         </div>
       </div>

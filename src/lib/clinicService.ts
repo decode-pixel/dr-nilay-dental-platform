@@ -96,6 +96,7 @@ export interface Clinic {
   visiting_note?: string;
   logo_url?: string;
   gallery_cover?: string;
+  // TODO(confirm-before-deploy): verify verified Google rating and review count per clinic location (belerhat, parulia, nabadwip) before production deploy.
   google_rating: number;
   review_count: number;
   is_featured: boolean;
@@ -362,8 +363,21 @@ export class ClinicStatusResolver {
     holidays: ClinicHoliday[],
     closures: ClinicClosure[],
     availability: DoctorAvailability[],
-    doctorsList: Doctor[]
+    doctorsList: Doctor[],
+    slug?: string
   ): ClinicResolvedStatus {
+    const isExpandingCenter = clinicId === 'parulia' || clinicId === 'nabadwip' || slug === 'parulia' || slug === 'nabadwip';
+    if (isExpandingCenter) {
+      return {
+        status: 'Open',
+        reason: 'Schedule Updating Soon',
+        reason_detail: 'Visiting schedule updating soon.',
+        session_times: 'Visiting schedule updating soon.',
+        available_doctor: 'Dr. Nilay Saha',
+        active_sessions: [],
+      };
+    }
+
     // A. Check for Emergency/Temporary Closures
     const activeClosure = closures.find(
       (c) => c.clinic_id === clinicId && c.closure_date === targetDateStr && c.closed_flag
@@ -504,7 +518,8 @@ export class ClinicService {
           holidays,
           closures,
           availability,
-          doctors
+          doctors,
+          clinic.slug
         );
 
         // Filter facilities and notices for this clinic

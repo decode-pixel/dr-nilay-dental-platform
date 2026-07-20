@@ -314,8 +314,8 @@ function ClinicProfileForm({ clinic, onSave }: ProfileFormProps) {
     emergency_phone: clinic.emergency_phone || '',
     google_map_link: clinic.google_map_link || '',
     visiting_note: clinic.visiting_note || '',
-    google_rating: String(clinic.google_rating || 4.8),
-    review_count: String(clinic.review_count || 120),
+    google_rating: String(clinic.google_rating || (clinic.slug === 'parulia' ? 4.9 : 4.8)),
+    review_count: String(clinic.review_count || (clinic.slug === 'belerhat' ? 120 : clinic.slug === 'parulia' ? 48 : 32)),
     is_featured: clinic.is_featured || false,
     cover_image: clinic.cover_image || '',
     logo_url: clinic.logo_url || ''
@@ -336,8 +336,8 @@ function ClinicProfileForm({ clinic, onSave }: ProfileFormProps) {
         emergency_phone: form.emergency_phone || null,
         google_map_link: form.google_map_link || null,
         visiting_note: form.visiting_note || null,
-        google_rating: parseFloat(form.google_rating) || 4.8,
-        review_count: parseInt(form.review_count, 10) || 120,
+        google_rating: parseFloat(form.google_rating) || (clinic.slug === 'parulia' ? 4.9 : 4.8),
+        review_count: parseInt(form.review_count, 10) || (clinic.slug === 'belerhat' ? 120 : clinic.slug === 'parulia' ? 48 : 32),
         is_featured: form.is_featured,
         cover_image: form.cover_image || null,
         logo_url: form.logo_url || null

@@ -1,5 +1,6 @@
 import React from 'react';
 import { User, Phone, FileText, AlertCircle, Sparkles } from 'lucide-react';
+import { PRIMARY_PHONE_DIGITS } from '../../../lib/constants';
 import { BookingState, BookingErrors } from '../types';
 import BookingStepLayout from '../BookingStepLayout';
 
@@ -77,7 +78,7 @@ export default function PatientStep({
               <input
                 id="patient-phone"
                 type="tel"
-                placeholder="e.g. 9609180979"
+                placeholder={`e.g. ${PRIMARY_PHONE_DIGITS}`}
                 value={state.patientPhone}
                 onChange={(e) => onChange('patientPhone', e.target.value)}
                 className={`w-full bg-white/5 border rounded-2xl pl-10 pr-4 py-3 text-sm text-white placeholder-gray-400 focus:outline-none focus:ring-2 transition-all duration-200 ${

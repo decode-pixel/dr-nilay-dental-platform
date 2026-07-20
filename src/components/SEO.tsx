@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { SettingsService } from "../lib/settingsService";
+import { PRIMARY_PHONE_NUMBER } from "../lib/constants";
 
 interface SEOProps {
   title: string;
@@ -91,7 +92,7 @@ export default function SEO({ title: fallbackTitle, description: fallbackDesc, u
       "@type": "Dentist",
       "name": "Dr. Nilay Saha Advanced Dental Clinic",
       "image": "https://res.cloudinary.com/tud0sobq/image/upload/v1783343231/ChatGPT_Image_Jul_6_2026_06_28_47_PM_1_ipilq6.png",
-      "telephone": "+919609180979",
+      "telephone": PRIMARY_PHONE_NUMBER,
       "url": "https://www.sahadental.com",
       "address": {
         "@type": "PostalAddress",

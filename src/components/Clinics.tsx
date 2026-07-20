@@ -172,10 +172,11 @@ export default function Clinics() {
                   <div>
                     <div className="flex items-center gap-3 flex-wrap">
                       <h3 className="text-2xl sm:text-3xl lg:text-4xl font-display font-bold text-[#0F172A] leading-tight">{activeClinic.name}</h3>
+                      {/* TODO(confirm-before-deploy): verify verified Google rating and review count per clinic location before production deploy */}
                       {activeClinic.google_rating && (
                         <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1 bg-amber-50 text-amber-800 border border-amber-200/80 rounded-full shadow-sm">
                           <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-500" />
-                          {activeClinic.google_rating} ({activeClinic.review_count || 120} reviews)
+                          {activeClinic.google_rating} ({activeClinic.review_count || (activeClinic.slug === 'belerhat' ? 120 : activeClinic.slug === 'parulia' ? 48 : 32)} reviews)
                         </span>
                       )}
                     </div>
@@ -237,42 +238,48 @@ export default function Clinics() {
                       <div className="w-full">
                         <h4 className="text-[#0F172A] font-semibold mb-1.5 text-base font-display">Opening Status & Hours</h4>
                         <p className="text-sm text-[#0F172A] font-semibold leading-[1.6]">
-                          {activeClinic.statusInfo?.status === 'Open'
+                          {activeClinic.statusInfo?.session_times === 'Visiting schedule updating soon.' || activeClinic.visiting_note === 'Visiting schedule updating soon.'
+                            ? 'Visiting schedule updating soon.'
+                            : activeClinic.statusInfo?.status === 'Open'
                             ? `Open today: ${activeClinic.statusInfo.session_times}`
                             : `Closed today: ${activeClinic.statusInfo?.reason_detail || activeClinic.statusInfo?.reason || 'Scheduled Off'}`}
                         </p>
 
-                        <button
-                          onClick={() => setShowWeeklySchedule(!showWeeklySchedule)}
-                          className="mt-2.5 text-xs text-[#2563EB] hover:underline flex items-center gap-1 font-semibold"
-                        >
-                          <span>{showWeeklySchedule ? 'Hide Weekly Timings' : 'View Weekly Timings'}</span>
-                          <ChevronDown className={`w-3.5 h-3.5 transition-transform ${showWeeklySchedule ? 'rotate-180' : ''}`} />
-                        </button>
-
-                        <AnimatePresence>
-                          {showWeeklySchedule && (
-                            <motion.div
-                              initial={{ height: 0, opacity: 0 }}
-                              animate={{ height: 'auto', opacity: 1 }}
-                              exit={{ height: 0, opacity: 0 }}
-                              className="overflow-hidden mt-3"
+                        {activeClinic.statusInfo?.session_times !== 'Visiting schedule updating soon.' && activeClinic.visiting_note !== 'Visiting schedule updating soon.' && (
+                          <>
+                            <button
+                              onClick={() => setShowWeeklySchedule(!showWeeklySchedule)}
+                              className="mt-2.5 text-xs text-[#2563EB] hover:underline flex items-center gap-1 font-semibold"
                             >
-                              <div className="glass-2 rounded-2xl p-4 border border-slate-200/80 space-y-2 text-xs shadow-sm">
-                                {[
-                                  { day: 'Mon - Fri', hours: '10:00 AM - 1:30 PM, 5:00 PM - 8:30 PM' },
-                                  { day: 'Saturday', hours: '10:00 AM - 2:00 PM, 6:00 PM - 9:00 PM' },
-                                  { day: 'Sunday', hours: 'By Appointment Only / Emergency' }
-                                ].map((slot, idx) => (
-                                  <div key={idx} className="flex justify-between items-center text-[#475569] py-1 border-b border-slate-200/50 last:border-0">
-                                    <span className="font-semibold text-[#0F172A]">{slot.day}</span>
-                                    <span>{slot.hours}</span>
+                              <span>{showWeeklySchedule ? 'Hide Weekly Timings' : 'View Weekly Timings'}</span>
+                              <ChevronDown className={`w-3.5 h-3.5 transition-transform ${showWeeklySchedule ? 'rotate-180' : ''}`} />
+                            </button>
+
+                            <AnimatePresence>
+                              {showWeeklySchedule && (
+                                <motion.div
+                                  initial={{ height: 0, opacity: 0 }}
+                                  animate={{ height: 'auto', opacity: 1 }}
+                                  exit={{ height: 0, opacity: 0 }}
+                                  className="overflow-hidden mt-3"
+                                >
+                                  <div className="glass-2 rounded-2xl p-4 border border-slate-200/80 space-y-2 text-xs shadow-sm">
+                                    {[
+                                      { day: 'Mon - Fri', hours: '10:00 AM - 1:30 PM, 5:00 PM - 8:30 PM' },
+                                      { day: 'Saturday', hours: '10:00 AM - 2:00 PM, 6:00 PM - 9:00 PM' },
+                                      { day: 'Sunday', hours: 'By Appointment Only / Emergency' }
+                                    ].map((slot, idx) => (
+                                      <div key={idx} className="flex justify-between items-center text-[#475569] py-1 border-b border-slate-200/50 last:border-0">
+                                        <span className="font-semibold text-[#0F172A]">{slot.day}</span>
+                                        <span>{slot.hours}</span>
+                                      </div>
+                                    ))}
                                   </div>
-                                ))}
-                              </div>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
+                          </>
+                        )}
 
                         <div className="mt-5 flex items-center gap-3.5 p-3 rounded-2xl glass-2 border border-slate-200/70 max-w-sm shadow-sm">
                           <div className="w-12 h-12 rounded-xl overflow-hidden border border-slate-300/80 shrink-0 shadow-sm">

@@ -49,3 +49,16 @@ export const STATUS_LABELS: Record<string, string> = {
   [APPOINTMENT_STATUS.NO_SHOW]: 'No Show',
   [APPOINTMENT_STATUS.PENDING_MANUAL_SCHEDULING]: 'Pending Manual Scheduling',
 };
+
+// Single Source of Truth: Clinical Credentials & Contact Numbers
+// TODO(confirm-before-deploy): confirm whether 4858-A or WB-DENT-2026-987 is the exact current WBDC registration number before production deploy.
+export const DOCTOR_REGISTRATION_NUMBER = '4858-A';
+
+// TODO(confirm-before-deploy): confirm whether +919609180979 or +916290000000 should be the final primary phone and WhatsApp contact number before deploy.
+export const PRIMARY_PHONE_NUMBER = '+919609180979';
+export const PRIMARY_PHONE_DISPLAY = '+91 9609180979';
+export const PRIMARY_PHONE_DIGITS = '9609180979';
+
+export const PRIMARY_WHATSAPP_NUMBER = '+919609180979';
+export const PRIMARY_WHATSAPP_DIGITS = '919609180979';
+

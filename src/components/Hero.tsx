@@ -5,6 +5,7 @@ import { ToothIcon, WhatsAppIcon } from "./Icons";
 import { CmsService } from "../lib/cmsService";
 import { SettingsService } from "../lib/settingsService";
 import { DoctorService } from "../lib/doctorService";
+import { DOCTOR_REGISTRATION_NUMBER, PRIMARY_PHONE_NUMBER, PRIMARY_WHATSAPP_NUMBER } from "../lib/constants";
 import { logger } from "../lib/logger";
 import OptimizedImage from "./OptimizedImage";
 import OptimizedVideo from "./OptimizedVideo";
@@ -77,13 +78,13 @@ export default function Hero() {
 
   const [aboutContent, setAboutContent] = useState({
     title: "Dr. Nilay Saha",
-    description: "BDS, FIE\nDental Surgeon & Oral Physician\nWBDC Registration No. 4858-A",
+    description: `BDS\nDental Surgeon & Oral Physician\nWBDC Registration No. ${DOCTOR_REGISTRATION_NUMBER}`,
     doctor_signature: "Dr. Nilay Saha"
   });
 
   const [contactContent, setContactContent] = useState({
-    primary_phone: "+919609180979",
-    whatsapp_number: "+919609180979",
+    primary_phone: PRIMARY_PHONE_NUMBER,
+    whatsapp_number: PRIMARY_WHATSAPP_NUMBER,
     office_email: "contact@sahadental.com"
   });
 
@@ -338,7 +339,7 @@ export default function Hero() {
                   </div>
                   <div className="hidden sm:flex flex-col items-end text-right">
                     <span className="text-[9px] uppercase font-bold text-[#64748B] tracking-wider">Reg. No.</span>
-                    <span className="text-xs font-mono font-bold text-[#0F172A]">4858-A</span>
+                    <span className="text-xs font-mono font-bold text-[#0F172A]">{DOCTOR_REGISTRATION_NUMBER}</span>
                   </div>
                 </div>
               </div>
@@ -348,13 +349,13 @@ export default function Hero() {
             {/* Top-Left: BDS Credential */}
             <div className="absolute -top-3 -left-3 z-30 glass-3 rounded-2xl px-4 py-2.5 border border-white/90 shadow-lg flex items-center gap-2 hover:border-blue-400 transition-colors pointer-events-none sm:pointer-events-auto bg-white/95 text-[#0F172A]">
               <Activity className="w-4 h-4 text-[#2563EB]" />
-              <span className="text-xs font-bold">BDS, FIE</span>
+              <span className="text-xs font-bold">BDS</span>
             </div>
 
             {/* Top-Right: Reg Badge */}
             <div className="absolute -top-3 -right-3 z-30 glass-3 rounded-2xl px-4 py-2.5 border border-white/90 shadow-lg flex items-center gap-2 hover:border-blue-400 transition-colors pointer-events-none sm:pointer-events-auto bg-white/95 text-[#0F172A]">
               <Shield className="w-4 h-4 text-[#2563EB]" />
-              <span className="text-xs font-bold">Reg. 4858-A</span>
+              <span className="text-xs font-bold">Reg. {DOCTOR_REGISTRATION_NUMBER}</span>
             </div>
 
             {/* Bottom Floating Credentials Panel */}

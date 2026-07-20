@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { DoctorService, Doctor, DoctorProfileItem } from '../lib/doctorService';
 import { CmsService } from '../lib/cmsService';
+import { DOCTOR_REGISTRATION_NUMBER } from '../lib/constants';
 import { logger } from '../lib/logger';
 import OptimizedImage from './OptimizedImage';
 
@@ -42,8 +43,8 @@ export default function MeetDrNilaySaha() {
         id: 'dr-nilay-saha-primary',
         name: 'Dr. Nilay Saha',
         designation: 'Dental Surgeon & Oral Physician',
-        qualification: 'BDS, FIE',
-        registration_number: 'WBDC Registration No. 4858-A',
+        qualification: 'BDS',
+        registration_number: `WBDC Registration No. ${DOCTOR_REGISTRATION_NUMBER}`,
         experience_years: 10,
         bio: 'Dr. Nilay Saha is a distinguished Dental Surgeon and Oral Physician with over a decade of clinical excellence in endodontics, oral surgery, and advanced cosmetic diagnostics. Dedicated to gentle, patient-centered care and the highest international sterilization standards.',
         profile_image: '/dr-nilay-saha.jpg',
@@ -70,7 +71,6 @@ export default function MeetDrNilaySaha() {
           ? quals
           : [
               { title: 'Bachelor of Dental Surgery (BDS)', institution: 'West Bengal University of Health Sciences' },
-              { title: 'Fellow of Institution of Engineers (FIE)', institution: 'Fellowship in Dental Engineering & Clinical Innovation' },
               { title: 'Advanced Endodontic Residency', institution: 'Certified Root Canal & Micro-Endodontic Specialist' }
             ]
       );
@@ -88,9 +88,9 @@ export default function MeetDrNilaySaha() {
         certs.length > 0
           ? certs
           : [
-              { title: 'Registered Medical Practitioner (Dental)', institution: 'West Bengal Dental Council (Reg. No. 4858-A)' },
+              { title: 'Registered Medical Practitioner (Dental)', institution: `West Bengal Dental Council (Reg. No. ${DOCTOR_REGISTRATION_NUMBER})` },
               { title: 'Life Member', institution: 'Indian Dental Association (IDA)' },
-              { title: 'Fellow Member', institution: 'Institution of Engineers India' }
+              { title: 'Fellow Member (FIE)', institution: 'Institution of Engineers India (Fellowship in Dental Engineering & Innovation)' }
             ]
       );
 
@@ -121,8 +121,8 @@ export default function MeetDrNilaySaha() {
         id: 'dr-nilay-saha-primary',
         name: 'Dr. Nilay Saha',
         designation: 'Dental Surgeon & Oral Physician',
-        qualification: 'BDS, FIE',
-        registration_number: 'WBDC Registration No. 4858-A',
+        qualification: 'BDS',
+        registration_number: `WBDC Registration No. ${DOCTOR_REGISTRATION_NUMBER}`,
         experience_years: 10,
         bio: 'Dr. Nilay Saha is a leading Dental Surgeon and Oral Physician with over a decade of clinical excellence in endodontics, oral surgery, and advanced cosmetic diagnostics.',
         profile_image: '/dr-nilay-saha.jpg',
@@ -202,7 +202,7 @@ export default function MeetDrNilaySaha() {
                         Official Registration
                       </span>
                       <p className="text-xs sm:text-sm font-mono font-bold text-[#0F172A] mt-0.5">
-                        {doctor.registration_number || 'WBDC Reg. No. 4858-A'}
+                        {doctor.registration_number || `WBDC Reg. No. ${DOCTOR_REGISTRATION_NUMBER}`}
                       </p>
                     </div>
                     <div className="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600 shrink-0 shadow-sm">
@@ -229,7 +229,7 @@ export default function MeetDrNilaySaha() {
                 <div>
                   <span className="text-xs text-[#64748B] uppercase tracking-wider font-semibold">Qualification & Designation</span>
                   <p className="font-semibold text-[#2563EB] mt-0.5">
-                    {doctor.qualification || 'BDS, FIE'} • {doctor.designation || 'Dental Surgeon & Oral Physician'}
+                    {doctor.qualification || 'BDS'} • {doctor.designation || 'Dental Surgeon & Oral Physician'}
                   </p>
                 </div>
 
@@ -280,7 +280,7 @@ export default function MeetDrNilaySaha() {
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 mt-8 pt-8 border-t border-slate-200/70">
                 <div className="bg-white/80 border border-slate-200/80 rounded-2xl p-4 shadow-sm">
                   <span className="text-xs text-[#64748B] font-semibold block mb-1">Registration</span>
-                  <strong className="text-xs sm:text-sm text-[#0F172A] font-mono">{doctor.registration_number || '4858-A'}</strong>
+                  <strong className="text-xs sm:text-sm text-[#0F172A] font-mono">{doctor.registration_number || DOCTOR_REGISTRATION_NUMBER}</strong>
                 </div>
                 <div className="bg-white/80 border border-slate-200/80 rounded-2xl p-4 shadow-sm">
                   <span className="text-xs text-[#64748B] font-semibold block mb-1">Languages</span>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { SettingsService, SettingsRepository, SeoSetting, NotificationTemplate } from '../../lib/settingsService';
 import { useToast } from '../../components/ToastNotification';
+import { PRIMARY_PHONE_NUMBER, PRIMARY_WHATSAPP_NUMBER } from '../../lib/constants';
 import { logger } from '../../lib/logger';
 import {
   Save,
@@ -29,8 +30,8 @@ export default function DashboardSettings() {
     clinic_tagline: 'Advanced Dentistry & Orthodontics'
   });
   const [contactConfig, setContactConfig] = useState({
-    primary_phone: '+916290000000',
-    whatsapp_number: '+916290000000',
+    primary_phone: PRIMARY_PHONE_NUMBER,
+    whatsapp_number: PRIMARY_WHATSAPP_NUMBER,
     office_email: 'contact@sahadental.com'
   });
   const [bookingConfig, setBookingConfig] = useState({

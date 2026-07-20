@@ -5,6 +5,7 @@ import { WhatsAppIcon, ToothIcon } from "./Icons";
 import { Link } from "react-router-dom";
 import { CmsService } from "../lib/cmsService";
 import { SettingsService } from "../lib/settingsService";
+import { PRIMARY_PHONE_NUMBER, PRIMARY_WHATSAPP_NUMBER } from "../lib/constants";
 import { logger } from "../lib/logger";
 
 export default function Footer() {
@@ -17,8 +18,8 @@ export default function Footer() {
   });
 
   const [contactContent, setContactContent] = useState({
-    primary_phone: "+919609180979",
-    whatsapp_number: "+919609180979",
+    primary_phone: PRIMARY_PHONE_NUMBER,
+    whatsapp_number: PRIMARY_WHATSAPP_NUMBER,
     office_email: "contact@sahadental.com"
   });
 

@@ -8,6 +8,7 @@ import { Play } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import LazySection from "../components/LazySection";
 import SkeletonLoader from "../components/SkeletonLoader";
+import { PRIMARY_WHATSAPP_DIGITS } from "../lib/constants";
 
 // Lazy load below-the-fold components
 const MeetDrNilaySaha = lazy(() => import("../components/MeetDrNilaySaha"));
@@ -112,7 +113,7 @@ export default function HomePage() {
 
       {/* Floating WhatsApp Button */}
       <a 
-        href="https://wa.me/919609180979" 
+        href={`https://wa.me/${PRIMARY_WHATSAPP_DIGITS}`} 
         target="_blank" 
         rel="noreferrer" 
         className="fixed btn-sweep overflow-hidden bottom-6 right-6 z-50 flex items-center justify-center w-14 h-14 bg-green-500 text-white rounded-full shadow-[0_0_20px_rgba(34,197,94,0.4)] hover:shadow-[0_0_30px_rgba(34,197,94,0.6)] hover:-translate-y-1 transition-all duration-300"

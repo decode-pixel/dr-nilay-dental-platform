@@ -169,7 +169,9 @@ export default function ClinicStep({
                         <div className="flex items-center gap-1">
                           <Clock className="w-3.5 h-3.5 text-violet-400 shrink-0" />
                           <span>
-                            {status === 'Open'
+                            {clinic.statusInfo?.session_times === 'Visiting schedule updating soon.' || clinic.visiting_note === 'Visiting schedule updating soon.'
+                              ? 'Schedule: Visiting schedule updating soon.'
+                              : status === 'Open'
                               ? `Today: ${clinic.statusInfo?.session_times}`
                               : `Closed: ${clinic.statusInfo?.reason_detail || clinic.statusInfo?.reason || 'Day Off'}`}
                           </span>
