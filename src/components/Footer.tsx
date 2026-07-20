@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { motion } from "motion/react";
-import { Phone, Mail, MapPin, CalendarDays, ArrowRight } from "lucide-react";
+import { Phone, MapPin, CalendarDays, Facebook, Instagram, Twitter } from "lucide-react";
 import { WhatsAppIcon, ToothIcon } from "./Icons";
 import { Link } from "react-router-dom";
 import { CmsService } from "../lib/cmsService";
