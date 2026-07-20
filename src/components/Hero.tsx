@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { CalendarDays, Star, Shield, Award, CheckCircle2, ChevronRight, Activity, Smile } from "lucide-react";
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { ToothIcon, WhatsAppIcon } from "./Icons";
 import { CmsService } from "../lib/cmsService";
 import { SettingsService } from "../lib/settingsService";
@@ -68,6 +68,7 @@ const itemVariants = {
 };
 
 export default function Hero() {
+  const shouldReduceMotion = useReducedMotion();
   const [heroContent, setHeroContent] = useState({
     title: "Healthy Smile\nStarts\nHere",
     subtitle: "Modern dental care with advanced technology, gentle treatment, and over 10 years of clinical experience for patients of every age.",
@@ -184,18 +185,22 @@ export default function Hero() {
 
         {/* Cinematic gradient spotlight */}
         <motion.div 
-          animate={{ scale: [1, 1.05, 1], opacity: [0.4, 0.6, 0.4] }}
+          initial={{ scale: 1, opacity: 0.4 }}
+          whileInView={shouldReduceMotion ? {} : { scale: [1, 1.05, 1], opacity: [0.4, 0.6, 0.4] }}
+          viewport={{ once: false }}
           transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
           className="absolute -top-32 left-1/3 w-[500px] h-[500px] bg-gradient-to-br from-blue-500/10 via-sky-500/5 to-transparent rounded-full blur-[100px]"
         />
         <motion.div 
-          animate={{ scale: [1, 1.08, 1], opacity: [0.3, 0.5, 0.3] }}
+          initial={{ scale: 1, opacity: 0.3 }}
+          whileInView={shouldReduceMotion ? {} : { scale: [1, 1.08, 1], opacity: [0.3, 0.5, 0.3] }}
+          viewport={{ once: false }}
           transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 1 }}
           className="absolute top-1/3 -left-20 w-[400px] h-[400px] bg-gradient-to-tr from-blue-400/10 via-sky-400/5 to-transparent rounded-full blur-[90px]"
         />
 
         {/* Subtle Floating Light Particles (GPU-Accelerated) */}
-        {[
+        {!shouldReduceMotion && [
           { top: "12%", left: "15%", delay: 0, size: "w-2 h-2" },
           { top: "35%", left: "45%", delay: 2, size: "w-3 h-3" },
           { top: "72%", left: "25%", delay: 4, size: "w-2 h-2" },
@@ -204,7 +209,9 @@ export default function Hero() {
         ].map((pt, idx) => (
           <motion.div 
             key={idx}
-            animate={{ y: [0, -25, 0], opacity: [0.2, 0.7, 0.2] }}
+            initial={{ y: 0, opacity: 0.2 }}
+            whileInView={{ y: [0, -25, 0], opacity: [0.2, 0.7, 0.2] }}
+            viewport={{ once: false }}
             transition={{ duration: 7 + idx, repeat: Infinity, ease: "easeInOut", delay: pt.delay }}
             className={`absolute ${pt.size} rounded-full bg-[#2563EB]/30 blur-[2px] ${pt.top} ${pt.left}`}
           />

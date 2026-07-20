@@ -30,7 +30,9 @@ export default function Navbar() {
   ];
 
   useEffect(() => {
-    const handleScroll = () => {
+    let ticking = false;
+
+    const updateScrollProgress = () => {
       const currentScrollY = window.scrollY;
       setIsScrolled(currentScrollY > 20);
 
@@ -56,10 +58,18 @@ export default function Navbar() {
         }
         setActiveSection(foundSection);
       }
+      ticking = false;
+    };
+
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(updateScrollProgress);
+        ticking = true;
+      }
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
+    updateScrollProgress();
     return () => window.removeEventListener("scroll", handleScroll);
   }, [location.pathname]);
 

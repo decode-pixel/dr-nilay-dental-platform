@@ -30,10 +30,18 @@ export default function OptimizedImage({
 }: OptimizedImageProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
-  const [currentSrc, setCurrentSrc] = useState(src);
+  
+  const getOptimizedUrl = (url: string) => {
+    if (url && url.includes('res.cloudinary.com') && url.includes('/upload/') && !url.includes('/f_auto')) {
+      return url.replace('/upload/', '/upload/f_auto,q_auto/');
+    }
+    return url;
+  };
+
+  const [currentSrc, setCurrentSrc] = useState(() => getOptimizedUrl(src));
 
   useEffect(() => {
-    setCurrentSrc(src);
+    setCurrentSrc(getOptimizedUrl(src));
     setHasError(false);
     setIsLoaded(false);
   }, [src]);

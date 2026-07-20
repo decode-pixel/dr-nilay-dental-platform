@@ -1,18 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, lazy, Suspense } from "react";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
-import MeetDrNilaySaha from "../components/MeetDrNilaySaha";
-import WhyChooseUsBento from "../components/WhyChooseUsBento";
-import Treatments from "../components/Treatments";
-import Clinics from "../components/Clinics";
-import FAQ from "../components/FAQ";
-import Testimonials from "../components/Testimonials";
 import LoadingScreen from "../components/LoadingScreen";
-import Footer from "../components/Footer";
 import ContactModal from "../components/ContactModal";
 import { WhatsAppIcon } from "../components/Icons";
 import { Play } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
+import LazySection from "../components/LazySection";
+import SkeletonLoader from "../components/SkeletonLoader";
+
+// Lazy load below-the-fold components
+const MeetDrNilaySaha = lazy(() => import("../components/MeetDrNilaySaha"));
+const WhyChooseUsBento = lazy(() => import("../components/WhyChooseUsBento"));
+const Treatments = lazy(() => import("../components/Treatments"));
+const Clinics = lazy(() => import("../components/Clinics"));
+const FAQ = lazy(() => import("../components/FAQ"));
+const Testimonials = lazy(() => import("../components/Testimonials"));
+const Footer = lazy(() => import("../components/Footer"));
 
 export default function HomePage() {
   const [isLoading, setIsLoading] = useState(true);
@@ -21,27 +25,37 @@ export default function HomePage() {
     // Simulate initial loading time
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 2000); // 2 seconds loading screen
+    }, 1500); // reduced loading screen to 1.5 seconds for snappier FCP/LCP
     return () => clearTimeout(timer);
   }, []);
 
   return (
-    <div className="min-h-screen text-white font-sans overflow-x-hidden selection:bg-violet-500/30 relative">
+    <div className="min-h-screen text-white font-sans overflow-x-hidden selection:bg-blue-500/30 relative bg-[#F8FBFF]">
       <AnimatePresence>
         {isLoading && <LoadingScreen />}
       </AnimatePresence>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10" id="home">
         {/* Ambient Background Glows */}
-        <div className="absolute top-[-10%] left-[-10%] w-[40rem] h-[40rem] bg-[#8B7BF7]/10 rounded-full blur-[130px] pointer-events-none z-0" />
-        <div className="absolute top-[40%] right-[-10%] w-[30rem] h-[30rem] bg-blue-600/10 rounded-full blur-[130px] pointer-events-none z-0" />
+        <div className="absolute top-[-10%] left-[-10%] w-[40rem] h-[40rem] bg-blue-500/[0.04] rounded-full blur-[130px] pointer-events-none z-0" />
+        <div className="absolute top-[40%] right-[-10%] w-[30rem] h-[30rem] bg-sky-500/[0.04] rounded-full blur-[130px] pointer-events-none z-0" />
 
         <Navbar />
         <main className="pt-28 sm:pt-32 pb-24 relative z-10">
           <Hero />
+          
           <div id="about">
-            <MeetDrNilaySaha />
-            <WhyChooseUsBento />
+            <LazySection minHeight="450px" fallback={<SkeletonLoader variant="profile" />}>
+              <Suspense fallback={<SkeletonLoader variant="profile" />}>
+                <MeetDrNilaySaha />
+              </Suspense>
+            </LazySection>
+            
+            <LazySection minHeight="500px" fallback={<SkeletonLoader variant="card" />}>
+              <Suspense fallback={<SkeletonLoader variant="card" />}>
+                <WhyChooseUsBento />
+              </Suspense>
+            </LazySection>
           </div>
           
           {/* Watch Clinic Tour Action */}
@@ -62,13 +76,38 @@ export default function HomePage() {
         </main>
       </div>
 
-      <Treatments />
-      <Clinics />
-      <FAQ />
-      <Testimonials />
+      <LazySection minHeight="450px" fallback={<SkeletonLoader variant="card" />}>
+        <Suspense fallback={<SkeletonLoader variant="card" />}>
+          <Treatments />
+        </Suspense>
+      </LazySection>
+
+      <LazySection minHeight="450px" fallback={<SkeletonLoader variant="card" />}>
+        <Suspense fallback={<SkeletonLoader variant="card" />}>
+          <Clinics />
+        </Suspense>
+      </LazySection>
+
+      <LazySection minHeight="350px" fallback={<SkeletonLoader variant="row" />}>
+        <Suspense fallback={<SkeletonLoader variant="row" />}>
+          <FAQ />
+        </Suspense>
+      </LazySection>
+
+      <LazySection minHeight="400px" fallback={<SkeletonLoader variant="card" />}>
+        <Suspense fallback={<SkeletonLoader variant="card" />}>
+          <Testimonials />
+        </Suspense>
+      </LazySection>
+
       <div id="contact">
-        <Footer />
+        <LazySection minHeight="300px">
+          <Suspense fallback={<div className="h-60 bg-[#050614] animate-pulse" />}>
+            <Footer />
+          </Suspense>
+        </LazySection>
       </div>
+
       <ContactModal />
 
       {/* Floating WhatsApp Button */}
@@ -77,6 +116,7 @@ export default function HomePage() {
         target="_blank" 
         rel="noreferrer" 
         className="fixed btn-sweep overflow-hidden bottom-6 right-6 z-50 flex items-center justify-center w-14 h-14 bg-green-500 text-white rounded-full shadow-[0_0_20px_rgba(34,197,94,0.4)] hover:shadow-[0_0_30px_rgba(34,197,94,0.6)] hover:-translate-y-1 transition-all duration-300"
+        aria-label="Contact via WhatsApp"
       >
         <WhatsAppIcon className="w-8 h-8 ml-0.5 mb-0.5" />
       </a>
