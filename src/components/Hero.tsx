@@ -296,13 +296,13 @@ export default function Hero() {
           <motion.div 
             animate={{ y: [0, -10, 0] }}
             transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-            className="relative w-full max-w-md sm:max-w-lg lg:max-w-none flex flex-col items-center z-10"
+            className="relative w-full max-w-md sm:max-w-lg lg:max-w-[420px] flex flex-col items-center z-10"
           >
             {/* Portrait Frame with Spotlight Border */}
             <div className="relative w-full overflow-hidden rounded-[2.5rem] border border-slate-300/80 bg-slate-900 shadow-[0_24px_64px_rgba(15,23,42,0.15)] group">
               <div className="absolute top-0 inset-x-0 h-[3px] bg-gradient-to-r from-transparent via-[#2563EB] to-transparent z-20 pointer-events-none" />
 
-              <div className="relative w-full aspect-[4/5] sm:aspect-[3/3.6] overflow-hidden">
+              <div className="relative w-full aspect-[3/4] overflow-hidden">
                 <OptimizedImage 
                   src="/DNS_Portrait_DrNilay_Headshot_4x5_202607.webp" 
                   fallbackSrc="/dr-nilay-saha.jpg"
