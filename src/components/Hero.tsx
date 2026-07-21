@@ -1,397 +1,277 @@
 import React, { useState, useEffect } from "react";
 import { CalendarDays, Star, Shield, Award, CheckCircle2, ChevronRight, Activity, Smile } from "lucide-react";
-import { motion, useReducedMotion } from "motion/react";
 import { ToothIcon, WhatsAppIcon } from "./Icons";
-import { CmsService } from "../lib/cmsService";
-import { SettingsService } from "../lib/settingsService";
-import { DoctorService } from "../lib/doctorService";
-import { DOCTOR_REGISTRATION_NUMBER, PRIMARY_PHONE_NUMBER, PRIMARY_WHATSAPP_NUMBER } from "../lib/constants";
-import { logger } from "../lib/logger";
-import OptimizedImage from "./OptimizedImage";
-import OptimizedVideo from "./OptimizedVideo";
+import { DOCTOR_REGISTRATION_NUMBER, PRIMARY_PHONE_NUMBER, PRIMARY_WHATSAPP_DIGITS } from "../lib/constants";
 
-// CountUp Component for Trust Bar animation on enter viewport without glitching mid-load
-function CountUp({ value, suffix = "" }: { value: number; suffix?: string }) {
-  const [count, setCount] = useState(value);
-  const [ref, setRef] = useState<HTMLElement | null>(null);
+/**
+ * Hero — Performance-First Rebuild
+ * 
+ * REMOVED:
+ * - All motion.div infinite animations (particles, spotlights, background blobs)
+ * - backdrop-blur-xl on credentials card (GPU-heavy on mobile)
+ * - 4 concurrent Supabase network calls on mount (CmsService, SettingsService, DoctorService x2)
+ * - motion.div stagger animation container (causes layout thrashing on low-end phones)
+ * - OptimizedImage / OptimizedVideo imports (unused)
+ * 
+ * REPLACED WITH:
+ * - CSS-only fade-in animation via @keyframes (zero JS, 60fps)
+ * - Static hardcoded content from constants (instant render, no loading flash)
+ * - Pure div backgrounds (no filter: blur)
+ */
 
-  useEffect(() => {
-    if (!ref) return;
-    if (typeof window !== "undefined" && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setCount(value);
-      return;
-    }
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          const end = value;
-          const start = Math.floor(value * 0.75); // Start close to target for smooth 500ms transition
-          const duration = 500;
-          const startTime = performance.now();
+const trustBarItems = [
+  { label: "Happy Patients", val: "5000+", icon: Smile },
+  { label: "Years Experience", val: "10+", icon: Award },
+  { label: "Clinic Locations", val: "3", icon: CheckCircle2 },
+  { label: "Digital Dentistry", val: "100%", icon: Shield }
+];
 
-          const animate = (now: number) => {
-            const elapsed = now - startTime;
-            const progress = Math.min(elapsed / duration, 1);
-            const ease = 1 - Math.pow(1 - progress, 3);
-            setCount(Math.floor(start + (end - start) * ease));
-
-            if (progress < 1) {
-              requestAnimationFrame(animate);
-            } else {
-              setCount(end);
-            }
-          };
-
-          requestAnimationFrame(animate);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    observer.observe(ref);
-    return () => observer.disconnect();
-  }, [ref, value]);
-
-  return <span ref={setRef}>{count.toLocaleString()}{suffix}</span>;
-}
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.12 },
-  },
-};
-
-const itemVariants = {
-  hidden: { y: 24, opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
-    transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] as const },
-  },
-};
+const credentialRows = [
+  { icon: Award, label: "Degree Qualification", value: "BDS", iconColor: "text-[#C5A059]" },
+  { icon: Shield, label: "State Medical License", value: DOCTOR_REGISTRATION_NUMBER, iconColor: "text-[#10B981]" },
+  { icon: Activity, label: "Clinical Practice", value: "10+ Years Exp.", iconColor: "text-[#34D399]" },
+];
 
 export default function Hero() {
-  const shouldReduceMotion = useReducedMotion();
-  const [heroContent, setHeroContent] = useState({
-    title: "Healthy Smile\nStarts\nHere",
-    subtitle: "Modern dental care with advanced technology, gentle treatment, and over 10 years of clinical experience for patients of every age.",
-    cta_text: "Book Appointment"
-  });
-
-  const [aboutContent, setAboutContent] = useState({
-    title: "Dr. Nilay Saha",
-    description: `BDS\nDental Surgeon & Oral Physician\nWBDC Registration No. ${DOCTOR_REGISTRATION_NUMBER}`,
-    doctor_signature: "Dr. Nilay Saha"
-  });
-
-  const [contactContent, setContactContent] = useState({
-    primary_phone: PRIMARY_PHONE_NUMBER,
-    whatsapp_number: PRIMARY_WHATSAPP_NUMBER,
-    office_email: "contact@sahadental.com"
-  });
-
-  const loadData = async () => {
-    try {
-      const [hero, about, contact, doctorsList] = await Promise.all([
-        CmsService.getPublishedContent("hero"),
-        CmsService.getPublishedContent("about"),
-        SettingsService.getSettingsGroup("contact"),
-        DoctorService.getDoctors()
-      ]);
-
-      if (hero && hero.hero_config) {
-        setHeroContent((p) => ({ ...p, ...hero.hero_config }));
-      }
-      if (doctorsList && doctorsList.length > 0) {
-        const primaryDoc = doctorsList[0];
-        const quals = await DoctorService.getDoctorQualifications(primaryDoc.id);
-        const qualificationsStr = quals.map((q) => q.title).join(', ') || primaryDoc.qualification || '';
-        setAboutContent({
-          title: primaryDoc.name,
-          description: `${qualificationsStr}\n${primaryDoc.designation || ""}\nRegistration No. ${primaryDoc.registration_number || ""}`,
-          doctor_signature: primaryDoc.name
-        });
-      } else if (about && about.about_config) {
-        setAboutContent((p) => ({ ...p, ...about.about_config }));
-      }
-      if (contact && Object.keys(contact).length > 0) {
-        setContactContent((p) => ({ ...p, ...contact }));
-      }
-    } catch (err) {
-      logger.error("Failed to load hero configurations:", err);
-    }
-  };
-
-  useEffect(() => {
-    loadData();
-
-    const handleCmsUpdate = () => loadData();
-    const handleSettingsUpdate = () => loadData();
-
-    window.addEventListener("onCmsUpdate", handleCmsUpdate);
-    window.addEventListener("onSettingsUpdate", handleSettingsUpdate);
-
-    return () => {
-      window.removeEventListener("onCmsUpdate", handleCmsUpdate);
-      window.removeEventListener("onSettingsUpdate", handleSettingsUpdate);
-    };
-  }, []);
-
-  const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>, targetId: string) => {
+  const handleBooking = (e: React.MouseEvent) => {
     e.preventDefault();
-    const target = document.getElementById(targetId) || document.getElementById(targetId === 'locations' ? 'clinics' : targetId);
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth' });
-    }
+    window.dispatchEvent(new CustomEvent("openContactModal"));
   };
 
-  // Shared Trust Bar items
-  const trustBarItems = [
-    { label: "Happy Patients", val: 5000, suffix: "+", icon: Smile },
-    { label: "Years Experience", val: 10, suffix: "+", icon: Award },
-    { label: "Clinic Locations", val: 3, suffix: "", icon: CheckCircle2 },
-    { label: "Digital Dentistry", val: 100, suffix: "%", icon: Shield }
-  ];
-
-  const TrustBar = ({ className = "" }: { className?: string }) => (
-    <div className={`grid grid-cols-2 sm:grid-cols-4 gap-4 ${className}`}>
-      {trustBarItems.map((item, idx) => (
-        <div key={idx} className="glass-2 p-4.5 rounded-2xl flex flex-col justify-between border border-emerald-500/25 shadow-lg hover:shadow-xl hover:border-emerald-400/50 transition-all duration-300 group bg-[#0A261D]/80">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-semibold text-[#A2C7B7] tracking-wide uppercase">{item.label}</span>
-            <item.icon className="w-4 h-4 text-[#10B981]" />
-          </div>
-          <span className="text-2xl sm:text-3xl font-display font-extrabold text-[#F4F7F4]">
-            <CountUp value={item.val} suffix={item.suffix} />
-          </span>
-        </div>
-      ))}
-    </div>
-  );
+  const handleScrollTo = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    e.preventDefault();
+    const el = document.getElementById(id);
+    if (el) {
+      const offset = 110;
+      const top = el.getBoundingClientRect().top + window.pageYOffset - offset;
+      window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+    }
+  };
 
   return (
-    <div className="relative pt-12 sm:pt-16 pb-20 lg:pb-24 font-sans overflow-hidden bg-gradient-to-b from-[#061D15] via-[#09281D] to-[#0C3326] text-[#F4F7F4]">
-      
-      {/* Urban Dental Studio Warm Organic Ambient Layers */}
-      <div className="absolute inset-0 pointer-events-none z-0">
-        {/* Warm Gold & Emerald Lighting Spotlights */}
-        <motion.div 
-          initial={{ scale: 1, opacity: 0.4 }}
-          whileInView={shouldReduceMotion ? {} : { scale: [1, 1.05, 1], opacity: [0.4, 0.65, 0.4] }}
-          viewport={{ once: false }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute -top-32 left-1/3 w-[550px] h-[550px] bg-gradient-to-br from-[#10B981]/20 via-[#C5A059]/10 to-transparent rounded-full blur-[120px]"
-        />
-        <motion.div 
-          initial={{ scale: 1, opacity: 0.3 }}
-          whileInView={shouldReduceMotion ? {} : { scale: [1, 1.08, 1], opacity: [0.3, 0.55, 0.3] }}
-          viewport={{ once: false }}
-          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-          className="absolute top-1/3 -left-20 w-[450px] h-[450px] bg-gradient-to-tr from-[#34D399]/15 via-[#C5A059]/15 to-transparent rounded-full blur-[100px]"
-        />
-
-        {/* Floating Organic Warm Particles */}
-        {!shouldReduceMotion && [
-          { top: "12%", left: "15%", delay: 0, size: "w-2 h-2" },
-          { top: "35%", left: "45%", delay: 2, size: "w-3 h-3" },
-          { top: "72%", left: "25%", delay: 4, size: "w-2 h-2" },
-          { top: "20%", left: "80%", delay: 1, size: "w-2.5 h-2.5" },
-          { top: "55%", left: "75%", delay: 3, size: "w-2 h-2" }
-        ].map((pt, idx) => (
-          <motion.div 
-            key={idx}
-            initial={{ y: 0, opacity: 0.25 }}
-            whileInView={{ y: [0, -25, 0], opacity: [0.25, 0.75, 0.25] }}
-            viewport={{ once: false }}
-            transition={{ duration: 7 + idx, repeat: Infinity, ease: "easeInOut", delay: pt.delay }}
-            className={`absolute ${pt.size} rounded-full bg-[#10B981]/40 blur-[2px] ${pt.top} ${pt.left}`}
-          />
-        ))}
-
-        <div className="absolute top-[-20%] left-[-10%] w-[120%] h-[40%] bg-gradient-to-b from-white/5 to-transparent rotate-[15deg]" />
+    <div
+      className="relative pt-12 sm:pt-16 pb-20 lg:pb-24 font-sans overflow-hidden"
+      style={{ background: "linear-gradient(160deg, #061D15 0%, #09281D 55%, #0C3326 100%)", color: "#F4F7F4" }}
+    >
+      {/* Static ambient background — no motion, no blur filter */}
+      <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
+        <div style={{
+          position: "absolute", top: "-10%", left: "30%",
+          width: "500px", height: "500px",
+          background: "radial-gradient(circle, rgba(16,185,129,0.18) 0%, rgba(197,160,89,0.08) 50%, transparent 75%)",
+          borderRadius: "50%",
+        }} />
+        <div style={{
+          position: "absolute", top: "30%", left: "-5%",
+          width: "380px", height: "380px",
+          background: "radial-gradient(circle, rgba(52,211,153,0.12) 0%, transparent 70%)",
+          borderRadius: "50%",
+        }} />
+        <div style={{
+          position: "absolute", top: 0, left: 0, right: 0, height: "40%",
+          background: "linear-gradient(180deg, rgba(255,255,255,0.04) 0%, transparent 100%)",
+        }} />
       </div>
 
       <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-10 relative z-20 max-w-7xl mx-auto px-5 sm:px-8">
-        
-        {/* Left Column (55% width on desktop) */}
-        <motion.div 
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="w-full lg:w-[55%] flex flex-col items-start order-1"
-        >
+
+        {/* Left Column */}
+        <div className="w-full lg:w-[55%] flex flex-col items-start order-1" style={{ animation: "heroFadeUp 0.6s ease-out both" }}>
+
           {/* Tag Pill */}
-          <motion.div variants={itemVariants} className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-2 mb-6 border border-[#10B981]/30 shadow-md cursor-default bg-[#0A291E]/90 text-[#34D399]">
+          <div
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-6 border border-[#10B981]/30 cursor-default"
+            style={{ background: "rgba(10,41,30,0.9)" }}
+          >
             <Star className="w-3.5 h-3.5 text-[#C5A059] fill-[#C5A059]" />
             <span className="text-xs font-bold uppercase tracking-wider text-[#F4F7F4]">Urban Dental Studio Experience</span>
-          </motion.div>
+          </div>
 
-          {/* Refined Serif Typography & Headline */}
-          <motion.h1 variants={itemVariants} className="text-[44px] sm:text-[60px] lg:text-[68px] font-display font-extrabold leading-[1.06] tracking-tight text-[#F4F7F4] mb-6 whitespace-pre-line">
-            {heroContent.title.split('\n').map((line, idx) => (
-              <span key={idx} className="block last:text-transparent last:bg-clip-text last:bg-gradient-to-r last:from-[#10B981] last:via-[#34D399] last:to-[#C5A059]">
-                {line}
-              </span>
-            ))}
-          </motion.h1>
-
-          {/* Refined Supporting Paragraph */}
-          <motion.p variants={itemVariants} className="text-[#A2C7B7] text-base sm:text-lg max-w-xl mb-8 leading-[1.7] font-normal">
-            {heroContent.subtitle}
-          </motion.p>
-
-          {/* CTAs with Premium Hover Effects */}
-          <motion.div variants={itemVariants} className="flex flex-col sm:flex-row items-center gap-4 mb-8 w-full sm:w-auto">
-            {/* Primary CTA */}
-            <button 
-              onClick={(e) => { e.preventDefault(); window.dispatchEvent(new CustomEvent('openContactModal')); }} 
-              className="group w-full sm:w-auto flex items-center justify-center gap-2.5 px-8 py-4 rounded-full bg-gradient-to-r from-[#10B981] to-[#059669] text-white font-semibold text-base shadow-[0_4px_24px_rgba(16,185,129,0.4)] hover:shadow-[0_6px_32px_rgba(16,185,129,0.6)] hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300"
+          {/* Headline */}
+          <h1 className="text-[42px] sm:text-[58px] lg:text-[66px] font-display font-extrabold leading-[1.06] tracking-tight mb-6">
+            <span className="block text-[#F4F7F4]">Healthy Smile</span>
+            <span className="block text-[#F4F7F4]">Starts</span>
+            <span
+              className="block"
+              style={{ WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", backgroundClip: "text", backgroundImage: "linear-gradient(90deg, #10B981, #34D399, #C5A059)" }}
             >
-              <CalendarDays className="w-5 h-5 text-emerald-100 shrink-0 group-hover:rotate-12 transition-transform duration-300" />
-              <span>{heroContent.cta_text}</span>
+              Here
+            </span>
+          </h1>
+
+          {/* Subtitle */}
+          <p className="text-[#A2C7B7] text-base sm:text-lg max-w-xl mb-8 leading-[1.7] font-normal">
+            Modern dental care with advanced technology, gentle treatment, and over 10 years of clinical experience for patients of every age.
+          </p>
+
+          {/* CTAs */}
+          <div className="flex flex-col sm:flex-row items-center gap-4 mb-8 w-full sm:w-auto">
+            <button
+              onClick={handleBooking}
+              className="group w-full sm:w-auto flex items-center justify-center gap-2.5 px-8 py-4 rounded-full text-white font-semibold text-base active:scale-[0.98] transition-transform duration-150"
+              style={{ background: "linear-gradient(135deg, #10B981, #059669)", boxShadow: "0 4px 20px rgba(16,185,129,0.38)" }}
+            >
+              <CalendarDays className="w-5 h-5 text-emerald-100 shrink-0" />
+              <span>Book Appointment</span>
             </button>
 
-            {/* Secondary CTA */}
-            <a 
+            <a
               href="#treatments"
-              onClick={(e) => handleSmoothScroll(e, 'treatments')}
-              className="group w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-4 rounded-full glass-2 text-[#F4F7F4] border border-[#10B981]/30 hover:border-[#10B981]/60 font-semibold text-base hover:bg-[#0A291E]/90 hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300"
+              onClick={(e) => handleScrollTo(e, "treatments")}
+              className="group w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-4 rounded-full font-semibold text-base border border-[#10B981]/30 text-[#F4F7F4] transition-colors duration-200 hover:border-[#10B981]/60"
+              style={{ background: "rgba(10,41,30,0.5)" }}
             >
               <span>Explore Treatments</span>
-              <ChevronRight className="w-4 h-4 text-[#A2C7B7] group-hover:translate-x-1 group-hover:text-[#10B981] transition-all duration-300" />
+              <ChevronRight className="w-4 h-4 text-[#A2C7B7]" />
             </a>
-          </motion.div>
+          </div>
 
-          {/* Emergency Quick Link */}
-          <motion.div variants={itemVariants} className="mb-10 flex items-center gap-3 px-5 py-3.5 rounded-2xl bg-[#1D0C12]/80 border border-rose-500/30 w-full sm:w-auto justify-center sm:justify-start">
-            <div className="w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse" />
+          {/* Emergency Banner */}
+          <div
+            className="mb-10 flex items-center gap-3 px-5 py-3.5 rounded-2xl w-full sm:w-auto justify-center sm:justify-start border border-rose-500/30"
+            style={{ background: "rgba(29,12,18,0.8)" }}
+          >
+            <div className="w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse flex-shrink-0" />
             <span className="text-sm font-semibold text-rose-200">
               Dental Emergency?{" "}
-              <a href={`tel:${contactContent.primary_phone.replace(/[^0-9+]/g, '')}`} className="text-rose-400 font-bold hover:text-rose-300 transition-colors">
-                Call Now {contactContent.primary_phone}
+              <a href={`tel:${PRIMARY_PHONE_NUMBER}`} className="text-rose-400 font-bold hover:text-rose-300 transition-colors">
+                Call Now {PRIMARY_PHONE_NUMBER}
               </a>
             </span>
-          </motion.div>
+          </div>
 
-          {/* Trust Bar (Desktop Position - Hidden on Mobile) */}
-          <motion.div variants={itemVariants} className="w-full hidden lg:block">
-            <TrustBar />
-          </motion.div>
-        </motion.div>
+          {/* Trust Bar — Desktop Only */}
+          <div className="w-full hidden lg:grid grid-cols-4 gap-4">
+            {trustBarItems.map((item, idx) => (
+              <div
+                key={idx}
+                className="p-4 rounded-2xl flex flex-col justify-between border border-emerald-500/25"
+                style={{ background: "rgba(10,38,29,0.8)" }}
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-xs font-semibold text-[#A2C7B7] tracking-wide uppercase">{item.label}</span>
+                  <item.icon className="w-4 h-4 text-[#10B981]" />
+                </div>
+                <span className="text-2xl sm:text-3xl font-display font-extrabold text-[#F4F7F4]">{item.val}</span>
+              </div>
+            ))}
+          </div>
+        </div>
 
-        {/* Right Column: Doctor Credentials Vector Showcase */}
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+        {/* Right Column: Credentials Card — NO backdrop-blur */}
+        <div
           className="w-full lg:w-[45%] flex flex-col items-center justify-center lg:items-end relative mt-6 lg:mt-0 order-3 lg:order-2"
+          style={{ animation: "heroFadeUp 0.7s ease-out 0.15s both" }}
         >
-          {/* Spotlight Background Glow */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] sm:w-[450px] sm:h-[450px] bg-gradient-to-tr from-[#10B981]/20 via-[#C5A059]/10 to-transparent rounded-full blur-[60px] pointer-events-none z-0" />
-
-          {/* Minimalist Clinical Credentials Card */}
           <div className="relative w-full max-w-md sm:max-w-lg lg:max-w-[420px] z-10 space-y-4">
-            <div className="relative w-full rounded-[2.2rem] border border-[#10B981]/30 bg-[#09281D]/95 p-7 shadow-[0_20px_60px_rgba(0,0,0,0.4)] backdrop-blur-xl space-y-6">
-              <div className="absolute top-0 inset-x-0 h-[3px] bg-gradient-to-r from-transparent via-[#10B981] to-transparent pointer-events-none" />
+            {/* Credentials Card — solid bg, no blur */}
+            <div
+              className="relative w-full rounded-[2.2rem] border border-[#10B981]/30 p-7 space-y-6"
+              style={{ background: "rgba(9,40,29,0.98)", boxShadow: "0 20px 60px rgba(0,0,0,0.35)" }}
+            >
+              {/* Top accent line */}
+              <div className="absolute top-0 inset-x-0 h-[3px] rounded-t-[2.2rem]" style={{ background: "linear-gradient(90deg, transparent, #10B981, transparent)" }} />
 
               {/* Doctor Header */}
               <div className="flex items-center gap-4 border-b border-[#10B981]/20 pb-5">
-                <div className="w-14 h-14 rounded-2xl bg-[#10B981]/20 border border-[#10B981]/40 flex items-center justify-center text-[#10B981] shrink-0 shadow-sm">
+                <div className="w-14 h-14 rounded-2xl bg-[#10B981]/20 border border-[#10B981]/40 flex items-center justify-center text-[#10B981] shrink-0">
                   <ToothIcon className="w-7 h-7" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-display font-bold text-[#F4F7F4] leading-tight">
-                    {aboutContent.title}
-                  </h3>
-                  <p className="text-xs text-[#34D399] font-bold mt-1 uppercase tracking-wider">
-                    Dental Surgeon & Oral Physician
-                  </p>
+                  <h3 className="text-xl font-display font-bold text-[#F4F7F4] leading-tight">Dr. Nilay Saha</h3>
+                  <p className="text-xs text-[#34D399] font-bold mt-1 uppercase tracking-wider">Dental Surgeon & Oral Physician</p>
                 </div>
               </div>
 
-              {/* Key Credentials List */}
+              {/* Credential Rows */}
               <div className="space-y-3">
-                <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#061D15] border border-emerald-900/40">
-                  <div className="flex items-center gap-3">
-                    <Award className="w-4.5 h-4.5 text-[#C5A059]" />
-                    <span className="text-xs font-semibold text-[#F4F7F4]">Degree Qualification</span>
+                {credentialRows.map((row, idx) => (
+                  <div
+                    key={idx}
+                    className="flex items-center justify-between p-3.5 rounded-xl border border-emerald-900/40"
+                    style={{ background: "rgba(6,29,21,1)" }}
+                  >
+                    <div className="flex items-center gap-3">
+                      <row.icon className={`w-4 h-4 ${row.iconColor} shrink-0`} />
+                      <span className="text-xs font-semibold text-[#F4F7F4]">{row.label}</span>
+                    </div>
+                    <span className="text-xs font-bold font-mono text-[#34D399]">{row.value}</span>
                   </div>
-                  <span className="text-xs font-bold font-mono text-[#34D399]">BDS</span>
-                </div>
-
-                <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#061D15] border border-emerald-900/40">
-                  <div className="flex items-center gap-3">
-                    <Shield className="w-4.5 h-4.5 text-[#10B981]" />
-                    <span className="text-xs font-semibold text-[#F4F7F4]">State Medical License</span>
-                  </div>
-                  <span className="text-xs font-bold font-mono text-[#F4F7F4]">{DOCTOR_REGISTRATION_NUMBER}</span>
-                </div>
-
-                <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#061D15] border border-emerald-900/40">
-                  <div className="flex items-center gap-3">
-                    <Activity className="w-4.5 h-4.5 text-[#34D399]" />
-                    <span className="text-xs font-semibold text-[#F4F7F4]">Clinical Practice</span>
-                  </div>
-                  <span className="text-xs font-bold text-[#A2C7B7]">10+ Years Exp.</span>
-                </div>
+                ))}
               </div>
 
-              {/* Clinic Centers Summary */}
+              {/* Active Centers */}
               <div className="pt-2 border-t border-[#10B981]/20 flex items-center justify-between text-xs text-[#A2C7B7]">
                 <span className="font-medium">Active Centers:</span>
                 <span className="font-bold text-[#F4F7F4]">Belerhat • Parulia • Nabadwip</span>
               </div>
             </div>
 
-            {/* Bottom Quick Feature Cards */}
+            {/* Feature Mini Cards */}
             <div className="grid grid-cols-2 gap-3">
-              <div className="rounded-2xl p-4 border border-emerald-500/25 bg-[#09281D]/80 text-[#F4F7F4] flex items-center gap-3 shadow-md">
-                <div className="w-8 h-8 rounded-xl bg-[#10B981]/20 border border-[#10B981]/40 flex items-center justify-center shrink-0">
-                  <ToothIcon className="w-4 h-4 text-[#10B981]" />
+              {[
+                { icon: ToothIcon, title: "Digital Care", sub: "Modern Tech" },
+                { icon: Shield, title: "Painless Care", sub: "Gentle Dental" }
+              ].map((card, idx) => (
+                <div
+                  key={idx}
+                  className="rounded-2xl p-4 border border-emerald-500/25 flex items-center gap-3"
+                  style={{ background: "rgba(9,40,29,0.8)" }}
+                >
+                  <div className="w-8 h-8 rounded-xl bg-[#10B981]/20 border border-[#10B981]/40 flex items-center justify-center shrink-0">
+                    <card.icon className="w-4 h-4 text-[#10B981]" />
+                  </div>
+                  <div>
+                    <h4 className="text-xs font-bold text-[#F4F7F4]">{card.title}</h4>
+                    <p className="text-[10px] text-[#A2C7B7]">{card.sub}</p>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="text-xs font-bold text-[#F4F7F4]">Digital Care</h4>
-                  <p className="text-[10px] text-[#A2C7B7]">Modern Tech</p>
-                </div>
-              </div>
-
-              <div className="rounded-2xl p-4 border border-emerald-500/25 bg-[#09281D]/80 text-[#F4F7F4] flex items-center gap-3 shadow-md">
-                <div className="w-8 h-8 rounded-xl bg-[#10B981]/20 border border-[#10B981]/40 flex items-center justify-center shrink-0">
-                  <Shield className="w-4 h-4 text-[#10B981]" />
-                </div>
-                <div>
-                  <h4 className="text-xs font-bold text-[#F4F7F4]">Painless Care</h4>
-                  <p className="text-[10px] text-[#A2C7B7]">Gentle Dental</p>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
-        </motion.div>
+        </div>
 
-        {/* Trust Bar (Mobile Position - Hidden on Desktop) */}
-        <div className="w-full block lg:hidden order-4 mt-4">
-          <TrustBar />
+        {/* Trust Bar — Mobile Only */}
+        <div className="w-full block lg:hidden order-4 mt-4 grid grid-cols-2 gap-3">
+          {trustBarItems.map((item, idx) => (
+            <div
+              key={idx}
+              className="p-4 rounded-2xl flex flex-col justify-between border border-emerald-500/25"
+              style={{ background: "rgba(10,38,29,0.8)" }}
+            >
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-xs font-semibold text-[#A2C7B7] tracking-wide uppercase">{item.label}</span>
+                <item.icon className="w-4 h-4 text-[#10B981]" />
+              </div>
+              <span className="text-2xl font-display font-extrabold text-[#F4F7F4]">{item.val}</span>
+            </div>
+          ))}
         </div>
       </div>
 
-      {/* Scroll Indicator (Hidden on Mobile) */}
-      <div 
-        className="absolute bottom-2 left-1/2 -translate-x-1/2 hidden lg:flex flex-col items-center gap-1.5 opacity-70 hover:opacity-100 transition-opacity cursor-pointer z-30" 
-        onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
+      {/* Scroll Indicator — Desktop only, minimal CSS */}
+      <div
+        className="absolute bottom-2 left-1/2 -translate-x-1/2 hidden lg:flex flex-col items-center gap-1.5 opacity-60 cursor-pointer z-30"
+        onClick={() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })}
+        role="button"
+        aria-label="Scroll to About section"
       >
         <span className="text-[10px] uppercase tracking-[0.2em] text-[#A2C7B7] font-bold">Explore Clinic</span>
-        <motion.div 
-          animate={{ y: [0, 6, 0] }} 
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          className="w-5 h-8 rounded-full border border-emerald-500/40 flex justify-center p-1 bg-[#0A261D]/60"
-        >
-          <div className="w-1 h-2 bg-[#10B981] rounded-full" />
-        </motion.div>
+        <div className="w-5 h-8 rounded-full border border-emerald-500/40 flex justify-center p-1" style={{ background: "rgba(10,38,29,0.6)" }}>
+          <div className="w-1 h-2 bg-[#10B981] rounded-full" style={{ animation: "scrollBob 2s ease-in-out infinite" }} />
+        </div>
       </div>
 
+      <style>{`
+        @keyframes heroFadeUp {
+          from { opacity: 0; transform: translateY(18px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes scrollBob {
+          0%, 100% { transform: translateY(0); }
+          50%       { transform: translateY(5px); }
+        }
+      `}</style>
     </div>
   );
 }

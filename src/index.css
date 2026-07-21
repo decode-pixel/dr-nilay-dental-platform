@@ -179,13 +179,18 @@ footer [class*="text-[#A1A1A6]"], #footer [class*="text-[#A1A1A6]"] {
   }
 }
 
-@media (max-width: 639px) {
+/**
+ * MOBILE & TABLET PERFORMANCE: Strip backdrop-filter on <1024px.
+ * backdrop-filter: blur triggers GPU compositing layers on iOS/Android,
+ * causing jank and dropped frames during scroll. Use solid fallback.
+ */
+@media (max-width: 1023px) {
   .glass-1, .glass-2, .glass-panel, .glass-3, .glass-4 {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
-    background: #FFFFFF !important;
-    border: 1px solid rgba(15, 23, 42, 0.08) !important;
-    box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04) !important;
+    background: rgba(255, 255, 255, 0.97) !important;
+    border: 1px solid rgba(18, 40, 32, 0.08) !important;
+    box-shadow: 0 2px 12px rgba(18, 40, 32, 0.06) !important;
   }
 }
 
@@ -200,7 +205,14 @@ footer [class*="text-[#A1A1A6]"], #footer [class*="text-[#A1A1A6]"] {
 #about,
 #treatments,
 #locations,
+#reviews,
+#why-choose-us,
 #faq,
 #contact {
   scroll-margin-top: var(--scroll-offset);
+}
+
+/* Prevent accidental compositing layers on non-animated elements */
+* {
+  will-change: auto;
 }

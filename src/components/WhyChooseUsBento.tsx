@@ -154,10 +154,10 @@ export default function WhyChooseUsBento() {
 
   return (
     <section className="py-24 sm:py-32 relative overflow-hidden font-sans" id="why-choose-us">
-      {/* Soft Cinematic Background Ambient */}
-      <div className="absolute inset-0 pointer-events-none z-0">
-        <div className="absolute top-1/4 -right-32 w-96 h-96 bg-blue-500/[0.03] rounded-full blur-[100px]" />
-        <div className="absolute bottom-1/4 -left-32 w-96 h-96 bg-sky-500/[0.03] rounded-full blur-[100px]" />
+      {/* Minimal static ambient — no blur, no animation */}
+      <div className="absolute inset-0 pointer-events-none z-0" aria-hidden="true">
+        <div className="absolute top-1/4 -right-32 w-96 h-96 rounded-full" style={{ background: "radial-gradient(circle, rgba(37,99,235,0.04) 0%, transparent 70%)" }} />
+        <div className="absolute bottom-1/4 -left-32 w-96 h-96 rounded-full" style={{ background: "radial-gradient(circle, rgba(14,165,233,0.03) 0%, transparent 70%)" }} />
       </div>
 
       <div className="max-w-7xl mx-auto px-5 sm:px-8 relative z-10">
@@ -190,15 +190,11 @@ export default function WhyChooseUsBento() {
             }
 
             return (
-              <motion.div
+              <div
                 key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-40px" }}
-                transition={{ duration: 0.6, ease: "easeOut", delay: Math.min(0.3, idx * 0.04) }}
-                className={`group relative overflow-hidden rounded-[2rem] border border-white/80 bg-gradient-to-b ${card.color} backdrop-blur-xl p-8 sm:p-10 flex flex-col justify-between ${shadowClass} transition-all duration-300 hover:-translate-y-1.5 ${hoverShadowClass} ${card.borderColor} ${card.span}`}
+                className={`group relative overflow-hidden rounded-[2rem] border border-white/80 bg-gradient-to-b ${card.color} p-8 sm:p-10 flex flex-col justify-between ${shadowClass} transition-all duration-300 hover:-translate-y-1 ${hoverShadowClass} ${card.borderColor} ${card.span}`}
               >
-                <div className="absolute inset-0 bg-gradient-to-tr from-white/10 via-white/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-tr from-white/10 via-white/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
                 {idx === 7 ? (
                   // Wide Card (Card 8) Layout: Horizontal flex layout on desktop/tablet to break vertical repetition
@@ -249,7 +245,7 @@ export default function WhyChooseUsBento() {
                   <span>Learn more</span>
                   <ChevronRight className="w-4 h-4" />
                 </button>
-              </motion.div>
+              </div>
             );
           })}
         </div>
