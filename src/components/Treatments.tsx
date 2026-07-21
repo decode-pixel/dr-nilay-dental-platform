@@ -97,10 +97,10 @@ export default function Treatments() {
           className="text-center max-w-3xl mx-auto mb-16 sm:mb-24"
         >
           <TagPill icon={ToothIcon} text="Our Services" />
-          <h2 className="text-[36px] sm:text-[48px] lg:text-[56px] font-display font-bold text-[#0F172A] tracking-tight leading-[1.12] mb-5">
-            Our <span className="text-[#2563EB]">Treatments</span>
+          <h2 className="text-[36px] sm:text-[48px] lg:text-[56px] font-display font-bold text-[#122820] tracking-tight leading-[1.12] mb-5">
+            Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#10B981] to-[#059669]">Treatments</span>
           </h2>
-          <p className="text-[#475569] text-base sm:text-lg leading-[1.65] max-w-2xl mx-auto font-normal">
+          <p className="text-[#2C4238] text-base sm:text-lg leading-[1.65] max-w-2xl mx-auto font-normal">
             Comprehensive dental care delivered with modern technology, gentle techniques, and over 10 years of clinical excellence.
           </p>
         </motion.div>
@@ -135,8 +135,8 @@ export default function Treatments() {
                 >
                   <div className={`w-full h-full rounded-[2.2rem] p-8 flex flex-col relative group transition-all duration-500 overflow-hidden ${
                     isActive 
-                      ? 'glass-3 border-blue-500/40 shadow-[0_20px_60px_rgba(37,99,235,0.12)] bg-white/95' 
-                      : 'glass-2 border-white/70 shadow-sm hover:border-blue-300/60'
+                      ? 'bg-[#FAFDFB] border border-emerald-500/40 shadow-[0_20px_60px_rgba(16,185,129,0.15)]' 
+                      : 'bg-[#F4F7F4] border border-emerald-900/10 shadow-sm hover:border-emerald-400/50'
                   }`}>
                     
                     {/* Active Glow */}
@@ -167,7 +167,7 @@ export default function Treatments() {
                       <Link to={`/treatments/${treatment.id}`} className={`mt-auto w-full py-3.5 rounded-full font-semibold text-sm transition-all duration-300 flex items-center justify-center gap-2 ${
                         isActive 
                           ? 'bg-gradient-to-r from-[#10B981] to-[#059669] text-white shadow-[0_4px_16px_rgba(16,185,129,0.35)] hover:shadow-[0_6px_24px_rgba(16,185,129,0.5)] active:scale-[0.98]' 
-                          : 'glass-1 border border-emerald-900/10 text-[#122820] hover:bg-white active:scale-[0.98] shadow-sm'
+                          : 'bg-[#FAFDFB] border border-emerald-900/10 text-[#122820] hover:bg-white active:scale-[0.98] shadow-sm'
                       }`}>
                         <span>Learn More</span>
                       </Link>
@@ -183,14 +183,14 @@ export default function Treatments() {
             <button 
               onClick={handlePrev}
               aria-label="Previous Treatment"
-              className="pointer-events-auto w-14 h-14 rounded-full glass-3 border border-white/90 flex items-center justify-center text-[#2563EB] hover:bg-white hover:scale-105 active:scale-95 transition-all shadow-[0_8px_30px_rgba(15,23,42,0.12)]"
+              className="pointer-events-auto w-14 h-14 rounded-full bg-[#FAFDFB] border border-emerald-900/15 flex items-center justify-center text-[#10B981] hover:bg-emerald-50 hover:scale-105 active:scale-95 transition-all shadow-[0_8px_30px_rgba(7,31,23,0.1)]"
             >
               <ChevronLeft className="w-6 h-6 mr-0.5" strokeWidth={2} />
             </button>
             <button 
               onClick={handleNext}
               aria-label="Next Treatment"
-              className="pointer-events-auto w-14 h-14 rounded-full glass-3 border border-white/90 flex items-center justify-center text-[#2563EB] hover:bg-white hover:scale-105 active:scale-95 transition-all shadow-[0_8px_30px_rgba(15,23,42,0.12)]"
+              className="pointer-events-auto w-14 h-14 rounded-full bg-[#FAFDFB] border border-emerald-900/15 flex items-center justify-center text-[#10B981] hover:bg-emerald-50 hover:scale-105 active:scale-95 transition-all shadow-[0_8px_30px_rgba(7,31,23,0.1)]"
             >
               <ChevronRight className="w-6 h-6 ml-0.5" strokeWidth={2} />
             </button>
@@ -204,7 +204,7 @@ export default function Treatments() {
               key={idx}
               onClick={() => setCurrentIndex(idx)}
               className={`h-1.5 rounded-full transition-all duration-500 ${
-                idx === currentIndex ? 'w-6 bg-[#2563EB] shadow-[0_0_10px_rgba(37,99,235,0.4)]' : 'w-1.5 bg-slate-300'
+                idx === currentIndex ? 'w-6 bg-[#10B981] shadow-[0_0_10px_rgba(16,185,129,0.4)]' : 'w-1.5 bg-emerald-200'
               }`}
               aria-label={`Go to treatment ${idx + 1}`}
             />
@@ -217,14 +217,14 @@ export default function Treatments() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-          className="mt-16 sm:mt-24 flex flex-wrap justify-center gap-x-8 gap-y-4 border-t border-slate-200/70 pt-10"
+          className="mt-16 sm:mt-24 flex flex-wrap justify-center gap-x-8 gap-y-4 border-t border-emerald-900/10 pt-10"
         >
           {trustFeatures.map((feature, idx) => (
-            <div key={idx} className="flex items-center gap-2.5 text-[#475569]">
-              <div className="w-5 h-5 rounded-full bg-blue-100/80 border border-blue-200 flex items-center justify-center shrink-0">
-                <Check className="w-3.5 h-3.5 text-[#2563EB]" strokeWidth={2.5} />
+            <div key={idx} className="flex items-center gap-2.5 text-[#2C4238]">
+              <div className="w-5 h-5 rounded-full bg-emerald-50 border border-emerald-200 flex items-center justify-center shrink-0">
+                <Check className="w-3.5 h-3.5 text-[#10B981]" strokeWidth={2.5} />
               </div>
-              <span className="text-xs sm:text-sm font-bold tracking-wider uppercase text-[#0F172A]">{feature}</span>
+              <span className="text-xs sm:text-sm font-bold tracking-wider uppercase text-[#122820]">{feature}</span>
             </div>
           ))}
         </motion.div>

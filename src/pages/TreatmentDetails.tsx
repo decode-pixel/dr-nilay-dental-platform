@@ -115,9 +115,9 @@ export default function TreatmentDetails() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#0a0a0c] flex flex-col items-center justify-center text-white font-sans">
-        <Clock className="w-10 h-10 animate-spin text-[#8B7BF7] mb-4" />
-        <span className="text-xs text-[#A1A1A6] uppercase tracking-widest font-semibold">Loading Treatment Details...</span>
+      <div className="min-h-screen bg-[#F4F7F4] flex flex-col items-center justify-center text-[#122820] font-sans">
+        <Clock className="w-10 h-10 animate-spin text-[#10B981] mb-4" />
+        <span className="text-xs text-[#4B6358] uppercase tracking-widest font-semibold">Loading Treatment Details...</span>
       </div>
     );
   }
@@ -128,7 +128,7 @@ export default function TreatmentDetails() {
   const activeClinic = clinics.find((c) => c.id === selectedClinicId);
 
   return (
-    <div className="min-h-screen bg-[#0a0a0c] text-[#F5F5F7] overflow-x-hidden font-sans relative">
+    <div className="min-h-screen bg-[#F4F7F4] text-[#122820] overflow-x-hidden font-sans relative">
       
       {/* Dynamic SEO Overrides & Structured JSON-LD Schema */}
       <SEO
@@ -176,12 +176,12 @@ export default function TreatmentDetails() {
 
       <div className="max-w-7xl mx-auto px-5 sm:px-8 pt-28 pb-20 relative z-10">
         {/* Breadcrumbs */}
-        <div className="flex items-center gap-2 text-xs text-[#A1A1A6] mb-8 font-medium">
-          <Link to="/" className="hover:text-white transition-colors">Home</Link>
-          <ChevronRight className="w-3.5 h-3.5 text-gray-600" />
-          <span className="text-gray-400">Treatments</span>
-          <ChevronRight className="w-3.5 h-3.5 text-gray-600" />
-          <span className="text-[#8B7BF7] font-semibold">{treatment.name}</span>
+        <div className="flex items-center gap-2 text-xs text-[#4B6358] mb-8 font-medium">
+          <Link to="/" className="hover:text-[#10B981] transition-colors">Home</Link>
+          <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+          <span className="text-[#4B6358]">Treatments</span>
+          <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+          <span className="text-[#10B981] font-semibold">{treatment.name}</span>
         </div>
 
         {/* Dynamic content grid */}
@@ -194,9 +194,9 @@ export default function TreatmentDetails() {
             <motion.div
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              className="glass-2 rounded-[2.5rem] overflow-hidden border border-white/10 shadow-[0_16px_48px_rgba(0,0,0,0.5)]"
+              className="bg-[#FAFDFB] rounded-[2.5rem] overflow-hidden border border-emerald-900/10 shadow-lg"
             >
-              <div className="relative w-full aspect-[16/9] sm:aspect-[2/1] overflow-hidden bg-black/40">
+              <div className="relative w-full aspect-[16/9] sm:aspect-[2/1] overflow-hidden bg-[#122820]">
                 <OptimizedImage
                   src={seoData?.og_image || `/DNS_Treatment_${treatment.slug}_Hero_16x9_202607.webp`}
                   fallbackSrc="/DNS_Hero_TwilightExterior_16x9_202607.webp"
@@ -204,30 +204,30 @@ export default function TreatmentDetails() {
                   priority={true}
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0F] via-[#0A0A0F]/60 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#122820] via-[#122820]/60 to-transparent" />
                 <div className="absolute bottom-6 left-6 right-6 sm:bottom-8 sm:left-8 sm:right-8 z-10 space-y-3">
                   <div className="flex flex-wrap items-center gap-3">
-                    <span className="text-xs px-3 py-1 rounded-full glass-1 text-[#8B7BF7] font-semibold tracking-wider uppercase border border-white/10">
+                    <span className="text-xs px-3 py-1 rounded-full bg-emerald-500/20 text-[#34D399] font-semibold tracking-wider uppercase border border-emerald-500/30">
                       {treatment.category || 'General'}
                     </span>
-                    <span className="text-xs text-[#A1A1A6] flex items-center gap-1.5 font-medium glass-1 px-3 py-1 rounded-full">
-                      <Clock className="w-3.5 h-3.5 text-[#8B7BF7]" />
+                    <span className="text-xs text-[#E2E8F0] flex items-center gap-1.5 font-medium bg-white/10 px-3 py-1 rounded-full backdrop-blur-md">
+                      <Clock className="w-3.5 h-3.5 text-[#34D399]" />
                       ~{treatment.consultation_duration + treatment.procedure_duration} Mins Total
                     </span>
-                    <span className="text-xs text-[#A1A1A6] flex items-center gap-1.5 font-medium glass-1 px-3 py-1 rounded-full">
-                      <Activity className="w-3.5 h-3.5 text-emerald-400" />
+                    <span className="text-xs text-[#E2E8F0] flex items-center gap-1.5 font-medium bg-white/10 px-3 py-1 rounded-full backdrop-blur-md">
+                      <Activity className="w-3.5 h-3.5 text-[#34D399]" />
                       Recovery: {treatment.recovery_time || '1-2 Days'}
                     </span>
                   </div>
 
-                  <h1 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-[#F5F5F7] tracking-tight leading-[1.12]">
+                  <h1 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-white tracking-tight leading-[1.12]">
                     {treatment.name}
                   </h1>
                 </div>
               </div>
 
               {/* Navigation Tabs */}
-              <div className="px-6 sm:px-8 pt-4 pb-6 border-b border-white/10 flex items-center gap-2 overflow-x-auto no-scrollbar">
+              <div className="px-6 sm:px-8 pt-4 pb-6 border-b border-emerald-900/10 flex items-center gap-2 overflow-x-auto no-scrollbar">
                 {[
                   { id: 'overview', label: 'Overview', icon: FileText },
                   { id: 'procedure', label: 'Procedure & Preparation', icon: Layers },
@@ -243,8 +243,8 @@ export default function TreatmentDetails() {
                       onClick={() => setActiveTab(tab.id as any)}
                       className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold shrink-0 transition-all ${
                         isActive
-                          ? 'bg-gradient-to-r from-[#7C6BDF] to-[#6366F1] text-white shadow-[0_4px_15px_rgba(139,123,247,0.3)]'
-                          : 'glass-1 text-[#A1A1A6] hover:text-white hover:border-white/20'
+                          ? 'bg-gradient-to-r from-[#10B981] to-[#059669] text-white shadow-[0_4px_15px_rgba(16,185,129,0.35)]'
+                          : 'bg-[#F4F7F4] text-[#4B6358] hover:text-[#122820] hover:bg-emerald-50'
                       }`}
                     >
                       <Icon className="w-4 h-4" />
@@ -258,37 +258,37 @@ export default function TreatmentDetails() {
               <div className="p-6 sm:p-8">
                 {activeTab === 'overview' && (
                   <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
-                    <div className="prose prose-invert max-w-none">
-                      <p className="text-base sm:text-lg text-[#A1A1A6] leading-[1.7] whitespace-pre-line font-normal">
+                    <div className="prose max-w-none">
+                      <p className="text-base sm:text-lg text-[#2C4238] leading-[1.7] whitespace-pre-line font-normal">
                         {treatment.description || 'Comprehensive clinical diagnosis and treatment plan engineered for long-term oral stability.'}
                       </p>
                     </div>
 
                     {/* Render dynamic overview blocks if registered in CMS */}
                     {blocks.filter(b => b.block_type === 'Overview').map(block => (
-                      <div key={block.id} className="glass-1 rounded-2xl p-6 border border-white/10 space-y-3">
-                        {block.title && <h3 className="text-lg font-display font-bold text-[#F5F5F7]">{block.title}</h3>}
-                        <p className="text-sm text-[#A1A1A6] leading-relaxed whitespace-pre-line">{block.content}</p>
+                      <div key={block.id} className="bg-[#F4F7F4] rounded-2xl p-6 border border-emerald-900/10 space-y-3">
+                        {block.title && <h3 className="text-lg font-display font-bold text-[#122820]">{block.title}</h3>}
+                        <p className="text-sm text-[#2C4238] leading-relaxed whitespace-pre-line">{block.content}</p>
                       </div>
                     ))}
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-white/10">
-                      <div className="glass-1 rounded-2xl p-5 border border-white/10 flex items-start gap-3.5">
-                        <div className="w-10 h-10 rounded-xl bg-[#8B7BF7]/15 border border-[#8B7BF7]/30 flex items-center justify-center text-[#8B7BF7] shrink-0">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-emerald-900/10">
+                      <div className="bg-[#F4F7F4] rounded-2xl p-5 border border-emerald-900/10 flex items-start gap-3.5">
+                        <div className="w-10 h-10 rounded-xl bg-emerald-50 text-[#10B981] border border-emerald-200 flex items-center justify-center shrink-0">
                           <ShieldCheck className="w-5 h-5" />
                         </div>
                         <div>
-                          <h4 className="text-sm font-semibold text-[#F5F5F7]">Sterile & Laser-Assisted</h4>
-                          <p className="text-xs text-[#A1A1A6] mt-1">Conducted under strict WHO sterilization guidelines and surgical isolation.</p>
+                          <h4 className="text-sm font-semibold text-[#122820]">Sterile & Laser-Assisted</h4>
+                          <p className="text-xs text-[#4B6358] mt-1">Conducted under strict WHO sterilization guidelines and surgical isolation.</p>
                         </div>
                       </div>
-                      <div className="glass-1 rounded-2xl p-5 border border-white/10 flex items-start gap-3.5">
-                        <div className="w-10 h-10 rounded-xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shrink-0">
+                      <div className="bg-[#F4F7F4] rounded-2xl p-5 border border-emerald-900/10 flex items-start gap-3.5">
+                        <div className="w-10 h-10 rounded-xl bg-emerald-50 text-[#10B981] border border-emerald-200 flex items-center justify-center shrink-0">
                           <CheckCircle className="w-5 h-5" />
                         </div>
                         <div>
-                          <h4 className="text-sm font-semibold text-[#F5F5F7]">Personalized Care Plan</h4>
-                          <p className="text-xs text-[#A1A1A6] mt-1">Custom restorative options calibrated to individual anatomical structures.</p>
+                          <h4 className="text-sm font-semibold text-[#122820]">Personalized Care Plan</h4>
+                          <p className="text-xs text-[#4B6358] mt-1">Custom restorative options calibrated to individual anatomical structures.</p>
                         </div>
                       </div>
                     </div>
@@ -297,21 +297,21 @@ export default function TreatmentDetails() {
 
                 {activeTab === 'procedure' && (
                   <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
-                    <h3 className="text-lg font-display font-bold text-[#F5F5F7] flex items-center gap-2">
-                      <Layers className="w-5 h-5 text-[#8B7BF7]" />
+                    <h3 className="text-lg font-display font-bold text-[#122820] flex items-center gap-2">
+                      <Layers className="w-5 h-5 text-[#10B981]" />
                       Step-by-Step Clinical Workflow
                     </h3>
 
                     {blocks.filter(b => b.block_type === 'Procedure' || b.block_type === 'Preparation').length > 0 ? (
                       <div className="space-y-4">
                         {blocks.filter(b => b.block_type === 'Procedure' || b.block_type === 'Preparation').map((b, idx) => (
-                          <div key={b.id} className="glass-1 rounded-2xl p-5 border border-white/10 flex items-start gap-4">
-                            <span className="w-8 h-8 rounded-full bg-[#8B7BF7]/20 border border-[#8B7BF7]/40 flex items-center justify-center text-xs font-bold text-[#8B7BF7] shrink-0">
+                          <div key={b.id} className="bg-[#F4F7F4] rounded-2xl p-5 border border-emerald-900/10 flex items-start gap-4">
+                            <span className="w-8 h-8 rounded-full bg-emerald-50 border border-emerald-200 flex items-center justify-center text-xs font-bold text-[#10B981] shrink-0">
                               {idx + 1}
                             </span>
                             <div className="space-y-1">
-                              <h4 className="text-base font-semibold text-[#F5F5F7]">{b.title}</h4>
-                              <p className="text-sm text-[#A1A1A6] leading-relaxed whitespace-pre-line">{b.content}</p>
+                              <h4 className="text-base font-semibold text-[#122820]">{b.title}</h4>
+                              <p className="text-sm text-[#2C4238] leading-relaxed whitespace-pre-line">{b.content}</p>
                             </div>
                           </div>
                         ))}
@@ -324,13 +324,13 @@ export default function TreatmentDetails() {
                           { step: '03', title: 'Precision Treatment Execution', desc: 'Microsurgical or laser-assisted intervention adhering to modern dental protocols.' },
                           { step: '04', title: 'Restoration & Quality Verification', desc: 'Final polishing, bite articulation check, and post-operative instructions.' }
                         ].map((item, idx) => (
-                          <div key={idx} className="glass-1 rounded-2xl p-5 border border-white/10 flex items-start gap-4 hover:border-[#8B7BF7]/30 transition-colors">
-                            <span className="w-8 h-8 rounded-full bg-[#8B7BF7]/20 border border-[#8B7BF7]/40 flex items-center justify-center text-xs font-bold text-[#8B7BF7] shrink-0">
+                          <div key={idx} className="bg-[#F4F7F4] rounded-2xl p-5 border border-emerald-900/10 flex items-start gap-4 hover:border-emerald-300 transition-colors">
+                            <span className="w-8 h-8 rounded-full bg-emerald-50 border border-emerald-200 flex items-center justify-center text-xs font-bold text-[#10B981] shrink-0">
                               {item.step}
                             </span>
                             <div className="space-y-1">
-                              <h4 className="text-base font-semibold text-[#F5F5F7]">{item.title}</h4>
-                              <p className="text-sm text-[#A1A1A6] leading-relaxed">{item.desc}</p>
+                              <h4 className="text-base font-semibold text-[#122820]">{item.title}</h4>
+                              <p className="text-sm text-[#2C4238] leading-relaxed">{item.desc}</p>
                             </div>
                           </div>
                         ))}
@@ -341,20 +341,20 @@ export default function TreatmentDetails() {
 
                 {activeTab === 'benefits' && (
                   <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
-                    <h3 className="text-lg font-display font-bold text-[#F5F5F7] flex items-center gap-2">
-                      <Sparkles className="w-5 h-5 text-[#8B7BF7]" />
+                    <h3 className="text-lg font-display font-bold text-[#122820] flex items-center gap-2">
+                      <Sparkles className="w-5 h-5 text-[#10B981]" />
                       Clinical & Aesthetic Advantages
                     </h3>
 
                     {blocks.filter(b => b.block_type === 'Benefits').length > 0 ? (
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         {blocks.filter(b => b.block_type === 'Benefits').map(b => (
-                          <div key={b.id} className="glass-1 rounded-2xl p-5 border border-white/10 space-y-2">
-                            <h4 className="text-base font-semibold text-[#F5F5F7] flex items-center gap-2">
-                              <CheckCircle className="w-4 h-4 text-[#8B7BF7]" />
+                          <div key={b.id} className="bg-[#F4F7F4] rounded-2xl p-5 border border-emerald-900/10 space-y-2">
+                            <h4 className="text-base font-semibold text-[#122820] flex items-center gap-2">
+                              <CheckCircle className="w-4 h-4 text-[#10B981]" />
                               {b.title}
                             </h4>
-                            <p className="text-sm text-[#A1A1A6] leading-relaxed">{b.content}</p>
+                            <p className="text-sm text-[#2C4238] leading-relaxed">{b.content}</p>
                           </div>
                         ))}
                       </div>
@@ -366,12 +366,12 @@ export default function TreatmentDetails() {
                           { title: 'High Aesthetic Integrity', desc: 'Tooth-colored biocompatible materials seamlessly match natural enamel luster and shade.' },
                           { title: 'Long-Term Functional Stability', desc: 'Restores full masticatory forces allowing comfortable chewing and proper speech articulation.' }
                         ].map((adv, idx) => (
-                          <div key={idx} className="glass-1 rounded-2xl p-5 border border-white/10 space-y-2 hover:border-[#8B7BF7]/30 transition-colors">
-                            <h4 className="text-base font-semibold text-[#F5F5F7] flex items-center gap-2">
-                              <CheckCircle className="w-4 h-4 text-[#8B7BF7]" />
+                          <div key={idx} className="bg-[#F4F7F4] rounded-2xl p-5 border border-emerald-900/10 space-y-2 hover:border-emerald-300 transition-colors">
+                            <h4 className="text-base font-semibold text-[#122820] flex items-center gap-2">
+                              <CheckCircle className="w-4 h-4 text-[#10B981]" />
                               {adv.title}
                             </h4>
-                            <p className="text-sm text-[#A1A1A6] leading-relaxed">{adv.desc}</p>
+                            <p className="text-sm text-[#2C4238] leading-relaxed">{adv.desc}</p>
                           </div>
                         ))}
                       </div>
@@ -382,29 +382,29 @@ export default function TreatmentDetails() {
                 {activeTab === 'recovery' && (
                   <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div className="glass-1 rounded-2xl p-5 border border-white/10 space-y-2">
-                        <span className="text-xs uppercase font-bold text-[#8B7BF7] tracking-wider">Estimated Recovery</span>
-                        <h4 className="text-xl font-display font-bold text-[#F5F5F7]">{treatment.recovery_time || '1-2 Days'}</h4>
-                        <p className="text-xs text-[#A1A1A6]">Most patients resume regular daily routine immediately post-treatment.</p>
+                      <div className="bg-[#F4F7F4] rounded-2xl p-5 border border-emerald-900/10 space-y-2">
+                        <span className="text-xs uppercase font-bold text-[#10B981] tracking-wider">Estimated Recovery</span>
+                        <h4 className="text-xl font-display font-bold text-[#122820]">{treatment.recovery_time || '1-2 Days'}</h4>
+                        <p className="text-xs text-[#4B6358]">Most patients resume regular daily routine immediately post-treatment.</p>
                       </div>
-                      <div className="glass-1 rounded-2xl p-5 border border-white/10 space-y-2">
-                        <span className="text-xs uppercase font-bold text-emerald-400 tracking-wider">Follow-up Schedule</span>
-                        <h4 className="text-xl font-display font-bold text-[#F5F5F7]">{treatment.follow_up_required ? 'Required (7-10 Days)' : 'Optional Review'}</h4>
-                        <p className="text-xs text-[#A1A1A6]">Brief clinical evaluation to verify tissue healing and bite balance.</p>
+                      <div className="bg-[#F4F7F4] rounded-2xl p-5 border border-emerald-900/10 space-y-2">
+                        <span className="text-xs uppercase font-bold text-[#C5A059] tracking-wider">Follow-up Schedule</span>
+                        <h4 className="text-xl font-display font-bold text-[#122820]">{treatment.follow_up_required ? 'Required (7-10 Days)' : 'Optional Review'}</h4>
+                        <p className="text-xs text-[#4B6358]">Brief clinical evaluation to verify tissue healing and bite balance.</p>
                       </div>
                     </div>
 
-                    <h3 className="text-lg font-display font-bold text-[#F5F5F7] flex items-center gap-2 pt-2">
-                      <Heart className="w-5 h-5 text-rose-400" />
+                    <h3 className="text-lg font-display font-bold text-[#122820] flex items-center gap-2 pt-2">
+                      <Heart className="w-5 h-5 text-rose-500" />
                       Post-Treatment Aftercare Guidelines
                     </h3>
 
                     {blocks.filter(b => b.block_type === 'Recovery' || b.block_type === 'Aftercare' || b.block_type === 'Risks').length > 0 ? (
                       <div className="space-y-4">
                         {blocks.filter(b => b.block_type === 'Recovery' || b.block_type === 'Aftercare' || b.block_type === 'Risks').map(b => (
-                          <div key={b.id} className="glass-1 rounded-2xl p-5 border border-white/10 space-y-1">
-                            <h4 className="text-base font-semibold text-[#F5F5F7]">{b.title}</h4>
-                            <p className="text-sm text-[#A1A1A6] leading-relaxed whitespace-pre-line">{b.content}</p>
+                          <div key={b.id} className="bg-[#F4F7F4] rounded-2xl p-5 border border-emerald-900/10 space-y-1">
+                            <h4 className="text-base font-semibold text-[#122820]">{b.title}</h4>
+                            <p className="text-sm text-[#2C4238] leading-relaxed whitespace-pre-line">{b.content}</p>
                           </div>
                         ))}
                       </div>
@@ -416,9 +416,9 @@ export default function TreatmentDetails() {
                           'Abstain from chewing hard or sticky foods directly on newly restored structures for at least 24 hours.',
                           'Take recommended anti-inflammatory medications exactly as advised if mild post-operative tenderness occurs.'
                         ].map((rule, idx) => (
-                          <div key={idx} className="glass-1 rounded-2xl p-4 border border-white/10 flex items-start gap-3">
-                            <AlertCircle className="w-4 h-4 text-[#8B7BF7] shrink-0 mt-0.5" />
-                            <p className="text-sm text-[#A1A1A6]">{rule}</p>
+                          <div key={idx} className="bg-[#F4F7F4] rounded-2xl p-4 border border-emerald-900/10 flex items-start gap-3">
+                            <AlertCircle className="w-4 h-4 text-[#10B981] shrink-0 mt-0.5" />
+                            <p className="text-sm text-[#2C4238]">{rule}</p>
                           </div>
                         ))}
                       </div>
@@ -428,29 +428,29 @@ export default function TreatmentDetails() {
 
                 {activeTab === 'gallery' && (
                   <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
-                    <h3 className="text-lg font-display font-bold text-[#F5F5F7] flex items-center gap-2">
-                      <Activity className="w-5 h-5 text-[#8B7BF7]" />
+                    <h3 className="text-lg font-display font-bold text-[#122820] flex items-center gap-2">
+                      <Activity className="w-5 h-5 text-[#10B981]" />
                       Clinical Results & Case Documentation
                     </h3>
 
                     {gallery.length > 0 ? (
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         {gallery.map((item, idx) => (
-                          <div key={item.id || idx} className="glass-1 rounded-2xl overflow-hidden border border-white/10 group">
-                            <div className="aspect-[4/3] w-full overflow-hidden bg-black/50 relative">
+                          <div key={item.id || idx} className="bg-[#F4F7F4] rounded-2xl overflow-hidden border border-emerald-900/10 group">
+                            <div className="aspect-[4/3] w-full overflow-hidden bg-emerald-950/20 relative">
                               <OptimizedImage
                                 src={item.public_url || `/DNS_BeforeAfter_${treatment.slug}_Case${idx + 1}_202607.webp`}
                                 fallbackSrc="/DNS_Hero_TwilightExterior_16x9_202607.webp"
                                 alt={item.alt_text || item.caption || `${treatment.name} Clinical Outcome`}
                                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                               />
-                              <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full glass-3 text-[10px] font-bold uppercase text-[#8B7BF7] border border-white/20">
+                              <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-emerald-50/90 text-[10px] font-bold uppercase text-[#10B981] border border-emerald-200">
                                 {item.image_type || 'Case Study'}
                               </span>
                             </div>
                             {item.caption && (
                               <div className="p-4">
-                                <p className="text-xs text-[#A1A1A6] leading-relaxed">{item.caption}</p>
+                                <p className="text-xs text-[#2C4238] leading-relaxed">{item.caption}</p>
                               </div>
                             )}
                           </div>
@@ -462,20 +462,20 @@ export default function TreatmentDetails() {
                           { type: 'Before & After', caption: 'Complete structural restoration and functional rehabilitation achieving seamless margin adaptation.' },
                           { type: 'Clinical Outcome', caption: 'High-precision aesthetic integration preserving soft tissue health and natural gingival contours.' }
                         ].map((demo, idx) => (
-                          <div key={idx} className="glass-1 rounded-2xl overflow-hidden border border-white/10 group">
-                            <div className="aspect-[4/3] w-full overflow-hidden bg-black/50 relative">
+                          <div key={idx} className="bg-[#F4F7F4] rounded-2xl overflow-hidden border border-emerald-900/10 group">
+                            <div className="aspect-[4/3] w-full overflow-hidden bg-emerald-950/20 relative">
                               <OptimizedImage
                                 src={`/DNS_BeforeAfter_${treatment.slug}_Case${idx + 1}_202607.webp`}
                                 fallbackSrc="/DNS_Hero_TwilightExterior_16x9_202607.webp"
                                 alt={`${treatment.name} Demonstration Case ${idx + 1}`}
                                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                               />
-                              <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full glass-3 text-[10px] font-bold uppercase text-[#8B7BF7] border border-white/20">
+                              <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-emerald-50/90 text-[10px] font-bold uppercase text-[#10B981] border border-emerald-200">
                                 {demo.type}
                               </span>
                             </div>
                             <div className="p-4">
-                              <p className="text-xs text-[#A1A1A6] leading-relaxed">{demo.caption}</p>
+                              <p className="text-xs text-[#2C4238] leading-relaxed">{demo.caption}</p>
                             </div>
                           </div>
                         ))}
@@ -488,17 +488,17 @@ export default function TreatmentDetails() {
 
             {/* Accompanying specialists */}
             <div className="space-y-4">
-              <h3 className="text-lg sm:text-xl font-display font-semibold text-[#F5F5F7] flex items-center gap-2">
-                <Users className="w-5 h-5 text-[#8B7BF7]" />
+              <h3 className="text-lg sm:text-xl font-display font-semibold text-[#122820] flex items-center gap-2">
+                <Users className="w-5 h-5 text-[#10B981]" />
                 Assigned Specialists
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {doctors.map((doc) => (
                   <div
                     key={doc.id}
-                    className="glass-1 rounded-2xl p-5 border border-white/10 flex items-center gap-4 hover:border-[#8B7BF7]/40 shadow-xl transition-all duration-300 group"
+                    className="bg-[#FAFDFB] rounded-2xl p-5 border border-emerald-900/10 flex items-center gap-4 hover:border-emerald-400/50 shadow-md transition-all duration-300 group"
                   >
-                    <div className="w-14 h-14 rounded-2xl overflow-hidden border border-white/20 bg-white/5 shadow-lg shrink-0 group-hover:scale-105 transition-transform [mask-image:linear-gradient(to_bottom,black_85%,transparent_100%)]">
+                    <div className="w-14 h-14 rounded-2xl overflow-hidden border border-emerald-200 bg-emerald-50 shadow-sm shrink-0 group-hover:scale-105 transition-transform">
                       <OptimizedImage 
                         src={doc.profile_image || "/DNS_Portrait_DrNilay_Headshot_4x5_202607.webp"} 
                         fallbackSrc="/dr-nilay-saha.jpg"
@@ -507,9 +507,9 @@ export default function TreatmentDetails() {
                       />
                     </div>
                     <div>
-                      <h4 className="font-display font-semibold text-base text-[#F5F5F7] group-hover:text-[#8B7BF7] transition-colors">{doc.name}</h4>
-                      <p className="text-xs text-[#8B7BF7] font-medium mt-0.5">{doc.qualification || 'BDS'}</p>
-                      <p className="text-[11px] text-[#A1A1A6] mt-0.5">{doc.designation || 'Dental Surgeon & Oral Physician'}</p>
+                      <h4 className="font-display font-semibold text-base text-[#122820] group-hover:text-[#10B981] transition-colors">{doc.name}</h4>
+                      <p className="text-xs text-[#10B981] font-medium mt-0.5">{doc.qualification || 'BDS'}</p>
+                      <p className="text-[11px] text-[#4B6358] mt-0.5">{doc.designation || 'Dental Surgeon & Oral Physician'}</p>
                     </div>
                   </div>
                 ))}
@@ -519,8 +519,8 @@ export default function TreatmentDetails() {
             {/* FAQs List Accordion */}
             {faqs.length > 0 && (
               <div className="space-y-4 pt-4">
-                <h3 className="text-lg sm:text-xl font-display font-semibold text-[#F5F5F7] flex items-center gap-2">
-                  <HelpCircle className="w-5 h-5 text-[#8B7BF7]" />
+                <h3 className="text-lg sm:text-xl font-display font-semibold text-[#122820] flex items-center gap-2">
+                  <HelpCircle className="w-5 h-5 text-[#10B981]" />
                   Frequently Asked Questions
                 </h3>
                 <div className="space-y-3">
@@ -530,15 +530,15 @@ export default function TreatmentDetails() {
                       <div
                         key={faq.id}
                         className={`rounded-2xl overflow-hidden border transition-all duration-300 ${
-                          isOpen ? 'glass-2 border-[#8B7BF7]/30 shadow-[0_8px_24px_rgba(139,123,247,0.15)]' : 'glass-1 border-white/10 hover:border-white/20'
+                          isOpen ? 'bg-[#FAFDFB] border-emerald-500/40 shadow-[0_8px_24px_rgba(16,185,129,0.15)]' : 'bg-[#F4F7F4] border-emerald-900/10 hover:border-emerald-300'
                         }`}
                       >
                         <button
                           onClick={() => setActiveFaq(isOpen ? null : index)}
-                          className="w-full p-5 text-left flex items-center justify-between text-sm sm:text-base font-display font-semibold text-[#F5F5F7]"
+                          className="w-full p-5 text-left flex items-center justify-between text-sm sm:text-base font-display font-semibold text-[#122820]"
                         >
                           <span>{faq.question}</span>
-                          <ChevronDown className={`w-4 h-4 text-[#A1A1A6] transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
+                          <ChevronDown className={`w-4 h-4 text-[#4B6358] transition-transform duration-300 ${isOpen ? 'rotate-180 text-[#10B981]' : ''}`} />
                         </button>
                         <AnimatePresence>
                           {isOpen && (
@@ -549,7 +549,7 @@ export default function TreatmentDetails() {
                               transition={{ duration: 0.3, ease: 'easeInOut' }}
                               className="overflow-hidden"
                             >
-                              <p className="px-5 pb-5 text-xs sm:text-sm text-[#A1A1A6] leading-[1.6] border-t border-white/10 pt-3">
+                              <p className="px-5 pb-5 text-xs sm:text-sm text-[#2C4238] leading-[1.6] border-t border-emerald-900/10 pt-3">
                                 {faq.answer}
                               </p>
                             </motion.div>
@@ -563,10 +563,10 @@ export default function TreatmentDetails() {
             )}
 
             {/* Related Treatments Grid */}
-            <div className="space-y-4 pt-6 border-t border-white/10">
-              <h3 className="text-lg sm:text-xl font-display font-semibold text-[#F5F5F7] flex items-center justify-between">
+            <div className="space-y-4 pt-6 border-t border-emerald-900/10">
+              <h3 className="text-lg sm:text-xl font-display font-semibold text-[#122820] flex items-center justify-between">
                 <span>Related Treatments in {treatment.category}</span>
-                <Link to="/#treatments" className="text-xs text-[#8B7BF7] hover:underline font-normal">View All</Link>
+                <Link to="/#treatments" className="text-xs text-[#10B981] hover:underline font-normal">View All</Link>
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {treatmentsData
@@ -576,13 +576,13 @@ export default function TreatmentDetails() {
                     <Link
                       key={rel.id}
                       to={`/treatments/${rel.id}`}
-                      className="glass-1 rounded-2xl p-5 border border-white/10 flex items-center justify-between group hover:border-[#8B7BF7]/40 transition-all"
+                      className="bg-[#FAFDFB] rounded-2xl p-5 border border-emerald-900/10 flex items-center justify-between group hover:border-emerald-400/50 shadow-sm transition-all"
                     >
                       <div>
-                        <h4 className="text-sm font-semibold text-[#F5F5F7] group-hover:text-[#8B7BF7] transition-colors">{rel.name}</h4>
-                        <p className="text-xs text-[#A1A1A6] mt-1 line-clamp-1">{rel.desc}</p>
+                        <h4 className="text-sm font-semibold text-[#122820] group-hover:text-[#10B981] transition-colors">{rel.name}</h4>
+                        <p className="text-xs text-[#4B6358] mt-1 line-clamp-1">{rel.desc}</p>
                       </div>
-                      <ChevronRight className="w-4 h-4 text-[#A1A1A6] group-hover:translate-x-1 group-hover:text-white transition-all shrink-0" />
+                      <ChevronRight className="w-4 h-4 text-[#4B6358] group-hover:translate-x-1 group-hover:text-[#10B981] transition-all shrink-0" />
                     </Link>
                   ))}
               </div>
@@ -594,11 +594,11 @@ export default function TreatmentDetails() {
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="glass-2 rounded-[2rem] p-7 border border-white/10 shadow-[0_16px_48px_rgba(0,0,0,0.5)] space-y-6 sticky top-28"
+              className="bg-[#FAFDFB] rounded-[2rem] p-7 border border-emerald-900/10 shadow-xl space-y-6 sticky top-28"
             >
               <div>
-                <h3 className="font-display font-semibold text-lg text-[#F5F5F7]">Select Location</h3>
-                <p className="text-xs text-[#A1A1A6] mt-1 leading-normal">Choose clinic center to check local availability and pricing</p>
+                <h3 className="font-display font-semibold text-lg text-[#122820]">Select Location</h3>
+                <p className="text-xs text-[#4B6358] mt-1 leading-normal">Choose clinic center to check local availability and pricing</p>
               </div>
 
               {/* Clinic Dropdown */}
@@ -606,46 +606,45 @@ export default function TreatmentDetails() {
                 <select
                   value={selectedClinicId}
                   onChange={(e) => setSelectedClinicId(e.target.value)}
-                  className="w-full px-4 py-3 bg-black/50 border border-white/15 rounded-2xl text-sm text-[#F5F5F7] font-medium focus:outline-none focus:border-[#8B7BF7] appearance-none transition-colors"
-                  style={{ colorScheme: 'dark' }}
+                  className="w-full px-4 py-3 bg-[#F4F7F4] border border-emerald-900/15 rounded-2xl text-sm text-[#122820] font-medium focus:outline-none focus:border-[#10B981] appearance-none transition-colors"
                 >
                   {clinics.map((c) => (
                     <option key={c.id} value={c.id}>{c.name}</option>
                   ))}
                 </select>
-                <ChevronDown className="w-4 h-4 text-[#A1A1A6] absolute right-4 top-4 pointer-events-none" />
+                <ChevronDown className="w-4 h-4 text-[#4B6358] absolute right-4 top-4 pointer-events-none" />
               </div>
 
               {/* Price card box */}
               {activePricing ? (
-                <div className="glass-1 rounded-2xl p-5 border border-white/10 space-y-4">
+                <div className="bg-[#F4F7F4] rounded-2xl p-5 border border-emerald-900/10 space-y-4">
                   <div className="flex items-baseline justify-between">
-                    <span className="text-xs text-[#A1A1A6] uppercase font-semibold tracking-wider">Treatment Cost</span>
+                    <span className="text-xs text-[#4B6358] uppercase font-semibold tracking-wider">Treatment Cost</span>
                     <div className="flex items-baseline gap-2">
                       {activePricing.sale_price ? (
                         <>
-                          <span className="text-2xl font-display font-bold text-[#8B7BF7]">₹{activePricing.sale_price}</span>
-                          <span className="text-sm text-[#A1A1A6] line-through font-medium">₹{activePricing.base_price}</span>
+                          <span className="text-2xl font-display font-bold text-[#C5A059]">₹{activePricing.sale_price}</span>
+                          <span className="text-sm text-[#4B6358] line-through font-medium">₹{activePricing.base_price}</span>
                         </>
                       ) : (
-                        <span className="text-2xl font-display font-bold text-[#F5F5F7]">₹{activePricing.base_price}</span>
+                        <span className="text-2xl font-display font-bold text-[#122820]">₹{activePricing.base_price}</span>
                       )}
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2.5 text-xs text-[#A1A1A6] pt-1 border-t border-white/10">
-                    <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <div className="flex items-center gap-2.5 text-xs text-[#4B6358] pt-1 border-t border-emerald-900/10">
+                    <ShieldCheck className="w-4 h-4 text-[#10B981] shrink-0" />
                     <span>{activePricing.insurance_covered ? 'Eligible for Dental Insurance claim' : 'Direct pay / Card / UPI'}</span>
                   </div>
                 </div>
               ) : (
-                <p className="text-xs text-[#A1A1A6] italic">No pricing registered for this clinic location.</p>
+                <p className="text-xs text-[#4B6358] italic">No pricing registered for this clinic location.</p>
               )}
 
               {/* Booking CTA */}
               <button
                 onClick={() => setShowBooking(true)}
-                className="w-full py-4 rounded-full bg-gradient-to-r from-[#7C6BDF] to-[#6366F1] text-white font-semibold text-sm hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(139,123,247,0.4)] hover:shadow-[0_0_35px_rgba(139,123,247,0.6)]"
+                className="w-full py-4 rounded-full bg-gradient-to-r from-[#10B981] to-[#059669] text-white font-semibold text-sm hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 shadow-[0_4px_20px_rgba(16,185,129,0.35)] hover:shadow-[0_6px_30px_rgba(16,185,129,0.5)]"
               >
                 <Calendar className="w-4 h-4" />
                 <span>Book Scheduled Slot</span>
