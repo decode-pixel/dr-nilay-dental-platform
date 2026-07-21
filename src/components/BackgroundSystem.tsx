@@ -1,68 +1,39 @@
 import React from "react";
 
 /**
- * BackgroundSystem — Performance-First Version
- * 
- * REMOVED: All animated motion.div blobs (infinite GPU-heavy scale/translate/opacity animations)
- * REMOVED: CSS filter: blur() on large divs (triggers compositing layer explosion on mobile)
- * REMOVED: Large SVG (1440x3200) with continuous repaint
- * 
- * REPLACED WITH: Pure CSS static gradients — zero JS, zero compositing layers, zero repaints.
- * Renders once, paints once, costs nothing during scroll.
+ * BackgroundSystem — Animated Luxury Mesh & Ambient Glow
+ * Lightweight CSS radial gradients with subtle cyan/emerald ambient glows
  */
 export default function BackgroundSystem() {
   return (
     <div
-      className="fixed inset-0 z-[-2] pointer-events-none overflow-hidden"
-      style={{ backgroundColor: "#F8FBFF" }}
+      className="fixed inset-0 z-[-2] pointer-events-none overflow-hidden select-none"
       aria-hidden="true"
     >
-      {/* Top-right ambient — pure CSS radial, no blur, no animation */}
+      {/* Base luxury canvas */}
+      <div className="absolute inset-0 bg-[#FCFCFD]" />
+
+      {/* Top right cyan/emerald ambient glow */}
       <div
+        className="absolute -top-32 -right-32 w-[650px] h-[650px] rounded-full opacity-60 pointer-events-none"
         style={{
-          position: "absolute",
-          top: 0,
-          right: 0,
-          width: "55vw",
-          height: "55vh",
-          background: "radial-gradient(circle at 80% 15%, rgba(16,185,129,0.06) 0%, rgba(239,246,255,0.3) 50%, transparent 75%)",
-          willChange: "auto",
+          background: "radial-gradient(circle, rgba(6,182,212,0.12) 0%, rgba(16,185,129,0.08) 45%, transparent 70%)",
         }}
       />
-      {/* Top-left ambient */}
+
+      {/* Top left emerald mesh wash */}
       <div
+        className="absolute top-1/4 -left-32 w-[550px] h-[550px] rounded-full opacity-50 pointer-events-none"
         style={{
-          position: "absolute",
-          top: "10%",
-          left: "-5%",
-          width: "45vw",
-          height: "45vh",
-          background: "radial-gradient(circle at 30% 30%, rgba(16,185,129,0.04) 0%, rgba(248,251,255,0.4) 60%, transparent 80%)",
-          willChange: "auto",
+          background: "radial-gradient(circle, rgba(16,185,129,0.09) 0%, rgba(13,148,136,0.04) 50%, transparent 75%)",
         }}
       />
-      {/* Mid-page subtle wash */}
+
+      {/* Center page luxury ambient glow */}
       <div
+        className="absolute top-2/3 right-10 w-[600px] h-[600px] rounded-full opacity-40 pointer-events-none"
         style={{
-          position: "absolute",
-          top: "40%",
-          right: "5%",
-          width: "50vw",
-          height: "50vh",
-          background: "radial-gradient(circle, rgba(16,185,129,0.04) 0%, rgba(239,246,255,0.25) 60%, transparent 80%)",
-          willChange: "auto",
-        }}
-      />
-      {/* Bottom wash */}
-      <div
-        style={{
-          position: "absolute",
-          bottom: "5%",
-          left: "10%",
-          width: "60vw",
-          height: "50vh",
-          background: "radial-gradient(circle, rgba(239,246,255,0.8) 0%, rgba(16,185,129,0.03) 55%, transparent 80%)",
-          willChange: "auto",
+          background: "radial-gradient(circle, rgba(34,211,238,0.07) 0%, rgba(16,185,129,0.05) 55%, transparent 75%)",
         }}
       />
     </div>

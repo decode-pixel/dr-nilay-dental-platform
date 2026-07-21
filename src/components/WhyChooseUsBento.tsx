@@ -73,7 +73,7 @@ export default function WhyChooseUsBento() {
             return (
               <div
                 key={idx}
-                className={`card-premium p-7 sm:p-9 flex flex-col justify-between group hover:-translate-y-1 transition-all duration-300 ${item.span}`}
+                className={`glass-card-floating p-7 sm:p-9 flex flex-col justify-between group rounded-3xl ${item.span}`}
               >
                 <div>
                   <div className="flex items-center justify-between mb-6">

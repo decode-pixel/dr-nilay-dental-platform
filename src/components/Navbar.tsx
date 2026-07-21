@@ -351,8 +351,8 @@ export default function Navbar() {
         <nav
           className={`w-full flex items-center justify-between px-4 sm:px-7 py-2.5 sm:py-3 rounded-full pointer-events-auto transition-all duration-300 ${
             isScrolled
-              ? "bg-white/95 backdrop-blur-md border border-slate-200/90 shadow-[0_12px_40px_rgba(15,23,42,0.08)]"
-              : "bg-white/90 backdrop-blur-md border border-slate-200/70 shadow-[0_8px_32px_rgba(15,23,42,0.05)]"
+              ? "glass-luxury border border-white/90 shadow-[0_14px_45px_rgba(6,19,30,0.1)]"
+              : "glass-luxury border border-white/80 shadow-[0_8px_32px_rgba(6,19,30,0.06)]"
           }`}
           aria-label="Main navigation"
         >

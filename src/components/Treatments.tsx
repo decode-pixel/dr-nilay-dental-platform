@@ -108,7 +108,7 @@ export default function Treatments() {
             return (
               <div
                 key={treatment.id}
-                className="card-premium p-7 sm:p-8 flex flex-col justify-between group hover:-translate-y-1.5 transition-all duration-300 bg-white"
+                className="glass-card-floating p-7 sm:p-8 flex flex-col justify-between group bg-white rounded-3xl"
               >
                 <div>
                   {/* Icon & Featured Badge */}

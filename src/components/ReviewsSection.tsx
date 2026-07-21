@@ -74,7 +74,7 @@ export default function ReviewsSection() {
           {reviews.map((review, idx) => (
             <div
               key={idx}
-              className="card-premium p-7 sm:p-9 bg-white flex flex-col justify-between group hover:-translate-y-1 transition-all duration-300 relative"
+              className="glass-card-floating p-7 sm:p-9 bg-white flex flex-col justify-between group rounded-3xl relative"
             >
               <div>
                 {/* Rating Stars & Verified Badge */}

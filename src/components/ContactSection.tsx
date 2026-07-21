@@ -88,7 +88,7 @@ export default function ContactSection() {
             return (
               <div
                 key={index}
-                className="card-premium p-7 sm:p-8 bg-white flex flex-col justify-between group hover:-translate-y-1 transition-all duration-300 shadow-sm"
+                className="glass-card-floating p-7 sm:p-8 bg-white flex flex-col justify-between group rounded-3xl"
               >
                 <div>
                   <div className={`w-13 h-13 rounded-2xl border flex items-center justify-center mb-6 shrink-0 shadow-sm group-hover:bg-[#10B981] group-hover:text-white transition-colors duration-300 ${channel.bgClass}`}>

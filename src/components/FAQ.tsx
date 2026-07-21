@@ -58,7 +58,7 @@ export default function FAQ() {
             return (
               <div
                 key={index}
-                className={`card-premium transition-all duration-300 ${
+                className={`glass-card-floating transition-all duration-300 rounded-3xl ${
                   isOpen
                     ? "border-emerald-400/80 bg-gradient-to-b from-emerald-50/40 via-white to-white shadow-md"
                     : "bg-white hover:border-emerald-300/60 shadow-sm"

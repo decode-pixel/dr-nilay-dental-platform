@@ -263,7 +263,7 @@ export default function MeetDrNilaySaha() {
           <div className="lg:col-span-7 flex flex-col justify-between space-y-7">
             
             {/* Bio Box */}
-            <div className="card-premium p-8 sm:p-10 bg-white">
+            <div className="glass-card-floating p-8 sm:p-10 bg-white rounded-3xl">
               <div className="flex items-center justify-between gap-4 mb-6">
                 <div className="flex items-center gap-3.5">
                   <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-[#10B981] border border-emerald-200 flex items-center justify-center shrink-0 shadow-sm">
@@ -302,7 +302,7 @@ export default function MeetDrNilaySaha() {
             </div>
 
             {/* Interactive Tabs */}
-            <div className="card-premium p-8 sm:p-10 bg-white">
+            <div className="glass-card-floating p-8 sm:p-10 bg-white rounded-3xl">
               <div 
                 className="flex flex-wrap gap-2 sm:gap-2.5 border-b border-slate-100 pb-6 mb-8"
                 role="tablist"
