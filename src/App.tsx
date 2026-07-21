@@ -17,14 +17,11 @@ const TreatmentDetails = lazy(() => import("./pages/TreatmentDetails"));
 const ErrorPages = lazy(() => import("./pages/ErrorPages"));
 const LegalPage = lazy(() => import("./pages/LegalPage"));
 
-// Premium loading fallback for Suspense loading segments
 function PageSuspenseFallback() {
   return (
-    <div className="min-h-screen bg-[#02020a] flex flex-col items-center justify-center text-white relative overflow-hidden font-sans">
-      <div className="absolute top-0 right-0 w-96 h-96 bg-violet-600/5 rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-600/5 rounded-full blur-[100px] pointer-events-none" />
-      <RefreshCw className="w-8 h-8 animate-spin text-violet-400 mb-3 relative z-10" />
-      <span className="text-xs text-gray-500 font-medium tracking-wide uppercase relative z-10">Loading Platform...</span>
+    <div className="min-h-screen bg-[#F4F7F4] flex flex-col items-center justify-center relative font-sans">
+      <RefreshCw className="w-7 h-7 animate-spin text-[#10B981] mb-3" />
+      <span className="text-xs text-[#7E968B] font-medium tracking-wide uppercase">Loading…</span>
     </div>
   );
 }
@@ -44,7 +41,7 @@ export default function App() {
             <Route path="/terms" element={<LegalPage type="terms" />} />
             <Route path="/terms-and-conditions" element={<LegalPage type="terms" />} />
             <Route path="/tips" element={<LegalPage type="tips" />} />
-            
+
             {/* HTTP Error Pages */}
             <Route path="/401" element={<ErrorPages code={401} />} />
             <Route path="/403" element={<ErrorPages code={403} />} />

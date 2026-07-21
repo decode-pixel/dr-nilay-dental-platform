@@ -216,3 +216,23 @@ footer [class*="text-[#A1A1A6]"], #footer [class*="text-[#A1A1A6]"] {
 * {
   will-change: auto;
 }
+
+/* ==========================================
+   MOBILE MENU SCROLL LOCK
+   Applied via JS classList instead of inline style to avoid
+   conflicts with React state and re-renders.
+   ========================================== */
+html.mobile-menu-open,
+html.mobile-menu-open body {
+  overflow: hidden !important;
+  /* Prevent iOS Safari rubber-band scroll bleed-through */
+  overscroll-behavior: none !important;
+}
+
+/* ==========================================
+   Z-INDEX LAYER MAP (reference)
+   z-[90]  — Floating WhatsApp FAB
+   z-[100] — Navbar floating pill header
+   z-[200] — ContactModal booking overlay
+   z-[999] — Mobile navigation full-screen overlay
+   ========================================== */
