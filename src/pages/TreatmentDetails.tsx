@@ -14,7 +14,7 @@ import { supabase } from '../lib/supabase';
 import SEO from '../components/SEO';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import BookingModal from '../components/booking/BookingModal';
+import ContactModal from '../components/ContactModal';
 import { treatmentsData } from '../data/treatments';
 import {
   Clock,
@@ -615,13 +615,12 @@ export default function TreatmentDetails() {
 
       <Footer />
 
-      {/* Booking Wizard modal pre-populated */}
-      {showBooking && (
-        <BookingModal
-          initialTreatmentId={treatment.slug}
-          onClose={() => setShowBooking(false)}
-        />
-      )}
+      {/* Booking Modal pre-populated */}
+      <ContactModal
+        isOpen={showBooking}
+        onClose={() => setShowBooking(false)}
+        initialServiceSlug={treatment.slug}
+      />
     </div>
   );
 }

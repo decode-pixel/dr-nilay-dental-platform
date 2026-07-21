@@ -14,7 +14,6 @@ import { RefreshCw } from "lucide-react";
 // Route-based code splitting
 const HomePage = lazy(() => import("./pages/HomePage"));
 const TreatmentDetails = lazy(() => import("./pages/TreatmentDetails"));
-const DashboardRoute = lazy(() => import("./pages/dashboard/DashboardRoute"));
 const ErrorPages = lazy(() => import("./pages/ErrorPages"));
 const LegalPage = lazy(() => import("./pages/LegalPage"));
 
@@ -45,7 +44,6 @@ export default function App() {
             <Route path="/terms" element={<LegalPage type="terms" />} />
             <Route path="/terms-and-conditions" element={<LegalPage type="terms" />} />
             <Route path="/tips" element={<LegalPage type="tips" />} />
-            <Route path="/dashboard" element={<DashboardRoute />} />
             
             {/* HTTP Error Pages */}
             <Route path="/401" element={<ErrorPages code={401} />} />
