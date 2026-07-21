@@ -7,7 +7,6 @@ import { PRIMARY_PHONE_NUMBER, PRIMARY_WHATSAPP_DIGITS } from "../lib/constants"
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
   const [activeSection, setActiveSection] = useState("home");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
@@ -18,6 +17,7 @@ export default function Navbar() {
     { name: "About", id: "about" },
     { name: "Treatments", id: "treatments" },
     { name: "Clinics", id: "locations" },
+    { name: "Reviews", id: "reviews" },
     { name: "FAQ", id: "faq" },
     { name: "Contact", id: "contact" }
   ];
@@ -33,25 +33,29 @@ export default function Navbar() {
 
     const updateScrollProgress = () => {
       const currentScrollY = window.scrollY;
-      setIsScrolled(currentScrollY > 20);
-
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      if (docHeight > 0) {
-        const progress = (currentScrollY / docHeight) * 100;
-        setScrollProgress(Math.min(100, Math.max(0, progress)));
-      } else {
-        setScrollProgress(0);
-      }
+      setIsScrolled(currentScrollY > 15);
 
       if (location.pathname === '/') {
-        const sectionIds = navItems.map(item => item.id);
+        const sectionCheckMap: { id: string; targets: string[] }[] = [
+          { id: "home", targets: ["home"] },
+          { id: "about", targets: ["about", "doctor-profile"] },
+          { id: "treatments", targets: ["treatments"] },
+          { id: "locations", targets: ["locations", "clinics"] },
+          { id: "reviews", targets: ["reviews", "why-choose-us"] },
+          { id: "faq", targets: ["faq"] },
+          { id: "contact", targets: ["contact", "contact-info"] }
+        ];
+
         let foundSection = "home";
-        for (const id of sectionIds) {
-          const el = document.getElementById(id);
-          if (el) {
-            const rect = el.getBoundingClientRect();
-            if (rect.top <= window.innerHeight * 0.4 && rect.bottom >= 100) {
-              foundSection = id;
+        for (const item of sectionCheckMap) {
+          for (const targetId of item.targets) {
+            const el = document.getElementById(targetId);
+            if (el) {
+              const rect = el.getBoundingClientRect();
+              if (rect.top <= window.innerHeight * 0.45 && rect.bottom >= 120) {
+                foundSection = item.id;
+                break;
+              }
             }
           }
         }
@@ -106,52 +110,69 @@ export default function Navbar() {
       return;
     }
 
-    const target = document.getElementById(targetId) || document.getElementById(targetId === 'locations' ? 'clinics' : targetId);
+    if (targetId === 'home') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setActiveSection('home');
+      return;
+    }
+
+    let resolvedIds = [targetId];
+    if (targetId === 'locations') resolvedIds = ['locations', 'clinics'];
+    if (targetId === 'reviews') resolvedIds = ['reviews', 'why-choose-us'];
+    if (targetId === 'contact') resolvedIds = ['contact', 'contact-info'];
+
+    let target: HTMLElement | null = null;
+    for (const id of resolvedIds) {
+      const el = document.getElementById(id);
+      if (el) {
+        target = el;
+        break;
+      }
+    }
+
     if (target) {
-      target.scrollIntoView({ behavior: 'smooth' });
+      const headerOffset = 110;
+      const elementPosition = target.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+      window.scrollTo({
+        top: Math.max(0, offsetPosition),
+        behavior: 'smooth'
+      });
+      setActiveSection(targetId);
     }
   };
 
   return (
-    <header 
-      className={`fixed top-0 inset-x-0 z-[100] transition-all duration-300 ease-out ${
-        isScrolled 
-          ? "glass-4 py-3 sm:py-3.5 shadow-sm" 
-          : "bg-transparent border-b border-transparent py-5 sm:py-6 shadow-none"
-      }`}
-    >
-      {/* Scroll Progress Bar */}
-      <div className="absolute top-0 inset-x-0 h-[3px] bg-transparent overflow-hidden pointer-events-none z-[110]">
-        <motion.div 
-          className="h-full bg-gradient-to-r from-[#2563EB] to-sky-400 shadow-[0_0_12px_rgba(37,99,235,0.6)]"
-          style={{ width: `${scrollProgress}%` }}
-          transition={{ ease: "linear", duration: 0.05 }}
-        />
-      </div>
-
-      <nav className="max-w-7xl mx-auto px-5 sm:px-8 flex items-center justify-between relative z-10 font-sans" aria-label="Main Navigation">
-        
-        {/* Logo Area */}
+    <header className="fixed top-3 sm:top-5 inset-x-0 z-[100] px-3 sm:px-6 lg:px-8 max-w-7xl mx-auto transition-all duration-300 pointer-events-none font-sans">
+      <nav 
+        className={`w-full flex items-center justify-between px-3.5 sm:px-6 py-2 sm:py-2.5 rounded-full pointer-events-auto transition-all duration-300 ${
+          isScrolled 
+            ? "bg-white/95 backdrop-blur-2xl border border-white/90 shadow-[0_12px_40px_rgba(18,40,32,0.1)]" 
+            : "bg-white/90 backdrop-blur-xl border border-white/80 shadow-[0_8px_32px_rgba(18,40,32,0.06)]"
+        }`}
+        aria-label="Main Navigation"
+      >
+        {/* Left: Brand Logo Area matching requested design */}
         <a 
           href="#home" 
           onClick={(e) => handleSmoothScroll(e, 'home')} 
-          className="flex items-center gap-3.5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981] rounded-xl transition-all"
+          className="flex items-center gap-2.5 sm:gap-3 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981] rounded-2xl transition-all shrink-0"
         >
-          <div className="relative flex items-center justify-center w-11 h-11 sm:w-12 sm:h-12 shrink-0 rounded-2xl bg-[#10B981]/15 border border-[#10B981]/30 shadow-sm group-hover:scale-105 transition-transform">
-            <ToothIcon className="w-6 h-6 text-[#10B981]" />
+          <div className="relative flex items-center justify-center w-10 h-10 sm:w-11 sm:h-11 shrink-0 rounded-2xl bg-[#E8F5F1] border border-[#10B981]/25 shadow-sm group-hover:scale-105 transition-transform duration-300">
+            <ToothIcon className="w-5 h-5 sm:w-6 sm:h-6 text-[#10B981]" />
           </div>
           <div className="flex flex-col justify-center">
-            <span className="font-display font-bold text-lg sm:text-xl leading-tight tracking-tight flex items-center gap-1.5 text-[#122820] group-hover:text-[#10B981] transition-colors">
+            <span className="font-display font-bold text-[16px] sm:text-[18px] lg:text-[20px] leading-none tracking-tight text-[#122820] flex items-center gap-1 group-hover:text-[#10B981] transition-colors">
               DR. <span className="text-[#10B981]">Nilay Saha</span>
             </span>
-            <span className="text-[10px] sm:text-[11px] tracking-[0.16em] text-[#4B6358] font-semibold uppercase mt-0.5">
-              Advanced Dental Studio
+            <span className="text-[8.5px] sm:text-[10px] tracking-[0.2em] text-[#4B6358] font-bold uppercase mt-1">
+              ADVANCED DENTAL STUDIO
             </span>
           </div>
         </a>
 
-        {/* Desktop Navigation Links */}
-        <div className="hidden lg:flex items-center gap-6 text-[15px] font-medium">
+        {/* Center: Desktop Navigation Links */}
+        <div className="hidden lg:flex items-center gap-5 xl:gap-7 text-[14.5px] xl:text-[15px] font-medium">
           {navItems.map((item) => {
             const isActive = activeSection === item.id && location.pathname === '/';
             return (
@@ -160,86 +181,57 @@ export default function Navbar() {
                 href={`#${item.id}`}
                 onClick={(e) => handleSmoothScroll(e, item.id)}
                 aria-current={isActive ? "page" : undefined}
-                className={`relative px-3.5 py-2 rounded-lg transition-all duration-200 flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981] group ${
+                className={`relative py-1 px-1 transition-all duration-200 flex flex-col items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981] rounded-md group ${
                   isActive
-                    ? "text-[#122820] font-bold"
+                    ? "text-[#10B981] font-semibold"
                     : "text-[#2C4238] hover:text-[#10B981]"
                 }`}
               >
                 <span>{item.name}</span>
-                {isActive && (
+                {isActive ? (
                   <motion.div
-                    layoutId="activeNavTab"
-                    className="absolute -bottom-1 left-3 right-3 h-[2.5px] bg-[#10B981] rounded-full shadow-[0_2px_8px_rgba(16,185,129,0.4)]"
+                    layoutId="activeNavTabPill"
+                    className="absolute -bottom-1 w-6 h-[2.5px] bg-[#10B981] rounded-full shadow-[0_2px_8px_rgba(16,185,129,0.5)]"
                     transition={{ type: "spring", stiffness: 350, damping: 30 }}
                   />
+                ) : (
+                  <span className="absolute -bottom-1 w-6 h-[2.5px] bg-[#10B981]/40 rounded-full transition-transform duration-300 origin-center scale-x-0 group-hover:scale-x-100" />
                 )}
-                <span className={`absolute -bottom-1 left-3 right-3 h-[2.5px] bg-[#10B981]/40 rounded-full transition-transform duration-300 origin-center scale-x-0 group-hover:scale-x-100 ${isActive ? 'hidden' : 'block'}`} />
               </a>
             );
           })}
-
-          {/* Overflow Menu Dropdown */}
-          <div className="relative group cursor-pointer h-full flex items-center ml-1">
-            <button 
-              type="button" 
-              aria-label="More options"
-              className="w-9 h-9 rounded-full flex items-center justify-center bg-[#F4F7F4] border border-emerald-900/10 hover:bg-white hover:border-emerald-400 transition-all text-[#2C4238] hover:text-[#10B981] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981] shadow-sm"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="1"></circle>
-                <circle cx="12" cy="5" r="1"></circle>
-                <circle cx="12" cy="19" r="1"></circle>
-              </svg>
-            </button>
-            
-            <div className="absolute top-full right-0 mt-3 w-56 bg-[#FAFDFB]/95 backdrop-blur-2xl border border-emerald-900/10 rounded-2xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 overflow-hidden z-50 transform origin-top-right group-hover:translate-y-0 translate-y-2">
-              <div className="py-2 flex flex-col">
-                {secondaryItems.map((item) =>
-                  item.type === "tel" ? (
-                    <a
-                      key={item.name}
-                      href={item.to}
-                      className="px-4 py-2.5 text-sm text-[#2C4238] hover:text-[#122820] hover:bg-emerald-50 transition-colors flex items-center justify-between group/sub font-medium"
-                    >
-                      <span>{item.name}</span>
-                      <ChevronRight className="w-3.5 h-3.5 text-[#4B6358] group-hover/sub:text-[#10B981] group-hover/sub:translate-x-0.5 transition-all" />
-                    </a>
-                  ) : (
-                    <Link
-                      key={item.name}
-                      to={item.to}
-                      className="px-4 py-2.5 text-sm text-[#2C4238] hover:text-[#122820] hover:bg-emerald-50 transition-colors flex items-center justify-between group/sub font-medium"
-                    >
-                      <span>{item.name}</span>
-                      <ChevronRight className="w-3.5 h-3.5 text-[#4B6358] group-hover/sub:text-[#10B981] group-hover/sub:translate-x-0.5 transition-all" />
-                    </Link>
-                  )
-                )}
-              </div>
-            </div>
-          </div>
         </div>
 
-        {/* Book Appointment CTA & Mobile Hamburger Button */}
-        <div className="flex items-center gap-3.5">
+        {/* Right: Call Button & Book Appointment CTA & Mobile Hamburger Button */}
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+          <a
+            href={`tel:${PRIMARY_PHONE_NUMBER}`}
+            aria-label="Call Clinic directly"
+            className="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-[#F4F7F4] border border-emerald-900/10 hover:border-[#10B981]/40 flex items-center justify-center text-[#10B981] hover:bg-emerald-50 shadow-sm transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981]"
+          >
+            <Phone className="w-4 h-4 sm:w-5 sm:h-5" />
+          </a>
+
           <button 
+            type="button"
             onClick={(e) => handleSmoothScroll(e, 'schedule')} 
             aria-label="Book Appointment"
-            className="hidden sm:flex relative group items-center gap-2 px-7 py-3 rounded-full font-semibold text-[15px] text-white bg-gradient-to-r from-[#10B981] to-[#059669] shadow-[0_4px_16px_rgba(16,185,129,0.35)] transition-all duration-300 hover:shadow-[0_6px_24px_rgba(16,185,129,0.5)] hover:-translate-y-0.5 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981]"
+            className="hidden sm:flex items-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-full font-semibold text-xs sm:text-sm text-white bg-[#122820] hover:bg-[#10B981] shadow-[0_4px_16px_rgba(18,40,32,0.25)] hover:shadow-[0_6px_22px_rgba(16,185,129,0.4)] hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981]"
           >
-            <CalendarDays className="w-4 h-4 text-emerald-100 shrink-0" />
+            <CalendarDays className="w-4 h-4 text-emerald-300 shrink-0" />
             <span>Book Appointment</span>
           </button>
 
+          {/* Mobile Hamburger Button */}
           <button 
+            type="button"
             onClick={() => setIsMobileMenuOpen(true)}
-            aria-label="Open navigation menu"
+            aria-label="Open mobile menu"
             aria-expanded={isMobileMenuOpen}
             aria-controls="mobile-menu"
-            className="lg:hidden text-[#122820] w-11 h-11 flex items-center justify-center hover:bg-emerald-50 rounded-xl border border-emerald-900/10 transition-colors relative z-[60] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981]"
+            className="lg:hidden w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-[#122820] text-white flex items-center justify-center hover:bg-[#1C3A30] shadow-sm transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981]"
           >
-            <Menu className="w-6 h-6" />
+            <Menu className="w-5 h-5" />
           </button>
         </div>
 
@@ -255,11 +247,11 @@ export default function Navbar() {
               role="dialog"
               aria-modal="true"
               aria-label="Navigation Menu"
-              className="fixed inset-0 bg-[#071F17]/98 backdrop-blur-3xl z-[150] lg:hidden flex flex-col justify-between overflow-y-auto text-white"
+              className="fixed inset-0 bg-[#071F17]/98 backdrop-blur-3xl z-[200] lg:hidden flex flex-col justify-between overflow-y-auto text-white pointer-events-auto"
             >
-              <div className="flex items-center justify-between p-6 border-b border-white/10 bg-white/[0.02]">
+              <div className="flex items-center justify-between p-5 sm:p-6 border-b border-white/10 bg-white/[0.02]">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-[#10B981]/20 border border-[#10B981]/40 flex items-center justify-center p-2">
+                  <div className="w-10 h-10 rounded-2xl bg-[#10B981]/20 border border-[#10B981]/40 flex items-center justify-center p-2">
                     <ToothIcon className="w-6 h-6 text-[#34D399]" />
                   </div>
                   <div>
@@ -269,18 +261,19 @@ export default function Navbar() {
                 </div>
 
                 <button 
+                  type="button"
                   onClick={() => setIsMobileMenuOpen(false)}
                   aria-label="Close menu"
-                  className="w-11 h-11 rounded-xl bg-white/10 border border-white/15 flex items-center justify-center text-slate-300 hover:text-white hover:bg-white/20 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+                  className="w-10 h-10 rounded-full bg-white/10 border border-white/15 flex items-center justify-center text-slate-300 hover:text-white hover:bg-white/20 transition-all duration-200"
                 >
-                  <X className="w-6 h-6" />
+                  <X className="w-5 h-5" />
                 </button>
               </div>
 
-              <div className="flex-1 flex flex-col justify-center px-6 py-8 space-y-3 max-w-md mx-auto w-full font-sans">
-                <div className="text-xs font-semibold uppercase tracking-widest text-blue-400 mb-2 px-2 flex items-center gap-1.5">
+              <div className="flex-1 flex flex-col justify-center px-6 py-8 space-y-2.5 max-w-md mx-auto w-full font-sans">
+                <div className="text-xs font-semibold uppercase tracking-widest text-[#34D399] mb-3 px-2 flex items-center gap-1.5">
                   <Sparkles className="w-3.5 h-3.5" />
-                  <span>Navigation Menu</span>
+                  <span>Navigation & Protocol</span>
                 </div>
 
                 {navItems.map((item, idx) => {
@@ -290,29 +283,28 @@ export default function Navbar() {
                       key={item.id}
                       href={`#${item.id}`}
                       onClick={(e) => handleSmoothScroll(e, item.id)}
-                      initial={{ opacity: 0, y: 16 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.05 + idx * 0.03, type: "spring", damping: 24 }}
-                      className={`text-2xl sm:text-3xl font-display font-bold py-3.5 px-4 rounded-xl flex items-center justify-between group transition-all duration-200 border border-transparent ${
+                      initial={{ opacity: 0, x: -15 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.04 + idx * 0.03, type: "spring", damping: 24 }}
+                      className={`text-xl sm:text-2xl font-display font-bold py-3.5 px-4.5 rounded-2xl flex items-center justify-between group transition-all duration-200 border ${
                         isActive
-                          ? "text-white bg-white/10 border-white/20 pl-5"
-                          : "text-slate-400 hover:text-white hover:bg-white/[0.05] hover:pl-5"
+                          ? "text-white bg-[#10B981]/20 border-[#10B981]/40 pl-6 shadow-sm"
+                          : "text-slate-300 hover:text-white hover:bg-white/[0.06] border-transparent hover:pl-6"
                       }`}
                     >
                       <span>{item.name}</span>
-                      <ChevronRight className={`w-6 h-6 transition-transform group-hover:translate-x-1 ${isActive ? 'text-blue-400' : 'text-slate-600 group-hover:text-blue-400'}`} />
+                      <ChevronRight className={`w-5 h-5 transition-transform group-hover:translate-x-1 ${isActive ? 'text-[#34D399]' : 'text-slate-500 group-hover:text-[#34D399]'}`} />
                     </motion.a>
                   );
                 })}
                 
-                {/* Secondary/Legal Items in Mobile Menu */}
-                <div className="pt-4 border-t border-white/10 flex flex-wrap gap-x-4 gap-y-2 px-4 justify-center text-xs">
+                <div className="pt-5 border-t border-white/10 flex flex-wrap gap-x-5 gap-y-2.5 px-3 justify-center text-xs">
                   {secondaryItems.map((item) => (
                     item.type === "tel" ? (
                       <a
                         key={item.name}
                         href={item.to}
-                        className="text-slate-400 hover:text-white font-medium transition-colors"
+                        className="text-slate-400 hover:text-[#34D399] font-medium transition-colors"
                       >
                         {item.name}
                       </a>
@@ -321,7 +313,7 @@ export default function Navbar() {
                         key={item.name}
                         to={item.to}
                         onClick={() => setIsMobileMenuOpen(false)}
-                        className="text-slate-400 hover:text-white font-medium transition-colors"
+                        className="text-slate-400 hover:text-[#34D399] font-medium transition-colors"
                       >
                         {item.name}
                       </Link>
@@ -332,10 +324,11 @@ export default function Navbar() {
 
               <div className="p-6 border-t border-white/10 bg-white/[0.02] space-y-3 mt-auto font-sans">
                 <button 
+                  type="button"
                   onClick={(e) => handleSmoothScroll(e, 'schedule')} 
-                  className="w-full py-4 rounded-full bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] text-white font-semibold text-base shadow-[0_4px_20px_rgba(37,99,235,0.4)] flex items-center justify-center gap-2.5 active:scale-[0.98] transition-all"
+                  className="w-full py-4 rounded-full bg-gradient-to-r from-[#10B981] to-[#059669] text-white font-semibold text-base shadow-[0_4px_20px_rgba(16,185,129,0.4)] flex items-center justify-center gap-2.5 active:scale-[0.98] transition-all"
                 >
-                  <CalendarDays className="w-5 h-5 text-blue-100" />
+                  <CalendarDays className="w-5 h-5 text-emerald-100" />
                   <span>Book Appointment Now</span>
                 </button>
 
@@ -352,9 +345,9 @@ export default function Navbar() {
 
                   <a 
                     href={`tel:${PRIMARY_PHONE_NUMBER}`} 
-                    className="py-3.5 rounded-full border border-white/15 bg-slate-900 hover:bg-slate-800 text-slate-300 font-semibold text-sm flex items-center justify-center gap-2 active:scale-[0.98] transition-all"
+                    className="py-3.5 rounded-full border border-white/15 bg-[#122820] hover:bg-[#1C3A30] text-slate-200 font-semibold text-sm flex items-center justify-center gap-2 active:scale-[0.98] transition-all"
                   >
-                    <Phone className="w-4 h-4 text-blue-400" />
+                    <Phone className="w-4 h-4 text-[#34D399]" />
                     <span>Call Clinic</span>
                   </a>
                 </div>

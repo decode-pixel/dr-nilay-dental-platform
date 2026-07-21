@@ -254,8 +254,8 @@ export default function WhyChooseUsBento() {
           })}
         </div>
 
-        {/* Trust Statistics Strip */}
-        <div className="mt-24 pt-14 border-t border-slate-200/70">
+        {/* Trust Statistics Strip & Reviews Anchor */}
+        <div id="reviews" className="mt-24 pt-14 border-t border-slate-200/70 scroll-mt-36">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             {stats.map((item, idx) => (
               <div 
