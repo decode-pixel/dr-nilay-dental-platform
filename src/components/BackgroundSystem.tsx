@@ -1,8 +1,9 @@
 import React from "react";
 
 /**
- * BackgroundSystem — Animated Luxury Mesh & Ambient Glow
- * Lightweight CSS radial gradients with subtle cyan/emerald ambient glows
+ * BackgroundSystem — V2 Animated Crystal Aurora & Ambient Light Matrix
+ * Ultra-premium Apple/Stripe-caliber ambient lighting and subtle geometry
+ * Rendered purely via CSS transforms and gradients for 120fps zero-scroll-lag performance.
  */
 export default function BackgroundSystem() {
   return (
@@ -10,30 +11,47 @@ export default function BackgroundSystem() {
       className="fixed inset-0 z-[-2] pointer-events-none overflow-hidden select-none"
       aria-hidden="true"
     >
-      {/* Base luxury canvas */}
-      <div className="absolute inset-0 bg-[#FCFCFD]" />
+      {/* Base crystal canvas */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#F8FAFC] via-[#FCFCFD] to-[#F3F8F6]" />
 
-      {/* Top right cyan/emerald ambient glow */}
-      <div
-        className="absolute -top-32 -right-32 w-[650px] h-[650px] rounded-full opacity-60 pointer-events-none"
+      {/* Subtle luxury dot matrix texture for depth */}
+      <div 
+        className="absolute inset-0 opacity-[0.22] pointer-events-none"
         style={{
-          background: "radial-gradient(circle, rgba(6,182,212,0.12) 0%, rgba(16,185,129,0.08) 45%, transparent 70%)",
+          backgroundImage: "radial-gradient(rgba(16, 185, 129, 0.25) 1px, transparent 1px)",
+          backgroundSize: "32px 32px",
         }}
       />
 
-      {/* Top left emerald mesh wash */}
+      {/* Primary Top-Right Aurora Sphere (Cyan/Emerald crystal reflection) */}
       <div
-        className="absolute top-1/4 -left-32 w-[550px] h-[550px] rounded-full opacity-50 pointer-events-none"
+        className="absolute -top-40 -right-20 w-[750px] h-[750px] rounded-full opacity-65 pointer-events-none animate-pulse duration-10000"
         style={{
-          background: "radial-gradient(circle, rgba(16,185,129,0.09) 0%, rgba(13,148,136,0.04) 50%, transparent 75%)",
+          background: "radial-gradient(circle, rgba(16,185,129,0.14) 0%, rgba(6,182,212,0.1) 40%, rgba(255,255,255,0) 70%)",
         }}
       />
 
-      {/* Center page luxury ambient glow */}
+      {/* Mid-Left Emerald Glass Refraction Orb */}
       <div
-        className="absolute top-2/3 right-10 w-[600px] h-[600px] rounded-full opacity-40 pointer-events-none"
+        className="absolute top-[28%] -left-40 w-[680px] h-[680px] rounded-full opacity-55 pointer-events-none"
         style={{
-          background: "radial-gradient(circle, rgba(34,211,238,0.07) 0%, rgba(16,185,129,0.05) 55%, transparent 75%)",
+          background: "radial-gradient(circle, rgba(16,185,129,0.12) 0%, rgba(5,150,105,0.06) 45%, rgba(255,255,255,0) 75%)",
+        }}
+      />
+
+      {/* Mid-Right Warm Crystal Gold / Teal Highlight */}
+      <div
+        className="absolute top-[58%] right-0 w-[620px] h-[620px] rounded-full opacity-45 pointer-events-none"
+        style={{
+          background: "radial-gradient(circle, rgba(6,182,212,0.09) 0%, rgba(16,185,129,0.07) 50%, rgba(255,255,255,0) 75%)",
+        }}
+      />
+
+      {/* Bottom Center Deep Crystal Wash */}
+      <div
+        className="absolute -bottom-32 left-1/3 w-[800px] h-[500px] rounded-full opacity-50 pointer-events-none"
+        style={{
+          background: "radial-gradient(circle, rgba(16,185,129,0.11) 0%, rgba(13,148,136,0.05) 55%, rgba(255,255,255,0) 80%)",
         }}
       />
     </div>

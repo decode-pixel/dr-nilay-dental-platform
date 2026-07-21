@@ -113,7 +113,7 @@ export default function ContactSection() {
         </div>
 
         {/* Coordinates Grid Box */}
-        <div className="card-premium p-8 sm:p-12 bg-white shadow-md">
+        <div className="glass-card-floating p-8 sm:p-12 bg-gradient-to-br from-white via-white to-emerald-50/30 rounded-3xl border border-slate-200/80 shadow-[0_20px_50px_rgba(18,40,32,0.06)]">
           <h3 className="text-xl sm:text-2xl font-display font-bold text-[#122820] mb-8 pb-5 border-b border-slate-100 flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-200/80 flex items-center justify-center text-[#10B981] shrink-0">
               <MapPin className="w-5 h-5" />

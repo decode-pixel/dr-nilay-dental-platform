@@ -12,7 +12,9 @@ import {
   HeartPulse,
   UserCheck,
   Clock,
-  History
+  History,
+  ChevronDown,
+  ChevronUp
 } from 'lucide-react';
 import { DoctorService, Doctor, DoctorProfileItem } from '../lib/doctorService';
 import { CmsService } from '../lib/cmsService';
@@ -30,6 +32,7 @@ export default function MeetDrNilaySaha() {
   const [specializations, setSpecializations] = useState<string[]>([]);
   const [aboutConfig, setAboutConfig] = useState<{ title?: string; description?: string }>({});
   const [activeTab, setActiveTab] = useState<'qualifications' | 'specializations' | 'awards' | 'memberships' | 'journey'>('qualifications');
+  const [bioExpanded, setBioExpanded] = useState<boolean>(false);
 
   const loadDoctorProfile = async () => {
     try {
@@ -167,7 +170,7 @@ export default function MeetDrNilaySaha() {
           <div className="lg:col-span-5 flex flex-col items-center">
             
             <div className="relative w-full max-w-md mx-auto">
-              <div className="card-premium p-8 bg-gradient-to-br from-emerald-50/90 via-white to-white border-emerald-300/80 shadow-lg space-y-6 relative overflow-hidden">
+              <div className="glass-card-floating p-8 sm:p-9 bg-gradient-to-br from-emerald-50/95 via-white to-white border border-emerald-300/80 shadow-[0_20px_60px_rgba(16,185,129,0.12)] rounded-3xl space-y-6 relative overflow-hidden">
                 {/* Top Highlight Bar */}
                 <div className="absolute top-0 inset-x-0 h-[4px] bg-gradient-to-r from-transparent via-[#10B981] to-transparent z-20" />
 
@@ -205,7 +208,7 @@ export default function MeetDrNilaySaha() {
                 </div>
 
                 {/* Verified Authority Banner */}
-                <div className="p-4 rounded-2xl bg-emerald-100/50 border border-emerald-300/80 flex items-center justify-between">
+                <div className="p-4 rounded-2xl bg-emerald-100/60 border border-emerald-300/80 flex items-center justify-between shadow-2xs">
                   <div>
                     <span className="text-[10px] uppercase tracking-wider text-[#10B981] font-bold block">
                       Verification Status
@@ -222,7 +225,7 @@ export default function MeetDrNilaySaha() {
             </div>
 
             {/* Visual Trust Flow Card */}
-            <div className="mt-6 w-full max-w-md card-premium p-6 sm:p-8 bg-white text-center space-y-5">
+            <div className="mt-6 w-full max-w-md glass-card-floating p-6 sm:p-8 bg-white text-center space-y-5 rounded-3xl">
               <div className="flex items-center justify-center gap-2 text-[#10B981] text-xs font-bold uppercase tracking-widest">
                 <ShieldCheck className="w-4 h-4" />
                 <span>Verified Clinical Authority</span>
@@ -250,7 +253,7 @@ export default function MeetDrNilaySaha() {
               <button
                 type="button"
                 onClick={() => window.dispatchEvent(new CustomEvent('openContactModal'))}
-                className="btn-primary-premium w-full justify-center"
+                className="w-full btn-primary-premium justify-center shadow-md cursor-pointer"
               >
                 <Calendar className="w-4 h-4" />
                 <span>Book Appointment With Dr. Saha</span>
@@ -280,9 +283,20 @@ export default function MeetDrNilaySaha() {
                 </div>
               </div>
 
-              <p className="text-[#2C4238] text-base sm:text-lg leading-[1.7] font-normal whitespace-pre-line">
+              <p className={`text-[#2C4238] text-base sm:text-lg leading-[1.7] font-normal whitespace-pre-line transition-all duration-300 ${
+                bioExpanded ? "" : "line-clamp-4"
+              }`}>
                 {aboutConfig.description || doctor.bio || `Dr. Nilay Saha is a leading Dental Surgeon and Oral Physician dedicated to providing painless, highly precise dental treatments. With over a decade of hands-on experience across multiple clinical centers in West Bengal, he specializes in single-visit root canal treatments, aesthetic restorations, and complex surgical procedures.\n\nHis clinical approach emphasizes conservative dentistry—saving natural teeth wherever possible—while utilizing international sterilization standards and modern diagnostics to ensure optimum patient safety and comfort.`}
               </p>
+
+              <button
+                type="button"
+                onClick={() => setBioExpanded(!bioExpanded)}
+                className="mt-4 inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-emerald-700 hover:text-[#10B981] focus:outline-none cursor-pointer"
+              >
+                <span>{bioExpanded ? "Show Less" : "Read Full Clinical Biography & Philosophy ↓"}</span>
+                {bioExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+              </button>
 
               {/* Quick Info Pills */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 mt-8 pt-8 border-t border-slate-100">
@@ -315,7 +329,7 @@ export default function MeetDrNilaySaha() {
                   aria-controls="panel-qualifications"
                   id="tab-qualifications"
                   onClick={() => setActiveTab('qualifications')}
-                  className={`px-4.5 py-3 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 ${
+                  className={`px-4.5 py-3 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 cursor-pointer ${
                     activeTab === 'qualifications'
                       ? 'bg-gradient-to-r from-[#10B981] to-[#059669] text-white shadow-[0_4px_14px_rgba(16,185,129,0.35)]'
                       : 'bg-slate-50 text-[#4B6358] border border-slate-200/80 hover:text-[#122820] hover:bg-emerald-50'
@@ -332,7 +346,7 @@ export default function MeetDrNilaySaha() {
                   aria-controls="panel-specializations"
                   id="tab-specializations"
                   onClick={() => setActiveTab('specializations')}
-                  className={`px-4.5 py-3 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 ${
+                  className={`px-4.5 py-3 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 cursor-pointer ${
                     activeTab === 'specializations'
                       ? 'bg-gradient-to-r from-[#10B981] to-[#059669] text-white shadow-[0_4px_14px_rgba(16,185,129,0.35)]'
                       : 'bg-slate-50 text-[#4B6358] border border-slate-200/80 hover:text-[#122820] hover:bg-emerald-50'
@@ -349,7 +363,7 @@ export default function MeetDrNilaySaha() {
                   aria-controls="panel-awards"
                   id="tab-awards"
                   onClick={() => setActiveTab('awards')}
-                  className={`px-4.5 py-3 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 ${
+                  className={`px-4.5 py-3 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 cursor-pointer ${
                     activeTab === 'awards'
                       ? 'bg-gradient-to-r from-[#10B981] to-[#059669] text-white shadow-[0_4px_14px_rgba(16,185,129,0.35)]'
                       : 'bg-slate-50 text-[#4B6358] border border-slate-200/80 hover:text-[#122820] hover:bg-emerald-50'
@@ -366,7 +380,7 @@ export default function MeetDrNilaySaha() {
                   aria-controls="panel-memberships"
                   id="tab-memberships"
                   onClick={() => setActiveTab('memberships')}
-                  className={`px-4.5 py-3 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 ${
+                  className={`px-4.5 py-3 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 cursor-pointer ${
                     activeTab === 'memberships'
                       ? 'bg-gradient-to-r from-[#10B981] to-[#059669] text-white shadow-[0_4px_14px_rgba(16,185,129,0.35)]'
                       : 'bg-slate-50 text-[#4B6358] border border-slate-200/80 hover:text-[#122820] hover:bg-emerald-50'
@@ -383,7 +397,7 @@ export default function MeetDrNilaySaha() {
                   aria-controls="panel-journey"
                   id="tab-journey"
                   onClick={() => setActiveTab('journey')}
-                  className={`px-4.5 py-3 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 ${
+                  className={`px-4.5 py-3 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 cursor-pointer ${
                     activeTab === 'journey'
                       ? 'bg-gradient-to-r from-[#10B981] to-[#059669] text-white shadow-[0_4px_14px_rgba(16,185,129,0.35)]'
                       : 'bg-slate-50 text-[#4B6358] border border-slate-200/80 hover:text-[#122820] hover:bg-emerald-50'
@@ -514,7 +528,7 @@ export default function MeetDrNilaySaha() {
             </div>
 
             {/* Clinics Footer Banner inside About Section */}
-            <div className="card-premium p-6 sm:p-8 bg-white flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="glass-card-floating p-6 sm:p-8 bg-white rounded-3xl flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-[#10B981] shrink-0 shadow-sm">
                   <MapPin className="w-6 h-6" />
@@ -530,7 +544,7 @@ export default function MeetDrNilaySaha() {
                   const elem = document.getElementById('clinics') || document.getElementById('locations');
                   if (elem) elem.scrollIntoView({ behavior: 'smooth' });
                 }}
-                className="px-6 py-3 rounded-full bg-[#122820] hover:bg-[#10B981] text-white text-xs font-bold uppercase tracking-wider transition-all shrink-0 shadow-sm"
+                className="px-6 py-3.5 rounded-full bg-[#122820] hover:bg-[#10B981] text-white text-xs font-bold uppercase tracking-wider transition-all shrink-0 shadow-sm cursor-pointer"
               >
                 View Clinic Schedules
               </button>

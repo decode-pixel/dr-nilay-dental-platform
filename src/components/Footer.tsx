@@ -59,7 +59,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-5 sm:px-8 relative z-10">
         
         {/* CTA Band */}
-        <div className="bg-gradient-to-br from-[#0B2E22] via-[#071F17] to-[#051811] rounded-[2.5rem] p-8 sm:p-12 mb-16 sm:mb-20 border border-[#10B981]/30 shadow-[0_24px_64px_rgba(0,0,0,0.6)] flex flex-col lg:flex-row items-center justify-between gap-8 relative overflow-hidden">
+        <div className="glass-dark-crystal rounded-[2.5rem] p-8 sm:p-12 mb-16 sm:mb-20 border border-white/10 shadow-[0_30px_80px_rgba(0,0,0,0.7)] flex flex-col lg:flex-row items-center justify-between gap-8 relative overflow-hidden">
           <div className="absolute top-0 inset-x-0 h-[2px] bg-gradient-to-r from-transparent via-[#10B981] to-transparent pointer-events-none" />
           <div className="max-w-2xl text-center lg:text-left">
             <span className="text-xs font-semibold uppercase tracking-widest text-[#34D399] block mb-2">Next Step</span>

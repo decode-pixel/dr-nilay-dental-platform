@@ -345,14 +345,14 @@ export default function Navbar() {
     <>
       {/* ── Floating pill header ─────────────────────────────────────────── */}
       <header
-        className="fixed top-3 sm:top-5 inset-x-0 z-[100] px-3 sm:px-6 lg:px-8 max-w-7xl mx-auto pointer-events-none font-sans"
+        className="fixed top-3 sm:top-5 inset-x-0 z-[100] px-3 sm:px-6 lg:px-8 max-w-7xl mx-auto pointer-events-none font-sans transition-all duration-300"
         aria-label="Site header"
       >
         <nav
-          className={`w-full flex items-center justify-between px-4 sm:px-7 py-2.5 sm:py-3 rounded-full pointer-events-auto transition-all duration-300 ${
+          className={`w-full flex items-center justify-between px-4 sm:px-7 py-3 sm:py-3.5 rounded-full pointer-events-auto transition-all duration-300 ${
             isScrolled
-              ? "glass-luxury border border-white/90 shadow-[0_14px_45px_rgba(6,19,30,0.1)]"
-              : "glass-luxury border border-white/80 shadow-[0_8px_32px_rgba(6,19,30,0.06)]"
+              ? "glass-crystal border border-white/95 shadow-[0_16px_50px_rgba(6,19,30,0.12)]"
+              : "bg-white/80 backdrop-blur-2xl border border-white/85 shadow-[0_10px_35px_rgba(6,19,30,0.06)]"
           }`}
           aria-label="Main navigation"
         >
@@ -360,23 +360,23 @@ export default function Navbar() {
           <a
             href="/#home"
             onClick={(e) => handleAnchorClick(e, "home")}
-            className="flex items-center gap-2.5 sm:gap-3 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981] rounded-2xl shrink-0"
+            className="flex items-center gap-2.5 sm:gap-3.5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981] rounded-2xl shrink-0"
           >
-            <div className="relative w-10 h-10 sm:w-11 sm:h-11 shrink-0 rounded-2xl bg-emerald-50 border border-emerald-200/80 shadow-sm group-hover:bg-emerald-100 group-hover:scale-105 transition-all duration-300 flex items-center justify-center">
+            <div className="relative w-10 h-10 sm:w-12 sm:h-12 shrink-0 rounded-2xl bg-gradient-to-br from-emerald-500/15 to-emerald-500/5 border border-emerald-500/30 shadow-sm group-hover:scale-105 transition-all duration-300 flex items-center justify-center">
               <ToothIcon className="w-5 h-5 sm:w-6 sm:h-6 text-[#10B981]" />
             </div>
             <div className="flex flex-col justify-center">
-              <span className="font-display font-bold text-[16px] sm:text-[18px] leading-none tracking-tight text-[#122820] flex items-center gap-1 group-hover:text-[#10B981] transition-colors">
+              <span className="font-display font-bold text-[17px] sm:text-[19px] leading-none tracking-tight text-[#122820] flex items-center gap-1.5 group-hover:text-[#10B981] transition-colors">
                 DR. <span className="text-[#10B981]">Nilay Saha</span>
               </span>
-              <span className="text-[8.5px] sm:text-[10px] tracking-[0.2em] text-[#4B6358] font-bold uppercase mt-1">
+              <span className="text-[8.5px] sm:text-[10px] tracking-[0.22em] text-[#4B6358] font-bold uppercase mt-1">
                 ADVANCED DENTAL STUDIO
               </span>
             </div>
           </a>
 
           {/* Desktop nav links */}
-          <div className="hidden lg:flex items-center gap-5 xl:gap-7 text-[14.5px] xl:text-[15px] font-medium">
+          <div className="hidden lg:flex items-center gap-2 xl:gap-3 text-[14.5px] xl:text-[15px] font-medium bg-slate-100/60 p-1.5 rounded-full border border-slate-200/60">
             {NAV_ITEMS.map((item) => {
               const isActive = isHomePage && activeSection === item.id;
               return (
@@ -385,22 +385,19 @@ export default function Navbar() {
                   href={`/#${item.id}`}
                   onClick={(e) => handleAnchorClick(e, item.id)}
                   aria-current={isActive ? "page" : undefined}
-                  className={`relative py-1 px-1 transition-all duration-200 flex flex-col items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981] rounded-md group ${
+                  className={`relative py-1.5 px-4 rounded-full transition-all duration-200 flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981] group ${
                     isActive
-                      ? "text-[#10B981] font-semibold"
-                      : "text-[#2C4238] hover:text-[#10B981]"
+                      ? "text-[#10B981] font-bold bg-white shadow-sm border border-emerald-500/20"
+                      : "text-[#2C4238] hover:text-[#10B981] hover:bg-white/60"
                   }`}
                 >
-                  <span>{item.name}</span>
-                  {/* Active underline indicator */}
-                  {isActive ? (
+                  <span className="relative z-10">{item.name}</span>
+                  {isActive && (
                     <motion.div
                       layoutId="activeNavPill"
-                      className="absolute -bottom-1 w-6 h-[2.5px] bg-[#10B981] rounded-full"
+                      className="absolute inset-0 bg-white rounded-full border border-emerald-500/30 shadow-sm z-0"
                       transition={{ type: "spring", stiffness: 400, damping: 32 }}
                     />
-                  ) : (
-                    <span className="absolute -bottom-1 w-6 h-[2.5px] bg-[#10B981]/40 rounded-full scale-x-0 group-hover:scale-x-100 transition-transform duration-200 origin-center" />
                   )}
                 </a>
               );
@@ -413,17 +410,17 @@ export default function Navbar() {
             <a
               href={`tel:${PRIMARY_PHONE_NUMBER}`}
               aria-label={`Call clinic: ${PRIMARY_PHONE_NUMBER}`}
-              className="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-[#F4F7F4] border border-emerald-900/10 hover:border-[#10B981]/40 flex items-center justify-center text-[#10B981] hover:bg-emerald-50 shadow-sm transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981]"
+              className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-white/90 border border-emerald-500/20 hover:border-emerald-500/60 flex items-center justify-center text-[#10B981] hover:bg-emerald-50 shadow-sm transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981]"
             >
               <Phone className="w-4 h-4 sm:w-5 sm:h-5" />
             </a>
 
-            {/* Book Appointment — hidden on xs */}
+            {/* Book Appointment CTA V2 Crystal */}
             <button
               type="button"
               onClick={() => handleNavClick("schedule")}
               aria-label="Book Appointment"
-              className="hidden sm:flex items-center gap-2 px-6 py-3 rounded-full font-semibold text-xs sm:text-sm text-white bg-gradient-to-r from-[#10B981] to-[#059669] shadow-[0_4px_16px_rgba(16,185,129,0.35)] hover:shadow-[0_6px_24px_rgba(16,185,129,0.5)] hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981]"
+              className="hidden sm:flex btn-crystal px-6 py-3 text-xs sm:text-sm font-bold"
             >
               <CalendarDays className="w-4 h-4 text-emerald-100 shrink-0" />
               <span>Book Appointment</span>

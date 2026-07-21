@@ -68,7 +68,7 @@ export default function TrustIndicators() {
           {statsWidgets.map((widget, idx) => (
             <div
               key={idx}
-              className="glass-card-floating p-7 rounded-3xl flex items-center gap-5 bg-white border border-slate-200/80 shadow-sm"
+              className="glass-card-floating p-7 rounded-3xl flex items-center gap-5 bg-gradient-to-br from-white via-white to-emerald-50/40 border border-slate-200/80 shadow-[0_12px_35px_rgba(18,40,32,0.05)] hover:shadow-[0_20px_45px_rgba(16,185,129,0.1)] transition-all duration-300"
             >
               {/* Circular SVG Ring */}
               <div className="relative w-20 h-20 shrink-0 flex items-center justify-center">
@@ -115,7 +115,7 @@ export default function TrustIndicators() {
             return (
               <div
                 key={idx}
-                className="card-premium p-6 flex items-start gap-4 bg-white/90 hover:bg-white"
+                className="glass-card-floating p-6 flex items-start gap-4 bg-white rounded-3xl border border-slate-200/80 shadow-xs hover:shadow-[0_15px_35px_rgba(16,185,129,0.08)] transition-all duration-300"
               >
                 <div className="w-12 h-12 rounded-2xl bg-emerald-50 border border-emerald-200/80 flex items-center justify-center shrink-0 shadow-sm">
                   <Icon className={`w-6 h-6 ${pillar.iconColor}`} />
@@ -124,7 +124,7 @@ export default function TrustIndicators() {
                   <h3 className="font-display font-bold text-base text-[#122820] mb-1">
                     {pillar.title}
                   </h3>
-                  <p className="small-premium text-xs sm:text-[13px]">
+                  <p className="small-premium text-xs sm:text-[13px] text-[#2C4238]">
                     {pillar.desc}
                   </p>
                 </div>

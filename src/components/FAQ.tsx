@@ -60,8 +60,8 @@ export default function FAQ() {
                 key={index}
                 className={`glass-card-floating transition-all duration-300 rounded-3xl ${
                   isOpen
-                    ? "border-emerald-400/80 bg-gradient-to-b from-emerald-50/40 via-white to-white shadow-md"
-                    : "bg-white hover:border-emerald-300/60 shadow-sm"
+                    ? "border border-emerald-400/90 bg-gradient-to-b from-emerald-50/60 via-white to-white shadow-[0_15px_35px_rgba(16,185,129,0.12)]"
+                    : "bg-white border border-slate-200/80 hover:border-emerald-300/80 shadow-xs hover:shadow-md"
                 }`}
               >
                 <button

@@ -48,6 +48,12 @@ export default function WhyChooseUsBento() {
     }
   ];
 
+  const [expandedIndex, setExpandedIndex] = React.useState<number | null>(0);
+
+  const toggleExpand = (idx: number) => {
+    setExpandedIndex(expandedIndex === idx ? null : idx);
+  };
+
   return (
     <section id="why-choose-us" className="py-20 sm:py-28 bg-white font-sans border-b border-slate-200/60">
       <div className="max-w-7xl mx-auto px-5 sm:px-8">
@@ -70,18 +76,22 @@ export default function WhyChooseUsBento() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
           {advantages.map((item, idx) => {
             const Icon = item.icon;
+            const isExpanded = expandedIndex === idx;
+
             return (
               <div
                 key={idx}
-                className={`glass-card-floating p-7 sm:p-9 flex flex-col justify-between group rounded-3xl ${item.span}`}
+                className={`glass-card-floating p-7 sm:p-9 flex flex-col justify-between group rounded-3xl transition-all duration-300 ${item.span} ${
+                  isExpanded ? "ring-2 ring-emerald-500/30 shadow-lg" : ""
+                }`}
               >
                 <div>
                   <div className="flex items-center justify-between mb-6">
-                    <div className="w-13 h-13 rounded-2xl bg-emerald-50 border border-emerald-200/80 flex items-center justify-center text-[#10B981] group-hover:bg-[#10B981] group-hover:text-white transition-colors duration-300 shrink-0 shadow-sm">
+                    <div className="w-13 h-13 rounded-2xl bg-gradient-to-br from-emerald-500/15 to-emerald-500/5 border border-emerald-500/30 flex items-center justify-center text-[#10B981] group-hover:bg-[#10B981] group-hover:text-white group-hover:scale-105 transition-all duration-300 shrink-0 shadow-sm">
                       <Icon className="w-6 h-6" />
                     </div>
                     {item.featured && (
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100/80 border border-emerald-300/80 text-[11px] uppercase font-bold tracking-widest text-[#10B981]">
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100/80 border border-emerald-300/80 text-[10px] uppercase font-bold tracking-widest text-[#10B981]">
                         <Sparkles className="w-3.5 h-3.5" />
                         Clinical Distinction
                       </span>
@@ -94,19 +104,34 @@ export default function WhyChooseUsBento() {
                     {item.title}
                   </h3>
 
-                  <p className="small-premium text-xs sm:text-sm leading-relaxed">
+                  <p className={`small-premium text-xs sm:text-sm leading-relaxed transition-all duration-300 ${
+                    isExpanded ? "" : "line-clamp-2"
+                  }`}>
                     {item.desc}
                   </p>
+
+                  <button
+                    type="button"
+                    onClick={() => toggleExpand(idx)}
+                    className="mt-3 inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider text-emerald-700 hover:text-[#10B981] focus:outline-none cursor-pointer"
+                  >
+                    <span>{isExpanded ? "Show Less" : "Read Full Clinical Standard ↓"}</span>
+                  </button>
                 </div>
 
-                <button
-                  type="button"
-                  onClick={() => window.dispatchEvent(new CustomEvent("openContactModal"))}
-                  className="mt-8 flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[#10B981] group-hover:text-[#059669] transition-all duration-300 cursor-pointer w-fit focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981] rounded"
-                >
-                  <span>Inquire about this standard</span>
-                  <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </button>
+                <div className="pt-6 mt-6 border-t border-slate-100/80 flex items-center justify-between">
+                  <button
+                    type="button"
+                    onClick={() => window.dispatchEvent(new CustomEvent("openContactModal"))}
+                    className="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[#10B981] group-hover:text-[#059669] transition-all duration-300 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981] rounded"
+                  >
+                    <span>Inquire about this standard</span>
+                    <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </button>
+                  <span className="text-[10px] font-mono text-slate-400 font-bold uppercase">
+                    Pillar #0{idx + 1}
+                  </span>
+                </div>
               </div>
             );
           })}
