@@ -349,10 +349,10 @@ export default function Navbar() {
         aria-label="Site header"
       >
         <nav
-          className={`w-full flex items-center justify-between px-3.5 sm:px-6 py-2 sm:py-2.5 rounded-full pointer-events-auto transition-all duration-300 ${
+          className={`w-full flex items-center justify-between px-4 sm:px-7 py-2.5 sm:py-3 rounded-full pointer-events-auto transition-all duration-300 ${
             isScrolled
-              ? "bg-white/95 border border-white/90 shadow-[0_12px_40px_rgba(18,40,32,0.10)]"
-              : "bg-white/90 border border-white/80 shadow-[0_8px_32px_rgba(18,40,32,0.06)]"
+              ? "bg-white/95 backdrop-blur-md border border-slate-200/90 shadow-[0_12px_40px_rgba(15,23,42,0.08)]"
+              : "bg-white/90 backdrop-blur-md border border-slate-200/70 shadow-[0_8px_32px_rgba(15,23,42,0.05)]"
           }`}
           aria-label="Main navigation"
         >
@@ -362,7 +362,7 @@ export default function Navbar() {
             onClick={(e) => handleAnchorClick(e, "home")}
             className="flex items-center gap-2.5 sm:gap-3 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981] rounded-2xl shrink-0"
           >
-            <div className="relative w-10 h-10 sm:w-11 sm:h-11 shrink-0 rounded-2xl bg-[#E8F5F1] border border-[#10B981]/25 shadow-sm group-hover:scale-105 transition-transform duration-300 flex items-center justify-center">
+            <div className="relative w-10 h-10 sm:w-11 sm:h-11 shrink-0 rounded-2xl bg-emerald-50 border border-emerald-200/80 shadow-sm group-hover:bg-emerald-100 group-hover:scale-105 transition-all duration-300 flex items-center justify-center">
               <ToothIcon className="w-5 h-5 sm:w-6 sm:h-6 text-[#10B981]" />
             </div>
             <div className="flex flex-col justify-center">
@@ -423,9 +423,9 @@ export default function Navbar() {
               type="button"
               onClick={() => handleNavClick("schedule")}
               aria-label="Book Appointment"
-              className="hidden sm:flex items-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-full font-semibold text-xs sm:text-sm text-white bg-[#122820] hover:bg-[#10B981] shadow-[0_4px_16px_rgba(18,40,32,0.25)] hover:shadow-[0_6px_22px_rgba(16,185,129,0.4)] hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981]"
+              className="hidden sm:flex items-center gap-2 px-6 py-3 rounded-full font-semibold text-xs sm:text-sm text-white bg-gradient-to-r from-[#10B981] to-[#059669] shadow-[0_4px_16px_rgba(16,185,129,0.35)] hover:shadow-[0_6px_24px_rgba(16,185,129,0.5)] hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981]"
             >
-              <CalendarDays className="w-4 h-4 text-emerald-300 shrink-0" />
+              <CalendarDays className="w-4 h-4 text-emerald-100 shrink-0" />
               <span>Book Appointment</span>
             </button>
 
@@ -436,7 +436,7 @@ export default function Navbar() {
               aria-label="Open navigation menu"
               aria-expanded={isMobileMenuOpen}
               aria-controls="mobile-menu"
-              className="lg:hidden w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-[#122820] text-white flex items-center justify-center hover:bg-[#1C3A30] shadow-sm transition-all duration-150 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981]"
+              className="lg:hidden w-10 h-10 rounded-full bg-[#122820] text-white flex items-center justify-center hover:bg-[#10B981] shadow-sm transition-all duration-200 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981]"
             >
               <Menu className="w-5 h-5" />
             </button>

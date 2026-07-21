@@ -1,28 +1,27 @@
 import React, { useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
 import { ChevronDown, MessageCircleQuestion } from "lucide-react";
 import TagPill from "./TagPill";
 
 const faqData = [
   {
-    question: "How often should I visit the dentist?",
-    answer: "For optimal oral health, we recommend visiting the dentist every 6 months for a routine checkup and professional cleaning. However, if you have specific dental conditions, we may suggest more frequent visits."
+    question: "How often should I visit Dr. Nilay Saha for a checkup?",
+    answer: "For optimal oral health and prevention, we recommend visiting every 6 months for a routine digital RVG checkup and professional scaling. If you have active gum conditions or ongoing restorative work, your tailored schedule will guide you."
   },
   {
-    question: "Is root canal treatment painful?",
-    answer: "With modern techniques and advanced local anesthesia, a root canal is typically no more uncomfortable than getting a standard filling. Our clinic specializes in gentle, pain-free endodontic care."
+    question: "Is single-visit root canal treatment completely painless?",
+    answer: "Yes. Using rotary endodontic motors, micro-instrumentation, and modern local anesthetics, single-visit root canal therapy is precise, quick, and virtually painless—typically feeling no more uncomfortable than a standard filling."
   },
   {
-    question: "What should I do in a dental emergency?",
-    answer: "In case of a dental emergency—such as a severe toothache, knocked-out tooth, or broken restoration—please call our clinic immediately. We prioritize urgent cases to provide fast relief and care."
+    question: "How are surgical and dental instruments sterilized?",
+    answer: "We follow strict Class-B autoclaving and multi-tier WHO aseptic sterilization standards. Every instrument is packaged, sterilized under high-pressure steam, and opened directly in front of the patient during the appointment."
   },
   {
-    question: "Do you accept digital payments?",
-    answer: "Yes, we accept all major digital payments, UPI, and major credit/debit cards for your convenience."
+    question: "What should I do if I have a severe dental emergency?",
+    answer: "In the event of acute toothache, trauma, or swelling, contact our clinic directly via phone. We prioritize urgent clinical cases across Belerhat, Parulia, and Nabadwip to provide fast pain relief."
   },
   {
-    question: "At what age should a child first visit the dentist?",
-    answer: "We recommend that a child's first dental visit should occur within six months after their first tooth erupts, or no later than their first birthday, to establish good oral hygiene habits early."
+    question: "Do you accept digital payments and insurance queries?",
+    answer: "Yes, we accept all major UPI platforms, debit/credit cards, and cash. We also provide complete itemized clinical receipts and documentation for any corporate or personal health insurance claims."
   }
 ];
 
@@ -34,76 +33,81 @@ export default function FAQ() {
   };
 
   return (
-    <section id="faq" className="relative py-24 sm:py-32 z-10 overflow-hidden font-sans">
+    <section id="faq" className="py-20 sm:py-28 bg-white font-sans border-b border-slate-200/60 scroll-mt-24">
       <div className="max-w-4xl mx-auto px-5 sm:px-8">
         
         {/* Section Header */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="text-center mb-16 sm:mb-24"
-        >
-          <TagPill icon={MessageCircleQuestion} text="FAQ" />
-          <h2 className="text-[36px] sm:text-[48px] lg:text-[56px] font-display font-bold text-[#0F172A] tracking-tight leading-[1.12] mb-5">
-            Frequently Asked <span className="text-[#2563EB]">Questions</span>
+        <div className="text-center max-w-3xl mx-auto mb-14 sm:mb-18">
+          <TagPill icon={MessageCircleQuestion} text="Common Questions" />
+          <h2 className="h2-premium mt-3 mb-4">
+            Frequently Asked <br className="hidden sm:inline" />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#10B981] to-[#059669]">
+              Clinical Questions
+            </span>
           </h2>
-          <p className="text-[#475569] text-base sm:text-lg leading-[1.65] max-w-2xl mx-auto font-normal">
-            Find answers to common questions about our clinical treatments, appointments, hygiene standards, and dental care.
+          <p className="body-premium max-w-2xl mx-auto">
+            Find clear answers about our painless endodontic procedures, sterilization protocols, appointments, and regional centers.
           </p>
-        </motion.div>
+        </div>
 
-        {/* Accordion */}
+        {/* Accordion List */}
         <div className="space-y-4 sm:space-y-5">
           {faqData.map((faq, index) => {
             const isOpen = openIndex === index;
             
             return (
-              <motion.div 
+              <div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.5, delay: index * 0.08 }}
-                className={`rounded-2xl sm:rounded-[2rem] overflow-hidden transition-all duration-300 border ${
-                  isOpen 
-                    ? 'glass-3 border-blue-500/40 shadow-[0_16px_48px_rgba(37,99,235,0.08)] bg-white/95' 
-                    : 'glass-2 border-white/70 hover:border-blue-400/50 shadow-sm hover:shadow-md'
+                className={`card-premium transition-all duration-300 ${
+                  isOpen
+                    ? "border-emerald-400/80 bg-gradient-to-b from-emerald-50/40 via-white to-white shadow-md"
+                    : "bg-white hover:border-emerald-300/60 shadow-sm"
                 }`}
               >
                 <button
                   onClick={() => toggleAccordion(index)}
-                  className="w-full flex items-center justify-between p-6 sm:p-8 text-left focus:outline-none group"
+                  aria-expanded={isOpen}
+                  className="w-full flex items-center justify-between p-6 sm:p-7 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981] rounded-2xl group cursor-pointer"
                 >
-                  <h3 className={`text-base sm:text-lg lg:text-xl font-display font-semibold pr-8 transition-colors duration-300 ${isOpen ? 'text-[#2563EB]' : 'text-[#0F172A] group-hover:text-[#2563EB]'}`}>
+                  <h3 className={`text-lg sm:text-[22px] font-display font-semibold pr-6 transition-colors leading-snug ${
+                    isOpen ? "text-[#10B981]" : "text-[#122820] group-hover:text-[#10B981]"
+                  }`}>
                     {faq.question}
                   </h3>
-                  <div className={`flex-shrink-0 w-10 h-10 rounded-2xl border flex items-center justify-center transition-all duration-300 ${isOpen ? 'bg-blue-500/15 border-blue-500/30 text-[#2563EB]' : 'bg-slate-100/80 border-slate-200/80 text-slate-500 group-hover:bg-blue-50 group-hover:text-[#2563EB]'}`}>
-                    <ChevronDown className={`w-5 h-5 transition-transform duration-350 ease-out ${isOpen ? 'rotate-180' : 'rotate-0'}`} />
+                  <div className={`flex-shrink-0 w-11 h-11 rounded-2xl border flex items-center justify-center transition-all duration-300 ${
+                    isOpen
+                      ? "bg-[#10B981] border-[#10B981] text-white rotate-180"
+                      : "bg-emerald-50/80 border-emerald-200/80 text-[#10B981] group-hover:bg-[#10B981] group-hover:text-white"
+                  }`}>
+                    <ChevronDown className="w-5 h-5 transition-transform duration-300" />
                   </div>
                 </button>
                 
-                <AnimatePresence>
-                  {isOpen && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                    >
-                      <div className="px-6 sm:px-8 pb-8 pt-0">
-                        <div className="w-full h-px bg-slate-200/70 mb-6" />
-                        <p className="text-[#475569] text-base sm:text-lg leading-[1.65]">
-                          {faq.answer}
-                        </p>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </motion.div>
+                {isOpen && (
+                  <div className="px-6 sm:px-7 pb-7 pt-1 animate-fadeIn">
+                    <div className="w-full h-px bg-slate-100 mb-5" />
+                    <p className="small-premium text-xs sm:text-sm leading-relaxed">
+                      {faq.answer}
+                    </p>
+                  </div>
+                )}
+              </div>
             );
           })}
+        </div>
+
+        {/* Still have questions CTA */}
+        <div className="mt-12 text-center">
+          <p className="text-xs sm:text-sm text-[#4B6358]">
+            Have a specific clinical question not listed above?{" "}
+            <button
+              type="button"
+              onClick={() => window.dispatchEvent(new CustomEvent("openContactModal"))}
+              className="font-bold text-[#10B981] hover:text-[#059669] underline underline-offset-4 cursor-pointer"
+            >
+              Consult directly with our team
+            </button>
+          </p>
         </div>
         
       </div>

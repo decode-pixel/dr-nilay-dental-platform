@@ -177,6 +177,34 @@ footer [class*="text-[#A1A1A6]"], #footer [class*="text-[#A1A1A6]"] {
   .btn-sweep:hover::after {
     left: 200%;
   }
+
+  /* ==========================================
+     PREMIUM APPLE/LINEAR HEALTHCARE DESIGN TOKENS
+     ========================================== */
+  .h1-premium {
+    @apply text-[44px] sm:text-[56px] lg:text-[64px] font-display font-bold tracking-tight text-[#122820] leading-[1.08];
+  }
+  .h2-premium {
+    @apply text-[32px] sm:text-[40px] font-display font-bold tracking-tight text-[#122820] leading-[1.15];
+  }
+  .h3-premium {
+    @apply text-[22px] sm:text-[28px] font-display font-semibold text-[#122820] leading-[1.25];
+  }
+  .body-premium {
+    @apply text-[16px] sm:text-[18px] text-[#2C4238] font-normal leading-[1.65];
+  }
+  .small-premium {
+    @apply text-[14px] sm:text-[15px] text-[#4B6358] leading-[1.5];
+  }
+  .card-premium {
+    @apply bg-white rounded-[20px] sm:rounded-[24px] border border-slate-200/80 shadow-[0_8px_30px_rgba(15,23,42,0.04)] hover:shadow-[0_16px_48px_rgba(15,23,42,0.08)] hover:-translate-y-1 transition-all duration-300;
+  }
+  .btn-primary-premium {
+    @apply px-8 py-4 rounded-full bg-gradient-to-r from-[#10B981] to-[#059669] text-white font-semibold text-sm shadow-[0_4px_20px_rgba(16,185,129,0.35)] hover:shadow-[0_6px_28px_rgba(16,185,129,0.5)] hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981] focus-visible:ring-offset-2;
+  }
+  .btn-secondary-premium {
+    @apply px-8 py-4 rounded-full bg-white text-[#122820] border border-slate-200 font-semibold text-sm shadow-sm hover:bg-slate-50 hover:border-slate-300 hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981] focus-visible:ring-offset-2;
+  }
 }
 
 /**
