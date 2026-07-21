@@ -20,21 +20,10 @@ const ContactSection = lazy(() => import("../components/ContactSection"));
 const Footer = lazy(() => import("../components/Footer"));
 
 export default function HomePage() {
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    // Simulate initial loading time
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1500); // reduced loading screen to 1.5 seconds for snappier FCP/LCP
-    return () => clearTimeout(timer);
-  }, []);
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
-    <div className="min-h-screen text-white font-sans overflow-x-hidden selection:bg-blue-500/30 relative bg-[#F8FBFF]">
-      <AnimatePresence>
-        {isLoading && <LoadingScreen />}
-      </AnimatePresence>
+    <div className="min-h-screen text-white font-sans overflow-x-hidden selection:bg-emerald-500/30 relative bg-[#F4F7F4]">
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10" id="home">
         {/* Ambient Background Glows */}

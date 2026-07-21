@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { CalendarDays, Menu, X, Phone, ChevronRight, Sparkles } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
-import { WhatsAppIcon } from "./Icons";
+import { WhatsAppIcon, ToothIcon } from "./Icons";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import { PRIMARY_PHONE_NUMBER, PRIMARY_WHATSAPP_DIGITS } from "../lib/constants";
 
@@ -135,26 +135,17 @@ export default function Navbar() {
         <a 
           href="#home" 
           onClick={(e) => handleSmoothScroll(e, 'home')} 
-          className="flex items-center gap-3.5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB] rounded-xl transition-all"
+          className="flex items-center gap-3.5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981] rounded-xl transition-all"
         >
-          <div className="relative flex items-center justify-center w-11 h-11 sm:w-12 sm:h-12 shrink-0">
-            <div className="absolute inset-0 bg-blue-500/15 rounded-full blur-[14px] pointer-events-none transition-all duration-500 group-hover:bg-blue-500/30" />
-            
-            <img 
-              src="https://res.cloudinary.com/tud0sobq/image/upload/w_120,q_auto,f_auto/v1783343231/ChatGPT_Image_Jul_6_2026_06_28_47_PM_1_ipilq6.png"
-              alt="Dr. Nilay Saha Logo"
-              className="w-full h-full object-contain relative z-10 mix-blend-multiply drop-shadow-sm transition-transform duration-300 group-hover:scale-105"
-              onError={(e) => {
-                e.currentTarget.src = "https://api.dicebear.com/7.x/shapes/svg?seed=tooth&backgroundColor=000000";
-              }}
-            />
+          <div className="relative flex items-center justify-center w-11 h-11 sm:w-12 sm:h-12 shrink-0 rounded-2xl bg-[#10B981]/15 border border-[#10B981]/30 shadow-sm group-hover:scale-105 transition-transform">
+            <ToothIcon className="w-6 h-6 text-[#10B981]" />
           </div>
           <div className="flex flex-col justify-center">
-            <span className="font-display font-bold text-lg sm:text-xl leading-tight tracking-tight flex items-center gap-1.5 text-[#0F172A] group-hover:text-[#2563EB] transition-colors">
-              DR. <span className="text-[#2563EB]">Nilay Saha</span>
+            <span className="font-display font-bold text-lg sm:text-xl leading-tight tracking-tight flex items-center gap-1.5 text-[#122820] group-hover:text-[#10B981] transition-colors">
+              DR. <span className="text-[#10B981]">Nilay Saha</span>
             </span>
-            <span className="text-[10px] sm:text-[11px] tracking-[0.16em] text-[#64748B] font-semibold uppercase mt-0.5">
-              Advanced Dental Clinic
+            <span className="text-[10px] sm:text-[11px] tracking-[0.16em] text-[#4B6358] font-semibold uppercase mt-0.5">
+              Advanced Dental Studio
             </span>
           </div>
         </a>
@@ -169,21 +160,21 @@ export default function Navbar() {
                 href={`#${item.id}`}
                 onClick={(e) => handleSmoothScroll(e, item.id)}
                 aria-current={isActive ? "page" : undefined}
-                className={`relative px-3.5 py-2 rounded-lg transition-all duration-200 flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB] group ${
+                className={`relative px-3.5 py-2 rounded-lg transition-all duration-200 flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981] group ${
                   isActive
-                    ? "text-[#0F172A] font-bold"
-                    : "text-[#475569] hover:text-[#2563EB]"
+                    ? "text-[#122820] font-bold"
+                    : "text-[#2C4238] hover:text-[#10B981]"
                 }`}
               >
                 <span>{item.name}</span>
                 {isActive && (
                   <motion.div
                     layoutId="activeNavTab"
-                    className="absolute -bottom-1 left-3 right-3 h-[2.5px] bg-[#2563EB] rounded-full shadow-[0_2px_8px_rgba(37,99,235,0.4)]"
+                    className="absolute -bottom-1 left-3 right-3 h-[2.5px] bg-[#10B981] rounded-full shadow-[0_2px_8px_rgba(16,185,129,0.4)]"
                     transition={{ type: "spring", stiffness: 350, damping: 30 }}
                   />
                 )}
-                <span className={`absolute -bottom-1 left-3 right-3 h-[2.5px] bg-[#2563EB]/40 rounded-full transition-transform duration-300 origin-center scale-x-0 group-hover:scale-x-100 ${isActive ? 'hidden' : 'block'}`} />
+                <span className={`absolute -bottom-1 left-3 right-3 h-[2.5px] bg-[#10B981]/40 rounded-full transition-transform duration-300 origin-center scale-x-0 group-hover:scale-x-100 ${isActive ? 'hidden' : 'block'}`} />
               </a>
             );
           })}
@@ -193,7 +184,7 @@ export default function Navbar() {
             <button 
               type="button" 
               aria-label="More options"
-              className="w-9 h-9 rounded-full flex items-center justify-center bg-slate-100/80 border border-slate-200 hover:bg-white hover:border-blue-300 transition-all text-[#475569] hover:text-[#2563EB] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB] shadow-sm"
+              className="w-9 h-9 rounded-full flex items-center justify-center bg-[#F4F7F4] border border-emerald-900/10 hover:bg-white hover:border-emerald-400 transition-all text-[#2C4238] hover:text-[#10B981] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981] shadow-sm"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="12" r="1"></circle>
@@ -202,26 +193,26 @@ export default function Navbar() {
               </svg>
             </button>
             
-            <div className="absolute top-full right-0 mt-3 w-56 bg-white/95 backdrop-blur-2xl border border-slate-200/90 rounded-2xl shadow-[0_16px_56px_rgba(15,23,42,0.15)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 overflow-hidden z-50 transform origin-top-right group-hover:translate-y-0 translate-y-2">
+            <div className="absolute top-full right-0 mt-3 w-56 bg-[#FAFDFB]/95 backdrop-blur-2xl border border-emerald-900/10 rounded-2xl shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 overflow-hidden z-50 transform origin-top-right group-hover:translate-y-0 translate-y-2">
               <div className="py-2 flex flex-col">
                 {secondaryItems.map((item) =>
                   item.type === "tel" ? (
                     <a
                       key={item.name}
                       href={item.to}
-                      className="px-4 py-2.5 text-sm text-[#475569] hover:text-[#0F172A] hover:bg-slate-100/80 transition-colors flex items-center justify-between group/sub font-medium"
+                      className="px-4 py-2.5 text-sm text-[#2C4238] hover:text-[#122820] hover:bg-emerald-50 transition-colors flex items-center justify-between group/sub font-medium"
                     >
                       <span>{item.name}</span>
-                      <ChevronRight className="w-3.5 h-3.5 text-[#94A3B8] group-hover/sub:text-[#2563EB] group-hover/sub:translate-x-0.5 transition-all" />
+                      <ChevronRight className="w-3.5 h-3.5 text-[#4B6358] group-hover/sub:text-[#10B981] group-hover/sub:translate-x-0.5 transition-all" />
                     </a>
                   ) : (
                     <Link
                       key={item.name}
                       to={item.to}
-                      className="px-4 py-2.5 text-sm text-[#475569] hover:text-[#0F172A] hover:bg-slate-100/80 transition-colors flex items-center justify-between group/sub font-medium"
+                      className="px-4 py-2.5 text-sm text-[#2C4238] hover:text-[#122820] hover:bg-emerald-50 transition-colors flex items-center justify-between group/sub font-medium"
                     >
                       <span>{item.name}</span>
-                      <ChevronRight className="w-3.5 h-3.5 text-[#94A3B8] group-hover/sub:text-[#2563EB] group-hover/sub:translate-x-0.5 transition-all" />
+                      <ChevronRight className="w-3.5 h-3.5 text-[#4B6358] group-hover/sub:text-[#10B981] group-hover/sub:translate-x-0.5 transition-all" />
                     </Link>
                   )
                 )}
@@ -235,9 +226,9 @@ export default function Navbar() {
           <button 
             onClick={(e) => handleSmoothScroll(e, 'schedule')} 
             aria-label="Book Appointment"
-            className="hidden sm:flex relative group items-center gap-2 px-7 py-3 rounded-full font-semibold text-[15px] text-white bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] shadow-[0_4px_16px_rgba(37,99,235,0.3)] transition-all duration-300 hover:shadow-[0_6px_24px_rgba(37,99,235,0.5)] hover:-translate-y-0.5 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB]"
+            className="hidden sm:flex relative group items-center gap-2 px-7 py-3 rounded-full font-semibold text-[15px] text-white bg-gradient-to-r from-[#10B981] to-[#059669] shadow-[0_4px_16px_rgba(16,185,129,0.35)] transition-all duration-300 hover:shadow-[0_6px_24px_rgba(16,185,129,0.5)] hover:-translate-y-0.5 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981]"
           >
-            <CalendarDays className="w-4 h-4 text-blue-100 shrink-0" />
+            <CalendarDays className="w-4 h-4 text-emerald-100 shrink-0" />
             <span>Book Appointment</span>
           </button>
 
@@ -246,7 +237,7 @@ export default function Navbar() {
             aria-label="Open navigation menu"
             aria-expanded={isMobileMenuOpen}
             aria-controls="mobile-menu"
-            className="lg:hidden text-[#0F172A] w-11 h-11 flex items-center justify-center hover:bg-slate-100/80 rounded-xl border border-slate-200 transition-colors relative z-[60] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2563EB]"
+            className="lg:hidden text-[#122820] w-11 h-11 flex items-center justify-center hover:bg-emerald-50 rounded-xl border border-emerald-900/10 transition-colors relative z-[60] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981]"
           >
             <Menu className="w-6 h-6" />
           </button>
@@ -264,20 +255,16 @@ export default function Navbar() {
               role="dialog"
               aria-modal="true"
               aria-label="Navigation Menu"
-              className="fixed inset-0 bg-slate-950/98 backdrop-blur-3xl z-[150] lg:hidden flex flex-col justify-between overflow-y-auto text-white"
+              className="fixed inset-0 bg-[#071F17]/98 backdrop-blur-3xl z-[150] lg:hidden flex flex-col justify-between overflow-y-auto text-white"
             >
               <div className="flex items-center justify-between p-6 border-b border-white/10 bg-white/[0.02]">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl overflow-hidden bg-white/10 border border-white/20 flex items-center justify-center p-1">
-                    <img 
-                      src="https://res.cloudinary.com/tud0sobq/image/upload/w_100,q_auto,f_auto/v1783343231/ChatGPT_Image_Jul_6_2026_06_28_47_PM_1_ipilq6.png"
-                      alt="Logo"
-                      className="w-full h-full object-contain"
-                    />
+                  <div className="w-10 h-10 rounded-xl bg-[#10B981]/20 border border-[#10B981]/40 flex items-center justify-center p-2">
+                    <ToothIcon className="w-6 h-6 text-[#34D399]" />
                   </div>
                   <div>
                     <span className="font-display font-bold text-base text-white block">DR. Nilay Saha</span>
-                    <span className="text-[10px] uppercase tracking-widest text-blue-400 font-semibold">Advanced Dental Clinic</span>
+                    <span className="text-[10px] uppercase tracking-widest text-[#34D399] font-semibold">Advanced Dental Studio</span>
                   </div>
                 </div>
 

@@ -61,7 +61,7 @@ export default function Treatments() {
         opacity: 0,
         zIndex: -1,
         pointerEvents: "none" as any,
-        filter: "blur(10px)",
+        filter: "none",
       };
     }
 
@@ -71,7 +71,7 @@ export default function Treatments() {
       opacity: absDiff === 0 ? 1 : 1 - (absDiff * 0.4),
       zIndex: 10 - absDiff,
       pointerEvents: absDiff === 0 ? "auto" as any : "auto" as any,
-      filter: absDiff === 0 ? "blur(0px)" : "blur(4px)",
+      filter: "none",
     };
   };
 

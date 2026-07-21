@@ -5,11 +5,10 @@ import {
   Car, Wind, Droplet, CreditCard, Users, CalendarCheck, ShieldCheck, UserCheck, Stethoscope,
   AlertTriangle, Info, ShieldAlert, Sparkles, Star, ChevronDown, Bus
 } from "lucide-react";
-import { WhatsAppIcon } from "./Icons";
+import { WhatsAppIcon, ToothIcon } from "./Icons";
 import { ClinicService } from "../lib/clinicService";
 import { logger } from "../lib/logger";
 import TagPill from "./TagPill";
-import OptimizedImage from "./OptimizedImage";
 
 const FACILITY_ICONS: Record<string, any> = {
   Users,
@@ -144,20 +143,32 @@ export default function Clinics() {
           <div className="glass-3 rounded-[2.5rem] overflow-hidden border border-white/80 shadow-[0_20px_60px_rgba(15,23,42,0.08)] flex flex-col lg:flex-row relative group min-h-[640px]">
             <div className="absolute inset-0 bg-gradient-to-br from-blue-500/[0.03] via-transparent to-sky-500/[0.03] opacity-100 pointer-events-none" />
 
-            {/* Left Column: Prominent Clinic Photo Presentation */}
-            <div className="w-full lg:w-5/12 flex flex-col">
-              <div className="w-full h-72 sm:h-80 lg:h-full relative overflow-hidden bg-slate-900 flex items-center justify-center border-b lg:border-b-0 lg:border-r border-slate-200/60">
-                <OptimizedImage
-                  src={activeClinic.cover_image || `/DNS_Clinic_${activeClinic.slug}_Reception_16x9_202607.webp`}
-                  fallbackSrc="/DNS_Hero_TwilightExterior_16x9_202607.webp"
-                  alt={`${activeClinic.name} Exterior and Reception Facility`}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent pointer-events-none" />
-                <div className="absolute bottom-6 left-6 right-6 z-10 flex items-center justify-between">
-                  <span className="px-3.5 py-1.5 rounded-full glass-2 text-[11px] font-bold uppercase tracking-wider text-white bg-slate-900/80 border border-white/30 shadow-md">
+            {/* Left Column: Prominent Clinic Vector Presentation */}
+            <div className="w-full lg:w-5/12 flex flex-col bg-[#09281D] text-[#F4F7F4] p-8 sm:p-10 justify-between border-b lg:border-b-0 lg:border-r border-emerald-900/20 relative">
+              <div className="space-y-6">
+                <div className="flex items-center justify-between">
+                  <span className="px-3.5 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-wider text-[#34D399] bg-[#061D15] border border-emerald-500/30">
                     Verified Healthcare Center
                   </span>
+                  <MapPin className="w-6 h-6 text-[#10B981]" />
+                </div>
+
+                <div className="space-y-2 pt-4">
+                  <span className="text-xs font-mono font-bold text-[#C5A059] uppercase tracking-wider">Clinical Location</span>
+                  <h3 className="text-3xl sm:text-4xl font-display font-bold text-[#F4F7F4]">{activeClinic.name}</h3>
+                  <p className="text-sm text-[#A2C7B7] leading-relaxed pt-2">
+                    {activeClinic.address}
+                  </p>
+                </div>
+              </div>
+
+              <div className="pt-8 border-t border-emerald-900/40 flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-[#10B981]/20 border border-[#10B981]/40 flex items-center justify-center text-[#10B981] shrink-0">
+                  <ToothIcon className="w-5 h-5" />
+                </div>
+                <div>
+                  <span className="text-[10px] text-[#34D399] uppercase tracking-wider font-bold block">Attending Surgeon</span>
+                  <span className="text-sm font-display font-bold text-[#F4F7F4]">{activeClinic.statusInfo?.available_doctor || "Dr. Nilay Saha"}</span>
                 </div>
               </div>
             </div>
@@ -279,13 +290,13 @@ export default function Clinics() {
                           </>
                         )}
 
-                        <div className="mt-5 flex items-center gap-3.5 p-3 rounded-2xl glass-2 border border-slate-200/70 max-w-sm shadow-sm">
-                          <div className="w-12 h-12 rounded-xl overflow-hidden border border-slate-300/80 shrink-0 shadow-sm">
-                            <OptimizedImage src="/DNS_Portrait_DrNilay_Headshot_4x5_202607.webp" fallbackSrc="/dr-nilay-saha.jpg" alt="Dr. Nilay Saha" className="w-full h-full object-cover object-top" />
+                        <div className="mt-5 flex items-center gap-3.5 p-3 rounded-2xl bg-[#FAFDFB] border border-emerald-900/10 max-w-sm shadow-sm">
+                          <div className="w-10 h-10 rounded-xl bg-[#10B981]/20 border border-[#10B981]/40 flex items-center justify-center text-[#10B981] shrink-0 shadow-sm">
+                            <ToothIcon className="w-5 h-5" />
                           </div>
                           <div>
-                            <span className="text-[10px] text-[#2563EB] uppercase tracking-wider font-bold block">Attending Surgeon</span>
-                            <span className="text-sm font-display font-bold text-[#0F172A]">{activeClinic.statusInfo?.available_doctor || "Dr. Nilay Saha"}</span>
+                            <span className="text-[10px] text-[#10B981] uppercase tracking-wider font-bold block">Attending Surgeon</span>
+                            <span className="text-sm font-display font-bold text-[#122820]">{activeClinic.statusInfo?.available_doctor || "Dr. Nilay Saha"}</span>
                           </div>
                         </div>
                       </div>

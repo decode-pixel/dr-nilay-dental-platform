@@ -15,7 +15,6 @@ import SEO from '../components/SEO';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import BookingModal from '../components/booking/BookingModal';
-import OptimizedImage from '../components/OptimizedImage';
 import { treatmentsData } from '../data/treatments';
 import {
   Clock,
@@ -190,40 +189,35 @@ export default function TreatmentDetails() {
           {/* Main content left 2 cols */}
           <div className="lg:col-span-2 space-y-8">
             
-            {/* Hero Image Banner with Spotlight Header */}
+            {/* Hero Clinical Banner with Vector Spotlight Header */}
             <motion.div
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               className="bg-[#FAFDFB] rounded-[2.5rem] overflow-hidden border border-emerald-900/10 shadow-lg"
             >
-              <div className="relative w-full aspect-[16/9] sm:aspect-[2/1] overflow-hidden bg-[#122820]">
-                <OptimizedImage
-                  src={seoData?.og_image || `/DNS_Treatment_${treatment.slug}_Hero_16x9_202607.webp`}
-                  fallbackSrc="/DNS_Hero_TwilightExterior_16x9_202607.webp"
-                  alt={`${treatment.name} Clinical Setup and Technology`}
-                  priority={true}
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#122820] via-[#122820]/60 to-transparent" />
-                <div className="absolute bottom-6 left-6 right-6 sm:bottom-8 sm:left-8 sm:right-8 z-10 space-y-3">
-                  <div className="flex flex-wrap items-center gap-3">
-                    <span className="text-xs px-3 py-1 rounded-full bg-emerald-500/20 text-[#34D399] font-semibold tracking-wider uppercase border border-emerald-500/30">
-                      {treatment.category || 'General'}
-                    </span>
-                    <span className="text-xs text-[#E2E8F0] flex items-center gap-1.5 font-medium bg-white/10 px-3 py-1 rounded-full backdrop-blur-md">
-                      <Clock className="w-3.5 h-3.5 text-[#34D399]" />
-                      ~{treatment.consultation_duration + treatment.procedure_duration} Mins Total
-                    </span>
-                    <span className="text-xs text-[#E2E8F0] flex items-center gap-1.5 font-medium bg-white/10 px-3 py-1 rounded-full backdrop-blur-md">
-                      <Activity className="w-3.5 h-3.5 text-[#34D399]" />
-                      Recovery: {treatment.recovery_time || '1-2 Days'}
-                    </span>
-                  </div>
+              <div className="relative w-full p-8 sm:p-12 overflow-hidden bg-[#09281D] text-[#F4F7F4] space-y-4">
+                <div className="absolute top-0 inset-x-0 h-[3px] bg-gradient-to-r from-transparent via-[#10B981] to-transparent pointer-events-none" />
 
-                  <h1 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-white tracking-tight leading-[1.12]">
-                    {treatment.name}
-                  </h1>
+                <div className="flex flex-wrap items-center gap-3">
+                  <span className="text-xs px-3 py-1 rounded-full bg-emerald-500/20 text-[#34D399] font-semibold tracking-wider uppercase border border-emerald-500/30">
+                    {treatment.category || 'General'}
+                  </span>
+                  <span className="text-xs text-[#E2E8F0] flex items-center gap-1.5 font-medium bg-white/10 px-3 py-1 rounded-full backdrop-blur-md">
+                    <Clock className="w-3.5 h-3.5 text-[#34D399]" />
+                    ~{treatment.consultation_duration + treatment.procedure_duration} Mins Total
+                  </span>
+                  <span className="text-xs text-[#E2E8F0] flex items-center gap-1.5 font-medium bg-white/10 px-3 py-1 rounded-full backdrop-blur-md">
+                    <Activity className="w-3.5 h-3.5 text-[#34D399]" />
+                    Recovery: {treatment.recovery_time || '1-2 Days'}
+                  </span>
                 </div>
+
+                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-white tracking-tight leading-[1.12]">
+                  {treatment.name}
+                </h1>
+                <p className="text-sm sm:text-base text-[#A2C7B7] max-w-2xl font-normal leading-relaxed">
+                  {treatment.description || 'Comprehensive clinical diagnosis and treatment plan engineered for long-term oral stability.'}
+                </p>
               </div>
 
               {/* Navigation Tabs */}
@@ -433,54 +427,23 @@ export default function TreatmentDetails() {
                       Clinical Results & Case Documentation
                     </h3>
 
-                    {gallery.length > 0 ? (
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        {gallery.map((item, idx) => (
-                          <div key={item.id || idx} className="bg-[#F4F7F4] rounded-2xl overflow-hidden border border-emerald-900/10 group">
-                            <div className="aspect-[4/3] w-full overflow-hidden bg-emerald-950/20 relative">
-                              <OptimizedImage
-                                src={item.public_url || `/DNS_BeforeAfter_${treatment.slug}_Case${idx + 1}_202607.webp`}
-                                fallbackSrc="/DNS_Hero_TwilightExterior_16x9_202607.webp"
-                                alt={item.alt_text || item.caption || `${treatment.name} Clinical Outcome`}
-                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                              />
-                              <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-emerald-50/90 text-[10px] font-bold uppercase text-[#10B981] border border-emerald-200">
-                                {item.image_type || 'Case Study'}
-                              </span>
-                            </div>
-                            {item.caption && (
-                              <div className="p-4">
-                                <p className="text-xs text-[#2C4238] leading-relaxed">{item.caption}</p>
-                              </div>
-                            )}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                      {[
+                        { title: 'Clinical Precision', type: 'Clinical Outcome', caption: 'Complete structural restoration and functional rehabilitation achieving seamless margin adaptation.' },
+                        { title: 'Aesthetic Integration', type: 'Aesthetic Result', caption: 'High-precision aesthetic integration preserving soft tissue health and natural gingival contours.' }
+                      ].map((demo, idx) => (
+                        <div key={idx} className="bg-[#FAFDFB] rounded-2xl p-6 border border-emerald-900/10 space-y-3 shadow-sm">
+                          <div className="flex items-center justify-between">
+                            <span className="px-3 py-1 rounded-full bg-emerald-50 text-[10px] font-bold uppercase text-[#10B981] border border-emerald-200">
+                              {demo.type}
+                            </span>
+                            <ShieldCheck className="w-5 h-5 text-[#10B981]" />
                           </div>
-                        ))}
-                      </div>
-                    ) : (
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        {[
-                          { type: 'Before & After', caption: 'Complete structural restoration and functional rehabilitation achieving seamless margin adaptation.' },
-                          { type: 'Clinical Outcome', caption: 'High-precision aesthetic integration preserving soft tissue health and natural gingival contours.' }
-                        ].map((demo, idx) => (
-                          <div key={idx} className="bg-[#F4F7F4] rounded-2xl overflow-hidden border border-emerald-900/10 group">
-                            <div className="aspect-[4/3] w-full overflow-hidden bg-emerald-950/20 relative">
-                              <OptimizedImage
-                                src={`/DNS_BeforeAfter_${treatment.slug}_Case${idx + 1}_202607.webp`}
-                                fallbackSrc="/DNS_Hero_TwilightExterior_16x9_202607.webp"
-                                alt={`${treatment.name} Demonstration Case ${idx + 1}`}
-                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                              />
-                              <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-emerald-50/90 text-[10px] font-bold uppercase text-[#10B981] border border-emerald-200">
-                                {demo.type}
-                              </span>
-                            </div>
-                            <div className="p-4">
-                              <p className="text-xs text-[#2C4238] leading-relaxed">{demo.caption}</p>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    )}
+                          <h4 className="text-base font-bold text-[#122820]">{demo.title}</h4>
+                          <p className="text-xs text-[#2C4238] leading-relaxed">{demo.caption}</p>
+                        </div>
+                      ))}
+                    </div>
                   </motion.div>
                 )}
               </div>
@@ -498,13 +461,8 @@ export default function TreatmentDetails() {
                     key={doc.id}
                     className="bg-[#FAFDFB] rounded-2xl p-5 border border-emerald-900/10 flex items-center gap-4 hover:border-emerald-400/50 shadow-md transition-all duration-300 group"
                   >
-                    <div className="w-14 h-14 rounded-2xl overflow-hidden border border-emerald-200 bg-emerald-50 shadow-sm shrink-0 group-hover:scale-105 transition-transform">
-                      <OptimizedImage 
-                        src={doc.profile_image || "/DNS_Portrait_DrNilay_Headshot_4x5_202607.webp"} 
-                        fallbackSrc="/dr-nilay-saha.jpg"
-                        alt={doc.name} 
-                        className="w-full h-full object-cover object-top" 
-                      />
+                    <div className="w-12 h-12 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-[#10B981] shrink-0 shadow-sm">
+                      <Users className="w-6 h-6" />
                     </div>
                     <div>
                       <h4 className="font-display font-semibold text-base text-[#122820] group-hover:text-[#10B981] transition-colors">{doc.name}</h4>

@@ -166,45 +166,57 @@ export default function MeetDrNilaySaha() {
           {/* Left Column: Centerpiece Portrait & Trust Visual Hierarchy (~5 cols) */}
           <div className="lg:col-span-5 flex flex-col items-center">
             
-            {/* Portrait Frame */}
-            <div className="relative w-full max-w-md mx-auto group">
-              <div className="relative overflow-hidden rounded-[2.5rem] border border-[#10B981]/30 bg-[#071F17] shadow-[0_24px_64px_rgba(7,31,23,0.2)]">
+            {/* Surgeon Vector Credentials Card */}
+            <div className="relative w-full max-w-md mx-auto">
+              <div className="relative overflow-hidden rounded-[2.5rem] border border-[#10B981]/30 bg-[#09281D] p-8 shadow-[0_24px_64px_rgba(7,31,23,0.2)] text-[#F4F7F4] space-y-6">
                 {/* Top Highlight Bar */}
                 <div className="absolute top-0 inset-x-0 h-[3px] bg-gradient-to-r from-transparent via-[#10B981] to-transparent z-20" />
 
-                <div className="relative aspect-[3.8/4.8] sm:aspect-[4/5] w-full overflow-hidden">
-                  <OptimizedImage
-                    src={doctor.profile_image || "/DNS_Portrait_DrNilay_HalfBody_4x5_202607.webp"}
-                    fallbackSrc="/dr-nilay-saha.jpg"
-                    alt={doctor.name}
-                    priority={true}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#061D15]/80 via-transparent to-transparent opacity-70 pointer-events-none" />
+                {/* Surgeon Badge Header */}
+                <div className="flex items-center gap-4 border-b border-[#10B981]/20 pb-5">
+                  <div className="w-14 h-14 rounded-2xl bg-[#10B981]/20 border border-[#10B981]/40 flex items-center justify-center text-[#10B981] shrink-0 shadow-sm">
+                    <GraduationCap className="w-7 h-7" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-display font-bold text-[#F4F7F4] leading-tight">
+                      {doctor.name}
+                    </h3>
+                    <p className="text-xs text-[#34D399] font-bold mt-1 uppercase tracking-wider">
+                      {doctor.designation || 'Dental Surgeon & Oral Physician'}
+                    </p>
+                  </div>
                 </div>
 
-                {/* Floating Experience Badge */}
-                <div className="absolute top-6 right-6 z-20 glass-3 rounded-2xl px-4 py-2.5 flex items-center gap-2 border border-emerald-500/30 shadow-lg bg-[#09281D]/90 text-[#F4F7F4]">
-                  <Award className="w-4 h-4 text-[#10B981] shrink-0" />
-                  <span className="text-xs font-bold text-[#F4F7F4] tracking-wide">
-                    {doctor.experience_years || 10}+ Years Exp.
-                  </span>
+                {/* Key Qualifications & Reg Badge */}
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#061D15] border border-emerald-900/40">
+                    <span className="text-xs font-semibold text-[#A2C7B7]">Medical Qualification</span>
+                    <span className="text-xs font-bold font-mono text-[#34D399]">BDS</span>
+                  </div>
+
+                  <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#061D15] border border-emerald-900/40">
+                    <span className="text-xs font-semibold text-[#A2C7B7]">State Dental License</span>
+                    <span className="text-xs font-bold font-mono text-[#F4F7F4]">{doctor.registration_number || `WBDC Reg. No. ${DOCTOR_REGISTRATION_NUMBER}`}</span>
+                  </div>
+
+                  <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#061D15] border border-emerald-900/40">
+                    <span className="text-xs font-semibold text-[#A2C7B7]">Clinical Experience</span>
+                    <span className="text-xs font-bold text-[#34D399]">{doctor.experience_years || 10}+ Years Active Practice</span>
+                  </div>
                 </div>
 
-                {/* Verified Registration Pill */}
-                <div className="absolute bottom-6 inset-x-6 z-20 p-4.5 rounded-2xl glass-3 border border-emerald-500/30 shadow-xl bg-[#09281D]/95 text-[#F4F7F4]">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <span className="text-[10px] uppercase tracking-wider text-[#34D399] font-bold block">
-                        Official Registration
-                      </span>
-                      <p className="text-xs sm:text-sm font-mono font-bold text-[#F4F7F4] mt-0.5">
-                        {doctor.registration_number || `WBDC Reg. No. ${DOCTOR_REGISTRATION_NUMBER}`}
-                      </p>
-                    </div>
-                    <div className="w-10 h-10 rounded-xl bg-[#10B981]/20 border border-[#10B981]/40 flex items-center justify-center text-[#10B981] shrink-0 shadow-sm">
-                      <BadgeCheck className="w-5 h-5" />
-                    </div>
+                {/* Verified Authority Banner */}
+                <div className="p-4 rounded-2xl bg-[#061D15] border border-emerald-500/30 flex items-center justify-between">
+                  <div>
+                    <span className="text-[10px] uppercase tracking-wider text-[#34D399] font-bold block">
+                      Verification Status
+                    </span>
+                    <p className="text-xs font-bold text-[#F4F7F4] mt-0.5">
+                      Verified Clinical Authority
+                    </p>
+                  </div>
+                  <div className="w-9 h-9 rounded-xl bg-[#10B981]/20 border border-[#10B981]/40 flex items-center justify-center text-[#10B981] shrink-0 shadow-sm">
+                    <BadgeCheck className="w-5 h-5" />
                   </div>
                 </div>
               </div>

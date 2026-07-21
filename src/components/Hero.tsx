@@ -177,15 +177,6 @@ export default function Hero() {
       
       {/* Urban Dental Studio Warm Organic Ambient Layers */}
       <div className="absolute inset-0 pointer-events-none z-0">
-        {/* Ambient Warm Clinic Interior Background Overlay */}
-        <div className="absolute inset-0 opacity-15 mix-blend-overlay [mask-image:radial-gradient(ellipse_at_top_right,black_50%,transparent_85%)]">
-          <OptimizedImage
-            src="/DNS_Hero_TwilightExterior_16x9_202607.webp"
-            alt="Dr. Nilay Saha Clinic Atmosphere Background"
-            className="w-full h-full object-cover"
-          />
-        </div>
-
         {/* Warm Gold & Emerald Lighting Spotlights */}
         <motion.div 
           initial={{ scale: 1, opacity: 0.4 }}
@@ -291,99 +282,93 @@ export default function Hero() {
           </motion.div>
         </motion.div>
 
-        {/* Right Column: Doctor Portrait Showcase */}
+        {/* Right Column: Doctor Credentials Vector Showcase */}
         <motion.div 
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
           className="w-full lg:w-[45%] flex flex-col items-center justify-center lg:items-end relative mt-6 lg:mt-0 order-3 lg:order-2"
         >
-          {/* Portrait Spotlight Background Glow */}
+          {/* Spotlight Background Glow */}
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] sm:w-[450px] sm:h-[450px] bg-gradient-to-tr from-[#10B981]/20 via-[#C5A059]/10 to-transparent rounded-full blur-[60px] pointer-events-none z-0" />
 
-          {/* Portrait Container with Float Animation */}
-          <motion.div 
-            animate={{ y: [0, -10, 0] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-            className="relative w-full max-w-md sm:max-w-lg lg:max-w-[420px] flex flex-col items-center z-10"
-          >
-            {/* Portrait Frame with Spotlight Border */}
-            <div className="relative w-full overflow-hidden rounded-[2.5rem] border border-[#10B981]/40 bg-[#071F17] shadow-[0_24px_64px_rgba(0,0,0,0.5)] group">
-              <div className="absolute top-0 inset-x-0 h-[3px] bg-gradient-to-r from-transparent via-[#10B981] to-transparent z-20 pointer-events-none" />
+          {/* Minimalist Clinical Credentials Card */}
+          <div className="relative w-full max-w-md sm:max-w-lg lg:max-w-[420px] z-10 space-y-4">
+            <div className="relative w-full rounded-[2.2rem] border border-[#10B981]/30 bg-[#09281D]/95 p-7 shadow-[0_20px_60px_rgba(0,0,0,0.4)] backdrop-blur-xl space-y-6">
+              <div className="absolute top-0 inset-x-0 h-[3px] bg-gradient-to-r from-transparent via-[#10B981] to-transparent pointer-events-none" />
 
-              <div className="relative w-full aspect-[3/4] overflow-hidden">
-                <OptimizedImage 
-                  src="/DNS_Portrait_DrNilay_Headshot_4x5_202607.webp" 
-                  fallbackSrc="/dr-nilay-saha.jpg"
-                  alt={aboutContent.title}
-                  priority={true}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-103"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#061D15]/80 via-transparent to-transparent opacity-70 pointer-events-none" />
+              {/* Doctor Header */}
+              <div className="flex items-center gap-4 border-b border-[#10B981]/20 pb-5">
+                <div className="w-14 h-14 rounded-2xl bg-[#10B981]/20 border border-[#10B981]/40 flex items-center justify-center text-[#10B981] shrink-0 shadow-sm">
+                  <ToothIcon className="w-7 h-7" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-display font-bold text-[#F4F7F4] leading-tight">
+                    {aboutContent.title}
+                  </h3>
+                  <p className="text-xs text-[#34D399] font-bold mt-1 uppercase tracking-wider">
+                    Dental Surgeon & Oral Physician
+                  </p>
+                </div>
               </div>
 
-              {/* Interactive Glass Overlay details inside frame */}
-              <div className="absolute bottom-6 left-6 right-6 z-20 p-4 sm:p-5 rounded-2xl glass-3 border border-emerald-500/30 shadow-xl bg-[#09281D]/90 text-[#F4F7F4]">
-                <div className="flex items-center justify-between gap-3">
+              {/* Key Credentials List */}
+              <div className="space-y-3">
+                <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#061D15] border border-emerald-900/40">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-[#10B981]/20 border border-[#10B981]/40 flex items-center justify-center text-[#10B981] shrink-0">
-                      <Award className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <h3 className="text-[#F4F7F4] font-display font-bold text-base sm:text-lg leading-tight">
-                        {aboutContent.title}
-                      </h3>
-                      <p className="text-xs text-[#34D399] font-bold mt-0.5">
-                        Dental Surgeon & Oral Physician
-                      </p>
-                    </div>
+                    <Award className="w-4.5 h-4.5 text-[#C5A059]" />
+                    <span className="text-xs font-semibold text-[#F4F7F4]">Degree Qualification</span>
                   </div>
-                  <div className="hidden sm:flex flex-col items-end text-right">
-                    <span className="text-[9px] uppercase font-bold text-[#A2C7B7] tracking-wider">Reg. No.</span>
-                    <span className="text-xs font-mono font-bold text-[#F4F7F4]">{DOCTOR_REGISTRATION_NUMBER}</span>
-                  </div>
+                  <span className="text-xs font-bold font-mono text-[#34D399]">BDS</span>
                 </div>
+
+                <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#061D15] border border-emerald-900/40">
+                  <div className="flex items-center gap-3">
+                    <Shield className="w-4.5 h-4.5 text-[#10B981]" />
+                    <span className="text-xs font-semibold text-[#F4F7F4]">State Medical License</span>
+                  </div>
+                  <span className="text-xs font-bold font-mono text-[#F4F7F4]">{DOCTOR_REGISTRATION_NUMBER}</span>
+                </div>
+
+                <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#061D15] border border-emerald-900/40">
+                  <div className="flex items-center gap-3">
+                    <Activity className="w-4.5 h-4.5 text-[#34D399]" />
+                    <span className="text-xs font-semibold text-[#F4F7F4]">Clinical Practice</span>
+                  </div>
+                  <span className="text-xs font-bold text-[#A2C7B7]">10+ Years Exp.</span>
+                </div>
+              </div>
+
+              {/* Clinic Centers Summary */}
+              <div className="pt-2 border-t border-[#10B981]/20 flex items-center justify-between text-xs text-[#A2C7B7]">
+                <span className="font-medium">Active Centers:</span>
+                <span className="font-bold text-[#F4F7F4]">Belerhat • Parulia • Nabadwip</span>
               </div>
             </div>
 
-            {/* Floating Glass Cards / Credentials around portrait */}
-            {/* Top-Left: BDS Credential */}
-            <div className="absolute -top-3 -left-3 z-30 glass-3 rounded-2xl px-4 py-2.5 border border-emerald-500/30 shadow-lg flex items-center gap-2 bg-[#09281D]/90 text-[#F4F7F4]">
-              <Activity className="w-4 h-4 text-[#10B981]" />
-              <span className="text-xs font-bold">BDS</span>
-            </div>
-
-            {/* Top-Right: Reg Badge */}
-            <div className="absolute -top-3 -right-3 z-30 glass-3 rounded-2xl px-4 py-2.5 border border-emerald-500/30 shadow-lg flex items-center gap-2 bg-[#09281D]/90 text-[#F4F7F4]">
-              <Shield className="w-4 h-4 text-[#10B981]" />
-              <span className="text-xs font-bold">Reg. {DOCTOR_REGISTRATION_NUMBER}</span>
-            </div>
-
-            {/* Bottom Floating Credentials Panel */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 w-full mt-4">
-              <div className="glass-2 rounded-2xl p-4.5 flex items-start gap-3.5 border border-emerald-500/25 shadow-md bg-[#0A261D]/80 text-[#F4F7F4] group hover:border-emerald-400 transition-all duration-300">
-                <div className="w-9 h-9 rounded-xl bg-[#10B981]/20 border border-[#10B981]/40 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform shadow-sm">
-                  <ToothIcon className="w-5 h-5 text-[#10B981]" />
+            {/* Bottom Quick Feature Cards */}
+            <div className="grid grid-cols-2 gap-3">
+              <div className="rounded-2xl p-4 border border-emerald-500/25 bg-[#09281D]/80 text-[#F4F7F4] flex items-center gap-3 shadow-md">
+                <div className="w-8 h-8 rounded-xl bg-[#10B981]/20 border border-[#10B981]/40 flex items-center justify-center shrink-0">
+                  <ToothIcon className="w-4 h-4 text-[#10B981]" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-[#F4F7F4] group-hover:text-[#34D399] transition-colors">Modern Dental Care</h4>
-                  <p className="text-xs text-[#A2C7B7] mt-0.5">Equipped with digital diagnostics and laser dental technology.</p>
+                  <h4 className="text-xs font-bold text-[#F4F7F4]">Digital Care</h4>
+                  <p className="text-[10px] text-[#A2C7B7]">Modern Tech</p>
                 </div>
               </div>
 
-              {/* Gentle Treatment card */}
-              <div className="glass-2 rounded-2xl p-4.5 flex items-start gap-3.5 border border-emerald-500/25 shadow-md bg-[#0A261D]/80 text-[#F4F7F4] group hover:border-emerald-400 transition-all duration-300">
-                <div className="w-9 h-9 rounded-xl bg-[#10B981]/20 border border-[#10B981]/40 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform shadow-sm">
-                  <Shield className="w-5 h-5 text-[#10B981]" />
+              <div className="rounded-2xl p-4 border border-emerald-500/25 bg-[#09281D]/80 text-[#F4F7F4] flex items-center gap-3 shadow-md">
+                <div className="w-8 h-8 rounded-xl bg-[#10B981]/20 border border-[#10B981]/40 flex items-center justify-center shrink-0">
+                  <Shield className="w-4 h-4 text-[#10B981]" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-[#F4F7F4] group-hover:text-[#34D399] transition-colors">Gentle Treatment</h4>
-                  <p className="text-xs text-[#A2C7B7] mt-0.5">Maximum comfort and preservation of natural tooth structures.</p>
+                  <h4 className="text-xs font-bold text-[#F4F7F4]">Painless Care</h4>
+                  <p className="text-[10px] text-[#A2C7B7]">Gentle Dental</p>
                 </div>
               </div>
             </div>
-
-          </motion.div>
+          </div>
         </motion.div>
 
         {/* Trust Bar (Mobile Position - Hidden on Desktop) */}
