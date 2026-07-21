@@ -148,11 +148,8 @@ export default function Clinics() {
   const [dynamicStatusMap, setDynamicStatusMap] = useState<Record<string, any>>({});
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<string>("all");
-  const [expandedTimetables, setExpandedTimetables] = useState<Record<string, boolean>>({
-    belerhat: true,
-    nabadwip: true,
-    parulia: false,
-  });
+  // Requirement #3: Allow only one expanded clinic at a time (`accordion` behavior)
+  const [expandedClinicSlug, setExpandedClinicSlug] = useState<string | null>("belerhat");
 
   useEffect(() => {
     let isMounted = true;
@@ -178,8 +175,8 @@ export default function Clinics() {
     };
   }, []);
 
-  const toggleTimetable = (slug: string) => {
-    setExpandedTimetables((prev) => ({ ...prev, [slug]: !prev[slug] }));
+  const toggleClinicExpansion = (slug: string) => {
+    setExpandedClinicSlug((prev) => (prev === slug ? null : slug));
   };
 
   const getDayName = (dayIdx: number): string => {
@@ -207,7 +204,10 @@ export default function Clinics() {
         badgeClass: "bg-rose-100 text-rose-800 border-rose-300",
         chipLabel: `Closed (${dynamicOverride.statusInfo.reason || "Holiday"})`,
         nextAvailable: "Schedule resuming post-closure",
-        doctorStatus: `Back when ${dynamicOverride.statusInfo.status.toLowerCase()} ends`
+        doctorStatus: `Back when ${dynamicOverride.statusInfo.status.toLowerCase()} ends`,
+        todayMorning: null,
+        todayEvening: null,
+        todayClosed: true
       };
     }
 
@@ -222,7 +222,10 @@ export default function Clinics() {
           ? "Consulting Today • Morning Session" 
           : "Consulting Today • Evening Session",
         nextAvailable: `Today: ${todaySlot.morning ? todaySlot.morning : ''} ${todaySlot.morning && todaySlot.evening ? ' & ' : ''} ${todaySlot.evening ? todaySlot.evening : ''}`.trim(),
-        doctorStatus: "Consulting Here Today"
+        doctorStatus: "Consulting Here Today",
+        todayMorning: todaySlot.morning,
+        todayEvening: todaySlot.evening,
+        todayClosed: false
       };
     }
 
@@ -246,7 +249,10 @@ export default function Clinics() {
       badgeClass: "bg-slate-100 text-slate-700 border-slate-300",
       chipLabel: `Closed Today • Next Visit ${nextDayName}`,
       nextAvailable: `Next Consultation: ${nextDayName} at ${nextSlotTime}`,
-      doctorStatus: `Next Available on ${nextDayName}`
+      doctorStatus: `Next Available on ${nextDayName}`,
+      todayMorning: null,
+      todayEvening: null,
+      todayClosed: true
     };
   };
 
@@ -261,43 +267,43 @@ export default function Clinics() {
     : clinicsList.filter(c => c.slug === activeTab);
 
   return (
-    <section id="locations" className="py-20 sm:py-28 bg-[#F8FAFC] font-sans border-b border-slate-200/60 scroll-mt-24 relative overflow-hidden">
+    <section id="locations" className="py-16 sm:py-24 bg-[#F8FAFC] font-sans border-b border-slate-200/60 scroll-mt-24 relative overflow-hidden">
       {/* Navigation anchor alias */}
       <span id="clinics" className="sr-only" />
 
       {/* Ambient Crystal Glow Backgrounds */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-tr from-emerald-500/5 via-teal-500/5 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
 
-      <div className="max-w-7xl mx-auto px-5 sm:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
-          <TagPill icon={MapPin} text="Website V3.2 • Multi-Location Architecture" />
+        <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14">
+          <TagPill icon={MapPin} text="Website V3.2 • Compact Multi-Location Architecture" />
           <h2 className="h2-premium mt-3 mb-4">
             Premium Healthcare Locations <br className="hidden sm:inline" />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#10B981] to-[#059669]">
-              Most Convenient For You
+              Compact &amp; Frictionless
             </span>
           </h2>
           <p className="body-premium max-w-2xl mx-auto">
-            Experience world-class dental care across Purba Bardhaman and Nadia with live opening schedules, attending doctor status, and 1-tap frictionless booking.
+            Explore our clinics across Purba Bardhaman and Nadia. Check real-time status and book your slot effortlessly.
           </p>
         </div>
 
         {/* Location Selector Tabs */}
-        <div className="flex justify-center mb-12 sm:mb-16">
-          <div className="inline-flex overflow-x-auto sm:overflow-visible max-w-full no-scrollbar rounded-full p-2 bg-white border border-slate-200/80 shadow-sm gap-1.5">
+        <div className="flex justify-center mb-10 sm:mb-12">
+          <div className="inline-flex overflow-x-auto sm:overflow-visible max-w-full no-scrollbar rounded-full p-1.5 bg-white border border-slate-200/85 shadow-sm gap-1">
             <button
               type="button"
               onClick={() => setActiveTab("all")}
-              className={`px-6 py-3 rounded-full text-xs sm:text-sm font-bold transition-all duration-300 flex items-center gap-2 cursor-pointer whitespace-nowrap ${
+              className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all duration-300 flex items-center gap-2 cursor-pointer whitespace-nowrap ${
                 activeTab === "all"
                   ? "bg-[#10B981] text-white shadow-md"
                   : "text-[#4B6358] hover:text-[#122820]"
               }`}
             >
-              <Sparkles className="w-4 h-4" />
-              <span>All Locations ({clinicsList.length})</span>
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>All ({clinicsList.length})</span>
             </button>
             {clinicsList.map((c) => {
               const isActive = activeTab === c.slug;
@@ -306,13 +312,13 @@ export default function Clinics() {
                   key={c.slug}
                   type="button"
                   onClick={() => setActiveTab(c.slug)}
-                  className={`px-6 py-3 rounded-full text-xs sm:text-sm font-bold transition-all duration-300 flex items-center gap-2 cursor-pointer whitespace-nowrap ${
+                  className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all duration-300 flex items-center gap-2 cursor-pointer whitespace-nowrap ${
                     isActive
                       ? "bg-[#10B981] text-white shadow-md"
                       : "text-[#4B6358] hover:text-[#122820]"
                   }`}
                 >
-                  <MapPin className="w-4 h-4" />
+                  <MapPin className="w-3.5 h-3.5" />
                   <span>{c.name}</span>
                 </button>
               );
@@ -320,317 +326,271 @@ export default function Clinics() {
           </div>
         </div>
 
-        {/* Clinics Grid (Desktop side-by-side, Tablet balanced, Mobile single-column) */}
-        <div className={`grid grid-cols-1 ${activeTab === "all" ? "lg:grid-cols-2" : "max-w-4xl mx-auto"} gap-8 lg:gap-10`}>
+        {/* Compact Clinics Grid (Requirement #3 & #4) */}
+        <div className={`grid grid-cols-1 ${activeTab === "all" ? "lg:grid-cols-2" : "max-w-3xl mx-auto"} gap-6 sm:gap-8`}>
           {filteredClinics.map((clinic) => {
             const dynamicData = dynamicStatusMap[clinic.slug];
             const live = computeLiveAvailability(clinic, dynamicData);
             const currentDayName = getDayName(new Date().getDay());
+            const isExpanded = expandedClinicSlug === clinic.slug;
             const whatsappText = `Hello Doctor, I would like to book an appointment at ${clinic.name}.`;
 
             return (
               <div
                 key={clinic.slug}
-                className="glass-card-floating bg-white rounded-[2rem] border border-slate-200/80 shadow-[0_20px_50px_rgba(18,40,32,0.06)] hover:shadow-[0_30px_70px_rgba(16,185,129,0.12)] transition-all duration-500 flex flex-col justify-between overflow-hidden relative group"
+                className={`glass-card-floating bg-white rounded-[24px] sm:rounded-[28px] border border-slate-200/85 shadow-[0_12px_35px_rgba(18,40,32,0.05)] transition-all duration-350 flex flex-col justify-between overflow-hidden relative ${
+                  isExpanded ? "ring-2 ring-emerald-500/30" : "hover:border-emerald-300"
+                }`}
               >
-                <div>
-                  {/* Top Cover Image & Floating Live Badges */}
-                  <div className="relative h-56 sm:h-64 w-full overflow-hidden bg-slate-900">
-                    <OptimizedImage
-                      src={clinic.coverImage}
-                      alt={clinic.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#122820] via-transparent to-black/40" />
-
-                    {/* Top Status Strip */}
-                    <div className="absolute top-4 inset-x-4 flex items-center justify-between gap-2 z-10 flex-wrap">
-                      <span className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold border shadow-md backdrop-blur-md ${live.badgeClass}`}>
-                        <span className={`w-2 h-2 rounded-full ${live.isOpen ? "bg-emerald-500 animate-pulse" : "bg-slate-500"}`} />
-                        {live.statusLabel}
-                      </span>
-
-                      <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[11px] font-bold text-white bg-black/60 backdrop-blur-md border border-white/20 shadow-md">
-                        <Clock className="w-3.5 h-3.5 text-[#10B981]" />
-                        {live.chipLabel}
-                      </span>
-                    </div>
-
-                    {/* Bottom Title inside Cover */}
-                    <div className="absolute bottom-4 inset-x-5 z-10 flex items-end justify-between gap-4">
-                      <div>
-                        <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-300 block mb-1">
-                          {clinic.slug === 'belerhat' ? 'CLINIC 01 • PRIMARY CENTER' : clinic.slug === 'nabadwip' ? 'CLINIC 02 • CITY CHAMBER' : 'REGIONAL CONSULTATION SUITE'}
-                        </span>
-                        <h3 className="text-2xl sm:text-3xl font-display font-bold text-white leading-tight">
+                {/* Compact Card Header Strip (~50% height reduction compared to large 260px banner) */}
+                <div className="p-5 sm:p-6 bg-gradient-to-br from-slate-900 via-[#122820] to-slate-900 text-white relative overflow-hidden">
+                  <div className="absolute inset-0 opacity-20 pointer-events-none">
+                    <OptimizedImage src={clinic.coverImage} alt={clinic.name} className="w-full h-full object-cover" />
+                  </div>
+                  <div className="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div className="flex items-center gap-3.5 min-w-0">
+                      <div className="w-12 h-12 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center shrink-0 overflow-hidden">
+                        <OptimizedImage src={clinic.coverImage} alt={clinic.name} className="w-full h-full object-cover" />
+                      </div>
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-300">
+                            {clinic.slug === 'belerhat' ? 'PRIMARY CENTER' : clinic.slug === 'nabadwip' ? 'CITY CHAMBER' : 'STUDIO'}
+                          </span>
+                          <span className="inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 bg-white/20 rounded-md">
+                            <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
+                            {clinic.googleRating}
+                          </span>
+                        </div>
+                        <h3 className="text-lg sm:text-xl font-display font-bold text-white truncate mt-0.5">
                           {clinic.name}
                         </h3>
                       </div>
-                      <div className="inline-flex items-center gap-1 text-xs font-bold px-2.5 py-1 bg-white/95 text-[#122820] rounded-xl shadow-md shrink-0">
-                        <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-500" />
-                        <span>{clinic.googleRating}</span>
-                        <span className="text-slate-400 font-normal">({clinic.reviewCount})</span>
-                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-2 shrink-0 self-start sm:self-center">
+                      <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border shadow-xs backdrop-blur-md ${live.badgeClass}`}>
+                        <span className={`w-2 h-2 rounded-full ${live.isOpen ? "bg-emerald-500 animate-pulse" : "bg-slate-500"}`} />
+                        {live.statusLabel}
+                      </span>
                     </div>
                   </div>
 
-                  {/* Card Content Body */}
-                  <div className="p-6 sm:p-8 space-y-7">
-                    
-                    {/* Today's Consulting Doctor Premium Mini-Card */}
-                    <div className="glass-crystal p-4 rounded-2xl bg-gradient-to-br from-emerald-50/70 via-white to-white border border-emerald-200/80 flex items-center justify-between gap-4 shadow-xs">
-                      <div className="flex items-center gap-3.5">
-                        <div className="w-12 h-12 rounded-2xl bg-[#122820] text-white flex items-center justify-center font-display font-bold text-lg shrink-0 shadow-sm border border-white/10">
-                          <ToothIcon className="w-6 h-6 text-[#10B981]" />
-                        </div>
-                        <div>
-                          <div className="flex items-center gap-2">
-                            <h4 className="font-display font-bold text-base text-[#122820] leading-snug">
-                              {clinic.doctorName}
-                            </h4>
-                            <span className="px-2 py-0.5 rounded-md text-[10px] font-bold uppercase bg-[#10B981]/15 text-[#10B981]">
-                              Surgeon
-                            </span>
-                          </div>
-                          <p className="text-xs text-[#4B6358] font-medium mt-0.5">
-                            {clinic.doctorSpecialization}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="text-right shrink-0">
-                        <span className={`inline-block px-2.5 py-1 rounded-lg text-[11px] font-bold font-mono ${
-                          live.isOpen 
-                            ? "bg-emerald-50 text-emerald-700 border border-emerald-200" 
-                            : "bg-slate-100 text-slate-600 border border-slate-200"
-                        }`}>
-                          {live.doctorStatus}
-                        </span>
-                      </div>
+                  {/* Compact Status Bar: Address + Today's Hours Summary */}
+                  <div className="relative z-10 mt-4 pt-3 border-t border-white/15 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs text-slate-200">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <MapPin className="w-3.5 h-3.5 text-[#10B981] shrink-0" />
+                      <span className="truncate">{clinic.landmarkSub}</span>
                     </div>
+                    <div className="flex items-center gap-1.5 font-semibold text-[#34D399] shrink-0">
+                      <Clock className="w-3.5 h-3.5" />
+                      <span>{live.chipLabel}</span>
+                    </div>
+                  </div>
+                </div>
 
-                    {/* Landmark & Address Experience */}
-                    <div className="space-y-3">
-                      <div className="flex items-start gap-3">
-                        <div className="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-200/80 flex items-center justify-center text-[#10B981] shrink-0 mt-0.5">
-                          <MapPin className="w-5 h-5" />
-                        </div>
-                        <div>
-                          <div className="flex items-center gap-2 flex-wrap">
-                            <span className="inline-flex items-center gap-1.5 text-xs font-bold text-[#10B981] bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200/70">
-                              <Sparkles className="w-3 h-3" />
-                              {clinic.landmark}
-                            </span>
-                            <span className="text-xs font-semibold text-[#4B6358]">
-                              {clinic.landmarkSub}
-                            </span>
-                          </div>
-                          <p className="text-sm text-[#2C4238] leading-relaxed mt-2 font-normal">
-                            {clinic.address}
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* Clickable Phones Summary Row */}
-                      <div className="flex items-center gap-4 pl-13 flex-wrap">
-                        <a 
-                          href={`tel:${clinic.primaryPhone}`}
-                          className="inline-flex items-center gap-1.5 text-xs font-bold text-[#122820] hover:text-[#10B981] transition-colors"
-                        >
-                          <Phone className="w-3.5 h-3.5 text-[#10B981]" />
+                {/* Compact Body summary when collapsed vs Full Details when expanded */}
+                <div className="p-5 sm:p-6 space-y-5">
+                  {/* Always Visible Summary Row: Address details + Quick contact actions */}
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                    <div className="space-y-1 max-w-md">
+                      <p className="text-xs sm:text-sm text-[#2C4238] leading-relaxed">
+                        {clinic.address}
+                      </p>
+                      <div className="flex items-center gap-3 pt-1 text-xs font-bold text-[#122820]">
+                        <a href={`tel:${clinic.primaryPhone}`} className="hover:text-[#10B981] transition-colors flex items-center gap-1">
+                          <Phone className="w-3 h-3 text-[#10B981]" />
                           <span>{clinic.primaryPhoneDisplay}</span>
                         </a>
                         {clinic.alternatePhone && (
-                          <a 
-                            href={`tel:${clinic.alternatePhone}`}
-                            className="inline-flex items-center gap-1.5 text-xs font-bold text-[#122820] hover:text-[#10B981] transition-colors border-l border-slate-200 pl-4"
-                          >
-                            <Phone className="w-3.5 h-3.5 text-[#10B981]" />
+                          <a href={`tel:${clinic.alternatePhone}`} className="hover:text-[#10B981] transition-colors flex items-center gap-1 border-l pl-3 border-slate-200">
+                            <Phone className="w-3 h-3 text-[#10B981]" />
                             <span>{clinic.alternatePhoneDisplay}</span>
                           </a>
                         )}
                       </div>
                     </div>
 
-                    {/* Premium Weekly Timetable (Expandable / Readable) */}
-                    <div className="bg-slate-50/90 rounded-2xl border border-slate-200/80 overflow-hidden">
+                    {/* Quick CTA Actions right in compact card */}
+                    <div className="flex items-center gap-2.5 w-full sm:w-auto shrink-0">
                       <button
                         type="button"
-                        onClick={() => toggleTimetable(clinic.slug)}
-                        aria-expanded={expandedTimetables[clinic.slug]}
-                        className="w-full p-4 flex items-center justify-between text-left hover:bg-slate-100/60 transition-colors cursor-pointer"
+                        onClick={() => window.dispatchEvent(new CustomEvent("openContactModal", { detail: { clinicSlug: clinic.slug } }))}
+                        className="btn-primary-premium py-2.5 px-4 text-xs font-bold w-full sm:w-auto shadow-xs"
                       >
-                        <div className="flex items-center gap-2.5">
-                          <Clock className="w-4 h-4 text-[#10B981]" />
-                          <div>
-                            <span className="text-sm font-bold font-display text-[#122820] block">
-                              Weekly Timetable & Session Slots
-                            </span>
-                            <span className="text-xs text-[#10B981] font-semibold block mt-0.5">
-                              {live.nextAvailable}
-                            </span>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-1.5 text-xs font-bold text-[#4B6358]">
-                          <span>{expandedTimetables[clinic.slug] ? "Hide" : "View Schedule"}</span>
-                          <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${expandedTimetables[clinic.slug] ? "rotate-180 text-[#10B981]" : ""}`} />
-                        </div>
+                        <CalendarDays className="w-3.5 h-3.5" />
+                        <span>Book</span>
                       </button>
+                      <a
+                        href={clinic.googleMapLink}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="btn-secondary-premium py-2.5 px-3.5 text-xs font-bold shrink-0"
+                      >
+                        <Navigation className="w-3.5 h-3.5 text-[#10B981]" />
+                        <span>Directions</span>
+                      </a>
+                    </div>
+                  </div>
 
-                      {expandedTimetables[clinic.slug] && (
-                        <div className="p-4 pt-0 border-t border-slate-200/60 space-y-2 animate-fadeIn">
-                          <div className="grid grid-cols-12 gap-2 text-[11px] font-bold uppercase tracking-wider text-slate-400 pb-1 border-b border-slate-200/60">
-                            <div className="col-span-3">Day</div>
-                            <div className="col-span-5">Morning Session</div>
-                            <div className="col-span-4 text-right">Evening Session</div>
+                  {/* Expand / Collapse Button (Only one expanded at a time) */}
+                  <button
+                    type="button"
+                    onClick={() => toggleClinicExpansion(clinic.slug)}
+                    className="w-full py-2.5 px-4 rounded-xl bg-slate-50 hover:bg-emerald-50/70 border border-slate-200/80 hover:border-emerald-300 text-xs font-bold text-[#122820] flex items-center justify-between transition-all"
+                  >
+                    <span className="flex items-center gap-2">
+                      <Clock className="w-4 h-4 text-[#10B981]" />
+                      <span>{isExpanded ? "Hide Timetable & Landmark Details" : "View Weekly Timetable & Facilities"}</span>
+                    </span>
+                    <span className="flex items-center gap-1 text-[#10B981]">
+                      <span>{isExpanded ? "Collapse" : "Expand"}</span>
+                      <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isExpanded ? "rotate-180" : ""}`} />
+                    </span>
+                  </button>
+
+                  {/* EXPANDED SECTION (Requirement #4: Premium Schedule + Chips + Landmarks) */}
+                  {isExpanded && (
+                    <div className="pt-2 border-t border-slate-100 space-y-6 animate-fadeIn">
+                      {/* Highlight Chips (Requirement #4) */}
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                        <div className="p-3 rounded-xl bg-emerald-50/80 border border-emerald-200/70">
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-800 block">Today's Availability</span>
+                          <span className="text-xs font-bold text-[#122820] mt-0.5 block">
+                            {live.todayClosed ? "Closed Today" : `${live.todayMorning || ""} ${live.todayMorning && live.todayEvening ? " & " : ""} ${live.todayEvening || ""}`.trim()}
+                          </span>
+                        </div>
+                        <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/70">
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-600 block">Current Status</span>
+                          <span className="text-xs font-bold text-[#122820] mt-0.5 block">{live.statusLabel}</span>
+                        </div>
+                        <div className="p-3 rounded-xl bg-amber-50/70 border border-amber-200/70">
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-amber-800 block">Next Available Slot</span>
+                          <span className="text-xs font-bold text-[#122820] mt-0.5 block">{live.nextAvailable}</span>
+                        </div>
+                      </div>
+
+                      {/* Doctor Profile Mini-Card inside expanded view */}
+                      <div className="glass-crystal p-3.5 rounded-2xl bg-gradient-to-br from-emerald-50/60 to-white border border-emerald-200/70 flex items-center justify-between gap-3">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 rounded-xl bg-[#122820] text-white flex items-center justify-center font-bold text-sm shrink-0">
+                            <ToothIcon className="w-5 h-5 text-[#10B981]" />
                           </div>
+                          <div>
+                            <h4 className="font-display font-bold text-sm text-[#122820]">{clinic.doctorName}</h4>
+                            <p className="text-[11px] text-[#4B6358]">{clinic.doctorSpecialization}</p>
+                          </div>
+                        </div>
+                        <span className="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-emerald-100/80 text-emerald-800 border border-emerald-200">
+                          {live.doctorStatus}
+                        </span>
+                      </div>
 
+                      {/* Compact Weekly Schedule Timeline Table */}
+                      <div className="bg-slate-50/90 rounded-2xl border border-slate-200/80 p-4 space-y-2">
+                        <div className="text-xs font-bold text-[#122820] pb-2 border-b border-slate-200/70 flex items-center justify-between">
+                          <span>Full Weekly Schedule</span>
+                          <span className="text-[11px] text-[#10B981] font-normal">🟢 Active Session Highlighted</span>
+                        </div>
+                        <div className="space-y-1.5">
                           {clinic.schedule.map((slot) => {
                             const isToday = slot.day === currentDayName;
                             return (
                               <div
                                 key={slot.day}
-                                className={`grid grid-cols-12 gap-2 items-center py-2 px-2.5 rounded-xl text-xs transition-all ${
+                                className={`grid grid-cols-12 gap-2 items-center py-1.5 px-2.5 rounded-xl text-xs transition-all ${
                                   isToday
-                                    ? "bg-emerald-50/90 border border-emerald-300 font-bold text-[#122820] shadow-2xs"
+                                    ? "bg-emerald-100/70 border border-emerald-300 font-bold text-[#122820]"
                                     : "text-[#4B6358] hover:bg-white"
                                 }`}
                               >
                                 <div className="col-span-3 flex items-center gap-1.5">
-                                  {isToday && <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-ping" />}
-                                  <span className={isToday ? "text-[#122820] font-bold" : "font-medium text-[#122820]"}>
-                                    {slot.day}
-                                  </span>
+                                  {isToday && <span className="w-1.5 h-1.5 rounded-full bg-[#10B981]" />}
+                                  <span>{slot.day}</span>
                                 </div>
-
                                 <div className="col-span-5 text-[#2C4238]">
-                                  {slot.isClosed ? (
-                                    <span className="text-slate-400 italic">Closed</span>
-                                  ) : slot.morning ? (
-                                    slot.morning
-                                  ) : (
-                                    <span className="text-slate-400 font-normal">—</span>
-                                  )}
+                                  {slot.isClosed ? <span className="text-slate-400 italic">Closed</span> : slot.morning || "—"}
                                 </div>
-
                                 <div className="col-span-4 text-right text-[#2C4238]">
-                                  {slot.isClosed ? (
-                                    <span className="text-slate-400 italic">Closed</span>
-                                  ) : slot.evening ? (
-                                    slot.evening
-                                  ) : (
-                                    <span className="text-slate-400 font-normal">—</span>
-                                  )}
+                                  {slot.isClosed ? <span className="text-slate-400 italic">Closed</span> : slot.evening || "—"}
                                 </div>
                               </div>
                             );
                           })}
                         </div>
-                      )}
-                    </div>
+                      </div>
 
-                    {/* Google Map Mini Card & Transit Guidance */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      <a
-                        href={clinic.googleMapLink}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="glass-crystal p-3.5 rounded-2xl bg-white hover:bg-emerald-50/50 border border-slate-200/80 hover:border-emerald-300 transition-all flex items-center justify-between group/map"
-                      >
-                        <div className="flex items-center gap-3">
-                          <div className="w-9 h-9 rounded-xl bg-[#10B981]/15 text-[#10B981] flex items-center justify-center shrink-0 group-hover/map:bg-[#10B981] group-hover/map:text-white transition-colors">
-                            <Navigation className="w-4 h-4" />
-                          </div>
+                      {/* GPS Parking & Facilities Info */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div className="p-3.5 rounded-2xl bg-white border border-slate-200/80 flex items-center gap-3">
+                          <Car className="w-4 h-4 text-[#10B981] shrink-0" />
                           <div>
-                            <span className="text-xs font-bold text-[#122820] block">GPS Navigation</span>
-                            <span className="text-[11px] text-[#4B6358]">Open in Google Maps</span>
+                            <span className="text-xs font-bold text-[#122820] block">Parking Notes</span>
+                            <span className="text-[11px] text-[#4B6358]">{clinic.parkingInfo}</span>
                           </div>
                         </div>
-                        <ExternalLink className="w-4 h-4 text-slate-400 group-hover/map:text-[#10B981] transition-colors" />
-                      </a>
-
-                      <div className="glass-crystal p-3.5 rounded-2xl bg-white border border-slate-200/80 flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-xl bg-slate-100 text-slate-600 flex items-center justify-center shrink-0">
-                          <Car className="w-4 h-4 text-[#10B981]" />
-                        </div>
-                        <div>
-                          <span className="text-xs font-bold text-[#122820] block">Easy Parking</span>
-                          <span className="text-[11px] text-[#4B6358] line-clamp-1">{clinic.parkingInfo}</span>
+                        <div className="p-3.5 rounded-2xl bg-white border border-slate-200/80 flex items-center gap-3">
+                          <ShieldCheck className="w-4 h-4 text-[#10B981] shrink-0" />
+                          <div>
+                            <span className="text-xs font-bold text-[#122820] block">Class-B Sterilization</span>
+                            <span className="text-[11px] text-[#4B6358]">WHO Aseptic Standard</span>
+                          </div>
                         </div>
                       </div>
-                    </div>
 
-                    {/* Future Ready Components Placeholders Banner */}
-                    <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] font-semibold text-slate-400">
-                      <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1">
-                        <span>Future Ready Modules:</span>
-                        {FUTURE_MODULES.slice(0, 3).map((mod, i) => (
-                          <span key={i} className="px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 whitespace-nowrap">
-                            ✓ {mod.label}
-                          </span>
-                        ))}
+                      {/* Full CTA Footer inside Expanded */}
+                      <div className="pt-2 grid grid-cols-2 sm:grid-cols-4 gap-2">
+                        <button
+                          type="button"
+                          onClick={() => window.dispatchEvent(new CustomEvent("openContactModal", { detail: { clinicSlug: clinic.slug } }))}
+                          className="btn-primary-premium py-2.5 text-xs font-bold flex items-center justify-center gap-1.5 col-span-2 sm:col-span-1"
+                        >
+                          <CalendarDays className="w-3.5 h-3.5" />
+                          <span>Book Slot</span>
+                        </button>
+                        <a
+                          href={`tel:${clinic.primaryPhone}`}
+                          className="btn-secondary-premium py-2.5 text-xs font-bold flex items-center justify-center gap-1.5"
+                        >
+                          <Phone className="w-3.5 h-3.5 text-[#10B981]" />
+                          <span>Call</span>
+                        </a>
+                        <a
+                          href={`https://wa.me/${clinic.whatsappDigits}?text=${encodeURIComponent(whatsappText)}`}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="py-2.5 px-3 rounded-xl bg-emerald-50 hover:bg-[#10B981] border border-emerald-200 text-[#10B981] hover:text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-colors"
+                        >
+                          <WhatsAppIcon className="w-3.5 h-3.5" />
+                          <span>WhatsApp</span>
+                        </a>
+                        <a
+                          href={clinic.googleMapLink}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="btn-secondary-premium py-2.5 text-xs font-bold flex items-center justify-center gap-1.5"
+                        >
+                          <Navigation className="w-3.5 h-3.5 text-[#10B981]" />
+                          <span>Map</span>
+                        </a>
                       </div>
                     </div>
-
-                  </div>
-                </div>
-
-                {/* Sticky Action Buttons Strip */}
-                <div className="p-6 sm:p-8 pt-5 bg-slate-50/80 border-t border-slate-200/70 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 mt-auto">
-                  {/* Primary Book Appointment (Pre-selects exact clinic Slug!) */}
-                  <button
-                    type="button"
-                    onClick={() => window.dispatchEvent(new CustomEvent("openContactModal", { detail: { clinicSlug: clinic.slug } }))}
-                    className="btn-primary-premium shadow-md flex items-center justify-center gap-2 py-3.5 cursor-pointer w-full"
-                  >
-                    <CalendarDays className="w-4 h-4" />
-                    <span>Book Appointment</span>
-                  </button>
-
-                  {/* Call Now Button */}
-                  <a
-                    href={`tel:${clinic.primaryPhone}`}
-                    className="flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl bg-white hover:bg-slate-100 border border-slate-200/90 text-[#122820] text-xs sm:text-sm font-bold transition-all shadow-xs"
-                  >
-                    <Phone className="w-4 h-4 text-[#10B981]" />
-                    <span>Call Now</span>
-                  </a>
-
-                  {/* WhatsApp Button with Pre-filled Text */}
-                  <a
-                    href={`https://wa.me/${clinic.whatsappDigits}?text=${encodeURIComponent(whatsappText)}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl bg-emerald-50 hover:bg-[#10B981] border border-emerald-200 text-[#10B981] hover:text-white text-xs sm:text-sm font-bold transition-all shadow-xs"
-                  >
-                    <WhatsAppIcon className="w-4 h-4" />
-                    <span>WhatsApp</span>
-                  </a>
-
-                  {/* Get Directions */}
-                  <a
-                    href={clinic.googleMapLink}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl bg-white hover:bg-slate-100 border border-slate-200/90 text-[#122820] text-xs sm:text-sm font-bold transition-all shadow-xs"
-                  >
-                    <Navigation className="w-4 h-4 text-[#10B981]" />
-                    <span>Directions</span>
-                  </a>
+                  )}
                 </div>
               </div>
             );
           })}
         </div>
 
-        {/* Dynamic CMS Notice Or Verification Footer */}
-        <div className="mt-14 max-w-4xl mx-auto glass-card-floating p-6 bg-white/95 rounded-3xl border border-emerald-200/70 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+        {/* Hospital-Grade Verification Footer */}
+        <div className="mt-12 max-w-4xl mx-auto glass-card-floating p-6 bg-white/95 rounded-[24px] sm:rounded-[28px] border border-emerald-200/70 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
           <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-[#10B981] shrink-0">
-              <ShieldCheck className="w-6 h-6" />
+            <div className="w-10 h-10 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-[#10B981] shrink-0">
+              <ShieldCheck className="w-5 h-5" />
             </div>
             <div>
               <h4 className="font-display font-bold text-sm text-[#122820]">
-                Hospital-Grade WHO Autoclave & Class-B Sterilization
+                Hospital-Grade WHO Autoclave &amp; Class-B Sterilization
               </h4>
               <p className="text-xs text-[#4B6358] mt-0.5">
                 Multi-tier aseptic protocols and digital diagnostics standard across Belerhat, Nabadwip, and Parulia.
@@ -642,7 +602,7 @@ export default function Clinics() {
             onClick={() => window.dispatchEvent(new CustomEvent("openContactModal", { detail: { clinicSlug: "belerhat" } }))}
             className="text-xs font-bold text-[#10B981] hover:text-[#059669] underline underline-offset-4 cursor-pointer shrink-0"
           >
-            Request Urgent Care / Consultation →
+            Request Consultation →
           </button>
         </div>
 
