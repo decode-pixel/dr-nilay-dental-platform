@@ -1,4 +1,4 @@
-﻿import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense } from "react";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
 import ContactModal from "../components/ContactModal";
@@ -12,7 +12,6 @@ const MeetDrNilaySaha   = lazy(() => import("../components/MeetDrNilaySaha"));
 const TrustIndicators   = lazy(() => import("../components/TrustIndicators"));
 const Treatments        = lazy(() => import("../components/Treatments"));
 const WhyChooseUsBento  = lazy(() => import("../components/WhyChooseUsBento"));
-const BeforeAfterGallery = lazy(() => import("../components/BeforeAfterGallery"));
 const ReviewsSection    = lazy(() => import("../components/ReviewsSection"));
 const Clinics           = lazy(() => import("../components/Clinics"));
 const FAQ               = lazy(() => import("../components/FAQ"));
@@ -65,15 +64,6 @@ export default function HomePage() {
         <LazySection minHeight="450px" fallback={<SkeletonLoader variant="card" />}>
           <Suspense fallback={<SkeletonLoader variant="card" />}>
             <WhyChooseUsBento />
-          </Suspense>
-        </LazySection>
-      </div>
-
-      {/* ── Before & After Gallery (#gallery) ────────────────────────────── */}
-      <div id="gallery">
-        <LazySection minHeight="500px" fallback={<SkeletonLoader variant="card" />}>
-          <Suspense fallback={<SkeletonLoader variant="card" />}>
-            <BeforeAfterGallery />
           </Suspense>
         </LazySection>
       </div>

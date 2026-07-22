@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
+﻿import React, { useState, useEffect, useCallback, useRef } from "react";
 import { CalendarDays, Menu, X, Phone, ChevronRight, Sparkles } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { WhatsAppIcon, ToothIcon } from "./Icons";
@@ -10,14 +10,13 @@ import { PRIMARY_PHONE_NUMBER, PRIMARY_WHATSAPP_DIGITS } from "../lib/constants"
 // ─────────────────────────────────────────────────────────────────────────────
 
 const NAV_ITEMS = [
-  { name: "Home",       id: "home" },
-  { name: "About",      id: "about" },
-  { name: "Treatments", id: "treatments" },
-  { name: "Gallery",    id: "gallery" },
-  { name: "Clinics",    id: "locations" },
-  { name: "Reviews",    id: "reviews" },
-  { name: "FAQ",        id: "faq" },
-  { name: "Contact",    id: "contact" },
+  { name: "Home",         id: "home" },
+  { name: "About",        id: "about" },
+  { name: "Treatments",   id: "treatments" },
+  { name: "Clinics",      id: "locations" },
+  { name: "Testimonials", id: "reviews" },
+  { name: "FAQ",          id: "faq" },
+  { name: "Contact",      id: "contact" },
 ] as const;
 
 /**
@@ -26,21 +25,80 @@ const NAV_ITEMS = [
  * sections that have their ID on a parent wrapper vs the inner section tag.
  */
 const ID_ALIASES: Record<string, string[]> = {
-  home:       ["home"],
-  about:      ["about", "doctor-profile"],
-  treatments: ["treatments"],
-  gallery:    ["gallery", "smile-gallery"],
-  locations:  ["locations", "clinics"],
-  reviews:    ["reviews", "why-choose-us"],
-  faq:        ["faq"],
-  contact:    ["contact", "contact-info"],
+  home:         ["home"],
+  about:        ["about", "doctor-profile"],
+  credentials:  ["credentials", "trust", "about", "doctor-profile"],
+  experience:   ["experience", "trust", "about", "doctor-profile"],
+  treatments:   ["treatments", "treatments-wrapper"],
+  locations:    ["locations", "clinics", "locations-wrapper"],
+  clinics:      ["locations", "clinics", "locations-wrapper"],
+  reviews:      ["reviews", "reviews-wrapper", "testimonials"],
+  testimonials: ["reviews", "reviews-wrapper", "testimonials"],
+  faq:          ["faq", "faq-wrapper"],
+  contact:      ["contact", "contact-info"],
 };
 
 const NAV_OFFSET = 110; // px — accounts for fixed floating pill navbar height
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Helpers
+// Interruptible Custom Smooth Scroll Engine
 // ─────────────────────────────────────────────────────────────────────────────
+
+let currentScrollAnimId: number | null = null;
+let isProgrammaticScrolling = false;
+let programmaticScrollTimeout: ReturnType<typeof setTimeout> | null = null;
+
+function cancelCurrentScroll() {
+  if (currentScrollAnimId !== null) {
+    cancelAnimationFrame(currentScrollAnimId);
+    currentScrollAnimId = null;
+  }
+  if (programmaticScrollTimeout !== null) {
+    clearTimeout(programmaticScrollTimeout);
+    programmaticScrollTimeout = null;
+  }
+}
+
+function performSmoothScroll(targetTop: number, onComplete?: () => void) {
+  cancelCurrentScroll();
+  isProgrammaticScrolling = true;
+
+  const startTop = window.pageYOffset;
+  const distance = targetTop - startTop;
+
+  if (Math.abs(distance) < 4) {
+    window.scrollTo(0, targetTop);
+    isProgrammaticScrolling = false;
+    onComplete?.();
+    return;
+  }
+
+  const duration = Math.min(550, Math.max(280, Math.abs(distance) * 0.35));
+  let startTime: number | null = null;
+
+  function step(timestamp: number) {
+    if (!startTime) startTime = timestamp;
+    const elapsed = timestamp - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    // Cubic ease-out for smooth acceleration & deceleration
+    const ease = 1 - Math.pow(1 - progress, 3);
+
+    window.scrollTo(0, startTop + distance * ease);
+
+    if (progress < 1) {
+      currentScrollAnimId = requestAnimationFrame(step);
+    } else {
+      currentScrollAnimId = null;
+      programmaticScrollTimeout = setTimeout(() => {
+        isProgrammaticScrolling = false;
+        programmaticScrollTimeout = null;
+        onComplete?.();
+      }, 80);
+    }
+  }
+
+  currentScrollAnimId = requestAnimationFrame(step);
+}
 
 function resolveElement(navId: string): HTMLElement | null {
   const aliases = ID_ALIASES[navId] ?? [navId];
@@ -49,37 +107,6 @@ function resolveElement(navId: string): HTMLElement | null {
     if (el) return el;
   }
   return null;
-}
-
-function scrollToSection(navId: string) {
-  if (navId === "home") {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    return;
-  }
-  const el = resolveElement(navId);
-  if (el) {
-    const top = el.getBoundingClientRect().top + window.pageYOffset - NAV_OFFSET;
-    window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
-  }
-}
-
-/**
- * Retry scrolling to a section up to `maxAttempts` times (for lazy-loaded
- * sections that haven't mounted yet when a cross-route hash navigation lands).
- */
-function scrollToSectionWithRetry(navId: string, maxAttempts = 16, delayMs = 60) {
-  let attempts = 0;
-  const attempt = () => {
-    const el = resolveElement(navId);
-    if (el) {
-      const top = el.getBoundingClientRect().top + window.pageYOffset - NAV_OFFSET;
-      window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
-    } else if (attempts < maxAttempts) {
-      attempts++;
-      setTimeout(attempt, delayMs);
-    }
-  };
-  setTimeout(attempt, 80); // tiny paint delay before first try
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -99,13 +126,12 @@ function MobileMenu({ isOpen, onClose, activeSection, onNavClick }: MobileMenuPr
   useEffect(() => {
     if (!isOpen) return;
 
-    // Lock body scroll — use class to avoid inline style fights
     document.documentElement.classList.add("mobile-menu-open");
 
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
     };
-    const handlePop = () => onClose(); // Android back button
+    const handlePop = () => onClose();
 
     window.addEventListener("keydown", handleKey);
     window.addEventListener("popstate", handlePop);
@@ -130,8 +156,6 @@ function MobileMenu({ isOpen, onClose, activeSection, onNavClick }: MobileMenuPr
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.22 }}
-          // FIXED: rendered outside <nav> so no stacking context conflict.
-          // z-[999] ensures it always covers everything on every browser.
           style={{ position: "fixed", inset: 0, zIndex: 999 }}
           className="bg-[#071F17] flex flex-col justify-between overflow-y-auto text-white font-sans"
         >
@@ -150,7 +174,7 @@ function MobileMenu({ isOpen, onClose, activeSection, onNavClick }: MobileMenuPr
               type="button"
               onClick={onClose}
               aria-label="Close menu"
-              className="w-10 h-10 rounded-full bg-white/10 border border-white/15 flex items-center justify-center text-slate-300 hover:text-white hover:bg-white/20 transition-all duration-150 active:scale-95"
+              className="w-10 h-10 rounded-full bg-white/10 border border-white/15 flex items-center justify-center text-slate-300 hover:text-white hover:bg-white/20 transition-all duration-150 active:scale-95 cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -166,13 +190,11 @@ function MobileMenu({ isOpen, onClose, activeSection, onNavClick }: MobileMenuPr
             {NAV_ITEMS.map((item) => {
               const isActive = activeSection === item.id;
               return (
-                // Use <button> not <a> to avoid any browser default anchor behaviour
-                // that could interfere with our custom scroll logic
                 <button
                   key={item.id}
                   type="button"
                   onClick={() => onNavClick(item.id)}
-                  className={`w-full text-left text-xl sm:text-2xl font-display font-bold py-3.5 px-5 rounded-2xl flex items-center justify-between group transition-all duration-150 border active:scale-[0.98] ${
+                  className={`w-full text-left text-xl sm:text-2xl font-display font-bold py-3.5 px-5 rounded-2xl flex items-center justify-between group transition-all duration-150 border active:scale-[0.98] cursor-pointer ${
                     isActive
                       ? "text-white bg-[#10B981]/20 border-[#10B981]/40 shadow-sm"
                       : "text-slate-300 hover:text-white hover:bg-white/[0.06] border-transparent"
@@ -222,7 +244,7 @@ function MobileMenu({ isOpen, onClose, activeSection, onNavClick }: MobileMenuPr
                 onClose();
                 window.dispatchEvent(new CustomEvent("openContactModal"));
               }}
-              className="w-full py-4 rounded-full bg-gradient-to-r from-[#10B981] to-[#059669] text-white font-semibold text-base shadow-lg flex items-center justify-center gap-2.5 active:scale-[0.98] transition-transform"
+              className="w-full py-4 rounded-full bg-gradient-to-r from-[#10B981] to-[#059669] text-white font-semibold text-base shadow-lg flex items-center justify-center gap-2.5 active:scale-[0.98] transition-transform cursor-pointer"
             >
               <CalendarDays className="w-5 h-5 text-emerald-100" />
               <span>Book Appointment Now</span>
@@ -265,51 +287,112 @@ export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const tickingRef = useRef(false);
 
-  // ── Active section tracker (scroll spy) ──────────────────────────────────
+  // ── Scroll position listener for sticky navbar blur background ───────────
   useEffect(() => {
-    const update = () => {
+    const handleScroll = () => {
       setIsScrolled(window.scrollY > 15);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-      if (location.pathname === "/") {
-        let found = "home";
-        for (const item of NAV_ITEMS) {
-          const el = resolveElement(item.id);
-          if (el) {
-            const rect = el.getBoundingClientRect();
-            if (rect.top <= window.innerHeight * 0.45 && rect.bottom >= 100) {
-              found = item.id;
-              break;
+  // ── Interrupt scroll if user manually interacts (wheel / touch) ─────────
+  useEffect(() => {
+    const handleUserInterrupt = () => {
+      if (isProgrammaticScrolling) {
+        cancelCurrentScroll();
+        isProgrammaticScrolling = false;
+      }
+    };
+
+    window.addEventListener("wheel", handleUserInterrupt, { passive: true });
+    window.addEventListener("touchstart", handleUserInterrupt, { passive: true });
+    return () => {
+      window.removeEventListener("wheel", handleUserInterrupt);
+      window.removeEventListener("touchstart", handleUserInterrupt);
+    };
+  }, []);
+
+  // ── Active Section Tracking via IntersectionObserver ─────────────────────
+  useEffect(() => {
+    if (location.pathname !== "/") return;
+
+    const handleIntersect = () => {
+      // Ignore scroll-spy updates during explicit programmatic smooth scroll
+      if (isProgrammaticScrolling) return;
+
+      // Handle top of page edge case
+      if (window.scrollY < 100) {
+        setActiveSection("home");
+        return;
+      }
+
+      // Handle bottom of page edge case
+      const scrollBottom = window.scrollY + window.innerHeight;
+      const docHeight = document.documentElement.scrollHeight;
+      if (scrollBottom >= docHeight - 40) {
+        setActiveSection("contact");
+        return;
+      }
+
+      // Find section closest to the top viewport focus area
+      let currentActive = "home";
+      let minDistance = Infinity;
+
+      NAV_ITEMS.forEach((item) => {
+        const el = resolveElement(item.id);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          // Distance from navbar offset
+          const dist = Math.abs(rect.top - NAV_OFFSET);
+          if (rect.top <= window.innerHeight * 0.5 && rect.bottom >= 100) {
+            if (dist < minDistance) {
+              minDistance = dist;
+              currentActive = item.id;
             }
           }
         }
-        setActiveSection(found);
-      }
-      tickingRef.current = false;
+      });
+
+      setActiveSection(currentActive);
     };
 
-    const onScroll = () => {
-      if (!tickingRef.current) {
-        requestAnimationFrame(update);
-        tickingRef.current = true;
+    const observer = new IntersectionObserver(
+      () => {
+        handleIntersect();
+      },
+      {
+        root: null,
+        rootMargin: "-20% 0px -45% 0px",
+        threshold: [0, 0.15, 0.5, 0.75, 1.0],
       }
-    };
+    );
 
-    window.addEventListener("scroll", onScroll, { passive: true });
-    update(); // run once on mount / route change
-    return () => window.removeEventListener("scroll", onScroll);
+    NAV_ITEMS.forEach((item) => {
+      const el = resolveElement(item.id);
+      if (el) observer.observe(el);
+    });
+
+    // Also run on scroll passive fallback
+    window.addEventListener("scroll", handleIntersect, { passive: true });
+    handleIntersect();
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", handleIntersect);
+    };
   }, [location.pathname]);
 
-  // ── Close mobile menu on route change (e.g. navigate to /privacy) ────────
+  // ── Close mobile menu on route change ────────────────────────────────────
   useEffect(() => {
     setIsMobileMenuOpen(false);
   }, [location.pathname]);
 
-  // ── Click-outside handler to close mobile menu ────────────────────────────
   const closeMobileMenu = useCallback(() => setIsMobileMenuOpen(false), []);
 
-  // ── Nav click handler (works from any route) ──────────────────────────────
+  // ── Nav click handler (Immediate state update + cancellable scroll) ──────
   const handleNavClick = useCallback(
     (navId: string) => {
       setIsMobileMenuOpen(false);
@@ -319,20 +402,35 @@ export default function Navbar() {
         return;
       }
 
+      // Synchronously update active section so highlight pill moves IMMEDIATELY
+      setActiveSection(navId);
+
       if (location.pathname !== "/") {
-        // Navigate to home, then scroll once sections are mounted
         navigate("/");
-        scrollToSectionWithRetry(navId, 20, 80);
+        // Retry scroll once target page mounts
+        setTimeout(() => {
+          const el = resolveElement(navId);
+          if (el) {
+            const top = navId === "home" ? 0 : Math.max(0, el.getBoundingClientRect().top + window.pageYOffset - NAV_OFFSET);
+            performSmoothScroll(top);
+          }
+        }, 120);
         return;
       }
 
-      scrollToSection(navId);
-      setActiveSection(navId);
+      if (navId === "home") {
+        performSmoothScroll(0);
+      } else {
+        const el = resolveElement(navId);
+        if (el) {
+          const top = Math.max(0, el.getBoundingClientRect().top + window.pageYOffset - NAV_OFFSET);
+          performSmoothScroll(top);
+        }
+      }
     },
     [location.pathname, navigate]
   );
 
-  // ── Anchor tag wrapper (preserves href for SEO / right-click) ─────────────
   const handleAnchorClick = useCallback(
     (e: React.MouseEvent<HTMLAnchorElement>, navId: string) => {
       e.preventDefault();
@@ -358,7 +456,7 @@ export default function Navbar() {
           }`}
           aria-label="Main navigation"
         >
-          {/* Brand logo — automatically adapts and shrinks on ultra-narrow mobile */}
+          {/* Brand logo */}
           <a
             href="/#home"
             onClick={(e) => handleAnchorClick(e, "home")}
@@ -378,7 +476,7 @@ export default function Navbar() {
           </a>
 
           {/* Desktop nav links */}
-          <div className="hidden lg:flex items-center gap-2 xl:gap-3 text-[14.5px] xl:text-[15px] font-medium bg-slate-100/60 p-1.5 rounded-full border border-slate-200/60 shrink-0">
+          <div className="hidden lg:flex items-center gap-1.5 xl:gap-2 text-[14px] xl:text-[14.5px] font-medium bg-slate-100/60 p-1.5 rounded-full border border-slate-200/60 shrink-0">
             {NAV_ITEMS.map((item) => {
               const isActive = isHomePage && activeSection === item.id;
               return (
@@ -387,7 +485,7 @@ export default function Navbar() {
                   href={`/#${item.id}`}
                   onClick={(e) => handleAnchorClick(e, item.id)}
                   aria-current={isActive ? "page" : undefined}
-                  className={`relative py-1.5 px-4 rounded-full transition-all duration-200 flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981] group ${
+                  className={`relative py-1.5 px-3.5 sm:px-4 rounded-full transition-all duration-200 flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981] group cursor-pointer ${
                     isActive
                       ? "text-[#10B981] font-bold bg-white shadow-sm border border-emerald-500/20"
                       : "text-[#2C4238] hover:text-[#10B981] hover:bg-white/60"
@@ -398,7 +496,7 @@ export default function Navbar() {
                     <motion.div
                       layoutId="activeNavPill"
                       className="absolute inset-0 bg-white rounded-full border border-emerald-500/30 shadow-sm z-0"
-                      transition={{ type: "spring", stiffness: 400, damping: 32 }}
+                      transition={{ type: "spring", stiffness: 450, damping: 35 }}
                     />
                   )}
                 </a>
@@ -406,9 +504,8 @@ export default function Navbar() {
             })}
           </div>
 
-          {/* Right: CTA buttons + mobile hamburger (Adapts intelligently across 320px-414px+) */}
+          {/* Right: CTA buttons + mobile hamburger */}
           <div className="flex items-center gap-1 xs:gap-1.5 sm:gap-3 shrink-0">
-            {/* Phone button — shrinks intelligently on small screens */}
             <a
               href={`tel:${PRIMARY_PHONE_NUMBER}`}
               aria-label={`Call clinic: ${PRIMARY_PHONE_NUMBER}`}
@@ -417,26 +514,24 @@ export default function Navbar() {
               <Phone className="w-3.5 h-3.5 xs:w-4 xs:h-4 sm:w-5 sm:h-5" />
             </a>
 
-            {/* Book Appointment CTA — Adapts width and text for mobile vs desktop without clipping */}
             <button
               type="button"
               onClick={() => handleNavClick("schedule")}
               aria-label="Book Appointment"
-              className="flex btn-crystal px-2.5 xs:px-3.5 sm:px-6 py-1.5 xs:py-2 sm:py-3 text-[11px] xs:text-xs sm:text-sm font-bold shrink-0 items-center justify-center"
+              className="flex btn-crystal px-2.5 xs:px-3.5 sm:px-6 py-1.5 xs:py-2 sm:py-3 text-[11px] xs:text-xs sm:text-sm font-bold shrink-0 items-center justify-center cursor-pointer"
             >
               <CalendarDays className="w-3.5 h-3.5 xs:w-4 xs:h-4 text-emerald-100 shrink-0" />
               <span className="hidden sm:inline">Book Appointment</span>
               <span className="inline sm:hidden">Book</span>
             </button>
 
-            {/* Mobile hamburger — visible only on <lg */}
             <button
               type="button"
               onClick={() => setIsMobileMenuOpen(true)}
               aria-label="Open navigation menu"
               aria-expanded={isMobileMenuOpen}
               aria-controls="mobile-menu"
-              className="lg:hidden w-8 h-8 xs:w-9 xs:h-9 sm:w-10 sm:h-10 rounded-full bg-[#122820] text-white flex items-center justify-center hover:bg-[#10B981] shadow-sm transition-all duration-200 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981] shrink-0"
+              className="lg:hidden w-8 h-8 xs:w-9 xs:h-9 sm:w-10 sm:h-10 rounded-full bg-[#122820] text-white flex items-center justify-center hover:bg-[#10B981] shadow-sm transition-all duration-200 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981] shrink-0 cursor-pointer"
             >
               <Menu className="w-4 h-4 xs:w-4.5 xs:h-4.5 sm:w-5 sm:h-5" />
             </button>
@@ -444,7 +539,6 @@ export default function Navbar() {
         </nav>
       </header>
 
-      {/* ── Mobile overlay — rendered as a sibling to <header>, NOT inside it ── */}
       <MobileMenu
         isOpen={isMobileMenuOpen}
         onClose={closeMobileMenu}
