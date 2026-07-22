@@ -12,6 +12,7 @@ import { PRIMARY_WHATSAPP_DIGITS } from "../lib/constants";
 const Treatments        = lazy(() => import("../components/Treatments"));
 const WhyChooseUsBento  = lazy(() => import("../components/WhyChooseUsBento"));
 const MeetDrNilaySaha   = lazy(() => import("../components/MeetDrNilaySaha"));
+const BeforeAfterGallery = lazy(() => import("../components/BeforeAfterGallery"));
 const ReviewsSection    = lazy(() => import("../components/ReviewsSection"));
 const Clinics           = lazy(() => import("../components/Clinics"));
 const FAQ               = lazy(() => import("../components/FAQ"));
@@ -22,7 +23,7 @@ export default function HomePage() {
   return (
     <div
       id="home"
-      className="min-h-screen font-sans overflow-x-hidden selection:bg-emerald-500/30 bg-[#FCFCFD]"
+      className="min-h-screen font-sans overflow-x-hidden selection:bg-sky-500/30 bg-white"
     >
       {/* ── Navbar (fixed, floats above page, z-[100]) ───────────────────── */}
       <Navbar />
@@ -53,6 +54,15 @@ export default function HomePage() {
         <LazySection minHeight="450px" fallback={<SkeletonLoader variant="profile" />}>
           <Suspense fallback={<SkeletonLoader variant="profile" />}>
             <MeetDrNilaySaha />
+          </Suspense>
+        </LazySection>
+      </div>
+
+      {/* ── Before & After Smile Gallery (#gallery) ──────────────────────── */}
+      <div id="gallery">
+        <LazySection minHeight="500px" fallback={<SkeletonLoader variant="card" />}>
+          <Suspense fallback={<SkeletonLoader variant="card" />}>
+            <BeforeAfterGallery />
           </Suspense>
         </LazySection>
       </div>

@@ -34,18 +34,18 @@ export default function FAQ() {
 
   return (
     <section id="faq" className="py-20 sm:py-28 bg-white font-sans border-b border-slate-200/60 scroll-mt-24">
-      <div className="max-w-4xl mx-auto px-5 sm:px-8">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-14 sm:mb-18">
-          <TagPill icon={MessageCircleQuestion} text="Common Questions" />
-          <h2 className="h2-premium mt-3 mb-4">
+          <TagPill icon={MessageCircleQuestion} text="Common Patient Questions" />
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-extrabold text-[#0F172A] tracking-tight mt-3 mb-4 leading-tight">
             Frequently Asked <br className="hidden sm:inline" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#10B981] to-[#059669]">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0284C7] to-[#0EA5E9]">
               Clinical Questions
             </span>
           </h2>
-          <p className="body-premium max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg text-[#475569] leading-relaxed max-w-2xl mx-auto font-normal">
             Find clear answers about our painless endodontic procedures, sterilization protocols, appointments, and regional centers.
           </p>
         </div>
@@ -58,26 +58,26 @@ export default function FAQ() {
             return (
               <div
                 key={index}
-                className={`glass-card-floating transition-all duration-300 rounded-3xl ${
+                className={`transition-all duration-300 rounded-[20px] overflow-hidden ${
                   isOpen
-                    ? "border border-emerald-400/90 bg-gradient-to-b from-emerald-50/60 via-white to-white shadow-[0_15px_35px_rgba(16,185,129,0.12)]"
-                    : "bg-white border border-slate-200/80 hover:border-emerald-300/80 shadow-xs hover:shadow-md"
+                    ? "border border-sky-300 bg-gradient-to-b from-sky-50/60 via-white to-white shadow-[0_12px_35px_rgba(2,132,199,0.10)]"
+                    : "bg-white border border-slate-200/80 hover:border-sky-300 shadow-2xs hover:shadow-md"
                 }`}
               >
                 <button
                   onClick={() => toggleAccordion(index)}
                   aria-expanded={isOpen}
-                  className="w-full flex items-center justify-between p-6 sm:p-7 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981] rounded-2xl group cursor-pointer"
+                  className="w-full flex items-center justify-between p-6 sm:p-7 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0284C7] rounded-[20px] group cursor-pointer"
                 >
-                  <h3 className={`text-lg sm:text-[22px] font-display font-semibold pr-6 transition-colors leading-snug ${
-                    isOpen ? "text-[#10B981]" : "text-[#122820] group-hover:text-[#10B981]"
+                  <h3 className={`text-lg sm:text-[20px] font-display font-bold pr-6 transition-colors leading-snug ${
+                    isOpen ? "text-[#0284C7]" : "text-[#0F172A] group-hover:text-[#0284C7]"
                   }`}>
                     {faq.question}
                   </h3>
                   <div className={`flex-shrink-0 w-11 h-11 rounded-2xl border flex items-center justify-center transition-all duration-300 ${
                     isOpen
-                      ? "bg-[#10B981] border-[#10B981] text-white rotate-180"
-                      : "bg-emerald-50/80 border-emerald-200/80 text-[#10B981] group-hover:bg-[#10B981] group-hover:text-white"
+                      ? "bg-[#0284C7] border-[#0284C7] text-white rotate-180"
+                      : "bg-sky-50 border-sky-200 text-[#0284C7] group-hover:bg-[#0284C7] group-hover:text-white"
                   }`}>
                     <ChevronDown className="w-5 h-5 transition-transform duration-300" />
                   </div>
@@ -85,8 +85,8 @@ export default function FAQ() {
                 
                 {isOpen && (
                   <div className="px-6 sm:px-7 pb-7 pt-1 animate-fadeIn">
-                    <div className="w-full h-px bg-slate-100 mb-5" />
-                    <p className="small-premium text-xs sm:text-sm leading-relaxed">
+                    <div className="w-full h-px bg-slate-100 mb-4" />
+                    <p className="text-xs sm:text-sm text-[#334155] leading-relaxed">
                       {faq.answer}
                     </p>
                   </div>
@@ -98,14 +98,14 @@ export default function FAQ() {
 
         {/* Still have questions CTA */}
         <div className="mt-12 text-center">
-          <p className="text-xs sm:text-sm text-[#4B6358]">
+          <p className="text-xs sm:text-sm text-[#475569]">
             Have a specific clinical question not listed above?{" "}
             <button
               type="button"
               onClick={() => window.dispatchEvent(new CustomEvent("openContactModal"))}
-              className="font-bold text-[#10B981] hover:text-[#059669] underline underline-offset-4 cursor-pointer"
+              className="font-extrabold text-[#0284C7] hover:text-[#0369A1] underline underline-offset-4 cursor-pointer"
             >
-              Consult directly with our team
+              Consult directly with our medical team
             </button>
           </p>
         </div>

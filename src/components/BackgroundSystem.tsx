@@ -1,8 +1,8 @@
 import React from "react";
 
 /**
- * BackgroundSystem — V2 Animated Crystal Aurora & Ambient Light Matrix
- * Ultra-premium Apple/Stripe-caliber ambient lighting and subtle geometry
+ * BackgroundSystem — Animated Crystal Aurora & Medical Ambient Light Matrix
+ * Clean white canvas with subtle medical blue and cyan ambient gradients
  * Rendered purely via CSS transforms and gradients for 120fps zero-scroll-lag performance.
  */
 export default function BackgroundSystem() {
@@ -11,47 +11,47 @@ export default function BackgroundSystem() {
       className="fixed inset-0 z-[-2] pointer-events-none overflow-hidden select-none"
       aria-hidden="true"
     >
-      {/* Base crystal canvas */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#F8FAFC] via-[#FCFCFD] to-[#F3F8F6]" />
+      {/* Base clean white canvas */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#FFFFFF] via-[#F8FAFC] to-[#F1F5F9]" />
 
       {/* Subtle luxury dot matrix texture for depth */}
       <div 
-        className="absolute inset-0 opacity-[0.22] pointer-events-none"
+        className="absolute inset-0 opacity-[0.18] pointer-events-none"
         style={{
-          backgroundImage: "radial-gradient(rgba(16, 185, 129, 0.25) 1px, transparent 1px)",
-          backgroundSize: "32px 32px",
+          backgroundImage: "radial-gradient(rgba(2, 132, 199, 0.20) 1px, transparent 1px)",
+          backgroundSize: "36px 36px",
         }}
       />
 
-      {/* Primary Top-Right Aurora Sphere (Cyan/Emerald crystal reflection) */}
+      {/* Primary Top-Right Aurora Sphere (Medical Blue/Sky Blue glow) */}
       <div
-        className="absolute -top-40 -right-20 w-[750px] h-[750px] rounded-full opacity-65 pointer-events-none animate-pulse duration-10000"
+        className="absolute -top-40 -right-20 w-[750px] h-[750px] rounded-full opacity-60 pointer-events-none animate-pulse duration-10000"
         style={{
-          background: "radial-gradient(circle, rgba(16,185,129,0.14) 0%, rgba(6,182,212,0.1) 40%, rgba(255,255,255,0) 70%)",
+          background: "radial-gradient(circle, rgba(2,132,199,0.12) 0%, rgba(14,165,233,0.08) 40%, rgba(255,255,255,0) 70%)",
         }}
       />
 
-      {/* Mid-Left Emerald Glass Refraction Orb */}
+      {/* Mid-Left Cyan Glass Refraction Orb */}
       <div
-        className="absolute top-[28%] -left-40 w-[680px] h-[680px] rounded-full opacity-55 pointer-events-none"
+        className="absolute top-[28%] -left-40 w-[680px] h-[680px] rounded-full opacity-50 pointer-events-none"
         style={{
-          background: "radial-gradient(circle, rgba(16,185,129,0.12) 0%, rgba(5,150,105,0.06) 45%, rgba(255,255,255,0) 75%)",
+          background: "radial-gradient(circle, rgba(16,185,129,0.08) 0%, rgba(2,132,199,0.05) 45%, rgba(255,255,255,0) 75%)",
         }}
       />
 
-      {/* Mid-Right Warm Crystal Gold / Teal Highlight */}
+      {/* Mid-Right Subtle Sky Blue Accent Highlight */}
       <div
-        className="absolute top-[58%] right-0 w-[620px] h-[620px] rounded-full opacity-45 pointer-events-none"
+        className="absolute top-[58%] right-0 w-[620px] h-[620px] rounded-full opacity-40 pointer-events-none"
         style={{
-          background: "radial-gradient(circle, rgba(6,182,212,0.09) 0%, rgba(16,185,129,0.07) 50%, rgba(255,255,255,0) 75%)",
+          background: "radial-gradient(circle, rgba(14,165,233,0.08) 0%, rgba(2,132,199,0.05) 50%, rgba(255,255,255,0) 75%)",
         }}
       />
 
-      {/* Bottom Center Deep Crystal Wash */}
+      {/* Bottom Center Soft Medical Blue Wash */}
       <div
-        className="absolute -bottom-32 left-1/3 w-[800px] h-[500px] rounded-full opacity-50 pointer-events-none"
+        className="absolute -bottom-32 left-1/3 w-[800px] h-[500px] rounded-full opacity-45 pointer-events-none"
         style={{
-          background: "radial-gradient(circle, rgba(16,185,129,0.11) 0%, rgba(13,148,136,0.05) 55%, rgba(255,255,255,0) 80%)",
+          background: "radial-gradient(circle, rgba(2,132,199,0.09) 0%, rgba(16,185,129,0.04) 55%, rgba(255,255,255,0) 80%)",
         }}
       />
     </div>

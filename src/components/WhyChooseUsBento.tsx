@@ -13,7 +13,7 @@ export default function WhyChooseUsBento() {
       title: "Root Canal & Endodontic Specialist",
       desc: "Fellowship-trained endodontic precision focused on preserving natural teeth. Specializing in single-visit root canal treatments that are precise, pain-free, and built for permanent clinical durability.",
       icon: Award,
-      span: "col-span-1 md:col-span-2 lg:col-span-2 lg:row-span-2 bg-gradient-to-br from-emerald-50/70 via-white to-white border-emerald-300/60",
+      span: "col-span-1 md:col-span-2 lg:col-span-2 lg:row-span-2 bg-gradient-to-br from-sky-50/70 via-white to-white border-sky-300/60",
       featured: true
     },
     {
@@ -44,7 +44,7 @@ export default function WhyChooseUsBento() {
       title: "Transparent & Customized Plans",
       desc: "Clear treatment mapping with honest clinical advice, detailed cost breakdowns, and structured care phases discussed before any procedure begins.",
       icon: Layers,
-      span: "col-span-1 md:col-span-2 lg:col-span-2 bg-gradient-to-tr from-white via-white to-emerald-50/40"
+      span: "col-span-1 md:col-span-2 lg:col-span-2 bg-gradient-to-tr from-white via-white to-sky-50/40"
     }
   ];
 
@@ -56,18 +56,18 @@ export default function WhyChooseUsBento() {
 
   return (
     <section id="why-choose-us" className="py-20 sm:py-28 bg-white font-sans border-b border-slate-200/60">
-      <div className="max-w-7xl mx-auto px-5 sm:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto mb-14 sm:mb-18">
           <TagPill icon={Sparkles} text="Why Dr. Nilay Saha" />
-          <h2 className="h2-premium mt-3 mb-4">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-extrabold text-[#0F172A] tracking-tight mt-3 mb-4 leading-tight">
             Why Patients Trust <br className="hidden sm:inline" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#10B981] to-[#059669]">
-              Our Advanced Studio
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0284C7] to-[#0EA5E9]">
+              Our Advanced Dental Studio
             </span>
           </h2>
-          <p className="body-premium max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg text-[#475569] leading-relaxed max-w-2xl mx-auto font-normal">
             Combining surgical excellence with empathetic patient care, modern dental technology, and unwavering sterilization standards.
           </p>
         </div>

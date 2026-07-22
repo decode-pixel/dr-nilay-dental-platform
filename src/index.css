@@ -1,29 +1,33 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Playfair Display", Georgia, "Times New Roman", serif;
-  --font-heading: "Playfair Display", Georgia, "Times New Roman", serif;
+  --font-display: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "Manrope", ui-sans-serif, system-ui, sans-serif;
   --font-outfit: "Outfit", ui-sans-serif, system-ui, sans-serif;
   --font-jakarta: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
 
-  --color-bg-primary: #F4F7F4;
-  --color-bg-elevated: #FAFDFB;
-  --color-bg-surface: rgba(255, 255, 255, 0.85);
-  --color-bg-surface-hover: rgba(255, 255, 255, 0.95);
+  --color-bg-primary: #FFFFFF;
+  --color-bg-elevated: #F8FAFC;
+  --color-bg-surface: rgba(255, 255, 255, 0.90);
+  --color-bg-surface-hover: rgba(255, 255, 255, 0.98);
   --color-bg-surface-active: #FFFFFF;
-  --color-bg-overlay: rgba(7, 31, 23, 0.75);
+  --color-bg-overlay: rgba(15, 23, 42, 0.75);
 
-  --color-text-primary: #122820;
-  --color-text-secondary: #2C4238;
-  --color-text-tertiary: #4B6358;
-  --color-text-muted: #7E968B;
+  --color-text-primary: #0F172A;
+  --color-text-secondary: #334155;
+  --color-text-tertiary: #475569;
+  --color-text-muted: #64748B;
   --color-text-inverse: #FFFFFF;
 
-  --color-accent-primary: #10B981;
-  --color-accent-primary-hover: #059669;
-  --color-accent-primary-muted: rgba(16, 185, 129, 0.12);
+  --color-accent-primary: #0284C7;
+  --color-accent-primary-hover: #0369A1;
+  --color-accent-primary-muted: rgba(2, 132, 199, 0.12);
+  --color-accent-blue: #0284C7;
+  --color-accent-blue-light: #F0F9FF;
+  --color-accent-blue-hover: #0369A1;
+  --color-accent-emerald: #10B981;
   --color-accent-warm: #C5A059;
   --color-accent-warm-muted: rgba(197, 160, 89, 0.12);
 
@@ -58,6 +62,9 @@
   --font-weight-light: 300;
   --font-weight-normal: 400;
   --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
 

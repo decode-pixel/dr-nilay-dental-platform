@@ -1,17 +1,13 @@
 import React from "react";
-import { CalendarDays, Star, Shield, Award, Activity, ChevronRight, Phone, Clock, MapPin } from "lucide-react";
-import { ToothIcon } from "./Icons";
-import { DOCTOR_REGISTRATION_NUMBER, PRIMARY_PHONE_NUMBER } from "../lib/constants";
-
-/**
- * Hero — Awwwards Luxury Architecture & Floating Glass Booking Pill
- * Preserving 100% existing text, copy, data, buttons, and booking handlers.
- */
+import { CalendarDays, Star, Shield, Award, Activity, ChevronRight, Phone, Clock, MessageSquare, CheckCircle2 } from "lucide-react";
+import { ToothIcon, WhatsAppIcon } from "./Icons";
+import { DOCTOR_REGISTRATION_NUMBER, PRIMARY_PHONE_NUMBER, PRIMARY_WHATSAPP_DIGITS } from "../lib/constants";
+import OptimizedImage from "./OptimizedImage";
 
 const credentialRows = [
-  { icon: Award, label: "Degree Qualification", value: "BDS", iconColor: "text-amber-400" },
-  { icon: Shield, label: "State Medical License", value: DOCTOR_REGISTRATION_NUMBER, iconColor: "text-[#10B981]" },
-  { icon: Activity, label: "Clinical Mastery", value: "10+ Years Exp.", iconColor: "text-cyan-400" },
+  { icon: Award, label: "Degree Qualification", value: "BDS (Gold Medalist)", iconColor: "text-amber-500" },
+  { icon: Shield, label: "State Medical License", value: DOCTOR_REGISTRATION_NUMBER, iconColor: "text-[#0284C7]" },
+  { icon: Activity, label: "Clinical Mastery", value: "10+ Years Exp.", iconColor: "text-emerald-500" },
 ];
 
 export default function Hero() {
@@ -30,137 +26,134 @@ export default function Hero() {
     }
   };
 
-  return (
-    <section id="home" className="relative font-sans pt-2 sm:pt-4 pb-16 sm:pb-24">
-      
-      {/* ── Top Arched Dark Luxury Container (Reference Design Inspired) ──── */}
-      <div className="mx-3 sm:mx-6 lg:mx-8 bg-gradient-to-b from-[#06131E] via-[#091D2A] to-[#07241B] text-white arch-hero-top pt-32 sm:pt-40 pb-32 sm:pb-40 px-5 sm:px-10 lg:px-14 relative overflow-hidden shadow-[0_28px_90px_rgba(6,19,30,0.45)] border border-white/12">
-        
-        {/* Subtle 3D Crystal Tooth Vector Accent */}
-        <div className="absolute top-10 right-10 opacity-15 pointer-events-none hidden lg:block animate-pulse duration-7000">
-          <div className="w-80 h-80 rounded-full border border-emerald-500/35 flex items-center justify-center glow-cyan">
-            <ToothIcon className="w-44 h-44 text-emerald-400" />
-          </div>
-        </div>
+  const whatsappUrl = `https://wa.me/${PRIMARY_WHATSAPP_DIGITS}?text=${encodeURIComponent("Hello Doctor, I would like to book a dental consultation.")}`;
 
-        {/* Soft Ambient Radial Lights */}
-        <div className="absolute top-0 left-1/4 w-[550px] h-[550px] bg-emerald-500/12 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 right-1/4 w-[480px] h-[480px] bg-cyan-500/12 rounded-full blur-3xl pointer-events-none" />
+  return (
+    <section id="home" className="relative font-sans pt-4 sm:pt-8 pb-16 sm:pb-24 overflow-hidden bg-white">
+      
+      {/* ── Soft Medical Blue & White Hero Container ──── */}
+      <div className="mx-3 sm:mx-6 lg:mx-8 bg-gradient-to-b from-[#F0F9FF] via-[#F8FAFC] to-[#FFFFFF] rounded-[32px] sm:rounded-[40px] pt-16 sm:pt-24 pb-20 sm:pb-28 px-5 sm:px-10 lg:px-14 relative overflow-hidden shadow-[0_20px_50px_rgba(2,132,199,0.06)] border border-slate-200/80">
+        
+        {/* Subtle Ambient Radial Lights */}
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-sky-400/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-teal-400/10 rounded-full blur-3xl pointer-events-none" />
 
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-16 relative z-10">
 
-          {/* Left Column: Headline & Primary Action */}
-          <div className="w-full lg:w-[55%] flex flex-col items-start text-left">
+          {/* Left Column: Headline, Trust Badges & Action CTAs */}
+          <div className="w-full lg:w-[58%] flex flex-col items-start text-left">
             
-            {/* Trust Snippet Badge */}
-            <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full mb-6 glass-dark-crystal cursor-default border border-white/20 shadow-sm hover:border-emerald-500/40 transition-colors">
+            {/* Trust Rating Pill */}
+            <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full mb-6 bg-white/90 cursor-default border border-slate-200 shadow-sm">
               <div className="flex items-center gap-1 text-amber-400">
                 {[...Array(5)].map((_, i) => (
                   <Star key={i} className="w-3.5 h-3.5 fill-amber-400" />
                 ))}
               </div>
-              <span className="text-xs font-bold text-white tracking-wide">4.9 ★★★★★</span>
-              <span className="text-xs text-emerald-200/80 font-medium border-l border-white/15 pl-2.5">
-                5,000+ Verified Patient Reviews
+              <span className="text-xs font-extrabold text-[#0F172A]">4.9 ★★★★★</span>
+              <span className="text-xs text-[#475569] font-medium border-l border-slate-200 pl-2.5">
+                5,000+ Happy Smiles Restored
               </span>
             </div>
 
-            {/* Headline */}
-            <h1 className="text-[42px] sm:text-[58px] lg:text-[66px] font-display font-bold tracking-tight text-white leading-[1.06] mb-6">
-              Advanced, Pain-Free <br className="hidden sm:inline" />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#10B981] via-teal-300 to-cyan-400 drop-shadow-sm">
-                Dental Care
-              </span>{" "}
-              You Can Trust
+            {/* Emotional Headline */}
+            <h1 className="text-[40px] sm:text-[56px] lg:text-[64px] font-display font-extrabold tracking-tight text-[#0F172A] leading-[1.08] mb-6">
+              Crafting Radiant Smiles &amp; <br className="hidden sm:inline" />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0284C7] via-[#0EA5E9] to-[#0D9488]">
+                Lifelong Confidence
+              </span>
             </h1>
 
-            {/* Subtext */}
-            <p className="text-base sm:text-lg text-slate-300 leading-relaxed max-w-xl mb-7">
-              Experience fellowship-trained precision in endodontics, oral surgery, and aesthetic restorations. Tailored, gentle dental treatments delivered with modern technology across 3 regional centers.
+            {/* Emotional Subtext */}
+            <p className="text-base sm:text-lg text-[#334155] leading-relaxed max-w-xl mb-8 font-normal">
+              Experience world-class, 100% pain-free dental care with Dr. Nilay Saha. Advanced digital endodontics, smile transformations, and laser care delivered with warmth, precision, and gentleness.
             </p>
 
-            {/* Floating Crystal Chips Row */}
+            {/* Key Clinical Trust Chips */}
             <div className="flex flex-wrap gap-2.5 mb-8">
-              <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-bold bg-white/10 text-emerald-300 border border-emerald-500/30 backdrop-blur-md">
-                <span>🎓 BDS & Endodontic Specialist</span>
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold bg-sky-50 text-[#0284C7] border border-sky-200 shadow-2xs">
+                <CheckCircle2 className="w-3.5 h-3.5" />
+                <span>BDS Gold Medalist Specialist</span>
               </span>
-              <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-bold bg-white/10 text-cyan-300 border border-cyan-500/30 backdrop-blur-md">
-                <span>🏆 FIE Fellow</span>
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold bg-teal-50 text-teal-700 border border-teal-200 shadow-2xs">
+                <CheckCircle2 className="w-3.5 h-3.5" />
+                <span>10+ Years Clinical Mastery</span>
               </span>
-              <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-bold bg-white/10 text-emerald-200 border border-white/15 backdrop-blur-md">
-                <span>🛡️ WBDC Reg 4858-A</span>
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold bg-slate-100 text-[#334155] border border-slate-200 shadow-2xs">
+                <span>WBDC Reg 4858-A</span>
               </span>
             </div>
 
-            {/* Action Buttons */}
+            {/* Primary Action Buttons (Book Appointment & WhatsApp) */}
             <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto mb-6">
               <button
                 type="button"
                 onClick={handleBooking}
-                className="w-full sm:w-auto btn-crystal px-8 py-4 text-sm font-bold shadow-[0_8px_30px_rgba(16,185,129,0.4)] cursor-pointer"
+                className="w-full sm:w-auto px-8 py-4 rounded-full bg-gradient-to-r from-[#0284C7] to-[#0369A1] text-white font-bold text-sm shadow-[0_8px_25px_rgba(2,132,199,0.35)] hover:shadow-[0_12px_32px_rgba(2,132,199,0.5)] hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center gap-2.5 cursor-pointer"
               >
-                <CalendarDays className="w-4.5 h-4.5 text-emerald-100" />
+                <CalendarDays className="w-5 h-5 text-white" />
                 <span>Book Appointment</span>
               </button>
 
               <a
-                href="#treatments"
-                onClick={(e) => handleScrollTo(e, "treatments")}
-                className="w-full sm:w-auto px-8 py-4 rounded-full glass-dark-crystal text-white font-semibold text-sm hover:bg-white/20 transition-all duration-300 flex items-center justify-center gap-2 border border-white/20"
+                href={whatsappUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="w-full sm:w-auto px-8 py-4 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-sm shadow-[0_8px_25px_rgba(16,185,129,0.3)] hover:-translate-y-0.5 transition-all duration-300 flex items-center justify-center gap-2.5"
               >
-                <span>Explore Treatments</span>
-                <ChevronRight className="w-4 h-4 text-emerald-300" />
+                <WhatsAppIcon className="w-5 h-5 fill-white" />
+                <span>WhatsApp Chat</span>
               </a>
             </div>
 
-            {/* Emergency Line */}
-            <div className="inline-flex items-center gap-2.5 text-xs text-rose-300 bg-rose-950/50 border border-rose-500/40 px-4.5 py-2 rounded-full shadow-sm">
+            {/* Emergency Hotline Banner */}
+            <div className="inline-flex items-center gap-2 text-xs font-semibold text-rose-700 bg-rose-50 border border-rose-200 px-4 py-2 rounded-full">
               <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse" />
-              <span>Dental Emergency? Call <a href={`tel:${PRIMARY_PHONE_NUMBER}`} className="font-bold underline text-rose-200">{PRIMARY_PHONE_NUMBER}</a></span>
+              <span>Dental Emergency? Direct Call: <a href={`tel:${PRIMARY_PHONE_NUMBER}`} className="font-extrabold underline text-rose-800">{PRIMARY_PHONE_NUMBER}</a></span>
             </div>
 
           </div>
 
-          {/* Right Column: Floating Doctor Credentials Card */}
-          <div className="w-full lg:w-[42%] relative z-10">
-            <div className="glass-dark-crystal rounded-3xl p-7 sm:p-8 border border-white/20 shadow-[0_25px_75px_rgba(0,0,0,0.6)] relative overflow-hidden group hover:border-emerald-500/40 transition-all duration-300">
+          {/* Right Column: Professional Dentist Credentials Card */}
+          <div className="w-full lg:w-[40%] relative z-10">
+            <div className="bg-white rounded-[24px] p-7 sm:p-8 border border-slate-200/90 shadow-[0_20px_50px_rgba(15,23,42,0.08)] relative overflow-hidden group hover:border-sky-300 transition-all duration-300">
               
-              <div className="flex items-center gap-4 border-b border-white/12 pb-5 mb-5 relative z-10">
-                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500/30 to-emerald-500/10 border border-emerald-400/50 flex items-center justify-center text-[#10B981] shrink-0 shadow-inner group-hover:scale-105 transition-transform">
-                  <ToothIcon className="w-7 h-7 text-emerald-400" />
+              <div className="flex items-center gap-4 border-b border-slate-100 pb-5 mb-5 relative z-10">
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-sky-500 to-sky-600 text-white flex items-center justify-center font-bold text-xl shrink-0 shadow-md">
+                  <ToothIcon className="w-7 h-7 text-white" />
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <h3 className="text-xl font-display font-bold text-white">Dr. Nilay Saha</h3>
-                    <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-[10px] font-bold uppercase tracking-wider">
+                    <h3 className="text-xl font-display font-extrabold text-[#0F172A]">Dr. Nilay Saha</h3>
+                    <span className="px-2.5 py-0.5 rounded-full bg-sky-50 border border-sky-200 text-[#0284C7] text-[10px] font-bold uppercase tracking-wider">
                       Verified
                     </span>
                   </div>
-                  <p className="text-xs text-slate-300 font-medium mt-0.5">
-                    Principal Dental Surgeon & Oral Physician
+                  <p className="text-xs text-[#475569] font-medium mt-0.5">
+                    Principal Dental Surgeon &amp; Oral Physician
                   </p>
                 </div>
               </div>
 
-              {/* Credentials Grid */}
+              {/* Credentials List */}
               <div className="space-y-3 mb-5 relative z-10">
                 {credentialRows.map((row, idx) => (
                   <div
                     key={idx}
-                    className="flex items-center justify-between p-3.5 rounded-xl bg-white/[0.06] border border-white/10 hover:bg-white/[0.09] transition-colors"
+                    className="flex items-center justify-between p-3.5 rounded-xl bg-slate-50 border border-slate-200/70 hover:bg-sky-50/50 transition-colors"
                   >
                     <div className="flex items-center gap-3">
                       <row.icon className={`w-4.5 h-4.5 ${row.iconColor} shrink-0`} />
-                      <span className="text-xs sm:text-sm font-medium text-slate-200">{row.label}</span>
+                      <span className="text-xs sm:text-sm font-medium text-[#334155]">{row.label}</span>
                     </div>
-                    <span className="text-xs sm:text-sm font-bold font-mono text-emerald-300">{row.value}</span>
+                    <span className="text-xs sm:text-sm font-bold font-mono text-[#0284C7]">{row.value}</span>
                   </div>
                 ))}
               </div>
 
-              <div className="pt-3.5 border-t border-white/12 flex items-center justify-between text-xs text-slate-300 relative z-10">
-                <span className="font-semibold text-slate-400">Centers:</span>
-                <span className="font-bold text-emerald-300 tracking-wide">Belerhat • Parulia • Nabadwip</span>
+              <div className="pt-3.5 border-t border-slate-100 flex items-center justify-between text-xs text-[#475569] relative z-10">
+                <span className="font-bold text-[#0F172A]">Consultation Centers:</span>
+                <span className="font-bold text-[#0284C7] tracking-wide">Belerhat • Nabadwip • Parulia</span>
               </div>
             </div>
           </div>
@@ -168,44 +161,44 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* ── Overlapping Floating Appointment Bar (V2 Crystal Glass) ── */}
-      <div className="-mt-14 sm:-mt-18 max-w-5xl mx-auto px-5 relative z-30">
-        <div className="glass-crystal rounded-2xl sm:rounded-full p-4 sm:p-5 border border-white/95 shadow-[0_25px_65px_rgba(6,19,30,0.11)] flex flex-col sm:flex-row items-center justify-between gap-4">
+      {/* ── Floating Clinical Quick Specs Strip ── */}
+      <div className="-mt-12 sm:-mt-14 max-w-5xl mx-auto px-4 relative z-30">
+        <div className="bg-white rounded-[20px] p-4 sm:p-5 border border-slate-200/90 shadow-[0_20px_50px_rgba(2,132,199,0.10)] flex flex-col sm:flex-row items-center justify-between gap-4">
           
-          {/* Item 1: Service */}
+          {/* Service */}
           <div className="flex items-center gap-3.5 px-3 py-1 text-left w-full sm:w-auto">
-            <div className="w-11 h-11 rounded-full bg-emerald-50 border border-emerald-200/90 flex items-center justify-center text-[#10B981] shrink-0 shadow-sm">
+            <div className="w-11 h-11 rounded-2xl bg-sky-50 border border-sky-200 flex items-center justify-center text-[#0284C7] shrink-0 shadow-2xs">
               <ToothIcon className="w-5.5 h-5.5" />
             </div>
             <div>
-              <span className="text-[11px] text-[#4B6358] uppercase font-bold tracking-wider block">Clinical Service</span>
-              <span className="text-sm font-bold text-[#122820]">Root Canal & Aesthetic Dentistry</span>
+              <span className="text-[11px] text-[#475569] uppercase font-bold tracking-wider block">Clinical Specialty</span>
+              <span className="text-sm font-bold text-[#0F172A]">Pain-Free Root Canal &amp; Aesthetic Care</span>
             </div>
           </div>
 
-          <div className="hidden md:block w-px h-8 bg-slate-200/80" />
+          <div className="hidden md:block w-px h-8 bg-slate-200" />
 
-          {/* Item 2: Working Hours */}
+          {/* Working Hours */}
           <div className="flex items-center gap-3.5 px-3 py-1 text-left w-full sm:w-auto">
-            <div className="w-11 h-11 rounded-full bg-cyan-50 border border-cyan-200/90 flex items-center justify-center text-cyan-600 shrink-0 shadow-sm">
+            <div className="w-11 h-11 rounded-2xl bg-teal-50 border border-teal-200 flex items-center justify-center text-teal-600 shrink-0 shadow-2xs">
               <Clock className="w-5.5 h-5.5" />
             </div>
             <div>
-              <span className="text-[11px] text-[#4B6358] uppercase font-bold tracking-wider block">Consultation Hours</span>
-              <span className="text-sm font-bold text-[#122820]">10:00 AM – 8:30 PM (Mon-Sat)</span>
+              <span className="text-[11px] text-[#475569] uppercase font-bold tracking-wider block">Clinic Hours</span>
+              <span className="text-sm font-bold text-[#0F172A]">10:00 AM – 8:30 PM (Mon-Sat)</span>
             </div>
           </div>
 
-          <div className="hidden md:block w-px h-8 bg-slate-200/80" />
+          <div className="hidden md:block w-px h-8 bg-slate-200" />
 
-          {/* Item 3: Direct Phone */}
+          {/* Priority Phone */}
           <div className="flex items-center gap-3.5 px-3 py-1 text-left w-full sm:w-auto">
-            <div className="w-11 h-11 rounded-full bg-emerald-50 border border-emerald-200/90 flex items-center justify-center text-[#10B981] shrink-0 shadow-sm">
+            <div className="w-11 h-11 rounded-2xl bg-sky-50 border border-sky-200 flex items-center justify-center text-[#0284C7] shrink-0 shadow-2xs">
               <Phone className="w-5.5 h-5.5" />
             </div>
             <div>
-              <span className="text-[11px] text-[#4B6358] uppercase font-bold tracking-wider block">Priority Line</span>
-              <span className="text-sm font-bold text-[#122820]">{PRIMARY_PHONE_NUMBER}</span>
+              <span className="text-[11px] text-[#475569] uppercase font-bold tracking-wider block">Priority Phone</span>
+              <span className="text-sm font-bold text-[#0F172A]">{PRIMARY_PHONE_NUMBER}</span>
             </div>
           </div>
 
@@ -213,9 +206,9 @@ export default function Hero() {
           <button
             type="button"
             onClick={handleBooking}
-            className="w-full sm:w-auto btn-crystal px-7 py-4 text-xs font-bold uppercase tracking-wider shrink-0 cursor-pointer shadow-md"
+            className="w-full sm:w-auto px-6 py-3.5 rounded-full bg-[#0284C7] hover:bg-[#0369A1] text-white text-xs font-bold uppercase tracking-wider shrink-0 cursor-pointer shadow-md shadow-sky-500/20"
           >
-            <span>Book Appointment</span>
+            <span>Book Visit</span>
           </button>
 
         </div>
