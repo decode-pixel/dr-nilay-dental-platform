@@ -1,7 +1,6 @@
-import React, { lazy, Suspense } from "react";
+﻿import React, { lazy, Suspense } from "react";
 import Navbar from "../components/Navbar";
 import Hero from "../components/Hero";
-import TrustIndicators from "../components/TrustIndicators";
 import ContactModal from "../components/ContactModal";
 import { WhatsAppIcon } from "../components/Icons";
 import LazySection from "../components/LazySection";
@@ -9,9 +8,10 @@ import SkeletonLoader from "../components/SkeletonLoader";
 import { PRIMARY_WHATSAPP_DIGITS } from "../lib/constants";
 
 // Lazy load below-the-fold components for fast initial load
+const MeetDrNilaySaha   = lazy(() => import("../components/MeetDrNilaySaha"));
+const TrustIndicators   = lazy(() => import("../components/TrustIndicators"));
 const Treatments        = lazy(() => import("../components/Treatments"));
 const WhyChooseUsBento  = lazy(() => import("../components/WhyChooseUsBento"));
-const MeetDrNilaySaha   = lazy(() => import("../components/MeetDrNilaySaha"));
 const BeforeAfterGallery = lazy(() => import("../components/BeforeAfterGallery"));
 const ReviewsSection    = lazy(() => import("../components/ReviewsSection"));
 const Clinics           = lazy(() => import("../components/Clinics"));
@@ -28,13 +28,30 @@ export default function HomePage() {
       {/* ── Navbar (fixed, floats above page, z-[100]) ───────────────────── */}
       <Navbar />
 
-      {/* ── Hero & Trust Pillars (Synchronous Above-The-Fold) ────────────── */}
+      {/* ── Hero (Synchronous Above-The-Fold) ────────────── */}
       <main className="pt-24 sm:pt-28">
         <Hero />
-        <TrustIndicators />
       </main>
 
-      {/* ── Treatments Grid ──────────────────────────────────────────────── */}
+      {/* ── Doctor Introduction (#about) ─────────────────────────────────── */}
+      <div id="about">
+        <LazySection minHeight="500px" fallback={<SkeletonLoader variant="profile" />}>
+          <Suspense fallback={<SkeletonLoader variant="profile" />}>
+            <MeetDrNilaySaha />
+          </Suspense>
+        </LazySection>
+      </div>
+
+      {/* ── Trust Indicators ─────────────────────────────────────────────── */}
+      <div id="trust">
+        <LazySection minHeight="300px" fallback={<SkeletonLoader variant="card" />}>
+          <Suspense fallback={<SkeletonLoader variant="card" />}>
+            <TrustIndicators />
+          </Suspense>
+        </LazySection>
+      </div>
+
+      {/* ── Treatments Grid (#treatments) ────────────────────────────────── */}
       <div id="treatments-wrapper">
         <LazySection minHeight="500px" fallback={<SkeletonLoader variant="card" />}>
           <Suspense fallback={<SkeletonLoader variant="card" />}>
@@ -43,22 +60,16 @@ export default function HomePage() {
         </LazySection>
       </div>
 
-      {/* ── Why Choose Us & Doctor Authority Profile (#about & #why-choose-us) ─ */}
-      <div id="about">
+      {/* ── Why Choose Us (#why-choose-us) ───────────────────────────────── */}
+      <div id="why-choose-us-wrapper">
         <LazySection minHeight="450px" fallback={<SkeletonLoader variant="card" />}>
           <Suspense fallback={<SkeletonLoader variant="card" />}>
             <WhyChooseUsBento />
           </Suspense>
         </LazySection>
-
-        <LazySection minHeight="450px" fallback={<SkeletonLoader variant="profile" />}>
-          <Suspense fallback={<SkeletonLoader variant="profile" />}>
-            <MeetDrNilaySaha />
-          </Suspense>
-        </LazySection>
       </div>
 
-      {/* ── Before & After Smile Gallery (#gallery) ──────────────────────── */}
+      {/* ── Before & After Gallery (#gallery) ────────────────────────────── */}
       <div id="gallery">
         <LazySection minHeight="500px" fallback={<SkeletonLoader variant="card" />}>
           <Suspense fallback={<SkeletonLoader variant="card" />}>

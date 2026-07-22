@@ -1,11 +1,6 @@
-import React from "react";
+﻿import React from "react";
 import { Award, ShieldCheck, Cpu, Heart, Search, Layers, Sparkles, ChevronRight } from "lucide-react";
 import TagPill from "./TagPill";
-
-/**
- * WhyChooseUsBento — 6 Curated Clinical Advantages
- * Apple / Linear aesthetic, 24px radius cards, #FFFFFF background
- */
 
 export default function WhyChooseUsBento() {
   const advantages = [
@@ -55,11 +50,11 @@ export default function WhyChooseUsBento() {
   };
 
   return (
-    <section id="why-choose-us" className="py-20 sm:py-28 bg-white font-sans border-b border-slate-200/60">
+    <section id="why-choose-us" className="py-14 sm:py-20 bg-[#F8FAFC] font-sans border-b border-slate-200/60">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-14 sm:mb-18">
+        <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14">
           <TagPill icon={Sparkles} text="Why Dr. Nilay Saha" />
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-extrabold text-[#0F172A] tracking-tight mt-3 mb-4 leading-tight">
             Why Patients Trust <br className="hidden sm:inline" />
@@ -73,7 +68,7 @@ export default function WhyChooseUsBento() {
         </div>
 
         {/* Bento Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
           {advantages.map((item, idx) => {
             const Icon = item.icon;
             const isExpanded = expandedIndex === idx;
@@ -81,30 +76,30 @@ export default function WhyChooseUsBento() {
             return (
               <div
                 key={idx}
-                className={`glass-card-floating p-7 sm:p-9 flex flex-col justify-between group rounded-3xl transition-all duration-300 ${item.span} ${
-                  isExpanded ? "ring-2 ring-emerald-500/30 shadow-lg" : ""
+                className={`p-6 sm:p-7 flex flex-col justify-between group rounded-[20px] transition-all duration-300 border border-slate-200/80 hover:border-sky-300 hover:shadow-[0_15px_35px_rgba(2,132,199,0.09)] ${item.span} ${
+                  isExpanded ? "ring-2 ring-sky-400/30 shadow-lg" : ""
                 }`}
               >
                 <div>
-                  <div className="flex items-center justify-between mb-6">
-                    <div className="w-13 h-13 rounded-2xl bg-gradient-to-br from-emerald-500/15 to-emerald-500/5 border border-emerald-500/30 flex items-center justify-center text-[#10B981] group-hover:bg-[#10B981] group-hover:text-white group-hover:scale-105 transition-all duration-300 shrink-0 shadow-sm">
-                      <Icon className="w-6 h-6" />
+                  <div className="flex items-center justify-between mb-5">
+                    <div className="w-11 h-11 rounded-2xl bg-sky-50 border border-sky-200 flex items-center justify-center text-[#0284C7] group-hover:bg-[#0284C7] group-hover:text-white group-hover:scale-105 transition-all duration-300 shrink-0 shadow-2xs">
+                      <Icon className="w-5 h-5" />
                     </div>
                     {item.featured && (
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100/80 border border-emerald-300/80 text-[10px] uppercase font-bold tracking-widest text-[#10B981]">
-                        <Sparkles className="w-3.5 h-3.5" />
-                        Clinical Distinction
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-100 border border-sky-200 text-[10px] uppercase font-bold tracking-widest text-[#0284C7]">
+                        <Sparkles className="w-3 h-3" />
+                        Specialty
                       </span>
                     )}
                   </div>
 
-                  <h3 className={`font-display font-bold text-[#122820] group-hover:text-[#10B981] transition-colors mb-3 leading-snug ${
-                    item.featured ? "text-2xl sm:text-3xl" : "text-xl sm:text-[22px]"
+                  <h3 className={`font-display font-bold text-[#0F172A] group-hover:text-[#0284C7] transition-colors mb-2.5 leading-snug ${
+                    item.featured ? "text-xl sm:text-2xl" : "text-lg sm:text-xl"
                   }`}>
                     {item.title}
                   </h3>
 
-                  <p className={`small-premium text-xs sm:text-sm leading-relaxed transition-all duration-300 ${
+                  <p className={`text-sm text-[#475569] leading-relaxed transition-all duration-300 ${
                     isExpanded ? "" : "line-clamp-2"
                   }`}>
                     {item.desc}
@@ -113,23 +108,23 @@ export default function WhyChooseUsBento() {
                   <button
                     type="button"
                     onClick={() => toggleExpand(idx)}
-                    className="mt-3 inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider text-emerald-700 hover:text-[#10B981] focus:outline-none cursor-pointer"
+                    className="mt-2 inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider text-[#0284C7] hover:text-[#0369A1] focus:outline-none cursor-pointer"
                   >
-                    <span>{isExpanded ? "Show Less" : "Read Full Clinical Standard ↓"}</span>
+                    {isExpanded ? "Show Less" : "Read More ↓"}
                   </button>
                 </div>
 
-                <div className="pt-6 mt-6 border-t border-slate-100/80 flex items-center justify-between">
+                <div className="pt-5 mt-5 border-t border-slate-100 flex items-center justify-between">
                   <button
                     type="button"
                     onClick={() => window.dispatchEvent(new CustomEvent("openContactModal"))}
-                    className="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[#10B981] group-hover:text-[#059669] transition-all duration-300 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981] rounded"
+                    className="flex items-center gap-1.5 text-xs font-bold text-[#0284C7] hover:text-[#0369A1] transition-all duration-300 cursor-pointer focus-visible:outline-none"
                   >
-                    <span>Inquire about this standard</span>
-                    <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    <span>Learn more</span>
+                    <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                   </button>
                   <span className="text-[10px] font-mono text-slate-400 font-bold uppercase">
-                    Pillar #0{idx + 1}
+                    0{idx + 1}
                   </span>
                 </div>
               </div>
