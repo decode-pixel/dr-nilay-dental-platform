@@ -35,27 +35,10 @@ interface ClinicLocation {
 
 const CLINICS: ClinicLocation[] = [
   {
-    id: "belerhat",
-    badge: "Clinic 01 • Flagship Center",
-    name: "Belerhat Main Center",
-    title: "Saha Dental Clinic — Belerhat",
-    address: "Belerhat Main Road, Near Railway Station, Purba Bardhaman, West Bengal 713101",
-    landmark: "Opposite Belerhat Railway Station",
-    phone: PRIMARY_PHONE_NUMBER,
-    phoneDisplay: PRIMARY_PHONE_DISPLAY,
-    googleMapLink: "https://maps.google.com/?q=Belerhat+Purba+Bardhaman",
-    timings: "Mon – Sat: 10:00 AM – 1:30 PM | 5:00 PM – 8:30 PM",
-    schedule: [
-      { day: "Mon – Sat", hours: "10:00 AM – 1:30 PM | 5:00 PM – 8:30 PM" },
-      { day: "Sunday", hours: "Emergency Consultations Only", isClosed: true }
-    ],
-    features: ["Class-B Autoclave Sterilization", "Digital RVG X-Ray On-Site", "Single-Visit Endodontics"]
-  },
-  {
     id: "nabadwip",
-    badge: "Clinic 02 • Clinical Studio",
-    name: "Nabadwip Studio",
-    title: "Saha Dental Clinic — Nabadwip",
+    badge: "Clinic 01 • Clinical Studio",
+    name: "Nabadwip Clinic",
+    title: "Nabadwip Clinic",
     address: "Anandebitala, Near Bus Stand, Nabadwip, Nadia, West Bengal 741302",
     landmark: "Near Anandebitala Market Square",
     phone: PRIMARY_PHONE_NUMBER,
@@ -67,6 +50,23 @@ const CLINICS: ClinicLocation[] = [
       { day: "Sunday", hours: "04:00 PM – 08:00 PM" }
     ],
     features: ["Pre-Booked Consultations", "Advanced Cosmetic Dentistry", "Aseptic Instrument Protocol"]
+  },
+  {
+    id: "belerhat",
+    badge: "Clinic 02 • Flagship Center",
+    name: "Nilay Saha Dental Care (Belerhat)",
+    title: "Nilay Saha Dental Care (Belerhat)",
+    address: "Belerhat Main Road, Near Railway Station, Purba Bardhaman, West Bengal 713101",
+    landmark: "Opposite Belerhat Railway Station",
+    phone: PRIMARY_PHONE_NUMBER,
+    phoneDisplay: PRIMARY_PHONE_DISPLAY,
+    googleMapLink: "https://maps.google.com/?q=Belerhat+Purba+Bardhaman",
+    timings: "Mon – Sat: 10:00 AM – 1:30 PM | 5:00 PM – 8:30 PM",
+    schedule: [
+      { day: "Mon – Sat", hours: "10:00 AM – 1:30 PM | 5:00 PM – 8:30 PM" },
+      { day: "Sunday", hours: "Emergency Consultations Only", isClosed: true }
+    ],
+    features: ["Class-B Autoclave Sterilization", "Digital RVG X-Ray On-Site", "Single-Visit Endodontics"]
   }
 ];
 

@@ -54,9 +54,9 @@ export const DOCTOR_REGISTRATION_NUMBER = '4858-A';
 
 // TODO(confirm-before-deploy): confirm whether +919609180979 or +916290000000 should be the final primary phone and WhatsApp contact number before deploy.
 export const PRIMARY_PHONE_NUMBER = '+919609180979';
-export const PRIMARY_PHONE_DISPLAY = '+91 9609180979';
+export const PRIMARY_PHONE_DISPLAY = '+91 96091 80979';
 export const PRIMARY_PHONE_DIGITS = '9609180979';
 
+// WhatsApp typically expects no spaces, just the country code + number.
 export const PRIMARY_WHATSAPP_NUMBER = '+919609180979';
 export const PRIMARY_WHATSAPP_DIGITS = '919609180979';
-
