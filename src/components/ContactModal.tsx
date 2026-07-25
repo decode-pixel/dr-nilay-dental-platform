@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
-import { X, Calendar, Clock, MapPin, User, Phone, CheckCircle2, Sparkles, Send, Navigation, AlertCircle } from "lucide-react";
+import { X, Calendar, Clock, MapPin, User, Phone, CheckCircle2, Sparkles, Send, Navigation, AlertCircle, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { WhatsAppIcon, ToothIcon } from "./Icons";
 import {
@@ -26,6 +26,7 @@ export default function ContactModal({
   const [internalIsOpen, setInternalIsOpen] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isChangingClinic, setIsChangingClinic] = useState(false);
+  const [showClinicDetails, setShowClinicDetails] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const getTodayStr = () => new Date().toISOString().split("T")[0];
@@ -90,7 +91,10 @@ export default function ContactModal({
   const handleClose = () => {
     if (externalOnClose) externalOnClose();
     else setInternalIsOpen(false);
-    setTimeout(() => setIsSubmitted(false), 400);
+    setTimeout(() => {
+      setIsSubmitted(false);
+      setShowClinicDetails(false);
+    }, 400);
   };
 
   useEffect(() => {
@@ -104,7 +108,7 @@ export default function ContactModal({
       }
       setInternalIsOpen(true);
       setIsSubmitted(false);
-      // Scroll form to top when reopening
+      setShowClinicDetails(false);
       setTimeout(() => scrollRef.current?.scrollTo(0, 0), 50);
     };
     window.addEventListener("openContactModal", handleOpenEvent);
@@ -157,9 +161,11 @@ export default function ContactModal({
       refCode: bookingRef
     });
 
-  const inputCls = "w-full px-4 rounded-2xl bg-white border border-slate-200 text-[16px] font-medium text-[#122820] placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#10B981] focus:border-transparent transition-all";
-  const selectCls = "w-full px-4 rounded-2xl bg-white border border-slate-200 text-[16px] font-medium text-[#122820] focus:outline-none focus:ring-2 focus:ring-[#10B981] focus:border-transparent transition-all appearance-none";
-  const labelCls = "block text-[11px] font-bold text-[#2C4238] uppercase tracking-widest mb-2 flex items-center gap-1.5";
+  /* ── Compact styling tokens ── */
+  const inputH = "h-11"; // 44px — compact but still touch-friendly
+  const inputCls = `w-full px-3 rounded-xl bg-white border border-slate-200/80 text-[16px] font-medium text-[#122820] placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#10B981]/60 focus:border-transparent transition-all ${inputH}`;
+  const selectCls = `w-full px-3 rounded-xl bg-white border border-slate-200/80 text-[16px] font-medium text-[#122820] focus:outline-none focus:ring-2 focus:ring-[#10B981]/60 focus:border-transparent transition-all appearance-none ${inputH}`;
+  const labelCls = "flex items-center gap-1 text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1";
 
   return (
     <AnimatePresence>
@@ -170,342 +176,307 @@ export default function ContactModal({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
+            transition={{ duration: 0.2 }}
             onClick={handleClose}
-            className="fixed inset-0 z-[199] bg-black/60 backdrop-blur-sm"
+            className="fixed inset-0 z-[199] bg-black/50 backdrop-blur-[6px]"
             aria-hidden="true"
           />
 
-          {/* ── Bottom Sheet (mobile) / Centered Modal (desktop) ── */}
+          {/* ── Floating Card ── */}
           <motion.div
             role="dialog"
             aria-modal="true"
             aria-label="Book Appointment"
-            initial={{ y: "100%" }}
-            animate={{ y: 0 }}
-            exit={{ y: "100%" }}
-            transition={{ type: "spring", damping: 32, stiffness: 340, mass: 0.9 }}
-            style={{
-              // Explicit pixel height on mobile so it never overflows the viewport
-              maxHeight: "calc(var(--vh, 1vh) * 90)",
-            }}
-            className={[
-              // Positioning: anchored to bottom on all screens, max-width centered on desktop
-              "fixed bottom-0 left-0 right-0 z-[200]",
-              "sm:relative sm:bottom-auto sm:left-auto sm:right-auto sm:m-auto",
-              // Shape: pill bottom-sheet on mobile, rounded card on desktop
-              "rounded-t-[24px] sm:rounded-3xl",
-              // Sizing
-              "w-full sm:max-w-lg sm:max-h-[88vh]",
-              // Layout: flex column so header is pinned and body scrolls
-              "flex flex-col",
-              // Surface
-              "bg-[#F7FAF8] font-sans shadow-[0_-8px_40px_rgba(0,0,0,0.18)]",
-              // Overflow must be HIDDEN on the container — scroll is on inner div
-              "overflow-hidden",
-            ].join(" ")}
+            initial={{ opacity: 0, scale: 0.92, y: 30 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.92, y: 30 }}
+            transition={{ type: "spring", damping: 26, stiffness: 320, mass: 0.8 }}
+            className="fixed inset-0 z-[200] flex items-center justify-center p-4 pointer-events-none"
           >
-            {/* ── Drag Handle (mobile only) ── */}
-            <div className="flex justify-center pt-2.5 pb-0 shrink-0 sm:hidden">
-              <div className="w-10 h-1 rounded-full bg-slate-300/80" />
-            </div>
-
-            {/* ── Pinned Header ── */}
-            <div className="bg-[#122820] text-white px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between shrink-0 relative overflow-hidden">
-              <div className="absolute -top-6 -right-6 w-28 h-28 bg-[#10B981]/20 rounded-full blur-2xl pointer-events-none" />
-              <div className="flex items-center gap-2.5 relative z-10 min-w-0">
-                <div className="w-9 h-9 rounded-xl bg-[#10B981]/25 border border-[#10B981]/40 flex items-center justify-center text-[#34D399] shrink-0">
-                  <ToothIcon className="w-5 h-5" />
-                </div>
-                <div className="min-w-0">
-                  <h2 className="font-display font-bold text-base leading-tight">Book Appointment</h2>
-                  <p className="text-[11px] text-emerald-300/90 font-medium truncate">Dr. Nilay Saha • Advanced Dental Studio</p>
-                </div>
-              </div>
-              <button
-                type="button"
-                onClick={handleClose}
-                aria-label="Close booking form"
-                className="ml-3 w-10 h-10 min-w-[40px] rounded-full bg-white/10 hover:bg-white/20 active:scale-90 text-white flex items-center justify-center transition-all shrink-0 cursor-pointer relative z-10"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            {/* ── Scrollable Body ── Only this div scrolls ── */}
             <div
-              ref={scrollRef}
-              className="flex-1 overflow-y-auto overscroll-contain"
-              style={{ WebkitOverflowScrolling: "touch" } as React.CSSProperties}
+              className="pointer-events-auto w-full max-w-[400px] rounded-[20px] bg-[#FAFCFA] shadow-[0_12px_48px_rgba(0,0,0,0.22),0_0_0_1px_rgba(0,0,0,0.04)] flex flex-col overflow-hidden"
+              style={{ maxHeight: "calc(var(--vh, 1vh) * 82)" }}
             >
-              <div className="px-4 sm:px-6 py-5 space-y-5 pb-safe-bottom" style={{ paddingBottom: "max(24px, env(safe-area-inset-bottom))" }}>
 
-                {!isSubmitted ? (
-                  <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+              {/* ── Compact Header ── */}
+              <div className="bg-[#122820] text-white px-4 py-2.5 flex items-center justify-between shrink-0 relative overflow-hidden">
+                <div className="absolute -top-4 -right-4 w-20 h-20 bg-[#10B981]/20 rounded-full blur-2xl pointer-events-none" />
+                <div className="flex items-center gap-2 relative z-10 min-w-0">
+                  <div className="w-8 h-8 rounded-lg bg-[#10B981]/25 border border-[#10B981]/40 flex items-center justify-center text-[#34D399] shrink-0">
+                    <ToothIcon className="w-4 h-4" />
+                  </div>
+                  <div className="min-w-0">
+                    <h2 className="font-display font-bold text-sm leading-tight">Book Appointment</h2>
+                    <p className="text-[10px] text-emerald-300/80 font-medium truncate">Dr. Nilay Saha</p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleClose}
+                  aria-label="Close booking form"
+                  className="ml-2 w-8 h-8 min-w-[32px] rounded-full bg-white/10 hover:bg-white/20 active:scale-90 text-white flex items-center justify-center transition-all shrink-0 cursor-pointer relative z-10"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
 
-                    {/* ── 1. Select Clinic ── */}
-                    <div>
-                      <label className={labelCls}>
-                        <MapPin className="w-3.5 h-3.5 text-[#10B981]" />
-                        1. Select Clinic
-                      </label>
-                      <div className="relative">
-                        <select
-                          value={clinic}
-                          onChange={(e) => handleClinicChange(e.target.value)}
-                          className={selectCls + " h-[52px] pr-10"}
-                        >
-                          <option value={CLINIC_SLUGS.NABADWIP}>Dr. Nilay Saha Dental Care (Nabadwip)</option>
-                          <option value={CLINIC_SLUGS.BELERHAT}>Nilay Saha Dental Care (Belerhat)</option>
-                        </select>
-                        <MapPin className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#10B981]" />
-                      </div>
-                    </div>
+              {/* ── Scrollable Body ── */}
+              <div
+                ref={scrollRef}
+                className="flex-1 overflow-y-auto overscroll-contain"
+                style={{ WebkitOverflowScrolling: "touch" } as React.CSSProperties}
+              >
+                <div className="px-3.5 py-3.5 space-y-3" style={{ paddingBottom: "max(16px, env(safe-area-inset-bottom))" }}>
 
-                    {/* ── Clinic Info Card ── */}
-                    <AnimatePresence mode="wait">
-                      <motion.div
-                        key={clinic}
-                        initial={{ opacity: 0, y: 6 }}
-                        animate={{ opacity: isChangingClinic ? 0.5 : 1, y: 0 }}
-                        exit={{ opacity: 0, y: -4 }}
-                        transition={{ duration: 0.15 }}
-                        className="rounded-2xl bg-teal-50 border border-teal-200/70 p-3 space-y-2"
-                      >
-                        <div className="flex items-start justify-between gap-2">
-                          <p className="text-xs font-extrabold text-slate-900 flex items-center gap-1.5 flex-1 min-w-0">
-                            <MapPin className="w-3.5 h-3.5 text-[#00A896] shrink-0" />
-                            <span className="truncate">{activeConfig.name}</span>
-                          </p>
-                          <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-teal-100 text-teal-800 shrink-0 whitespace-nowrap">
-                            {activeConfig.openDaysText}
-                          </span>
-                        </div>
-                        <p className="text-[11px] text-slate-600 flex items-start gap-1.5">
-                          <Clock className="w-3.5 h-3.5 text-[#00A896] shrink-0 mt-[1px]" />
-                          {activeConfig.timingsText}
-                        </p>
-                        <div className="grid grid-cols-2 gap-2 pt-1 border-t border-teal-100">
-                          <a
-                            href={activeConfig.mapLink}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="h-9 rounded-xl bg-white border border-teal-200 text-[#00A896] font-bold text-[11px] flex items-center justify-center gap-1 transition-colors hover:bg-teal-600 hover:text-white active:scale-95"
+                  {!isSubmitted ? (
+                    <form onSubmit={handleSubmit} className="space-y-3" noValidate>
+
+                      {/* ── 1. Select Clinic ── */}
+                      <div>
+                        <label className={labelCls}>
+                          <MapPin className="w-3 h-3 text-[#10B981]" />
+                          Clinic
+                        </label>
+                        <div className="relative">
+                          <select
+                            value={clinic}
+                            onChange={(e) => handleClinicChange(e.target.value)}
+                            className={selectCls + " pr-8 text-[14px]"}
                           >
-                            <Navigation className="w-3 h-3" />
-                            Directions
-                          </a>
-                          <a
-                            href={`tel:${PRIMARY_PHONE_NUMBER}`}
-                            className="h-9 rounded-xl bg-white border border-teal-200 text-slate-700 font-bold text-[11px] flex items-center justify-center gap-1 transition-colors hover:text-[#00A896] active:scale-95"
-                          >
-                            <Phone className="w-3 h-3 text-[#00A896]" />
-                            Call Clinic
-                          </a>
+                            <option value={CLINIC_SLUGS.NABADWIP}>Dr. Nilay Saha Dental Care (Nabadwip)</option>
+                            <option value={CLINIC_SLUGS.BELERHAT}>Nilay Saha Dental Care (Belerhat)</option>
+                          </select>
+                          <MapPin className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#10B981]/60" />
                         </div>
-                      </motion.div>
-                    </AnimatePresence>
-
-                    {/* ── 2. Treatment ── */}
-                    <div>
-                      <label className={labelCls}>
-                        <Sparkles className="w-3.5 h-3.5 text-[#10B981]" />
-                        2. Treatment Type
-                      </label>
-                      <div className="relative">
-                        <select
-                          value={service}
-                          onChange={(e) => setService(e.target.value)}
-                          className={selectCls + " h-[52px] pr-10"}
-                        >
-                          <option value="consultation">General Dental Consultation</option>
-                          <option value="root-canal">Root Canal Treatment (Single-Visit)</option>
-                          <option value="fillings">Tooth-Colored Dental Filling</option>
-                          <option value="scaling">Teeth Cleaning & Scaling</option>
-                          <option value="wisdom-tooth">Wisdom Tooth Removal</option>
-                          <option value="crowns">Dental Crowns & Bridges</option>
-                          <option value="smile-design">Smile Designing & Cosmetics</option>
-                        </select>
-                        <Sparkles className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#10B981]" />
                       </div>
-                    </div>
 
-                    {/* ── 3. Date ── */}
-                    <div>
-                      <label className={labelCls}>
-                        <Calendar className="w-3.5 h-3.5 text-[#10B981]" />
-                        3. Preferred Date
-                      </label>
-                      <input
-                        type="date"
-                        required
-                        min={getTodayStr()}
-                        value={date}
-                        onChange={(e) => setDate(e.target.value)}
-                        className={inputCls + " h-[52px] " + (isDateOpen ? "" : "border-rose-300 bg-rose-50/60 focus:ring-rose-400")}
-                      />
-                      {!isDateOpen && (
+                      {/* ── Clinic Info Toggle ── */}
+                      <AnimatePresence mode="wait">
                         <motion.div
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: "auto" }}
-                          className="mt-2 p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-800"
+                          key={clinic}
+                          initial={{ opacity: 0, y: 4 }}
+                          animate={{ opacity: isChangingClinic ? 0.5 : 1, y: 0 }}
+                          exit={{ opacity: 0, y: -4 }}
+                          transition={{ duration: 0.12 }}
                         >
-                          <div className="flex items-start gap-2">
-                            <AlertCircle className="w-4 h-4 text-rose-500 shrink-0 mt-0.5" />
-                            <div className="text-xs">
-                              <p className="font-bold">Clinic closed on this date</p>
-                              <p className="text-rose-700 mt-0.5">Open on: <strong>{activeConfig.openDaysText}</strong></p>
-                              <button
-                                type="button"
-                                onClick={() => setDate(getNextAvailableDate(clinic, date))}
-                                className="mt-1.5 text-[11px] font-bold text-rose-900 underline underline-offset-2"
+                          <button
+                            type="button"
+                            onClick={() => setShowClinicDetails(!showClinicDetails)}
+                            className="w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg bg-teal-50/70 border border-teal-200/50 cursor-pointer"
+                          >
+                            <span className="text-[11px] font-semibold text-teal-800 flex items-center gap-1">
+                              <Clock className="w-3 h-3 text-teal-600" />
+                              {activeConfig.openDaysText}
+                            </span>
+                            <ChevronDown className={`w-3 h-3 text-teal-600 transition-transform ${showClinicDetails ? "rotate-180" : ""}`} />
+                          </button>
+                          <AnimatePresence>
+                            {showClinicDetails && (
+                              <motion.div
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: "auto" }}
+                                exit={{ opacity: 0, height: 0 }}
+                                transition={{ duration: 0.15 }}
+                                className="overflow-hidden"
                               >
-                                Pick next available date →
-                              </button>
-                            </div>
+                                <div className="mt-1.5 p-2.5 rounded-xl bg-teal-50 border border-teal-200/60 space-y-1.5">
+                                  <p className="text-[10px] text-slate-600 flex items-center gap-1">
+                                    <Clock className="w-3 h-3 text-teal-600 shrink-0" />
+                                    {activeConfig.timingsText}
+                                  </p>
+                                  <div className="grid grid-cols-2 gap-1.5">
+                                    <a href={activeConfig.mapLink} target="_blank" rel="noreferrer" className="h-7 rounded-lg bg-white border border-teal-200/80 text-teal-700 font-bold text-[10px] flex items-center justify-center gap-1 active:scale-95 transition-transform">
+                                      <Navigation className="w-2.5 h-2.5" /> Directions
+                                    </a>
+                                    <a href={`tel:${PRIMARY_PHONE_NUMBER}`} className="h-7 rounded-lg bg-white border border-teal-200/80 text-slate-700 font-bold text-[10px] flex items-center justify-center gap-1 active:scale-95 transition-transform">
+                                      <Phone className="w-2.5 h-2.5 text-teal-600" /> Call
+                                    </a>
+                                  </div>
+                                </div>
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                        </motion.div>
+                      </AnimatePresence>
+
+                      {/* ── 2. Treatment ── */}
+                      <div>
+                        <label className={labelCls}>
+                          <Sparkles className="w-3 h-3 text-[#10B981]" />
+                          Treatment
+                        </label>
+                        <div className="relative">
+                          <select
+                            value={service}
+                            onChange={(e) => setService(e.target.value)}
+                            className={selectCls + " pr-8 text-[14px]"}
+                          >
+                            <option value="consultation">General Consultation</option>
+                            <option value="root-canal">Root Canal (Single-Visit)</option>
+                            <option value="fillings">Tooth-Colored Filling</option>
+                            <option value="scaling">Teeth Cleaning & Scaling</option>
+                            <option value="wisdom-tooth">Wisdom Tooth Removal</option>
+                            <option value="crowns">Crowns & Bridges</option>
+                            <option value="smile-design">Smile Designing</option>
+                          </select>
+                          <Sparkles className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#10B981]/60" />
+                        </div>
+                      </div>
+
+                      {/* ── 3 & 4. Date + Time (side-by-side) ── */}
+                      <div className="grid grid-cols-2 gap-2">
+                        <div>
+                          <label className={labelCls}>
+                            <Calendar className="w-3 h-3 text-[#10B981]" />
+                            Date
+                          </label>
+                          <input
+                            type="date"
+                            required
+                            min={getTodayStr()}
+                            value={date}
+                            onChange={(e) => setDate(e.target.value)}
+                            className={inputCls + " text-[13px] " + (!isDateOpen ? "border-rose-300 bg-rose-50/50" : "")}
+                          />
+                        </div>
+                        <div>
+                          <label className={labelCls}>
+                            <Clock className="w-3 h-3 text-[#10B981]" />
+                            Time
+                          </label>
+                          <div className="relative">
+                            <select
+                              value={sessionTime}
+                              onChange={(e) => setSessionTime(e.target.value)}
+                              disabled={!isDateOpen || availableSlots.length === 0}
+                              className={selectCls + " pr-7 text-[13px] disabled:opacity-40"}
+                            >
+                              {availableSlots.length > 0
+                                ? availableSlots.map((slot, i) => (
+                                    <option key={i} value={slot.value}>{slot.label}</option>
+                                  ))
+                                : <option value="">Closed</option>
+                              }
+                            </select>
+                            <Clock className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 w-3 h-3 text-[#10B981]/50" />
                           </div>
+                        </div>
+                      </div>
+
+                      {/* Closed warning (compact inline) */}
+                      {!isDateOpen && (
+                        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex items-center gap-1.5 px-2.5 py-2 rounded-lg bg-rose-50 border border-rose-200">
+                          <AlertCircle className="w-3.5 h-3.5 text-rose-500 shrink-0" />
+                          <p className="text-[11px] text-rose-800">
+                            Closed · Open <strong>{activeConfig.openDaysText}</strong>
+                            <button type="button" onClick={() => setDate(getNextAvailableDate(clinic, date))} className="ml-1 font-bold underline text-rose-900">Fix →</button>
+                          </p>
                         </motion.div>
                       )}
-                    </div>
 
-                    {/* ── 4. Time Slot ── */}
-                    <div>
-                      <label className={labelCls}>
-                        <Clock className="w-3.5 h-3.5 text-[#10B981]" />
-                        4. Time Slot
-                      </label>
-                      <div className="relative">
-                        <select
-                          value={sessionTime}
-                          onChange={(e) => setSessionTime(e.target.value)}
-                          disabled={!isDateOpen || availableSlots.length === 0}
-                          className={selectCls + " h-[52px] pr-10 disabled:opacity-50 disabled:cursor-not-allowed"}
-                        >
-                          {availableSlots.length > 0
-                            ? availableSlots.map((slot, i) => (
-                                <option key={i} value={slot.value}>{slot.label}</option>
-                              ))
-                            : <option value="">Clinic closed on selected date</option>
-                          }
-                        </select>
-                        <Clock className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#10B981]" />
+                      {/* ── 5 & 6. Name + Phone (side-by-side) ── */}
+                      <div className="grid grid-cols-2 gap-2">
+                        <div>
+                          <label className={labelCls}>
+                            <User className="w-3 h-3 text-[#10B981]" />
+                            Name
+                          </label>
+                          <input
+                            type="text"
+                            required
+                            autoComplete="name"
+                            placeholder="Full name"
+                            value={patientName}
+                            onChange={(e) => setPatientName(e.target.value)}
+                            className={inputCls + " text-[14px]"}
+                          />
+                        </div>
+                        <div>
+                          <label className={labelCls}>
+                            <Phone className="w-3 h-3 text-[#10B981]" />
+                            Phone
+                          </label>
+                          <input
+                            type="tel"
+                            required
+                            autoComplete="tel"
+                            inputMode="numeric"
+                            placeholder="Mobile no."
+                            value={patientPhone}
+                            onChange={(e) => setPatientPhone(e.target.value)}
+                            className={inputCls + " text-[14px]"}
+                          />
+                        </div>
                       </div>
-                    </div>
 
-                    {/* ── 5. Patient Name ── */}
-                    <div>
-                      <label className={labelCls}>
-                        <User className="w-3.5 h-3.5 text-[#10B981]" />
-                        5. Your Name
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        autoComplete="name"
-                        placeholder="Enter your full name"
-                        value={patientName}
-                        onChange={(e) => setPatientName(e.target.value)}
-                        className={inputCls + " h-[52px]"}
-                      />
-                    </div>
-
-                    {/* ── 6. Phone Number ── */}
-                    <div>
-                      <label className={labelCls}>
-                        <Phone className="w-3.5 h-3.5 text-[#10B981]" />
-                        6. Mobile Number
-                      </label>
-                      <input
-                        type="tel"
-                        required
-                        autoComplete="tel"
-                        inputMode="numeric"
-                        placeholder="10-digit mobile number"
-                        value={patientPhone}
-                        onChange={(e) => setPatientPhone(e.target.value)}
-                        className={inputCls + " h-[52px]"}
-                      />
-                    </div>
-
-                    {/* ── Submit ── */}
-                    <button
-                      type="submit"
-                      disabled={!isDateOpen || !sessionTime || !patientName || !patientPhone}
-                      className="w-full h-[56px] rounded-2xl bg-[#122820] text-white font-bold text-[15px] flex items-center justify-center gap-2.5 shadow-lg disabled:opacity-40 disabled:cursor-not-allowed hover:bg-[#10B981] active:scale-[0.98] transition-all duration-200 cursor-pointer"
-                    >
-                      <Send className="w-4.5 h-4.5 text-emerald-300" />
-                      Confirm Appointment
-                    </button>
-
-                  </form>
-                ) : (
-
-                  /* ── Success Screen ── */
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    className="text-center space-y-5 py-4"
-                  >
-                    <div className="w-20 h-20 rounded-full bg-emerald-100 border-2 border-emerald-300 text-emerald-600 flex items-center justify-center mx-auto shadow-sm">
-                      <CheckCircle2 className="w-11 h-11" />
-                    </div>
-
-                    <div className="space-y-2">
-                      <span className="inline-block px-4 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold tracking-widest uppercase">
-                        Ref: {bookingRef}
-                      </span>
-                      <h3 className="text-xl font-display font-bold text-[#122820]">
-                        Appointment Requested!
-                      </h3>
-                      <p className="text-sm text-[#4B6358] leading-relaxed max-w-xs mx-auto">
-                        Thank you, <span className="font-semibold text-[#122820]">{patientName || "Patient"}</span>. Our receptionist at{" "}
-                        <span className="font-bold text-slate-900">{CLINIC_NAMES[clinic]}</span> will call to confirm your slot.
-                      </p>
-                    </div>
-
-                    <div className="space-y-3 pt-2">
-                      <a
-                        href={getWhatsAppUrl()}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="flex items-center justify-center gap-2.5 w-full h-[52px] rounded-2xl bg-[#25D366] hover:bg-[#22c55e] text-white font-bold text-[15px] shadow-md active:scale-[0.98] transition-all"
-                      >
-                        <WhatsAppIcon className="w-5 h-5" />
-                        Confirm via WhatsApp
-                      </a>
-                      <a
-                        href={`tel:${PRIMARY_PHONE_NUMBER}`}
-                        className="flex items-center justify-center gap-2.5 w-full h-[52px] rounded-2xl bg-white border border-slate-200 text-[#122820] font-bold text-[15px] active:scale-[0.98] transition-all hover:border-teal-300"
-                      >
-                        <Phone className="w-4.5 h-4.5 text-[#10B981]" />
-                        Call Clinic
-                      </a>
+                      {/* ── Submit ── */}
                       <button
-                        type="button"
-                        onClick={handleClose}
-                        className="w-full py-3 text-sm text-slate-500 hover:text-slate-700 font-medium transition-colors cursor-pointer"
+                        type="submit"
+                        disabled={!isDateOpen || !sessionTime || !patientName || !patientPhone}
+                        className="w-full h-12 rounded-xl bg-[#122820] text-white font-bold text-[14px] flex items-center justify-center gap-2 shadow-md disabled:opacity-35 disabled:cursor-not-allowed hover:bg-[#10B981] active:scale-[0.97] transition-all duration-200 cursor-pointer"
                       >
-                        Close
+                        <Send className="w-4 h-4 text-emerald-300" />
+                        Confirm Appointment
                       </button>
-                    </div>
-                  </motion.div>
-                )}
+
+                    </form>
+                  ) : (
+
+                    /* ── Success Screen ── */
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.94 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      className="text-center space-y-4 py-3"
+                    >
+                      <div className="w-16 h-16 rounded-full bg-emerald-100 border-2 border-emerald-300 text-emerald-600 flex items-center justify-center mx-auto">
+                        <CheckCircle2 className="w-9 h-9" />
+                      </div>
+
+                      <div className="space-y-1.5">
+                        <span className="inline-block px-3 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 text-[10px] font-bold tracking-widest uppercase">
+                          Ref: {bookingRef}
+                        </span>
+                        <h3 className="text-lg font-display font-bold text-[#122820]">
+                          Appointment Requested!
+                        </h3>
+                        <p className="text-xs text-[#4B6358] leading-relaxed max-w-[260px] mx-auto">
+                          Thank you, <span className="font-semibold text-[#122820]">{patientName || "Patient"}</span>. Our team at{" "}
+                          <span className="font-bold text-slate-900">{CLINIC_NAMES[clinic]}</span> will confirm your slot.
+                        </p>
+                      </div>
+
+                      <div className="space-y-2 pt-1">
+                        <a
+                          href={getWhatsAppUrl()}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="flex items-center justify-center gap-2 w-full h-11 rounded-xl bg-[#25D366] hover:bg-[#22c55e] text-white font-bold text-[14px] shadow-sm active:scale-[0.97] transition-all"
+                        >
+                          <WhatsAppIcon className="w-4.5 h-4.5" />
+                          Confirm via WhatsApp
+                        </a>
+                        <a
+                          href={`tel:${PRIMARY_PHONE_NUMBER}`}
+                          className="flex items-center justify-center gap-2 w-full h-11 rounded-xl bg-white border border-slate-200 text-[#122820] font-bold text-[14px] active:scale-[0.97] transition-all"
+                        >
+                          <Phone className="w-4 h-4 text-[#10B981]" />
+                          Call Clinic
+                        </a>
+                        <button
+                          type="button"
+                          onClick={handleClose}
+                          className="w-full py-2 text-xs text-slate-500 hover:text-slate-700 font-medium cursor-pointer"
+                        >
+                          Close
+                        </button>
+                      </div>
+                    </motion.div>
+                  )}
+                </div>
               </div>
+
             </div>
           </motion.div>
-
-          {/* ── On desktop, center the sheet ── */}
-          <style>{`
-            @media (min-width: 640px) {
-              [aria-label="Book Appointment"] {
-                position: fixed !important;
-                bottom: auto !important;
-                top: 50% !important;
-                left: 50% !important;
-                transform: translateY(-50%) translateX(-50%) !important;
-              }
-            }
-          `}</style>
         </>
       )}
     </AnimatePresence>
