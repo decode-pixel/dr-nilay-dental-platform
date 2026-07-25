@@ -90,7 +90,7 @@ Dr. Nilay Saha practices across **3 dedicated clinical centers** in West Bengal.
 * **Official Name**: `Saha Dental Clinic - Belerhat`
 * **Full Canonical Address**: `New Saha Pharmacy, Belerhat Station Road, Ukhra Sarangpur, Purbasthali, Purba Bardhaman, West Bengal – 713513`
 * **Landmark**: `Near Belerhat Rail Gate`
-* **Contact Phone / WhatsApp**: `+91 9609180979`
+* **Contact Phone / WhatsApp**: `+91 73195 26106`
 * **Google Maps Link**: `https://maps.app.goo.gl/MV8tYqxGJCsAYmbx9?g_st=ac`
 * **Visiting Note**: `Monday – Sunday: 10:00 AM – 2:00 PM & 5:00 PM – 8:00 PM`
 * **Weekly Schedule Breakdown**:
@@ -104,7 +104,7 @@ Dr. Nilay Saha practices across **3 dedicated clinical centers** in West Bengal.
 * **Official Name**: `Saha Dental Clinic - Parulia`
 * **Full Canonical Address**: `Parulia Main Road, Purba Bardhaman, West Bengal`
 * **Landmark**: `Near Parulia Market`
-* **Contact Phone / WhatsApp**: `+91 9609180979`
+* **Contact Phone / WhatsApp**: `+91 73195 26106`
 * **Visiting Note / Status Rule**: `Visiting schedule updating soon.`
 * **Google Verified Rating**: `Star Rating • 48+ Reviews`
 * **Available Treatments**: Consultation, Dental Filling, Scaling.
@@ -113,7 +113,7 @@ Dr. Nilay Saha practices across **3 dedicated clinical centers** in West Bengal.
 * **Official Name**: `Saha Dental Clinic - Nabadwip`
 * **Full Canonical Address**: `Nabadwip Town, Nadia, West Bengal`
 * **Landmark**: `Near Nabadwip Station`
-* **Contact Phone / WhatsApp**: `+91 9609180979`
+* **Contact Phone / WhatsApp**: `+91 73195 26106`
 * **Visiting Note / Status Rule**: `Visiting schedule updating soon.`
 * **Google Verified Rating**: `Star Rating • 32+ Reviews`
 * **Available Treatments**: Consultation, Tooth Extraction, Root Canal Treatment.
