@@ -137,11 +137,21 @@ footer [class*="text-[#A1A1A6]"], #footer [class*="text-[#A1A1A6]"] {
   color: #94B0A3 !important;
 }
 
-/* ==========================================
-   GLASSMORPHISM POLISH
-   Improved blur quality, realistic light refraction, border softness, inner glow, and premium shadows
-   ========================================== */
 @layer utilities {
+  .apple-liquid-glass {
+    background: rgba(255, 255, 255, 0.72) !important;
+    backdrop-filter: blur(36px) saturate(190%) !important;
+    -webkit-backdrop-filter: blur(36px) saturate(190%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.65) !important;
+    box-shadow: 0 12px 40px rgba(15, 23, 42, 0.05), 0 2px 10px rgba(0, 168, 150, 0.03), inset 0 1px 1px rgba(255, 255, 255, 0.95) !important;
+  }
+  .apple-liquid-glass-scrolled {
+    background: rgba(255, 255, 255, 0.82) !important;
+    backdrop-filter: blur(40px) saturate(200%) !important;
+    -webkit-backdrop-filter: blur(40px) saturate(200%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.85) !important;
+    box-shadow: 0 16px 45px rgba(15, 23, 42, 0.08), 0 4px 16px rgba(0, 168, 150, 0.05), inset 0 1px 1px rgba(255, 255, 255, 1) !important;
+  }
   .glass-1 {
     background: rgba(255, 255, 255, 0.72) !important;
     backdrop-filter: blur(20px) saturate(180%) !important;

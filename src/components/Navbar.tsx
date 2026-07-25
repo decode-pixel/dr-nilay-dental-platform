@@ -397,14 +397,14 @@ export default function Navbar() {
     <>
       {/* ── Floating pill header ─────────────────────────────────────────── */}
       <header
-        className="fixed top-2 xs:top-3 sm:top-5 inset-x-0 z-[100] px-2 xs:px-3 sm:px-6 lg:px-8 max-w-7xl mx-auto pointer-events-none font-sans transition-all duration-300"
+        className="fixed top-2 xs:top-3 sm:top-5 inset-x-0 z-[100] px-2 xs:px-3 sm:px-6 lg:px-8 max-w-7xl mx-auto pointer-events-none font-sans transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
         aria-label="Site header"
       >
         <nav
-          className={`w-full flex items-center justify-between px-2.5 xs:px-3.5 sm:px-7 py-2 xs:py-2.5 sm:py-3.5 rounded-full pointer-events-auto transition-all duration-300 ${
+          className={`w-full flex items-center justify-between rounded-full pointer-events-auto transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
             isScrolled
-              ? "glass-crystal border border-white/95 shadow-[0_16px_50px_rgba(6,19,30,0.12)]"
-              : "bg-white/85 backdrop-blur-2xl border border-white/85 shadow-[0_10px_35px_rgba(6,19,30,0.06)]"
+              ? "apple-liquid-glass-scrolled px-3 sm:px-7 py-2 sm:py-2.5 max-w-[94%] sm:max-w-6xl mx-auto"
+              : "apple-liquid-glass px-3.5 sm:px-8 py-2.5 sm:py-3.5"
           }`}
           aria-label="Main navigation"
         >
@@ -412,23 +412,23 @@ export default function Navbar() {
           <a
             href="/#home"
             onClick={(e) => handleAnchorClick(e, "home")}
-            className="flex items-center gap-1.5 xs:gap-2.5 sm:gap-3.5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981] rounded-2xl min-w-0 shrink"
+            className="flex items-center gap-1.5 xs:gap-2.5 sm:gap-3.5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00A896] rounded-2xl min-w-0 shrink"
           >
-            <div className="relative w-8 h-8 xs:w-9 xs:h-9 sm:w-12 sm:h-12 shrink-0 rounded-xl sm:rounded-2xl bg-gradient-to-br from-emerald-500/15 to-emerald-500/5 border border-emerald-500/30 shadow-sm group-hover:scale-105 transition-all duration-300 flex items-center justify-center">
-              <ToothIcon className="w-4 h-4 xs:w-4.5 xs:h-4.5 sm:w-6 sm:h-6 text-[#10B981]" />
+            <div className="relative w-8 h-8 xs:w-9 xs:h-9 sm:w-11 sm:h-11 shrink-0 rounded-full bg-gradient-to-br from-teal-500/15 to-teal-500/5 border border-teal-500/30 shadow-xs flex items-center justify-center">
+              <ToothIcon className="w-4 h-4 xs:w-4.5 xs:h-4.5 sm:w-5.5 sm:h-5.5 text-[#00A896]" />
             </div>
             <div className="flex flex-col justify-center min-w-0 truncate">
-              <span className="font-display font-bold text-[13.5px] xs:text-[15px] sm:text-[19px] leading-none tracking-tight text-[#122820] flex items-center gap-1 truncate group-hover:text-[#10B981] transition-colors">
-                DR. <span className="text-[#10B981] truncate">Nilay Saha</span>
+              <span className="font-display font-extrabold text-[13.5px] xs:text-[15px] sm:text-[18px] leading-none tracking-tight text-slate-900 flex items-center gap-1 truncate group-hover:text-[#00A896] transition-colors">
+                DR. <span className="text-[#00A896] truncate">Nilay Saha</span>
               </span>
-              <span className="text-[7px] xs:text-[8px] sm:text-[10px] tracking-[0.16em] xs:tracking-[0.2em] sm:tracking-[0.22em] text-[#4B6358] font-bold uppercase mt-0.5 sm:mt-1 truncate hidden xs:block">
+              <span className="text-[7px] xs:text-[8px] sm:text-[9.5px] tracking-[0.18em] text-slate-500 font-bold uppercase mt-0.5 sm:mt-1 truncate hidden xs:block">
                 ADVANCED DENTAL STUDIO
               </span>
             </div>
           </a>
 
           {/* Desktop nav links */}
-          <div className="hidden lg:flex items-center gap-1.5 xl:gap-2 text-[14px] xl:text-[14.5px] font-medium bg-slate-100/60 p-1.5 rounded-full border border-slate-200/60 shrink-0">
+          <div className="hidden lg:flex items-center gap-1 text-[13.5px] xl:text-[14px] font-medium bg-slate-200/40 p-1.5 rounded-full border border-white/60 backdrop-blur-md shrink-0 relative">
             {NAV_ITEMS.map((item) => {
               const isActive = isHomePage && activeSection === item.id;
               return (
@@ -437,18 +437,18 @@ export default function Navbar() {
                   href={`/#${item.id}`}
                   onClick={(e) => handleAnchorClick(e, item.id)}
                   aria-current={isActive ? "page" : undefined}
-                  className={`relative py-1.5 px-3.5 sm:px-4 rounded-full transition-all duration-200 flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981] group cursor-pointer ${
+                  className={`relative py-1.5 px-3.5 sm:px-4 rounded-full transition-colors duration-200 flex items-center justify-center focus-visible:outline-none group cursor-pointer ${
                     isActive
-                      ? "text-[#10B981] font-bold bg-white shadow-sm border border-emerald-500/20"
-                      : "text-[#2C4238] hover:text-[#10B981] hover:bg-white/60"
+                      ? "text-[#00A896] font-extrabold"
+                      : "text-slate-700 hover:text-[#00A896] hover:bg-white/40"
                   }`}
                 >
                   <span className="relative z-10">{item.name}</span>
                   {isActive && (
                     <motion.div
-                      layoutId="activeNavPill"
-                      className="absolute inset-0 bg-white rounded-full border border-emerald-500/30 shadow-sm z-0"
-                      transition={{ type: "spring", stiffness: 450, damping: 35 }}
+                      layoutId="appleActiveTabIndicator"
+                      className="absolute inset-0 bg-white/95 rounded-full border border-teal-500/25 shadow-[0_2px_10px_rgba(0,168,150,0.14)] z-0 pointer-events-none"
+                      transition={{ type: "spring", stiffness: 350, damping: 30, mass: 0.8 }}
                     />
                   )}
                 </a>
@@ -457,13 +457,13 @@ export default function Navbar() {
           </div>
 
           {/* Right: CTA buttons + mobile hamburger */}
-          <div className="flex items-center gap-1 xs:gap-1.5 sm:gap-3 shrink-0">
+          <div className="flex items-center gap-1.5 xs:gap-2 sm:gap-3 shrink-0">
             <a
               href={`tel:${PRIMARY_PHONE_NUMBER}`}
               aria-label={`Call clinic: ${PRIMARY_PHONE_NUMBER}`}
-              className="w-8 h-8 xs:w-9 xs:h-9 sm:w-11 sm:h-11 rounded-full bg-white/90 border border-emerald-500/20 hover:border-emerald-500/60 flex items-center justify-center text-[#10B981] hover:bg-emerald-50 shadow-sm transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981] shrink-0"
+              className="w-8 h-8 xs:w-9 xs:h-9 sm:w-10 sm:h-10 rounded-full bg-white/90 border border-teal-500/20 hover:border-teal-500/60 flex items-center justify-center text-[#00A896] hover:bg-teal-50 shadow-xs transition-all duration-200 focus-visible:outline-none shrink-0"
             >
-              <Phone className="w-3.5 h-3.5 xs:w-4 xs:h-4 sm:w-5 sm:h-5" />
+              <Phone className="w-3.5 h-3.5 xs:w-4 xs:h-4 sm:w-4.5 sm:h-4.5" />
             </a>
 
             <button
