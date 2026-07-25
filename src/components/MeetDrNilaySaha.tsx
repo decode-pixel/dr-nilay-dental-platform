@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Award,
   ShieldCheck,
@@ -19,7 +19,6 @@ import { DOCTOR_REGISTRATION_NUMBER } from "../lib/constants";
 import { logger } from "../lib/logger";
 import TagPill from "./TagPill";
 
-// Cloudinary About Doctor Image
 const ABOUT_DOCTOR_IMG = "https://res.cloudinary.com/tud0sobq/image/upload/v1784740250/ChatGPT_Image_Jul_19_2026_08_31_12_PM_aqtswn.png";
 
 export default function MeetDrNilaySaha() {
@@ -144,29 +143,29 @@ export default function MeetDrNilaySaha() {
   ] as const;
 
   return (
-    <section className="py-14 sm:py-20 relative z-20 font-sans bg-white border-b border-slate-200/60" id="doctor-profile">
+    <section className="py-16 sm:py-24 relative z-20 font-sans bg-[#F5F9F8] border-b border-teal-100/50" id="doctor-profile">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10 sm:mb-14">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12 sm:mb-16">
           <div>
             <TagPill icon={Sparkles} text="Principal Surgeon & Founder" />
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-extrabold text-[#0F172A] tracking-tight mt-3 leading-tight">
               Meet{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0284C7] to-[#0EA5E9]">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00A896] via-[#028090] to-[#059669]">
                 Dr. Nilay Saha
               </span>
             </h2>
-            <p className="text-base text-[#475569] mt-2 max-w-lg">
+            <p className="text-base text-slate-600 mt-2 max-w-lg font-normal">
               Combining advanced clinical technology with compassionate, evidence-based dental care across West Bengal.
             </p>
           </div>
           <button
             type="button"
             onClick={() => window.dispatchEvent(new CustomEvent("openContactModal"))}
-            className="self-start sm:self-end flex-shrink-0 flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#0284C7] hover:bg-[#0369A1] text-white text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer shadow-md shadow-sky-500/20"
+            className="self-start sm:self-end flex-shrink-0 btn-crystal px-6 py-3 rounded-full text-white text-xs font-bold uppercase tracking-wider transition-all cursor-pointer shadow-md"
           >
-            <Calendar className="w-3.5 h-3.5" />
+            <Calendar className="w-4 h-4 text-emerald-100" />
             Book Appointment
           </button>
         </div>
@@ -176,23 +175,25 @@ export default function MeetDrNilaySaha() {
 
           {/* LEFT: Doctor Photo */}
           <div className="lg:col-span-4">
-            <div className="relative rounded-[24px] overflow-hidden bg-gradient-to-b from-sky-50 to-white border border-slate-200">
-              <img
-                src={ABOUT_DOCTOR_IMG}
-                alt="Dr. Nilay Saha — Dental Surgeon & Oral Physician"
-                loading="lazy"
-                className="w-full object-cover object-top"
-                style={{ maxHeight: "420px", objectPosition: "center 10%" }}
-              />
+            <div className="relative rounded-[32px] overflow-hidden bg-gradient-to-b from-white to-teal-50/40 border border-white/90 shadow-[0_16px_50px_rgba(0,168,150,0.08)] p-2 backdrop-blur-xl">
+              <div className="rounded-[26px] overflow-hidden bg-slate-100">
+                <img
+                  src={ABOUT_DOCTOR_IMG}
+                  alt="Dr. Nilay Saha — Dental Surgeon & Oral Physician"
+                  loading="lazy"
+                  className="w-full object-cover object-top"
+                  style={{ maxHeight: "420px", objectPosition: "center 10%" }}
+                />
+              </div>
 
               {/* Overlay badges */}
-              <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between gap-3">
-                <div className="bg-white/95 backdrop-blur-sm border border-slate-200 rounded-2xl px-3 py-2 shadow-lg">
-                  <div className="text-[10px] text-[#64748B] font-semibold uppercase tracking-wide">Qualification</div>
-                  <div className="text-xs font-extrabold text-[#0F172A]">BDS Gold Medalist</div>
+              <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between gap-3">
+                <div className="glass-crystal px-3.5 py-2.5 rounded-2xl border border-white/90 shadow-md">
+                  <div className="text-[10px] text-slate-500 font-semibold uppercase tracking-wide">Qualification</div>
+                  <div className="text-xs font-extrabold text-slate-900">BDS Gold Medalist</div>
                 </div>
-                <div className="bg-[#0284C7] rounded-2xl px-3 py-2 shadow-lg">
-                  <div className="text-[10px] text-sky-200 font-semibold uppercase tracking-wide">Reg. No.</div>
+                <div className="bg-[#00A896] rounded-2xl px-3.5 py-2.5 shadow-md">
+                  <div className="text-[10px] text-teal-100 font-semibold uppercase tracking-wide">Reg. No.</div>
                   <div className="text-xs font-extrabold text-white">{DOCTOR_REGISTRATION_NUMBER}</div>
                 </div>
               </div>
@@ -205,21 +206,21 @@ export default function MeetDrNilaySaha() {
                 { label: "Languages", value: languages.slice(0, 2).join(", ") },
                 { label: "Centers", value: "3 Clinics" },
               ].map((stat) => (
-                <div key={stat.label} className="bg-slate-50 border border-slate-200 rounded-[16px] p-3 text-center">
-                  <div className="text-[10px] text-[#64748B] font-semibold uppercase tracking-wide">{stat.label}</div>
-                  <div className="text-xs font-extrabold text-[#0F172A] mt-0.5">{stat.value}</div>
+                <div key={stat.label} className="bg-white/80 backdrop-blur-xl border border-white/90 rounded-[20px] p-3.5 text-center shadow-[0_4px_20px_rgba(15,23,42,0.03)]">
+                  <div className="text-[10px] text-slate-500 font-semibold uppercase tracking-wide">{stat.label}</div>
+                  <div className="text-xs font-extrabold text-slate-900 mt-0.5">{stat.value}</div>
                 </div>
               ))}
             </div>
 
             {/* Clinics strip */}
-            <div className="mt-4 bg-sky-50 border border-sky-200 rounded-[16px] p-4 flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-sky-100 border border-sky-200 flex items-center justify-center text-[#0284C7] shrink-0">
-                <MapPin className="w-4 h-4" />
+            <div className="mt-4 bg-white/80 backdrop-blur-xl border border-white/90 rounded-[20px] p-4 flex items-center gap-3 shadow-[0_4px_20px_rgba(15,23,42,0.03)]">
+              <div className="w-9 h-9 rounded-xl bg-teal-50 border border-teal-200/60 flex items-center justify-center text-[#00A896] shrink-0">
+                <MapPin className="w-4.5 h-4.5" />
               </div>
               <div>
-                <div className="text-[10px] text-[#64748B] font-bold uppercase tracking-wide">Consulting Clinics</div>
-                <div className="text-xs font-extrabold text-[#0F172A]">Belerhat • Parulia • Nabadwip</div>
+                <div className="text-[10px] text-slate-500 font-bold uppercase tracking-wide">Consulting Clinics</div>
+                <div className="text-xs font-extrabold text-slate-900">Belerhat &bull; Parulia &bull; Nabadwip</div>
               </div>
             </div>
           </div>
@@ -228,41 +229,41 @@ export default function MeetDrNilaySaha() {
           <div className="lg:col-span-8 flex flex-col gap-6">
 
             {/* Bio */}
-            <div className="bg-white border border-slate-200 rounded-[20px] p-6 sm:p-8 shadow-[0_4px_20px_rgba(15,23,42,0.04)]">
+            <div className="bg-white/80 backdrop-blur-2xl border border-white/90 rounded-[28px] p-6 sm:p-8 shadow-[0_10px_35px_rgba(15,23,42,0.04)]">
               <div className="flex items-center gap-2 mb-4">
-                <BadgeCheck className="w-5 h-5 text-[#0284C7]" />
-                <h3 className="font-display font-extrabold text-lg text-[#0F172A]">Clinical Biography & Philosophy</h3>
+                <BadgeCheck className="w-5 h-5 text-[#00A896]" />
+                <h3 className="font-display font-extrabold text-lg text-slate-900">Clinical Biography &amp; Philosophy</h3>
               </div>
-              <p className={`text-[#334155] text-sm sm:text-base leading-[1.75] font-normal transition-all duration-300 ${bioExpanded ? "" : "line-clamp-4"}`}>
+              <p className={`text-slate-600 text-sm sm:text-base leading-[1.75] font-normal transition-all duration-300 ${bioExpanded ? "" : "line-clamp-4"}`}>
                 {aboutConfig.description || doctor.bio || "Dr. Nilay Saha is a leading Dental Surgeon and Oral Physician dedicated to providing painless, highly precise dental treatments. With over a decade of hands-on experience across multiple clinical centers in West Bengal, he specializes in single-visit root canal treatments, aesthetic restorations, and complex surgical procedures. His clinical approach emphasizes conservative dentistry—saving natural teeth wherever possible—while utilizing international sterilization standards and modern diagnostics to ensure optimum patient safety and comfort."}
               </p>
               <button
                 type="button"
                 onClick={() => setBioExpanded(!bioExpanded)}
-                className="mt-3 inline-flex items-center gap-1.5 text-xs font-bold text-[#0284C7] hover:text-[#0369A1] cursor-pointer"
+                className="mt-3 inline-flex items-center gap-1.5 text-xs font-bold text-[#00A896] hover:text-[#028090] cursor-pointer"
               >
                 {bioExpanded ? "Show Less" : "Read Full Biography"}
                 {bioExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
               </button>
 
-              <div className="grid grid-cols-3 gap-3 mt-5 pt-5 border-t border-slate-100">
-                <div className="bg-slate-50 border border-slate-200 rounded-[14px] p-3">
-                  <span className="text-[10px] text-[#64748B] font-semibold block uppercase tracking-wide">Registration</span>
-                  <strong className="text-xs text-[#0F172A] font-mono">{DOCTOR_REGISTRATION_NUMBER}</strong>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-5 pt-5 border-t border-slate-100">
+                <div className="bg-teal-50/50 border border-teal-100 rounded-[16px] p-3">
+                  <span className="text-[10px] text-slate-500 font-semibold block uppercase tracking-wide">Registration</span>
+                  <strong className="text-xs text-slate-900 font-mono">{DOCTOR_REGISTRATION_NUMBER}</strong>
                 </div>
-                <div className="bg-slate-50 border border-slate-200 rounded-[14px] p-3">
-                  <span className="text-[10px] text-[#64748B] font-semibold block uppercase tracking-wide">Languages</span>
-                  <strong className="text-xs text-[#0F172A]">{languages.join(", ")}</strong>
+                <div className="bg-teal-50/50 border border-teal-100 rounded-[16px] p-3">
+                  <span className="text-[10px] text-slate-500 font-semibold block uppercase tracking-wide">Languages</span>
+                  <strong className="text-xs text-slate-900">{languages.join(", ")}</strong>
                 </div>
-                <div className="bg-slate-50 border border-slate-200 rounded-[14px] p-3">
-                  <span className="text-[10px] text-[#64748B] font-semibold block uppercase tracking-wide">Active Centers</span>
-                  <strong className="text-xs text-[#0284C7]">3 Clinic Locations</strong>
+                <div className="bg-teal-50/50 border border-teal-100 rounded-[16px] p-3">
+                  <span className="text-[10px] text-slate-500 font-semibold block uppercase tracking-wide">Active Centers</span>
+                  <strong className="text-xs text-[#00A896]">3 Clinic Locations</strong>
                 </div>
               </div>
             </div>
 
             {/* Tabs */}
-            <div className="bg-white border border-slate-200 rounded-[20px] p-6 sm:p-8 shadow-[0_4px_20px_rgba(15,23,42,0.04)]">
+            <div className="bg-white/80 backdrop-blur-2xl border border-white/90 rounded-[28px] p-6 sm:p-8 shadow-[0_10px_35px_rgba(15,23,42,0.04)]">
               <div className="flex flex-wrap gap-2 mb-6 pb-5 border-b border-slate-100" role="tablist">
                 {TABS.map((tab) => {
                   const Icon = tab.icon;
@@ -273,10 +274,10 @@ export default function MeetDrNilaySaha() {
                       role="tab"
                       aria-selected={activeTab === tab.id}
                       onClick={() => setActiveTab(tab.id)}
-                      className={`px-3.5 py-2 rounded-full text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+                      className={`px-4 py-2.5 rounded-full text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${
                         activeTab === tab.id
-                          ? "bg-[#0284C7] text-white shadow-md shadow-sky-500/20"
-                          : "bg-slate-100 text-[#475569] hover:text-[#0F172A] hover:bg-sky-50"
+                          ? "bg-gradient-to-r from-[#00A896] to-[#028090] text-white shadow-md shadow-teal-500/20"
+                          : "bg-slate-100/80 text-slate-600 hover:text-slate-900 hover:bg-teal-50"
                       }`}
                     >
                       <Icon className="w-3.5 h-3.5" />
@@ -288,13 +289,13 @@ export default function MeetDrNilaySaha() {
 
               <div className="space-y-3 min-h-[200px]">
                 {activeTab === "qualifications" && qualifications.map((item, idx) => (
-                  <div key={idx} className="flex items-start gap-3 p-4 rounded-[16px] bg-slate-50 border border-slate-200">
-                    <div className="w-8 h-8 rounded-xl bg-sky-50 text-[#0284C7] border border-sky-200 flex items-center justify-center shrink-0">
-                      <GraduationCap className="w-4 h-4" />
+                  <div key={idx} className="flex items-start gap-3 p-4 rounded-[20px] bg-slate-50/80 border border-slate-100">
+                    <div className="w-9 h-9 rounded-xl bg-teal-50 text-[#00A896] border border-teal-100 flex items-center justify-center shrink-0">
+                      <GraduationCap className="w-4.5 h-4.5" />
                     </div>
                     <div>
-                      <h4 className="font-bold text-[#0F172A] text-sm">{item.title}</h4>
-                      <p className="text-xs font-semibold text-[#0284C7] mt-0.5">{item.institution}</p>
+                      <h4 className="font-bold text-slate-900 text-sm">{item.title}</h4>
+                      <p className="text-xs font-semibold text-[#00A896] mt-0.5">{item.institution}</p>
                     </div>
                   </div>
                 ))}
@@ -302,54 +303,54 @@ export default function MeetDrNilaySaha() {
                 {activeTab === "specializations" && (
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {specializations.map((spec, idx) => (
-                      <div key={idx} className="flex items-center gap-2.5 p-3.5 rounded-[16px] bg-slate-50 border border-slate-200">
-                        <CheckCircle2 className="w-4 h-4 text-[#0284C7] shrink-0" />
-                        <span className="text-sm font-semibold text-[#0F172A]">{spec}</span>
+                      <div key={idx} className="flex items-center gap-3 p-4 rounded-[20px] bg-slate-50/80 border border-slate-100">
+                        <CheckCircle2 className="w-4.5 h-4.5 text-[#00A896] shrink-0" />
+                        <span className="text-sm font-semibold text-slate-900">{spec}</span>
                       </div>
                     ))}
                   </div>
                 )}
 
                 {activeTab === "awards" && awards.map((item, idx) => (
-                  <div key={idx} className="flex items-start gap-3 p-4 rounded-[16px] bg-slate-50 border border-slate-200">
-                    <div className="w-8 h-8 rounded-xl bg-amber-50 text-amber-600 border border-amber-200 flex items-center justify-center shrink-0">
-                      <Award className="w-4 h-4" />
+                  <div key={idx} className="flex items-start gap-3 p-4 rounded-[20px] bg-slate-50/80 border border-slate-100">
+                    <div className="w-9 h-9 rounded-xl bg-amber-50 text-amber-600 border border-amber-200 flex items-center justify-center shrink-0">
+                      <Award className="w-4.5 h-4.5" />
                     </div>
                     <div>
-                      <h4 className="font-bold text-[#0F172A] text-sm">{item.title}</h4>
+                      <h4 className="font-bold text-slate-900 text-sm">{item.title}</h4>
                       <p className="text-xs font-semibold text-amber-600 mt-0.5">{item.institution}</p>
                     </div>
                   </div>
                 ))}
 
                 {activeTab === "memberships" && certifications.map((item, idx) => (
-                  <div key={idx} className="flex items-start gap-3 p-4 rounded-[16px] bg-slate-50 border border-slate-200">
-                    <div className="w-8 h-8 rounded-xl bg-sky-50 text-[#0284C7] border border-sky-200 flex items-center justify-center shrink-0">
-                      <ShieldCheck className="w-4 h-4" />
+                  <div key={idx} className="flex items-start gap-3 p-4 rounded-[20px] bg-slate-50/80 border border-slate-100">
+                    <div className="w-9 h-9 rounded-xl bg-teal-50 text-[#00A896] border border-teal-100 flex items-center justify-center shrink-0">
+                      <ShieldCheck className="w-4.5 h-4.5" />
                     </div>
                     <div>
-                      <h4 className="font-bold text-[#0F172A] text-sm">{item.title}</h4>
-                      <p className="text-xs font-semibold text-[#0284C7] mt-0.5">{item.institution}</p>
+                      <h4 className="font-bold text-slate-900 text-sm">{item.title}</h4>
+                      <p className="text-xs font-semibold text-[#00A896] mt-0.5">{item.institution}</p>
                     </div>
                   </div>
                 ))}
 
                 {activeTab === "journey" && (
                   <div className="space-y-3">
-                    <div className="flex items-start gap-3 p-4 rounded-[16px] bg-slate-50 border border-slate-200">
-                      <div className="w-2.5 h-2.5 rounded-full bg-[#0284C7] mt-1.5 shrink-0" />
+                    <div className="flex items-start gap-3 p-4 rounded-[20px] bg-slate-50/80 border border-slate-100">
+                      <div className="w-3 h-3 rounded-full bg-[#00A896] mt-1 shrink-0" />
                       <div>
-                        <span className="text-xs font-mono text-[#0284C7] font-bold">2014 - Present</span>
-                        <h4 className="font-bold text-[#0F172A] text-sm mt-0.5">Principal Surgeon & Clinical Director</h4>
-                        <p className="text-xs text-[#475569] mt-1">Founded and expanded regional clinical centers across Belerhat, Parulia, and Nabadwip with zero-compromise sterilization protocols.</p>
+                        <span className="text-xs font-mono text-[#00A896] font-bold">2014 - Present</span>
+                        <h4 className="font-bold text-slate-900 text-sm mt-0.5">Principal Surgeon &amp; Clinical Director</h4>
+                        <p className="text-xs text-slate-600 mt-1">Founded and expanded regional clinical centers across Belerhat, Parulia, and Nabadwip with zero-compromise sterilization protocols.</p>
                       </div>
                     </div>
-                    <div className="flex items-start gap-3 p-4 rounded-[16px] bg-slate-50 border border-slate-200">
-                      <div className="w-2.5 h-2.5 rounded-full bg-amber-500 mt-1.5 shrink-0" />
+                    <div className="flex items-start gap-3 p-4 rounded-[20px] bg-slate-50/80 border border-slate-100">
+                      <div className="w-3 h-3 rounded-full bg-amber-500 mt-1 shrink-0" />
                       <div>
                         <span className="text-xs font-mono text-amber-600 font-bold">Clinical Residency</span>
-                        <h4 className="font-bold text-[#0F172A] text-sm mt-0.5">Fellowship & Advanced Endodontic Training</h4>
-                        <p className="text-xs text-[#475569] mt-1">Specialized in micro-endodontics, rotary instrumentation, and single-visit painless root canal therapy.</p>
+                        <h4 className="font-bold text-slate-900 text-sm mt-0.5">Fellowship &amp; Advanced Endodontic Training</h4>
+                        <p className="text-xs text-slate-600 mt-1">Specialized in micro-endodontics, rotary instrumentation, and single-visit painless root canal therapy.</p>
                       </div>
                     </div>
                   </div>

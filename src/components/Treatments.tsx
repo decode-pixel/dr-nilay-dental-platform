@@ -115,7 +115,7 @@ export default function Treatments() {
   };
 
   return (
-    <section id="treatments" className="relative py-16 sm:py-24 bg-white z-10 font-sans border-b border-slate-200/60 overflow-hidden">
+    <section id="treatments" className="relative py-16 sm:py-24 bg-[#F5F9F8] z-10 font-sans border-b border-teal-100/50 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header & Navigation Controls */}
@@ -124,22 +124,22 @@ export default function Treatments() {
             <TagPill icon={ToothIcon} text="Comprehensive Clinical Services" />
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-extrabold text-[#0F172A] tracking-tight mt-3 mb-3">
               Advanced Clinical <br className="hidden sm:inline" />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0284C7] to-[#0EA5E9]">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00A896] via-[#028090] to-[#059669]">
                 Treatments &amp; Procedures
               </span>
             </h2>
-            <p className="text-base text-[#475569] leading-relaxed">
+            <p className="text-base text-slate-600 leading-relaxed font-normal">
               Explore our world-class procedures with transparent pricing ranges, estimated clinical durations, and direct doctor guidance. Swipe or drag across cards to browse.
             </p>
           </div>
 
-          {/* Desktop Slider Arrows & Swipe Hint */}
+          {/* Desktop Slider Arrows */}
           <div className="flex items-center gap-3 shrink-0">
             <button
               type="button"
               onClick={() => scrollSlider("left")}
               aria-label="Previous treatments"
-              className="w-12 h-12 rounded-full bg-white border border-slate-200 shadow-sm flex items-center justify-center text-[#0F172A] hover:bg-sky-50 hover:border-[#0284C7] hover:text-[#0284C7] active:scale-95 transition-all cursor-pointer"
+              className="w-12 h-12 rounded-full bg-white/80 border border-white/90 shadow-sm flex items-center justify-center text-slate-900 hover:bg-white hover:text-[#00A896] active:scale-95 transition-all cursor-pointer backdrop-blur-xl"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
@@ -147,7 +147,7 @@ export default function Treatments() {
               type="button"
               onClick={() => scrollSlider("right")}
               aria-label="Next treatments"
-              className="w-12 h-12 rounded-full bg-[#0284C7] text-white shadow-sm flex items-center justify-center hover:bg-[#0369A1] active:scale-95 transition-all cursor-pointer"
+              className="w-12 h-12 rounded-full btn-crystal text-white shadow-md flex items-center justify-center active:scale-95 transition-all cursor-pointer"
             >
               <ArrowRight className="w-5 h-5" />
             </button>
@@ -167,10 +167,10 @@ export default function Treatments() {
                 }}
                 role="tab"
                 aria-selected={isActive}
-                className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0284C7] cursor-pointer ${
+                className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00A896] cursor-pointer ${
                   isActive
-                    ? "bg-[#0284C7] text-white shadow-[0_4px_16px_rgba(2,132,199,0.25)] scale-105"
-                    : "bg-slate-100 text-[#475569] border border-slate-200/80 hover:border-[#0284C7]/40 hover:text-[#0F172A] shadow-xs"
+                    ? "bg-gradient-to-r from-[#00A896] to-[#028090] text-white shadow-[0_6px_20px_rgba(0,168,150,0.3)] scale-105"
+                    : "bg-white/80 backdrop-blur-xl text-slate-600 border border-white/90 hover:border-teal-300 hover:text-slate-900 shadow-xs"
                 }`}
               >
                 {tab.label}
@@ -179,7 +179,7 @@ export default function Treatments() {
           })}
         </div>
 
-        {/* V2/V3 Horizontal Snap Slider Container with Touch & Drag Support */}
+        {/* Horizontal Snap Slider Container */}
         <div 
           ref={sliderRef}
           onMouseDown={handleMouseDown}
@@ -201,60 +201,60 @@ export default function Treatments() {
             return (
               <div
                 key={treatment.id}
-                className="w-[320px] sm:w-[380px] shrink-0 bg-white p-6 sm:p-7 flex flex-col justify-between group rounded-[20px] border border-slate-200/90 shadow-[0_10px_30px_rgba(15,23,42,0.04)] hover:shadow-[0_20px_50px_rgba(2,132,199,0.12)] hover:border-sky-300 transition-all relative overflow-hidden"
+                className="w-[320px] sm:w-[380px] shrink-0 bg-white/80 backdrop-blur-2xl p-6 sm:p-7 flex flex-col justify-between group rounded-[28px] border border-white/90 shadow-[0_10px_35px_rgba(15,23,42,0.04)] hover:shadow-[0_20px_50px_rgba(0,168,150,0.12)] transition-all relative overflow-hidden"
               >
                 <div>
                   {/* Icon & Featured Badge */}
                   <div className="flex items-start justify-between mb-5">
-                    <div className="w-13 h-13 rounded-2xl bg-sky-50 border border-sky-200 flex items-center justify-center text-[#0284C7] group-hover:scale-110 group-hover:bg-[#0284C7] group-hover:text-white transition-all duration-300 shrink-0 shadow-2xs">
+                    <div className="w-13 h-13 rounded-2xl bg-teal-50 border border-teal-100 flex items-center justify-center text-[#00A896] group-hover:scale-110 group-hover:bg-[#00A896] group-hover:text-white transition-all duration-300 shrink-0 shadow-xs">
                       <Icon className="w-6 h-6" />
                     </div>
                     {treatment.featured && (
-                      <span className="px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-800 text-[10px] font-bold tracking-wider uppercase shadow-2xs">
+                      <span className="px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-800 text-[10px] font-extrabold tracking-wider uppercase shadow-2xs">
                         Most Requested
                       </span>
                     )}
                   </div>
 
                   {/* Title */}
-                  <h3 className="text-xl sm:text-[22px] font-display font-extrabold text-[#0F172A] group-hover:text-[#0284C7] transition-colors mb-2 leading-snug">
+                  <h3 className="text-xl sm:text-[22px] font-display font-extrabold text-[#0F172A] group-hover:text-[#00A896] transition-colors mb-2 leading-snug">
                     {treatment.name}
                   </h3>
 
                   {/* Short Description */}
-                  <p className="text-xs sm:text-sm text-[#475569] leading-relaxed mb-5 line-clamp-3">
+                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mb-5 line-clamp-3 font-normal">
                     {treatment.desc}
                   </p>
 
                   {/* Price Range & Duration Chips */}
                   <div className="grid grid-cols-2 gap-2 mb-5">
-                    <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200/80 flex flex-col gap-1">
+                    <div className="p-2.5 rounded-2xl bg-teal-50/50 border border-teal-100 flex flex-col gap-1">
                       <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase text-slate-500">
-                        <Banknote className="w-3 h-3 text-[#0284C7]" />
+                        <Banknote className="w-3 h-3 text-[#00A896]" />
                         <span>Price Range</span>
                       </span>
-                      <span className="text-xs font-bold font-mono text-[#0F172A] truncate">
+                      <span className="text-xs font-bold font-mono text-slate-900 truncate">
                         {meta.priceRange}
                       </span>
                     </div>
 
-                    <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200/80 flex flex-col gap-1">
+                    <div className="p-2.5 rounded-2xl bg-teal-50/50 border border-teal-100 flex flex-col gap-1">
                       <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase text-slate-500">
-                        <Clock className="w-3 h-3 text-[#0284C7]" />
+                        <Clock className="w-3 h-3 text-[#00A896]" />
                         <span>Duration</span>
                       </span>
-                      <span className="text-xs font-bold text-[#0F172A] truncate">
+                      <span className="text-xs font-bold text-slate-900 truncate">
                         {meta.duration}
                       </span>
                     </div>
                   </div>
 
                   {/* Doctor Note Mini Box */}
-                  <div className="p-3 rounded-xl bg-sky-50/80 border border-sky-200/80 flex items-start gap-2.5 mb-6">
-                    <ShieldCheck className="w-4 h-4 text-[#0284C7] shrink-0 mt-0.5" />
+                  <div className="p-3 rounded-2xl bg-teal-500/10 border border-teal-500/20 flex items-start gap-2.5 mb-6">
+                    <ShieldCheck className="w-4 h-4 text-[#00A896] shrink-0 mt-0.5" />
                     <div>
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#0284C7] block">Doctor Clinical Note</span>
-                      <p className="text-[11px] text-[#334155] leading-relaxed font-medium mt-0.5">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#00A896] block">Doctor Clinical Note</span>
+                      <p className="text-[11px] text-slate-700 leading-relaxed font-medium mt-0.5">
                         {meta.doctorNote}
                       </p>
                     </div>
@@ -266,7 +266,7 @@ export default function Treatments() {
                   <button
                     type="button"
                     onClick={() => window.dispatchEvent(new CustomEvent("openContactModal", { detail: { treatmentId: treatment.id } }))}
-                    className="px-4 py-2.5 rounded-full bg-[#0284C7] hover:bg-[#0369A1] text-white text-xs font-bold flex items-center gap-1.5 shadow-xs shrink-0 cursor-pointer transition-colors"
+                    className="px-4 py-2.5 rounded-full bg-[#00A896] hover:bg-[#028090] text-white text-xs font-bold flex items-center gap-1.5 shadow-xs shrink-0 cursor-pointer transition-colors"
                   >
                     <CalendarDays className="w-3.5 h-3.5" />
                     <span>Book Procedure</span>
@@ -274,7 +274,7 @@ export default function Treatments() {
 
                   <Link
                     to={`/treatments/${treatment.id}`}
-                    className="inline-flex items-center gap-1 text-xs sm:text-sm font-bold text-[#0284C7] hover:text-[#0369A1] transition-colors"
+                    className="inline-flex items-center gap-1 text-xs sm:text-sm font-bold text-[#00A896] hover:text-[#028090] transition-colors"
                   >
                     <span>Learn Details</span>
                     <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -286,13 +286,13 @@ export default function Treatments() {
         </div>
 
         {/* Clinical Trust Strip */}
-        <div className="mt-12 sm:mt-16 flex flex-wrap justify-center items-center gap-x-8 gap-y-4 pt-8 border-t border-slate-200/80">
+        <div className="mt-12 sm:mt-16 flex flex-wrap justify-center items-center gap-x-8 gap-y-4 pt-8 border-t border-teal-100/60">
           {trustFeatures.map((feature, idx) => (
             <div key={idx} className="flex items-center gap-2.5">
               <div className="w-5 h-5 rounded-full bg-emerald-100 border border-emerald-300 flex items-center justify-center shrink-0">
-                <Check className="w-3.5 h-3.5 text-[#10B981]" strokeWidth={2.5} />
+                <Check className="w-3.5 h-3.5 text-emerald-600" strokeWidth={2.5} />
               </div>
-              <span className="text-xs sm:text-sm font-bold tracking-wider uppercase text-[#122820]">
+              <span className="text-xs sm:text-sm font-bold tracking-wider uppercase text-slate-800">
                 {feature}
               </span>
             </div>

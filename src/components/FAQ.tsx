@@ -33,7 +33,7 @@ export default function FAQ() {
   };
 
   return (
-    <section id="faq" className="py-20 sm:py-28 bg-white font-sans border-b border-slate-200/60 scroll-mt-24">
+    <section id="faq" className="py-20 sm:py-28 bg-[#F5F9F8] font-sans border-b border-teal-100/50 scroll-mt-24">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
@@ -41,11 +41,11 @@ export default function FAQ() {
           <TagPill icon={MessageCircleQuestion} text="Common Patient Questions" />
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-extrabold text-[#0F172A] tracking-tight mt-3 mb-4 leading-tight">
             Frequently Asked <br className="hidden sm:inline" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0284C7] to-[#0EA5E9]">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00A896] via-[#028090] to-[#059669]">
               Clinical Questions
             </span>
           </h2>
-          <p className="text-base sm:text-lg text-[#475569] leading-relaxed max-w-2xl mx-auto font-normal">
+          <p className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto font-normal">
             Find clear answers about our painless endodontic procedures, sterilization protocols, appointments, and regional centers.
           </p>
         </div>
@@ -58,26 +58,26 @@ export default function FAQ() {
             return (
               <div
                 key={index}
-                className={`transition-all duration-300 rounded-[20px] overflow-hidden ${
+                className={`transition-all duration-300 rounded-[28px] overflow-hidden backdrop-blur-2xl ${
                   isOpen
-                    ? "border border-sky-300 bg-gradient-to-b from-sky-50/60 via-white to-white shadow-[0_12px_35px_rgba(2,132,199,0.10)]"
-                    : "bg-white border border-slate-200/80 hover:border-sky-300 shadow-2xs hover:shadow-md"
+                    ? "border border-teal-300 bg-white/90 shadow-[0_12px_35px_rgba(0,168,150,0.10)]"
+                    : "bg-white/80 border border-white/90 hover:border-teal-200 shadow-xs"
                 }`}
               >
                 <button
                   onClick={() => toggleAccordion(index)}
                   aria-expanded={isOpen}
-                  className="w-full flex items-center justify-between p-6 sm:p-7 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0284C7] rounded-[20px] group cursor-pointer"
+                  className="w-full flex items-center justify-between p-6 sm:p-7 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[#00A896] rounded-[28px] group cursor-pointer"
                 >
-                  <h3 className={`text-lg sm:text-[20px] font-display font-bold pr-6 transition-colors leading-snug ${
-                    isOpen ? "text-[#0284C7]" : "text-[#0F172A] group-hover:text-[#0284C7]"
+                  <h3 className={`text-lg sm:text-[20px] font-display font-extrabold pr-6 transition-colors leading-snug ${
+                    isOpen ? "text-[#00A896]" : "text-slate-900 group-hover:text-[#00A896]"
                   }`}>
                     {faq.question}
                   </h3>
                   <div className={`flex-shrink-0 w-11 h-11 rounded-2xl border flex items-center justify-center transition-all duration-300 ${
                     isOpen
-                      ? "bg-[#0284C7] border-[#0284C7] text-white rotate-180"
-                      : "bg-sky-50 border-sky-200 text-[#0284C7] group-hover:bg-[#0284C7] group-hover:text-white"
+                      ? "bg-[#00A896] border-[#00A896] text-white rotate-180"
+                      : "bg-teal-50 border-teal-100 text-[#00A896] group-hover:bg-[#00A896] group-hover:text-white"
                   }`}>
                     <ChevronDown className="w-5 h-5 transition-transform duration-300" />
                   </div>
@@ -86,7 +86,7 @@ export default function FAQ() {
                 {isOpen && (
                   <div className="px-6 sm:px-7 pb-7 pt-1 animate-fadeIn">
                     <div className="w-full h-px bg-slate-100 mb-4" />
-                    <p className="text-xs sm:text-sm text-[#334155] leading-relaxed">
+                    <p className="text-sm text-slate-700 leading-relaxed font-normal">
                       {faq.answer}
                     </p>
                   </div>
@@ -98,18 +98,18 @@ export default function FAQ() {
 
         {/* Still have questions CTA */}
         <div className="mt-12 text-center">
-          <p className="text-xs sm:text-sm text-[#475569]">
-            Have a specific clinical question not listed above?{" "}
+          <div className="inline-flex items-center gap-3 p-4 rounded-3xl bg-white/80 backdrop-blur-2xl border border-white/90 shadow-sm">
+            <span className="text-xs font-semibold text-slate-700">Have a specific medical query?</span>
             <button
               type="button"
               onClick={() => window.dispatchEvent(new CustomEvent("openContactModal"))}
-              className="font-extrabold text-[#0284C7] hover:text-[#0369A1] underline underline-offset-4 cursor-pointer"
+              className="btn-crystal px-5 py-2 rounded-full text-white text-xs font-bold shadow-sm"
             >
-              Consult directly with our medical team
+              Ask Dr. Nilay Saha &rarr;
             </button>
-          </p>
+          </div>
         </div>
-        
+
       </div>
     </section>
   );

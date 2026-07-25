@@ -520,20 +520,20 @@ export default function Clinics() {
                         </div>
                       </div>
 
-                      {/* GPS Parking & Facilities Info */}
+                  {/* GPS Parking & Facilities Info */}
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <div className="p-3.5 rounded-2xl bg-white border border-slate-200/80 flex items-center gap-3">
-                          <Car className="w-4 h-4 text-[#10B981] shrink-0" />
+                        <div className="p-3.5 rounded-2xl bg-white/80 border border-white/90 flex items-center gap-3">
+                          <Car className="w-4 h-4 text-[#00A896] shrink-0" />
                           <div>
-                            <span className="text-xs font-bold text-[#122820] block">Parking Notes</span>
-                            <span className="text-[11px] text-[#4B6358]">{clinic.parkingInfo}</span>
+                            <span className="text-xs font-bold text-slate-900 block">Parking Notes</span>
+                            <span className="text-[11px] text-slate-600">{clinic.parkingInfo}</span>
                           </div>
                         </div>
-                        <div className="p-3.5 rounded-2xl bg-white border border-slate-200/80 flex items-center gap-3">
-                          <ShieldCheck className="w-4 h-4 text-[#10B981] shrink-0" />
+                        <div className="p-3.5 rounded-2xl bg-white/80 border border-white/90 flex items-center gap-3">
+                          <ShieldCheck className="w-4 h-4 text-[#00A896] shrink-0" />
                           <div>
-                            <span className="text-xs font-bold text-[#122820] block">Class-B Sterilization</span>
-                            <span className="text-[11px] text-[#4B6358]">WHO Aseptic Standard</span>
+                            <span className="text-xs font-bold text-slate-900 block">Class-B Sterilization</span>
+                            <span className="text-[11px] text-slate-600">WHO Aseptic Standard</span>
                           </div>
                         </div>
                       </div>
@@ -543,23 +543,23 @@ export default function Clinics() {
                         <button
                           type="button"
                           onClick={() => window.dispatchEvent(new CustomEvent("openContactModal", { detail: { clinicSlug: clinic.slug } }))}
-                          className="btn-primary-premium py-2.5 text-xs font-bold flex items-center justify-center gap-1.5 col-span-2 sm:col-span-1"
+                          className="btn-crystal py-2.5 text-xs font-bold flex items-center justify-center gap-1.5 col-span-2 sm:col-span-1 shadow-sm"
                         >
-                          <CalendarDays className="w-3.5 h-3.5" />
+                          <CalendarDays className="w-3.5 h-3.5 text-emerald-100" />
                           <span>Book Slot</span>
                         </button>
                         <a
                           href={`tel:${clinic.primaryPhone}`}
-                          className="btn-secondary-premium py-2.5 text-xs font-bold flex items-center justify-center gap-1.5"
+                          className="py-2.5 px-3 rounded-2xl bg-white/80 hover:bg-white border border-white/90 text-slate-900 font-bold text-xs flex items-center justify-center gap-1.5 transition-colors"
                         >
-                          <Phone className="w-3.5 h-3.5 text-[#10B981]" />
+                          <Phone className="w-3.5 h-3.5 text-[#00A896]" />
                           <span>Call</span>
                         </a>
                         <a
                           href={`https://wa.me/${clinic.whatsappDigits}?text=${encodeURIComponent(whatsappText)}`}
                           target="_blank"
                           rel="noreferrer"
-                          className="py-2.5 px-3 rounded-xl bg-emerald-50 hover:bg-[#10B981] border border-emerald-200 text-[#10B981] hover:text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-colors"
+                          className="py-2.5 px-3 rounded-2xl bg-teal-50/80 hover:bg-[#00A896] border border-teal-200 text-[#00A896] hover:text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-colors"
                         >
                           <WhatsAppIcon className="w-3.5 h-3.5" />
                           <span>WhatsApp</span>
@@ -568,9 +568,9 @@ export default function Clinics() {
                           href={clinic.googleMapLink}
                           target="_blank"
                           rel="noreferrer"
-                          className="btn-secondary-premium py-2.5 text-xs font-bold flex items-center justify-center gap-1.5"
+                          className="py-2.5 px-3 rounded-2xl bg-white/80 hover:bg-white border border-white/90 text-slate-900 font-bold text-xs flex items-center justify-center gap-1.5 transition-colors"
                         >
-                          <Navigation className="w-3.5 h-3.5 text-[#10B981]" />
+                          <Navigation className="w-3.5 h-3.5 text-[#00A896]" />
                           <span>Map</span>
                         </a>
                       </div>
@@ -583,16 +583,16 @@ export default function Clinics() {
         </div>
 
         {/* Hospital-Grade Verification Footer */}
-        <div className="mt-12 max-w-4xl mx-auto glass-card-floating p-6 bg-white/95 rounded-[24px] sm:rounded-[28px] border border-emerald-200/70 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+        <div className="mt-12 max-w-4xl mx-auto glass-crystal p-6 bg-white/80 rounded-[28px] border border-white/90 shadow-md flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-[#10B981] shrink-0">
+            <div className="w-10 h-10 rounded-2xl bg-teal-50 border border-teal-100 flex items-center justify-center text-[#00A896] shrink-0">
               <ShieldCheck className="w-5 h-5" />
             </div>
             <div>
-              <h4 className="font-display font-bold text-sm text-[#122820]">
+              <h4 className="font-display font-extrabold text-sm text-slate-900">
                 Hospital-Grade WHO Autoclave &amp; Class-B Sterilization
               </h4>
-              <p className="text-xs text-[#4B6358] mt-0.5">
+              <p className="text-xs text-slate-600 mt-0.5">
                 Multi-tier aseptic protocols and digital diagnostics standard across Belerhat, Nabadwip, and Parulia.
               </p>
             </div>
@@ -600,9 +600,9 @@ export default function Clinics() {
           <button
             type="button"
             onClick={() => window.dispatchEvent(new CustomEvent("openContactModal", { detail: { clinicSlug: "belerhat" } }))}
-            className="text-xs font-bold text-[#10B981] hover:text-[#059669] underline underline-offset-4 cursor-pointer shrink-0"
+            className="text-xs font-extrabold text-[#00A896] hover:text-[#028090] underline underline-offset-4 cursor-pointer shrink-0"
           >
-            Request Consultation →
+            Request Consultation &rarr;
           </button>
         </div>
 

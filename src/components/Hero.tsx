@@ -1,15 +1,10 @@
-﻿import React from "react";
-import { CalendarDays, Star, Award, Clock, CheckCircle2 } from "lucide-react";
-import { WhatsAppIcon } from "./Icons";
+import React from "react";
+import { motion } from "motion/react";
+import { CalendarDays, Phone, ShieldCheck, Smile, Activity, MapPin, ArrowRight, Microchip, HeartHandshake, Bell, Sparkles } from "lucide-react";
+import { ToothIcon } from "./Icons";
 import { PRIMARY_PHONE_NUMBER, PRIMARY_WHATSAPP_DIGITS } from "../lib/constants";
 
-const HERO_DOCTOR_IMG = "https://res.cloudinary.com/tud0sobq/image/upload/v1784740273/ChatGPT_Image_Jul_19_2026_11_25_20_PM_c6ffsk.png";
-
-const STATS = [
-  { value: "5K+", label: "Happy Patients" },
-  { value: "10+", label: "Years Practice" },
-  { value: "98%", label: "Pain-Free Rate" },
-];
+const DOCTOR_PHOTO_PATH = "/DNS_Portrait_DrNilay_Headshot_4x5_202607.webp";
 
 export default function Hero() {
   const handleBooking = (e: React.MouseEvent) => {
@@ -17,149 +12,243 @@ export default function Hero() {
     window.dispatchEvent(new CustomEvent("openContactModal"));
   };
 
-  const whatsappUrl = `https://wa.me/${PRIMARY_WHATSAPP_DIGITS}?text=${encodeURIComponent("Hello Doctor, I would like to book a dental consultation.")}`;
-
   return (
-    <section id="home" className="relative font-sans overflow-hidden bg-white">
-      <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#0284C7] to-transparent" />
+    <section id="home" className="relative font-sans overflow-hidden bg-gradient-to-b from-slate-50/80 via-[#F2F8F6] to-white pt-4 pb-12 sm:pb-16 lg:pb-20">
+      {/* ── Abstract Translucent Glowing 3D Tooth Background Aura ── */}
+      <div className="absolute top-1/4 right-[10%] w-[500px] h-[500px] bg-gradient-to-br from-teal-300/20 via-cyan-200/15 to-emerald-200/10 rounded-full blur-[100px] pointer-events-none z-0" />
+      <div className="absolute top-10 left-[5%] w-[350px] h-[350px] bg-gradient-to-tr from-cyan-300/15 via-emerald-200/10 to-transparent rounded-full blur-[90px] pointer-events-none z-0" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-12 pb-0">
-        <div className="flex flex-col lg:flex-row items-stretch gap-8 lg:gap-12">
+      {/* Subtle Tooth SVG watermark in the center background */}
+      <div className="absolute top-1/3 right-[22%] opacity-[0.07] pointer-events-none z-0 hidden lg:block transform rotate-6">
+        <svg width="340" height="380" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="0.8" className="text-teal-600">
+          <path d="M12 2C7.5 2 4 4.5 4 8.5C4 11.5 5.5 14 6.5 16.5C7.5 19 8.5 22 10.5 22C11.5 22 12 20 12 18C12 20 12.5 22 13.5 22C15.5 22 16.5 19 17.5 16.5C18.5 14 20 11.5 20 8.5C20 4.5 16.5 2 12 2Z" />
+        </svg>
+      </div>
 
-          <div className="w-full lg:w-[52%] flex flex-col justify-center pt-6 sm:pt-8 pb-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* ── Main Split Hero Layout ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
 
-            <div className="inline-flex self-start items-center gap-2 px-3.5 py-1.5 rounded-full mb-5 bg-sky-50 border border-sky-200">
-              <div className="flex items-center gap-0.5 text-amber-400">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-3 h-3 fill-amber-400" />
-                ))}
+          {/* ── LEFT COLUMN ── */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-7 flex flex-col justify-center pt-2 sm:pt-4"
+          >
+            {/* Registered Practitioner Badge */}
+            <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full glass-pill-chip mb-6 self-start shadow-sm border border-white/80 bg-white/80 backdrop-blur-xl">
+              <div className="w-6 h-6 rounded-full bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-600">
+                <ShieldCheck className="w-3.5 h-3.5" />
               </div>
-              <span className="text-xs font-bold text-[#0284C7]">4.9 Google Rating</span>
-              <span className="text-xs text-[#64748B]">• 200+ Reviews</span>
+              <span className="text-xs sm:text-sm font-semibold text-slate-700 tracking-tight">
+                WBDC Reg. No. 4858-A &bull; Registered Dental Practitioner
+              </span>
             </div>
 
-            <h1 className="text-[38px] sm:text-[52px] lg:text-[58px] font-display font-extrabold tracking-tight text-[#0F172A] leading-[1.06] mb-5">
-              West Bengal&apos;s<br />
-              Premier{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0284C7] to-[#0EA5E9]">
-                Dental&nbsp;Care
+            {/* Editorial Headline */}
+            <h1 className="text-[40px] sm:text-[56px] lg:text-[68px] font-display font-extrabold tracking-tight text-[#0F172A] leading-[1.08] mb-6">
+              Specialized Care.<br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00A896] via-[#028090] to-[#059669]">
+                Confident Smiles.
               </span>
             </h1>
 
-            <p className="text-base sm:text-lg text-[#475569] leading-relaxed max-w-lg mb-7 font-normal">
-              Experience 100% pain-free dental care with Dr. Nilay Saha — BDS Gold Medalist. Advanced endodontics, smile design, and laser care at Belerhat, Nabadwip &amp; Parulia.
+            {/* Subheadline */}
+            <p className="text-base sm:text-lg text-slate-600 font-normal leading-relaxed max-w-xl mb-8">
+              Expert root canal care and advanced dentistry with precision, technology, and a gentle touch.
             </p>
 
-            <div className="flex flex-wrap gap-2 mb-7">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-bold bg-sky-50 text-[#0284C7] border border-sky-200">
-                <CheckCircle2 className="w-3.5 h-3.5" />
-                BDS Gold Medalist
-              </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-bold bg-teal-50 text-teal-700 border border-teal-200">
-                <CheckCircle2 className="w-3.5 h-3.5" />
-                WHO Sterilization
-              </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-bold bg-slate-100 text-[#334155] border border-slate-200">
-                WBDC Reg 4858-A
-              </span>
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-3 mb-7">
+            {/* CTA Buttons */}
+            <div className="flex flex-wrap items-center gap-4 mb-10">
               <button
                 type="button"
                 onClick={handleBooking}
-                className="flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-[#0284C7] hover:bg-[#0369A1] text-white font-bold text-sm shadow-[0_6px_20px_rgba(2,132,199,0.35)] hover:shadow-[0_10px_28px_rgba(2,132,199,0.5)] hover:-translate-y-0.5 transition-all duration-200 cursor-pointer"
+                className="btn-crystal px-7 py-4 rounded-full text-base font-bold text-white flex items-center gap-3 shadow-[0_10px_30px_rgba(0,168,150,0.35)] hover:shadow-[0_15px_40px_rgba(0,168,150,0.5)] transition-all duration-300 cursor-pointer active:scale-98"
               >
-                <CalendarDays className="w-4 h-4" />
-                Book Appointment
+                <CalendarDays className="w-5 h-5 text-emerald-100" />
+                <span>Book Appointment</span>
+                <ArrowRight className="w-4 h-4 ml-1 text-emerald-100" />
               </button>
+
               <a
-                href={whatsappUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-sm shadow-[0_6px_20px_rgba(16,185,129,0.3)] hover:-translate-y-0.5 transition-all duration-200"
+                href={`tel:${PRIMARY_PHONE_NUMBER}`}
+                className="px-7 py-4 rounded-full bg-white/80 hover:bg-white border border-white/90 backdrop-blur-xl text-slate-800 font-bold text-base shadow-[0_8px_25px_rgba(15,23,42,0.06)] hover:shadow-[0_12px_32px_rgba(15,23,42,0.1)] transition-all duration-300 flex items-center gap-2.5 active:scale-98"
               >
-                <WhatsAppIcon className="w-4 h-4 fill-white" />
-                WhatsApp Chat
+                <Phone className="w-4 h-4 text-[#00A896]" />
+                <span>Call Now</span>
               </a>
             </div>
 
-            <div className="inline-flex self-start items-center gap-2 text-xs font-semibold text-rose-700 bg-rose-50 border border-rose-200 px-4 py-2 rounded-full">
-              <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse" />
-              Dental Emergency? Call:{" "}
-              <a href={`tel:${PRIMARY_PHONE_NUMBER}`} className="font-extrabold underline text-rose-800">
-                {PRIMARY_PHONE_NUMBER}
-              </a>
+            {/* ── 4 Stats Pill Bar ── */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 p-3 rounded-3xl bg-white/70 backdrop-blur-2xl border border-white/90 shadow-[0_12px_40px_rgba(15,23,42,0.05)]">
+              <div className="flex items-center gap-2.5 p-2.5 rounded-2xl hover:bg-white/80 transition-colors">
+                <div className="w-9 h-9 rounded-xl bg-teal-50 border border-teal-200/60 flex items-center justify-center text-[#00A896] shrink-0">
+                  <Smile className="w-5 h-5" />
+                </div>
+                <div>
+                  <div className="text-base font-extrabold text-slate-900 leading-tight">5,000+</div>
+                  <div className="text-[11px] text-slate-500 font-medium leading-tight">Happy Patients</div>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2.5 p-2.5 rounded-2xl hover:bg-white/80 transition-colors">
+                <div className="w-9 h-9 rounded-xl bg-teal-50 border border-teal-200/60 flex items-center justify-center text-[#00A896] shrink-0">
+                  <ShieldCheck className="w-5 h-5" />
+                </div>
+                <div>
+                  <div className="text-base font-extrabold text-slate-900 leading-tight">10+</div>
+                  <div className="text-[11px] text-slate-500 font-medium leading-tight">Years of Practice</div>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2.5 p-2.5 rounded-2xl hover:bg-white/80 transition-colors">
+                <div className="w-9 h-9 rounded-xl bg-teal-50 border border-teal-200/60 flex items-center justify-center text-[#00A896] shrink-0">
+                  <Activity className="w-5 h-5" />
+                </div>
+                <div>
+                  <div className="text-base font-extrabold text-slate-900 leading-tight">98%</div>
+                  <div className="text-[11px] text-slate-500 font-medium leading-tight">Pain-Free Rate</div>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2.5 p-2.5 rounded-2xl hover:bg-white/80 transition-colors">
+                <div className="w-9 h-9 rounded-xl bg-teal-50 border border-teal-200/60 flex items-center justify-center text-[#00A896] shrink-0">
+                  <MapPin className="w-5 h-5" />
+                </div>
+                <div>
+                  <div className="text-base font-extrabold text-slate-900 leading-tight">3</div>
+                  <div className="text-[11px] text-slate-500 font-medium leading-tight">Clinic Locations</div>
+                </div>
+              </div>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="w-full lg:w-[48%] relative flex items-end justify-center">
-            <div className="relative w-full max-w-sm lg:max-w-none mx-auto">
-              <div className="absolute inset-0 bg-gradient-to-t from-[#F0F9FF] via-[#E0F2FE] to-transparent rounded-t-[32px]" />
+          {/* ── RIGHT COLUMN (Doctor Image / Logo Space & Quote Card) ── */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-5 relative flex flex-col items-center justify-center"
+          >
+            {/* Glowing Backdrop Frame */}
+            <div className="relative w-full max-w-md lg:max-w-none aspect-[4/5] rounded-[36px] overflow-hidden bg-gradient-to-b from-white/90 via-teal-50/50 to-white/80 backdrop-blur-2xl border border-white shadow-[0_20px_60px_rgba(0,168,150,0.12)] p-2">
+              
+              {/* Doctor Image Container / Placeholder */}
+              <div className="relative w-full h-full rounded-[30px] overflow-hidden bg-slate-100 flex items-center justify-center group">
+                <img
+                  src={DOCTOR_PHOTO_PATH}
+                  alt="Dr. Nilay Saha — BDS Endodontics Specialist"
+                  className="w-full h-full object-cover object-top filter contrast-[1.03] transition-transform duration-700 group-hover:scale-105"
+                  onError={(e) => {
+                    // Fallback to placeholder if image fails
+                    const target = e.target as HTMLElement;
+                    target.style.display = "none";
+                  }}
+                />
+                
+                {/* Subtle gradient overlay at bottom of doctor photo */}
+                <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-slate-900/40 via-transparent to-transparent pointer-events-none" />
 
-              <img
-                src={HERO_DOCTOR_IMG}
-                alt="Dr. Nilay Saha — BDS Gold Medalist, Dental Surgeon"
-                loading="eager"
-                className="relative z-10 w-full object-cover object-top rounded-t-[32px] max-h-[480px] sm:max-h-[540px] lg:max-h-[600px]"
-              />
-
-              <div className="absolute top-5 left-4 z-20 bg-white/95 backdrop-blur-sm border border-slate-200 rounded-2xl px-3.5 py-2.5 shadow-lg">
-                <div className="flex items-center gap-2">
-                  <Award className="w-4 h-4 text-amber-500" />
-                  <div>
-                    <div className="text-[10px] text-[#64748B] font-semibold uppercase tracking-wide">Qualification</div>
-                    <div className="text-xs font-extrabold text-[#0F172A]">BDS Gold Medalist</div>
+                {/* Doctor Designation Badge Overlay (Top Left) */}
+                <div className="absolute top-4 left-4 glass-crystal px-4 py-2.5 rounded-2xl border border-white/90 shadow-md">
+                  <div className="flex items-center gap-2">
+                    <div className="w-7 h-7 rounded-xl bg-teal-500/15 flex items-center justify-center text-[#00A896]">
+                      <ToothIcon className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <div className="text-[11px] font-extrabold text-slate-900 leading-tight">DR. NILAY SAHA</div>
+                      <div className="text-[9px] font-semibold text-teal-700 uppercase tracking-wider">Root Canal Specialist</div>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <div className="absolute bottom-6 right-4 z-20 bg-[#0284C7] rounded-2xl px-3.5 py-2.5 shadow-lg">
-                <div className="text-[10px] text-sky-200 font-semibold uppercase tracking-wide">Experience</div>
-                <div className="text-lg font-extrabold text-white leading-none">10+ yrs</div>
-              </div>
-
-              <div className="absolute bottom-6 left-4 z-20 bg-white/95 backdrop-blur-sm border border-slate-200 rounded-2xl px-3.5 py-2.5 shadow-lg">
-                <div className="text-[10px] text-[#64748B] font-semibold uppercase tracking-wide">Patients</div>
-                <div className="text-lg font-extrabold text-[#0F172A] leading-none">5,000+</div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <div className="border-t border-slate-200/80 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-0 divide-y sm:divide-y-0 sm:divide-x divide-slate-200/80">
-            {STATS.map((s) => (
-              <div key={s.label} className="flex-1 flex flex-col items-center justify-center py-4 sm:py-5 px-4">
-                <span className="text-2xl sm:text-3xl font-display font-extrabold text-[#0284C7] leading-none">{s.value}</span>
-                <span className="text-xs text-[#64748B] font-semibold mt-1 uppercase tracking-wider">{s.label}</span>
-              </div>
-            ))}
-
-            <div className="flex-1 flex items-center justify-center gap-3 py-4 sm:py-5 px-4">
-              <div className="w-8 h-8 rounded-full bg-sky-50 border border-sky-200 flex items-center justify-center text-[#0284C7]">
-                <Clock className="w-4 h-4" />
-              </div>
-              <div>
-                <div className="text-[11px] text-[#64748B] font-semibold uppercase tracking-wide">Clinic Hours</div>
-                <div className="text-sm font-bold text-[#0F172A]">Mon-Sat, 10AM-8:30PM</div>
-              </div>
-            </div>
-
-            <div className="flex items-center justify-center py-4 sm:py-5 px-4 sm:px-6">
-              <button
-                type="button"
-                onClick={handleBooking}
-                className="px-5 py-2.5 rounded-full bg-[#0F172A] hover:bg-[#1E293B] text-white text-xs font-bold uppercase tracking-wider cursor-pointer transition-colors"
+              {/* Floating Quote Card Overlay (Bottom Right) */}
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4, duration: 0.5 }}
+                className="absolute bottom-6 right-6 max-w-[210px] p-4 rounded-2xl glass-crystal border border-white/95 shadow-[0_12px_36px_rgba(15,23,42,0.12)] z-20 backdrop-blur-xl"
               >
-                Book Visit
-              </button>
+                <span className="text-2xl text-[#00A896] font-serif leading-none block mb-1">“</span>
+                <p className="text-xs font-medium text-slate-700 italic leading-snug mb-2">
+                  Your comfort. My priority.
+                </p>
+                <div className="text-right text-xs font-semibold text-[#00A896] font-display">
+                  &mdash; Dr. Nilay Saha
+                </div>
+              </motion.div>
+            </div>
+          </motion.div>
+
+        </div>
+
+        {/* ── Hero Bottom Feature Pill Cards Bar (4 Cards) ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3, duration: 0.6 }}
+          className="mt-12 sm:mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
+        >
+          <div className="p-5 rounded-3xl bg-white/80 backdrop-blur-xl border border-white/90 shadow-[0_10px_30px_rgba(15,23,42,0.04)] hover:shadow-[0_16px_40px_rgba(0,168,150,0.1)] transition-all duration-300 flex items-start gap-4 group">
+            <div className="w-12 h-12 rounded-2xl bg-teal-500/10 border border-teal-500/20 flex items-center justify-center text-[#00A896] shrink-0 group-hover:scale-110 transition-transform">
+              <ToothIcon className="w-6 h-6" />
+            </div>
+            <div>
+              <h3 className="font-display font-bold text-base text-slate-900 mb-1">Pain-Free Treatment</h3>
+              <p className="text-xs text-slate-600 leading-relaxed">Gentle techniques for a comfortable experience.</p>
             </div>
           </div>
+
+          <div className="p-5 rounded-3xl bg-white/80 backdrop-blur-xl border border-white/90 shadow-[0_10px_30px_rgba(15,23,42,0.04)] hover:shadow-[0_16px_40px_rgba(0,168,150,0.1)] transition-all duration-300 flex items-start gap-4 group">
+            <div className="w-12 h-12 rounded-2xl bg-teal-500/10 border border-teal-500/20 flex items-center justify-center text-[#00A896] shrink-0 group-hover:scale-110 transition-transform">
+              <Microchip className="w-6 h-6" />
+            </div>
+            <div>
+              <h3 className="font-display font-bold text-base text-slate-900 mb-1">Advanced Technology</h3>
+              <p className="text-xs text-slate-600 leading-relaxed">Modern equipment for accurate &amp; safe treatment.</p>
+            </div>
+          </div>
+
+          <div className="p-5 rounded-3xl bg-white/80 backdrop-blur-xl border border-white/90 shadow-[0_10px_30px_rgba(15,23,42,0.04)] hover:shadow-[0_16px_40px_rgba(0,168,150,0.1)] transition-all duration-300 flex items-start gap-4 group">
+            <div className="w-12 h-12 rounded-2xl bg-teal-500/10 border border-teal-500/20 flex items-center justify-center text-[#00A896] shrink-0 group-hover:scale-110 transition-transform">
+              <ShieldCheck className="w-6 h-6" />
+            </div>
+            <div>
+              <h3 className="font-display font-bold text-base text-slate-900 mb-1">Hygiene Promise</h3>
+              <p className="text-xs text-slate-600 leading-relaxed">Strict sterilization protocols for your safety.</p>
+            </div>
+          </div>
+
+          <div className="p-5 rounded-3xl bg-white/80 backdrop-blur-xl border border-white/90 shadow-[0_10px_30px_rgba(15,23,42,0.04)] hover:shadow-[0_16px_40px_rgba(0,168,150,0.1)] transition-all duration-300 flex items-start gap-4 group">
+            <div className="w-12 h-12 rounded-2xl bg-teal-500/10 border border-teal-500/20 flex items-center justify-center text-[#00A896] shrink-0 group-hover:scale-110 transition-transform">
+              <HeartHandshake className="w-6 h-6" />
+            </div>
+            <div>
+              <h3 className="font-display font-bold text-base text-slate-900 mb-1">Patient First Approach</h3>
+              <p className="text-xs text-slate-600 leading-relaxed">We listen, we explain, we care.</p>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* ── Emergency Floating Glass Pill Banner ── */}
+        <div className="mt-8 flex justify-center">
+          <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-white/90 backdrop-blur-2xl border border-rose-200/80 shadow-[0_8px_30px_rgba(244,63,94,0.08)]">
+            <div className="w-8 h-8 rounded-full bg-rose-50 border border-rose-200 flex items-center justify-center text-rose-500 animate-pulse">
+              <Bell className="w-4 h-4" />
+            </div>
+            <span className="text-xs sm:text-sm font-bold text-rose-600">Dental Emergency?</span>
+            <a
+              href={`tel:${PRIMARY_PHONE_NUMBER}`}
+              className="text-xs sm:text-sm font-extrabold text-slate-900 hover:text-rose-600 transition-colors flex items-center gap-1.5"
+            >
+              <span>Call Now</span>
+              <span className="text-[#00A896] underline font-mono">{PRIMARY_PHONE_NUMBER}</span>
+            </a>
+          </div>
         </div>
+
       </div>
     </section>
   );
