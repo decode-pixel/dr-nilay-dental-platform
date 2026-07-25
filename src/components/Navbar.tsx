@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { CalendarDays, Menu, X, Phone, ChevronRight, Sparkles } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { WhatsAppIcon, ToothIcon } from "./Icons";
@@ -41,64 +41,8 @@ const ID_ALIASES: Record<string, string[]> = {
 const NAV_OFFSET = 110; // px — accounts for fixed floating pill navbar height
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Interruptible Custom Smooth Scroll Engine
+// ID Resolution Map
 // ─────────────────────────────────────────────────────────────────────────────
-
-let currentScrollAnimId: number | null = null;
-let isProgrammaticScrolling = false;
-let programmaticScrollTimeout: ReturnType<typeof setTimeout> | null = null;
-
-function cancelCurrentScroll() {
-  if (currentScrollAnimId !== null) {
-    cancelAnimationFrame(currentScrollAnimId);
-    currentScrollAnimId = null;
-  }
-  if (programmaticScrollTimeout !== null) {
-    clearTimeout(programmaticScrollTimeout);
-    programmaticScrollTimeout = null;
-  }
-}
-
-function performSmoothScroll(targetTop: number, onComplete?: () => void) {
-  cancelCurrentScroll();
-  isProgrammaticScrolling = true;
-
-  const startTop = window.pageYOffset;
-  const distance = targetTop - startTop;
-
-  if (Math.abs(distance) < 4) {
-    window.scrollTo(0, targetTop);
-    isProgrammaticScrolling = false;
-    onComplete?.();
-    return;
-  }
-
-  const duration = Math.min(550, Math.max(280, Math.abs(distance) * 0.35));
-  let startTime: number | null = null;
-
-  function step(timestamp: number) {
-    if (!startTime) startTime = timestamp;
-    const elapsed = timestamp - startTime;
-    const progress = Math.min(elapsed / duration, 1);
-    // Cubic ease-out for smooth acceleration & deceleration
-    const ease = 1 - Math.pow(1 - progress, 3);
-
-    window.scrollTo(0, startTop + distance * ease);
-
-    if (progress < 1) {
-      currentScrollAnimId = requestAnimationFrame(step);
-    } else {
-      currentScrollAnimId = null;
-      programmaticScrollTimeout = setTimeout(() => {
-        isProgrammaticScrolling = false;
-        programmaticScrollTimeout = null;
-        onComplete?.();
-      }, 80);
-    }
-  }
-
-  currentScrollAnimId = requestAnimationFrame(step);
-}
 
 function resolveElement(navId: string): HTMLElement | null {
   const aliases = ID_ALIASES[navId] ?? [navId];
@@ -287,6 +231,8 @@ export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const isClickScrolling = useRef(false);
+  const clickScrollTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // ── Scroll position listener for sticky navbar blur background ───────────
   useEffect(() => {
@@ -301,9 +247,9 @@ export default function Navbar() {
   // ── Interrupt scroll if user manually interacts (wheel / touch) ─────────
   useEffect(() => {
     const handleUserInterrupt = () => {
-      if (isProgrammaticScrolling) {
-        cancelCurrentScroll();
-        isProgrammaticScrolling = false;
+      if (isClickScrolling.current) {
+        isClickScrolling.current = false;
+        if (clickScrollTimeout.current) clearTimeout(clickScrollTimeout.current);
       }
     };
 
@@ -321,7 +267,7 @@ export default function Navbar() {
 
     const handleIntersect = () => {
       // Ignore scroll-spy updates during explicit programmatic smooth scroll
-      if (isProgrammaticScrolling) return;
+      if (isClickScrolling.current) return;
 
       // Handle top of page edge case
       if (window.scrollY < 100) {
@@ -405,6 +351,12 @@ export default function Navbar() {
       // Synchronously update active section so highlight pill moves IMMEDIATELY
       setActiveSection(navId);
 
+      isClickScrolling.current = true;
+      if (clickScrollTimeout.current) clearTimeout(clickScrollTimeout.current);
+      clickScrollTimeout.current = setTimeout(() => {
+        isClickScrolling.current = false;
+      }, 1000);
+
       if (location.pathname !== "/") {
         navigate("/");
         // Retry scroll once target page mounts
@@ -412,20 +364,20 @@ export default function Navbar() {
           const el = resolveElement(navId);
           if (el) {
             const top = navId === "home" ? 0 : Math.max(0, el.getBoundingClientRect().top + window.pageYOffset - NAV_OFFSET);
-            performSmoothScroll(top);
+            window.scrollTo({ top, behavior: "smooth" });
+          } else if (navId === "home") {
+            window.scrollTo({ top: 0, behavior: "smooth" });
           }
         }, 120);
         return;
       }
 
-      if (navId === "home") {
-        performSmoothScroll(0);
-      } else {
-        const el = resolveElement(navId);
-        if (el) {
-          const top = Math.max(0, el.getBoundingClientRect().top + window.pageYOffset - NAV_OFFSET);
-          performSmoothScroll(top);
-        }
+      const el = resolveElement(navId);
+      if (el) {
+        const top = navId === "home" ? 0 : Math.max(0, el.getBoundingClientRect().top + window.pageYOffset - NAV_OFFSET);
+        window.scrollTo({ top, behavior: "smooth" });
+      } else if (navId === "home") {
+        window.scrollTo({ top: 0, behavior: "smooth" });
       }
     },
     [location.pathname, navigate]
