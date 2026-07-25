@@ -366,7 +366,7 @@ export class ClinicStatusResolver {
     doctorsList: Doctor[],
     slug?: string
   ): ClinicResolvedStatus {
-    const isExpandingCenter = clinicId === 'parulia' || clinicId === 'nabadwip' || slug === 'parulia' || slug === 'nabadwip';
+    const isExpandingCenter = clinicId === 'nabadwip' || slug === 'nabadwip';
     if (isExpandingCenter) {
       return {
         status: 'Open',

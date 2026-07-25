@@ -25,7 +25,7 @@ export const TERMS_AND_CONDITIONS_DRAFT = `
 Last Updated: July 2026
 
 ## 1. Clinical Appointments & Scheduling
-Online appointment requests submitted through this platform represent preferred session times (Morning, Afternoon, Evening) and are subject to final confirmation by clinic reception staff based on Dr. Nilay Saha's operating and visiting schedules across Belerhat, Parulia, and Nabadwip centers.
+Online appointment requests submitted through this platform represent preferred session times (Morning, Afternoon, Evening) and are subject to final confirmation by clinic reception staff based on Dr. Nilay Saha's operating and visiting schedules across Belerhat and Nabadwip centers.
 
 ## 2. No Automated Charges
 Booking confirmation and consultation scheduling through our digital portal do not incur automated online charges or pre-authorization holds unless explicitly noted for specialized procedures.

@@ -117,7 +117,7 @@ export default function Hero() {
                   <MapPin className="w-5 h-5" />
                 </div>
                 <div>
-                  <div className="text-base font-extrabold text-slate-900 leading-tight">3</div>
+                  <div className="text-base font-extrabold text-slate-900 leading-tight">2</div>
                   <div className="text-[11px] text-slate-500 font-medium leading-tight">Clinic Locations</div>
                 </div>
               </div>

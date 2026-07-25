@@ -45,12 +45,12 @@ const reviews: Review[] = [
   },
   {
     name: "Sushmita Banerjee",
-    location: "Parulia Center",
+    location: "Belerhat Center",
     treatment: "Painless Cosmetic Fillings",
     rating: 5,
     date: "1 month ago",
     comment:
-      "The entire experience at the Parulia clinic feels world-class right from the moment you step inside. Dr. Saha is gentle, patient, and uses ultra-modern instruments. My dental sensitivity is completely gone after just one consultation.",
+      "The entire experience at the clinic feels world-class right from the moment you step inside. Dr. Saha is gentle, patient, and uses ultra-modern instruments. My dental sensitivity is completely gone after just one consultation.",
     initials: "SB",
   },
   {

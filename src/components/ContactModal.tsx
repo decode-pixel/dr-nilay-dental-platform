@@ -141,7 +141,6 @@ export default function ContactModal({
                       className="w-full px-4 py-3 rounded-xl bg-[#F4F7F4] border border-emerald-900/10 text-sm font-semibold text-[#122820] focus:outline-none focus:ring-2 focus:ring-[#10B981]"
                     >
                       <option value="belerhat">Saha Dental Clinic - Belerhat Center (Flagship)</option>
-                      <option value="parulia">Saha Dental Clinic - Parulia Center</option>
                       <option value="nabadwip">Saha Dental Clinic - Nabadwip Center</option>
                     </select>
                   </div>

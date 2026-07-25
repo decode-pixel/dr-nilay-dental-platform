@@ -186,11 +186,10 @@ export default function MeetDrNilaySaha() {
                 />
               </div>
 
-              {/* Overlay badges */}
               <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between gap-3">
                 <div className="glass-crystal px-3.5 py-2.5 rounded-2xl border border-white/90 shadow-md">
                   <div className="text-[10px] text-slate-500 font-semibold uppercase tracking-wide">Qualification</div>
-                  <div className="text-xs font-extrabold text-slate-900">BDS Gold Medalist</div>
+                  <div className="text-xs font-extrabold text-slate-900">BDS, FIE</div>
                 </div>
                 <div className="bg-[#00A896] rounded-2xl px-3.5 py-2.5 shadow-md">
                   <div className="text-[10px] text-teal-100 font-semibold uppercase tracking-wide">Reg. No.</div>
@@ -204,7 +203,7 @@ export default function MeetDrNilaySaha() {
               {[
                 { label: "Experience", value: `${doctor.experience_years || 10}+ yrs` },
                 { label: "Languages", value: languages.slice(0, 2).join(", ") },
-                { label: "Centers", value: "3 Clinics" },
+                { label: "Centers", value: "2 Clinics" },
               ].map((stat) => (
                 <div key={stat.label} className="bg-white/80 backdrop-blur-xl border border-white/90 rounded-[20px] p-3.5 text-center shadow-[0_4px_20px_rgba(15,23,42,0.03)]">
                   <div className="text-[10px] text-slate-500 font-semibold uppercase tracking-wide">{stat.label}</div>
@@ -215,12 +214,12 @@ export default function MeetDrNilaySaha() {
 
             {/* Clinics strip */}
             <div className="mt-4 bg-white/80 backdrop-blur-xl border border-white/90 rounded-[20px] p-4 flex items-center gap-3 shadow-[0_4px_20px_rgba(15,23,42,0.03)]">
-              <div className="w-9 h-9 rounded-xl bg-teal-50 border border-teal-200/60 flex items-center justify-center text-[#00A896] shrink-0">
+              <div className="w-9 h-9 rounded-xl bg-teal-50 border border-teal-100 flex items-center justify-center text-[#00A896] shrink-0">
                 <MapPin className="w-4.5 h-4.5" />
               </div>
               <div>
                 <div className="text-[10px] text-slate-500 font-bold uppercase tracking-wide">Consulting Clinics</div>
-                <div className="text-xs font-extrabold text-slate-900">Belerhat &bull; Parulia &bull; Nabadwip</div>
+                <div className="text-xs font-extrabold text-slate-900">Belerhat &bull; Nabadwip</div>
               </div>
             </div>
           </div>
@@ -235,7 +234,7 @@ export default function MeetDrNilaySaha() {
                 <h3 className="font-display font-extrabold text-lg text-slate-900">Clinical Biography &amp; Philosophy</h3>
               </div>
               <p className={`text-slate-600 text-sm sm:text-base leading-[1.75] font-normal transition-all duration-300 ${bioExpanded ? "" : "line-clamp-4"}`}>
-                {aboutConfig.description || doctor.bio || "Dr. Nilay Saha is a leading Dental Surgeon and Oral Physician dedicated to providing painless, highly precise dental treatments. With over a decade of hands-on experience across multiple clinical centers in West Bengal, he specializes in single-visit root canal treatments, aesthetic restorations, and complex surgical procedures. His clinical approach emphasizes conservative dentistry—saving natural teeth wherever possible—while utilizing international sterilization standards and modern diagnostics to ensure optimum patient safety and comfort."}
+                {aboutConfig.description || doctor.bio || "Dr. Nilay Saha is a leading Dental Surgeon and Oral Physician dedicated to providing painless, highly precise dental treatments. With over a decade of hands-on experience across clinical centers in West Bengal, he specializes in single-visit root canal treatments, aesthetic restorations, and complex surgical procedures. His clinical approach emphasizes conservative dentistry—saving natural teeth wherever possible—while utilizing international sterilization standards and modern diagnostics to ensure optimum patient safety and comfort."}
               </p>
               <button
                 type="button"
@@ -257,7 +256,7 @@ export default function MeetDrNilaySaha() {
                 </div>
                 <div className="bg-teal-50/50 border border-teal-100 rounded-[16px] p-3">
                   <span className="text-[10px] text-slate-500 font-semibold block uppercase tracking-wide">Active Centers</span>
-                  <strong className="text-xs text-[#00A896]">3 Clinic Locations</strong>
+                  <strong className="text-xs text-[#00A896]">2 Clinic Locations</strong>
                 </div>
               </div>
             </div>
@@ -342,7 +341,7 @@ export default function MeetDrNilaySaha() {
                       <div>
                         <span className="text-xs font-mono text-[#00A896] font-bold">2014 - Present</span>
                         <h4 className="font-bold text-slate-900 text-sm mt-0.5">Principal Surgeon &amp; Clinical Director</h4>
-                        <p className="text-xs text-slate-600 mt-1">Founded and expanded regional clinical centers across Belerhat, Parulia, and Nabadwip with zero-compromise sterilization protocols.</p>
+                        <p className="text-xs text-slate-600 mt-1">Founded and expanded regional clinical centers across Belerhat and Nabadwip with zero-compromise sterilization protocols.</p>
                       </div>
                     </div>
                     <div className="flex items-start gap-3 p-4 rounded-[20px] bg-slate-50/80 border border-slate-100">

@@ -8,13 +8,11 @@ export const ROUTES = {
 
 export const CLINIC_SLUGS = {
   BELERHAT: 'belerhat',
-  PARULIA: 'parulia',
   NABADWIP: 'nabadwip',
 };
 
 export const CLINIC_NAMES: Record<string, string> = {
   [CLINIC_SLUGS.BELERHAT]: 'Belerhat Center',
-  [CLINIC_SLUGS.PARULIA]: 'Parulia Center',
   [CLINIC_SLUGS.NABADWIP]: 'Nabadwip Center',
 };
 

@@ -96,7 +96,7 @@ export default function SEO({ title: fallbackTitle, description: fallbackDesc, u
       "url": "https://www.sahadental.com",
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "Belerhat & Parulia",
+        "streetAddress": "Belerhat & Nabadwip",
         "addressLocality": "Purba Bardhaman",
         "addressRegion": "West Bengal",
         "postalCode": "713101",

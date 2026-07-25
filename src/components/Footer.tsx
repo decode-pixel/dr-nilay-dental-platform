@@ -162,7 +162,7 @@ export default function Footer() {
                   <MapPin className="w-3.5 h-3.5 text-[#94B0A3] group-hover:text-[#34D399] transition-colors" />
                 </div>
                 <div className="flex flex-col pt-1">
-                  <span className="text-sm text-gray-300 group-hover:text-white transition-colors font-medium">Belerhat • Parulia • Nabadwip</span>
+                  <span className="text-sm text-gray-300 group-hover:text-white transition-colors font-medium">Belerhat • Nabadwip</span>
                 </div>
               </div>
             </div>

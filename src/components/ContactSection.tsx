@@ -47,12 +47,6 @@ export default function ContactSection() {
       days: "Mon – Sat (Sunday Closed)"
     },
     {
-      name: "Parulia Regional Clinic",
-      location: "Parulia (Visiting Consultation), Purba Bardhaman",
-      hours: "Visiting hours by appointment",
-      days: "Pre-booked clinical consultations"
-    },
-    {
       name: "Nabadwip Studio",
       location: "Nabadwip (Visiting Clinic), Nadia",
       hours: "Visiting hours by appointment",
@@ -113,14 +107,14 @@ export default function ContactSection() {
           })}
         </div>
 
-        {/* 3 Regional Clinics Contact Grid */}
+        {/* 2 Regional Clinics Contact Grid */}
         <div className="p-8 sm:p-10 rounded-[32px] bg-white/80 backdrop-blur-2xl border border-white/90 shadow-[0_15px_45px_rgba(15,23,42,0.05)]">
           <div className="text-center max-w-xl mx-auto mb-10">
             <span className="text-xs font-extrabold tracking-widest text-[#00A896] uppercase block mb-1">Clinic Locations</span>
             <h3 className="text-2xl font-display font-extrabold text-slate-900">Visiting Hours &amp; Locations</h3>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
             {clinicsCoords.map((c, i) => (
               <div key={i} className="p-5 rounded-2xl bg-teal-50/50 border border-teal-100/70 flex flex-col justify-between">
                 <div>

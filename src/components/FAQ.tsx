@@ -17,7 +17,7 @@ const faqData = [
   },
   {
     question: "What should I do if I have a severe dental emergency?",
-    answer: "In the event of acute toothache, trauma, or swelling, contact our clinic directly via phone. We prioritize urgent clinical cases across Belerhat, Parulia, and Nabadwip to provide fast pain relief."
+    answer: "In the event of acute toothache, trauma, or swelling, contact our clinic directly via phone. We prioritize urgent clinical cases across Belerhat and Nabadwip to provide fast pain relief."
   },
   {
     question: "Do you accept digital payments and insurance queries?",
