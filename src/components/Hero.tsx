@@ -1,8 +1,8 @@
 import React from "react";
 import { motion } from "motion/react";
 import { CalendarDays, Phone, ShieldCheck, Smile, Activity, MapPin, ArrowRight, Microchip, HeartHandshake, Bell, Sparkles } from "lucide-react";
-import { ToothIcon } from "./Icons";
-import { PRIMARY_PHONE_NUMBER, PRIMARY_WHATSAPP_DIGITS } from "../lib/constants";
+import { ToothIcon, WhatsAppIcon } from "./Icons";
+import { PRIMARY_PHONE_NUMBER, buildWhatsAppUrl } from "../lib/constants";
 
 const DOCTOR_PHOTO_PATH = "/DNS_Portrait_DrNilay_Headshot_4x5_202607.webp";
 
@@ -77,6 +77,16 @@ export default function Hero() {
               >
                 <Phone className="w-4 h-4 text-[#00A896]" />
                 <span>Call Now</span>
+              </a>
+
+              <a
+                href={buildWhatsAppUrl()}
+                target="_blank"
+                rel="noreferrer"
+                className="px-6 py-4 rounded-full bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-800 font-bold text-base shadow-xs transition-all duration-300 flex items-center gap-2 active:scale-98"
+              >
+                <WhatsAppIcon className="w-5 h-5 text-[#25D366]" />
+                <span>WhatsApp</span>
               </a>
             </div>
 

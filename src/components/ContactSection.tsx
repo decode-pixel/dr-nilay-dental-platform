@@ -5,7 +5,8 @@ import {
   PRIMARY_PHONE_NUMBER, 
   PRIMARY_PHONE_DISPLAY,
   PRIMARY_WHATSAPP_DIGITS,
-  CLINIC_MAP_LINKS
+  CLINIC_MAP_LINKS,
+  buildWhatsAppUrl
 } from "../lib/constants";
 import TagPill from "./TagPill";
 
@@ -24,7 +25,7 @@ export default function ContactSection() {
       icon: WhatsAppIcon,
       title: "WhatsApp Consultation",
       value: "Quick Digital Chat",
-      link: `https://wa.me/${PRIMARY_WHATSAPP_DIGITS}`,
+      link: buildWhatsAppUrl(),
       description: "Typically reply within 15 mins",
       actionText: "Message Us",
       bgClass: "bg-emerald-50 border-emerald-100 text-emerald-600"

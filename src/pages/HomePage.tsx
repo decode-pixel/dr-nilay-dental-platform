@@ -5,7 +5,7 @@ import ContactModal from "../components/ContactModal";
 import { WhatsAppIcon } from "../components/Icons";
 import LazySection from "../components/LazySection";
 import SkeletonLoader from "../components/SkeletonLoader";
-import { PRIMARY_WHATSAPP_DIGITS } from "../lib/constants";
+import { buildWhatsAppUrl } from "../lib/constants";
 
 // Lazy load below-the-fold components for fast initial load
 const MeetDrNilaySaha   = lazy(() => import("../components/MeetDrNilaySaha"));
@@ -114,7 +114,7 @@ export default function HomePage() {
 
       {/* ── Floating WhatsApp FAB (z-[90]) ───────────────────────────────── */}
       <a
-        href={`https://wa.me/${PRIMARY_WHATSAPP_DIGITS}`}
+        href={buildWhatsAppUrl()}
         target="_blank"
         rel="noreferrer"
         className="fixed bottom-6 right-6 z-[90] flex items-center justify-center w-14 h-14 bg-[#25D366] hover:bg-[#20bd5a] text-white rounded-full shadow-[0_0_20px_rgba(37,211,102,0.4)] hover:shadow-[0_0_30px_rgba(37,211,102,0.6)] hover:-translate-y-1 active:scale-95 transition-all duration-200"

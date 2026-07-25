@@ -3,7 +3,7 @@ import { CalendarDays, Menu, X, Phone, ChevronRight, Sparkles } from "lucide-rea
 import { AnimatePresence, motion } from "motion/react";
 import { WhatsAppIcon, ToothIcon } from "./Icons";
 import { useLocation, useNavigate, Link } from "react-router-dom";
-import { PRIMARY_PHONE_NUMBER, PRIMARY_WHATSAPP_DIGITS } from "../lib/constants";
+import { PRIMARY_PHONE_NUMBER, buildWhatsAppUrl } from "../lib/constants";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Constants
@@ -196,7 +196,7 @@ function MobileMenu({ isOpen, onClose, activeSection, onNavClick }: MobileMenuPr
 
             <div className="grid grid-cols-2 gap-3">
               <a
-                href={`https://wa.me/${PRIMARY_WHATSAPP_DIGITS}`}
+                href={buildWhatsAppUrl()}
                 target="_blank"
                 rel="noreferrer"
                 onClick={onClose}

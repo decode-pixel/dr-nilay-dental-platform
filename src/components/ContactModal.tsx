@@ -7,7 +7,8 @@ import {
   PRIMARY_WHATSAPP_DIGITS, 
   CLINIC_NAMES, 
   CLINIC_SCHEDULES, 
-  CLINIC_SLUGS 
+  CLINIC_SLUGS,
+  buildWhatsAppUrl 
 } from "../lib/constants";
 
 export interface ContactModalProps {
@@ -153,8 +154,14 @@ export default function ContactModal({
 
   const getWhatsAppUrl = () => {
     const clinicName = CLINIC_NAMES[clinic] || activeConfig.name;
-    const text = `Hello Dr. Nilay Saha Clinic,\n\nI would like to request an appointment:\n• Ref Code: ${bookingRef}\n• Patient: ${patientName || "Patient"}\n• Contact: ${patientPhone || "N/A"}\n• Clinic: ${clinicName}\n• Treatment: ${service}\n• Date: ${date}\n• Time Slot: ${sessionTime}\n\nPlease confirm availability. Thank you!`;
-    return `https://wa.me/${PRIMARY_WHATSAPP_DIGITS}?text=${encodeURIComponent(text)}`;
+    return buildWhatsAppUrl({
+      name: patientName,
+      clinic: clinicName,
+      date,
+      time: sessionTime,
+      service,
+      refCode: bookingRef
+    });
   };
 
   return (

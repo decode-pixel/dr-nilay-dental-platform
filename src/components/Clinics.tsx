@@ -10,7 +10,8 @@ import {
   ShieldCheck
 } from "lucide-react";
 import TagPill from "./TagPill";
-import { PRIMARY_PHONE_NUMBER, PRIMARY_PHONE_DISPLAY } from "../lib/constants";
+import { WhatsAppIcon } from "./Icons";
+import { PRIMARY_PHONE_NUMBER, PRIMARY_PHONE_DISPLAY, buildWhatsAppUrl } from "../lib/constants";
 
 interface ScheduleDay {
   day: string;
@@ -178,11 +179,22 @@ export default function Clinics() {
                     <span>Book Appointment</span>
                   </button>
 
-                  <div className="flex items-center gap-2 w-full sm:w-auto shrink-0">
+                  <div className="flex items-center gap-2 w-full sm:w-auto shrink-0 flex-wrap">
+                    <a
+                      href={buildWhatsAppUrl({ clinic: clinic.name })}
+                      target="_blank"
+                      rel="noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      className="flex-1 sm:flex-initial py-3 px-3.5 rounded-full bg-emerald-50 hover:bg-emerald-100 border border-emerald-200/80 text-emerald-800 font-bold text-xs flex items-center justify-center gap-1.5 shadow-2xs transition-colors"
+                    >
+                      <WhatsAppIcon className="w-3.5 h-3.5 text-[#25D366]" />
+                      <span>WhatsApp</span>
+                    </a>
+
                     <a
                       href={`tel:${clinic.phone}`}
                       onClick={(e) => e.stopPropagation()}
-                      className="flex-1 sm:flex-initial py-3 px-4 rounded-full bg-white border border-slate-200 text-slate-800 hover:text-[#00A896] hover:border-teal-200 font-bold text-xs flex items-center justify-center gap-1.5 shadow-xs transition-colors"
+                      className="flex-1 sm:flex-initial py-3 px-3.5 rounded-full bg-white border border-slate-200 text-slate-800 hover:text-[#00A896] hover:border-teal-200 font-bold text-xs flex items-center justify-center gap-1.5 shadow-xs transition-colors"
                     >
                       <Phone className="w-3.5 h-3.5 text-[#00A896]" />
                       <span>Call</span>
@@ -193,7 +205,7 @@ export default function Clinics() {
                       target="_blank"
                       rel="noreferrer"
                       onClick={(e) => e.stopPropagation()}
-                      className="flex-1 sm:flex-initial py-3 px-4 rounded-full bg-white border border-slate-200 text-slate-800 hover:text-[#00A896] hover:border-teal-200 font-bold text-xs flex items-center justify-center gap-1.5 shadow-xs transition-colors"
+                      className="flex-1 sm:flex-initial py-3 px-3.5 rounded-full bg-white border border-slate-200 text-slate-800 hover:text-[#00A896] hover:border-teal-200 font-bold text-xs flex items-center justify-center gap-1.5 shadow-xs transition-colors"
                     >
                       <Navigation className="w-3.5 h-3.5 text-[#00A896]" />
                       <span>Directions</span>

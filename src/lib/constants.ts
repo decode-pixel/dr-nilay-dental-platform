@@ -135,6 +135,29 @@ export const PRIMARY_PHONE_NUMBER = '+917319526106';
 export const PRIMARY_PHONE_DISPLAY = '+91 73195 26106';
 export const PRIMARY_PHONE_DIGITS = '7319526106';
 
-// WhatsApp typically expects no spaces, just the country code + number.
-export const PRIMARY_WHATSAPP_NUMBER = '+917319526106';
-export const PRIMARY_WHATSAPP_DIGITS = '917319526106';
+// WhatsApp contact number (Single source of truth)
+export const PRIMARY_WHATSAPP_NUMBER = '+919609180979';
+export const PRIMARY_WHATSAPP_DIGITS = '919609180979';
+
+export interface WhatsAppBookingDetails {
+  name?: string;
+  clinic?: string;
+  date?: string;
+  time?: string;
+  service?: string;
+  refCode?: string;
+}
+
+export function buildWhatsAppUrl(details?: WhatsAppBookingDetails): string {
+  const hasDetails = details && (details.name || details.clinic || details.date || details.time || details.service || details.refCode);
+
+  let messageText = '';
+
+  if (hasDetails) {
+    messageText = `Hello Dr. Nilay Saha,\n\nI visited your website and would like to book a dental appointment.${details.refCode ? `\n\n• Ref Code: ${details.refCode}` : ''}\n\nHere are my details:\n\n• Name: ${details.name || ''}\n• Preferred Clinic: ${details.clinic || ''}\n• Preferred Date: ${details.date || ''}\n• Preferred Time: ${details.time || ''}\n• Dental Concern: ${details.service || ''}\n\nPlease confirm my appointment.\n\nThank you.`;
+  } else {
+    messageText = `Hello Dr. Nilay Saha,\n\nI visited your website and would like to book a dental appointment.\n\nHere are my details:\n\n• Name:\n• Preferred Clinic:\n• Preferred Date:\n• Preferred Time:\n• Dental Concern:\n\nPlease let me know the available appointment slots.\n\nThank you.`;
+  }
+
+  return `https://wa.me/${PRIMARY_WHATSAPP_DIGITS}?text=${encodeURIComponent(messageText)}`;
+}

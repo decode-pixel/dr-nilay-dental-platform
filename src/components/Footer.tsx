@@ -9,7 +9,8 @@ import {
   PRIMARY_PHONE_DISPLAY, 
   PRIMARY_WHATSAPP_NUMBER,
   DOCTOR_REGISTRATION_NUMBER,
-  CLINIC_MAP_LINKS
+  CLINIC_MAP_LINKS,
+  buildWhatsAppUrl
 } from "../lib/constants";
 import { logger } from "../lib/logger";
 
@@ -96,6 +97,15 @@ export default function Footer() {
             >
               <Phone className="w-4 h-4 text-[#34D399]" />
               <span>{PRIMARY_PHONE_DISPLAY}</span>
+            </a>
+            <a 
+              href={buildWhatsAppUrl()}
+              target="_blank"
+              rel="noreferrer"
+              className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-4 rounded-full bg-emerald-500/15 hover:bg-emerald-500/25 text-[#34D399] font-bold text-sm hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 border border-emerald-500/30 shadow-sm"
+            >
+              <WhatsAppIcon className="w-4 h-4 text-emerald-400" />
+              <span>WhatsApp Us</span>
             </a>
           </div>
         </div>
@@ -211,7 +221,7 @@ export default function Footer() {
                 </div>
               </a>
 
-              <a href={`https://wa.me/${PRIMARY_WHATSAPP_NUMBER}`} target="_blank" rel="noreferrer" className="flex items-start gap-3 group">
+              <a href={buildWhatsAppUrl()} target="_blank" rel="noreferrer" className="flex items-start gap-3 group">
                 <div className="w-9 h-9 rounded-xl bg-white/[0.06] border border-white/15 flex items-center justify-center shrink-0 group-hover:bg-emerald-500/25 group-hover:border-emerald-500/40 transition-colors">
                   <WhatsAppIcon className="w-4 h-4 text-emerald-400" />
                 </div>
