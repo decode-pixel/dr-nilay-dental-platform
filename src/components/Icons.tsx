@@ -1,7 +1,43 @@
 export const ToothIcon = ({ className }: { className?: string }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-    <path d="M12 20.3a20 20 0 0 1-5-1.3A3.5 3.5 0 0 1 5 16V8a4 4 0 0 1 8 0 4 4 0 0 1 8 0v8a3.5 3.5 0 0 1-2 3.1 20 20 0 0 1-5 1.2"></path>
-    <path d="M12 20.3v-4"></path>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 200 200"
+    fill="none"
+    className={className}
+  >
+    <g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
+      <path
+        strokeWidth="8"
+        d="
+          M 100,50
+          C 86,34 66,32 52,48
+          C 36,66 34,92 46,114
+          C 54,128 50,146 48,162
+          C 46,178 54,188 64,186
+          C 76,184 88,162 100,126
+          C 112,162 124,184 136,186
+          C 146,188 154,178 152,162
+          C 150,146 146,128 154,114
+          C 166,92 164,66 148,48
+          C 134,32 114,34 100,50
+          Z
+        "
+      />
+      <path strokeWidth="6" d="M 58,74 C 54,64 64,52 78,48" />
+    </g>
+    <g
+      fill="currentColor"
+      fontFamily="'Playfair Display', 'Cinzel', 'Georgia', serif"
+      fontWeight="700"
+      textAnchor="middle"
+    >
+      <text x="81" y="104" fontSize="44" letterSpacing="-1">
+        N
+      </text>
+      <text x="119" y="104" fontSize="44" letterSpacing="-1">
+        S
+      </text>
+    </g>
   </svg>
 );
 

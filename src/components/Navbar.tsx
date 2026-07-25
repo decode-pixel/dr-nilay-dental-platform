@@ -415,7 +415,7 @@ export default function Navbar() {
             className="flex items-center gap-1.5 xs:gap-2.5 sm:gap-3.5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00A896] rounded-2xl min-w-0 shrink"
           >
             <div className="relative w-8 h-8 xs:w-9 xs:h-9 sm:w-11 sm:h-11 shrink-0 rounded-full bg-gradient-to-br from-teal-500/15 to-teal-500/5 border border-teal-500/30 shadow-xs flex items-center justify-center">
-              <ToothIcon className="w-4 h-4 xs:w-4.5 xs:h-4.5 sm:w-5.5 sm:h-5.5 text-[#00A896]" />
+              <ToothIcon className="w-5 h-5 xs:w-5.5 xs:h-5.5 sm:w-6.5 sm:h-6.5 text-[#00A896]" />
             </div>
             <div className="flex flex-col justify-center min-w-0 truncate">
               <span className="font-display font-extrabold text-[13.5px] xs:text-[15px] sm:text-[18px] leading-none tracking-tight text-slate-900 flex items-center gap-1 truncate group-hover:text-[#00A896] transition-colors">
