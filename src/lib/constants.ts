@@ -12,8 +12,88 @@ export const CLINIC_SLUGS = {
 };
 
 export const CLINIC_NAMES: Record<string, string> = {
-  [CLINIC_SLUGS.BELERHAT]: 'Belerhat Center',
-  [CLINIC_SLUGS.NABADWIP]: 'Nabadwip Center',
+  [CLINIC_SLUGS.NABADWIP]: 'Dr. Nilay Saha Dental Care (Nabadwip)',
+  [CLINIC_SLUGS.BELERHAT]: 'Nilay Saha Dental Care (Belerhat)',
+};
+
+export const CLINIC_MAP_LINKS: Record<string, string> = {
+  [CLINIC_SLUGS.NABADWIP]: 'https://maps.app.goo.gl/gPvowvKGbheXV6uTA?g_st=ic',
+  [CLINIC_SLUGS.BELERHAT]: 'https://maps.app.goo.gl/MbD3rFAUdP1krCHJ8?g_st=ic',
+};
+
+export interface ClinicScheduleConfig {
+  slug: string;
+  name: string;
+  shortName: string;
+  mapLink: string;
+  openDays: number[]; // 0=Sun, 1=Mon, ..., 6=Sat
+  openDaysText: string;
+  timingsText: string;
+  slotsByDay: Record<number, Array<{ value: string; label: string }>>;
+}
+
+export const CLINIC_SCHEDULES: Record<string, ClinicScheduleConfig> = {
+  [CLINIC_SLUGS.NABADWIP]: {
+    slug: CLINIC_SLUGS.NABADWIP,
+    name: 'Dr. Nilay Saha Dental Care (Nabadwip)',
+    shortName: 'Nabadwip Center',
+    mapLink: 'https://maps.app.goo.gl/gPvowvKGbheXV6uTA?g_st=ic',
+    openDays: [0, 1, 3, 5], // Sun, Mon, Wed, Fri
+    openDaysText: 'Mon, Wed, Fri & Sun',
+    timingsText: 'Mon, Wed, Fri: 9:00–11:00 AM & 4:00–8:00 PM | Sun: 4:00–8:00 PM',
+    slotsByDay: {
+      1: [
+        { value: 'Morning (9:00 AM - 11:00 AM)', label: 'Morning: 9:00 AM - 11:00 AM' },
+        { value: 'Evening (4:00 PM - 8:00 PM)', label: 'Evening: 4:00 PM - 8:00 PM' },
+      ],
+      3: [
+        { value: 'Morning (9:00 AM - 11:00 AM)', label: 'Morning: 9:00 AM - 11:00 AM' },
+        { value: 'Evening (4:00 PM - 8:00 PM)', label: 'Evening: 4:00 PM - 8:00 PM' },
+      ],
+      5: [
+        { value: 'Morning (9:00 AM - 11:00 AM)', label: 'Morning: 9:00 AM - 11:00 AM' },
+        { value: 'Evening (4:00 PM - 8:00 PM)', label: 'Evening: 4:00 PM - 8:00 PM' },
+      ],
+      0: [
+        { value: 'Evening (4:00 PM - 8:00 PM)', label: 'Evening: 4:00 PM - 8:00 PM' },
+      ],
+    },
+  },
+  [CLINIC_SLUGS.BELERHAT]: {
+    slug: CLINIC_SLUGS.BELERHAT,
+    name: 'Nilay Saha Dental Care (Belerhat)',
+    shortName: 'Belerhat Flagship Center',
+    mapLink: 'https://maps.app.goo.gl/MbD3rFAUdP1krCHJ8?g_st=ic',
+    openDays: [1, 2, 3, 4, 5, 6], // Mon - Sat
+    openDaysText: 'Mon – Sat',
+    timingsText: 'Mon – Sat: 10:00 AM – 1:30 PM & 5:00 PM – 8:30 PM',
+    slotsByDay: {
+      1: [
+        { value: 'Morning (10:00 AM - 1:30 PM)', label: 'Morning: 10:00 AM - 1:30 PM' },
+        { value: 'Evening (5:00 PM - 8:30 PM)', label: 'Evening: 5:00 PM - 8:30 PM' },
+      ],
+      2: [
+        { value: 'Morning (10:00 AM - 1:30 PM)', label: 'Morning: 10:00 AM - 1:30 PM' },
+        { value: 'Evening (5:00 PM - 8:30 PM)', label: 'Evening: 5:00 PM - 8:30 PM' },
+      ],
+      3: [
+        { value: 'Morning (10:00 AM - 1:30 PM)', label: 'Morning: 10:00 AM - 1:30 PM' },
+        { value: 'Evening (5:00 PM - 8:30 PM)', label: 'Evening: 5:00 PM - 8:30 PM' },
+      ],
+      4: [
+        { value: 'Morning (10:00 AM - 1:30 PM)', label: 'Morning: 10:00 AM - 1:30 PM' },
+        { value: 'Evening (5:00 PM - 8:30 PM)', label: 'Evening: 5:00 PM - 8:30 PM' },
+      ],
+      5: [
+        { value: 'Morning (10:00 AM - 1:30 PM)', label: 'Morning: 10:00 AM - 1:30 PM' },
+        { value: 'Evening (5:00 PM - 8:30 PM)', label: 'Evening: 5:00 PM - 8:30 PM' },
+      ],
+      6: [
+        { value: 'Morning (10:00 AM - 1:30 PM)', label: 'Morning: 10:00 AM - 1:30 PM' },
+        { value: 'Evening (5:00 PM - 8:30 PM)', label: 'Evening: 5:00 PM - 8:30 PM' },
+      ],
+    },
+  },
 };
 
 export const SESSION_SLOTS = {

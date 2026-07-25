@@ -157,13 +157,19 @@ export default function Footer() {
                   <span className="text-sm text-gray-300 group-hover:text-white transition-colors font-medium">WhatsApp Chat</span>
                 </div>
               </a>
-              <div className="flex items-start gap-3 group cursor-default">
-                <div className="w-8 h-8 rounded-2xl bg-white/[0.06] border border-white/15 flex items-center justify-center shrink-0 group-hover:bg-emerald-500/25 group-hover:border-emerald-500/40 transition-colors">
-                  <MapPin className="w-3.5 h-3.5 text-[#94B0A3] group-hover:text-[#34D399] transition-colors" />
-                </div>
-                <div className="flex flex-col pt-1">
-                  <span className="text-sm text-gray-300 group-hover:text-white transition-colors font-medium">Belerhat • Nabadwip</span>
-                </div>
+              <div className="flex flex-col gap-2 pt-1">
+                <a href="https://maps.app.goo.gl/gPvowvKGbheXV6uTA?g_st=ic" target="_blank" rel="noreferrer" className="flex items-center gap-2 group">
+                  <div className="w-7 h-7 rounded-xl bg-white/[0.06] border border-white/15 flex items-center justify-center shrink-0 group-hover:bg-emerald-500/25 transition-colors">
+                    <MapPin className="w-3.5 h-3.5 text-[#94B0A3] group-hover:text-[#34D399] transition-colors" />
+                  </div>
+                  <span className="text-xs text-gray-300 group-hover:text-white transition-colors font-medium">Nabadwip Studio</span>
+                </a>
+                <a href="https://maps.app.goo.gl/MbD3rFAUdP1krCHJ8?g_st=ic" target="_blank" rel="noreferrer" className="flex items-center gap-2 group">
+                  <div className="w-7 h-7 rounded-xl bg-white/[0.06] border border-white/15 flex items-center justify-center shrink-0 group-hover:bg-emerald-500/25 transition-colors">
+                    <MapPin className="w-3.5 h-3.5 text-[#94B0A3] group-hover:text-[#34D399] transition-colors" />
+                  </div>
+                  <span className="text-xs text-gray-300 group-hover:text-white transition-colors font-medium">Belerhat Center</span>
+                </a>
               </div>
             </div>
           </div>

@@ -37,13 +37,13 @@ const CLINICS: ClinicLocation[] = [
   {
     id: "nabadwip",
     badge: "Clinic 01 • Clinical Studio",
-    name: "Nabadwip Clinic",
-    title: "Nabadwip Clinic",
+    name: "Dr. Nilay Saha Dental Care (Nabadwip)",
+    title: "Dr. Nilay Saha Dental Care (Nabadwip)",
     address: "Anandebitala, Near Bus Stand, Nabadwip, Nadia, West Bengal 741302",
     landmark: "Near Anandebitala Market Square",
     phone: PRIMARY_PHONE_NUMBER,
     phoneDisplay: PRIMARY_PHONE_DISPLAY,
-    googleMapLink: "https://maps.google.com/?q=Nabadwip+Nadia",
+    googleMapLink: "https://maps.app.goo.gl/gPvowvKGbheXV6uTA?g_st=ic",
     timings: "Mon, Wed, Fri & Sun (By Pre-booked Appointment)",
     schedule: [
       { day: "Mon, Wed, Fri", hours: "09:00 AM – 11:00 AM | 04:00 PM – 08:00 PM" },
@@ -60,7 +60,7 @@ const CLINICS: ClinicLocation[] = [
     landmark: "Opposite Belerhat Railway Station",
     phone: PRIMARY_PHONE_NUMBER,
     phoneDisplay: PRIMARY_PHONE_DISPLAY,
-    googleMapLink: "https://maps.google.com/?q=Belerhat+Purba+Bardhaman",
+    googleMapLink: "https://maps.app.goo.gl/MbD3rFAUdP1krCHJ8?g_st=ic",
     timings: "Mon – Sat: 10:00 AM – 1:30 PM | 5:00 PM – 8:30 PM",
     schedule: [
       { day: "Mon – Sat", hours: "10:00 AM – 1:30 PM | 5:00 PM – 8:30 PM" },

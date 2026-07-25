@@ -4,7 +4,8 @@ import { WhatsAppIcon } from "./Icons";
 import { 
   PRIMARY_PHONE_NUMBER, 
   PRIMARY_PHONE_DISPLAY,
-  PRIMARY_WHATSAPP_DIGITS 
+  PRIMARY_WHATSAPP_DIGITS,
+  CLINIC_MAP_LINKS
 } from "../lib/constants";
 import TagPill from "./TagPill";
 
@@ -41,16 +42,16 @@ export default function ContactSection() {
 
   const clinicsCoords = [
     {
-      name: "Belerhat Main Center",
-      location: "Belerhat, Purba Bardhaman, West Bengal",
-      hours: "10:00 AM – 1:30 PM | 5:00 PM – 8:30 PM",
-      days: "Mon – Sat (Sunday Closed)"
+      name: "Dr. Nilay Saha Dental Care (Nabadwip)",
+      location: "Anandebitala, Near Bus Stand, Nabadwip, Nadia",
+      hours: "Mon, Wed, Fri & Sun",
+      mapLink: CLINIC_MAP_LINKS.nabadwip
     },
     {
-      name: "Nabadwip Studio",
-      location: "Nabadwip (Visiting Clinic), Nadia",
-      hours: "Visiting hours by appointment",
-      days: "Pre-booked clinical consultations"
+      name: "Nilay Saha Dental Care (Belerhat)",
+      location: "Belerhat Main Road, Near Station, Purba Bardhaman",
+      hours: "Mon – Sat (10:00 AM – 1:30 PM | 5:00 PM – 8:30 PM)",
+      mapLink: CLINIC_MAP_LINKS.belerhat
     }
   ];
 
@@ -120,13 +121,24 @@ export default function ContactSection() {
                 <div>
                   <div className="flex items-center gap-2 mb-2">
                     <MapPin className="w-4 h-4 text-[#00A896] shrink-0" />
-                    <h4 className="font-display font-extrabold text-slate-900 text-base">{c.name}</h4>
+                    <h4 className="font-display font-extrabold text-slate-900 text-sm sm:text-base leading-tight">{c.name}</h4>
                   </div>
                   <p className="text-xs text-slate-600 mb-3 font-normal leading-relaxed">{c.location}</p>
                 </div>
-                <div className="pt-3 border-t border-teal-100 flex items-center gap-2 text-xs font-semibold text-slate-700">
-                  <Clock className="w-3.5 h-3.5 text-[#00A896] shrink-0" />
-                  <span>{c.hours}</span>
+                <div className="pt-3 border-t border-teal-100 flex items-center justify-between gap-2 text-xs font-semibold text-slate-700">
+                  <div className="flex items-center gap-1.5 min-w-0">
+                    <Clock className="w-3.5 h-3.5 text-[#00A896] shrink-0" />
+                    <span className="truncate">{c.hours}</span>
+                  </div>
+                  <a
+                    href={c.mapLink}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-white border border-teal-200/80 text-[#00A896] hover:bg-[#00A896] hover:text-white transition-colors text-[11px] font-bold shrink-0 shadow-2xs"
+                  >
+                    <span>Get Directions</span>
+                    <ChevronRight className="w-3 h-3" />
+                  </a>
                 </div>
               </div>
             ))}
