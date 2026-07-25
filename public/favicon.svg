@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <g fill="none" stroke="#00A896" stroke-linecap="round" stroke-linejoin="round">
+    <path
+      stroke-width="8"
+      d="
+        M 100,50
+        C 86,34 66,32 52,48
+        C 36,66 34,92 46,114
+        C 54,128 50,146 48,162
+        C 46,178 54,188 64,186
+        C 76,184 88,162 100,126
+        C 112,162 124,184 136,186
+        C 146,188 154,178 152,162
+        C 150,146 146,128 154,114
+        C 166,92 164,66 148,48
+        C 134,32 114,34 100,50
+        Z
+      "
+    />
+    <path stroke-width="6" d="M 58,74 C 54,64 64,52 78,48" />
+  </g>
+  <g
+    fill="#00A896"
+    font-family="'Playfair Display', 'Cinzel', 'Georgia', 'Times New Roman', serif"
+    font-weight="700"
+    text-anchor="middle"
+  >
+    <text x="81" y="104" font-size="44" letter-spacing="-1">N</text>
+    <text x="119" y="104" font-size="44" letter-spacing="-1">S</text>
+  </g>
+</svg>
