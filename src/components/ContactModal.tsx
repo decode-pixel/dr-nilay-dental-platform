@@ -144,6 +144,21 @@ export default function ContactModal({
     };
   }, []);
 
+  // Lock background body scroll when modal is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+    };
+  }, [isOpen]);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!isDateOpen) return;
@@ -167,35 +182,38 @@ export default function ContactModal({
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[200] flex items-center justify-center p-3 sm:p-6 overflow-y-auto font-sans">
+        <div className="fixed inset-0 z-[200] flex items-end sm:items-center justify-center p-0 sm:p-6 overflow-hidden font-sans">
           {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={handleClose}
-            className="fixed inset-0 bg-[#071F17]/80 backdrop-blur-md"
+            className="fixed inset-0 bg-[#071F17]/80 backdrop-blur-md cursor-pointer"
           />
 
-          {/* Modal Card */}
+          {/* Modal / Bottom Sheet Card */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 15 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 15 }}
-            transition={{ type: "spring", damping: 25, stiffness: 350 }}
-            className="relative w-full max-w-lg bg-[#FAFDFB] border border-emerald-900/10 rounded-3xl shadow-2xl overflow-hidden z-10 text-[#122820]"
+            initial={{ opacity: 0, y: "100%" }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: "100%" }}
+            transition={{ type: "spring", damping: 28, stiffness: 320 }}
+            className="relative w-full max-w-lg bg-[#FAFDFB] border border-emerald-900/10 rounded-t-[28px] sm:rounded-3xl shadow-2xl overflow-hidden z-10 text-[#122820] flex flex-col max-h-[92vh] sm:max-h-[88vh]"
           >
-            {/* Header */}
-            <div className="bg-[#122820] text-white px-6 py-4.5 flex items-center justify-between relative overflow-hidden">
+            {/* Mobile Drag Indicator Bar */}
+            <div className="w-12 h-1.5 bg-slate-300/60 rounded-full mx-auto my-2 shrink-0 sm:hidden" />
+
+            {/* Fixed Header */}
+            <div className="bg-[#122820] text-white px-4 sm:px-6 py-3.5 sm:py-4 flex items-center justify-between relative overflow-hidden shrink-0">
               <div className="absolute top-0 right-0 w-32 h-32 bg-[#10B981]/15 rounded-full blur-2xl pointer-events-none" />
               
-              <div className="flex items-center gap-3 relative z-10">
-                <div className="w-10 h-10 rounded-xl bg-[#10B981]/20 border border-[#10B981]/40 flex items-center justify-center text-[#34D399]">
+              <div className="flex items-center gap-2.5 sm:gap-3 relative z-10">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#10B981]/20 border border-[#10B981]/40 flex items-center justify-center text-[#34D399] shrink-0">
                   <ToothIcon className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="font-display font-bold text-lg leading-tight">Book Appointment</h3>
-                  <p className="text-xs text-emerald-300 font-medium mt-0.5">Dr. Nilay Saha • Advanced Dental Studio</p>
+                  <h3 className="font-display font-bold text-base sm:text-lg leading-tight">Book Appointment</h3>
+                  <p className="text-[11px] sm:text-xs text-emerald-300 font-medium mt-0.5">Dr. Nilay Saha • Advanced Dental Studio</p>
                 </div>
               </div>
 
@@ -203,33 +221,33 @@ export default function ContactModal({
                 type="button"
                 onClick={handleClose}
                 aria-label="Close modal"
-                className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white flex items-center justify-center transition-colors relative z-10 cursor-pointer"
+                className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 active:scale-95 text-slate-300 hover:text-white flex items-center justify-center transition-colors relative z-10 cursor-pointer shrink-0"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            {/* Modal Body */}
-            <div className="p-5 sm:p-6 max-h-[85vh] overflow-y-auto">
+            {/* Scrollable Form Body */}
+            <div className="p-4 sm:p-6 overflow-y-auto overscroll-contain flex-1 pb-8 sm:pb-6">
               {!isSubmitted ? (
                 <form onSubmit={handleSubmit} className="space-y-4">
                   {/* Step 1: Select Clinic Center */}
                   <div>
-                    <label className="block text-xs font-bold text-[#2C4238] uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                    <label className="block text-[11px] sm:text-xs font-bold text-[#2C4238] uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                       <MapPin className="w-3.5 h-3.5 text-[#10B981]" />
                       1. Select Clinic Center
                     </label>
                     <select
                       value={clinic}
                       onChange={(e) => handleClinicChange(e.target.value)}
-                      className="w-full px-4 py-3 rounded-xl bg-[#F4F7F4] border border-emerald-900/15 text-sm font-bold text-[#122820] focus:outline-none focus:ring-2 focus:ring-[#10B981] transition-all"
+                      className="w-full h-12 min-h-[48px] px-3.5 sm:px-4 rounded-xl bg-[#F4F7F4] border border-emerald-900/15 text-base sm:text-sm font-bold text-[#122820] focus:outline-none focus:ring-2 focus:ring-[#10B981] transition-all"
                     >
                       <option value={CLINIC_SLUGS.NABADWIP}>Dr. Nilay Saha Dental Care (Nabadwip)</option>
                       <option value={CLINIC_SLUGS.BELERHAT}>Nilay Saha Dental Care (Belerhat)</option>
                     </select>
                   </div>
 
-                  {/* BONUS DYNAMIC CLINIC INFO CARD */}
+                  {/* DYNAMIC CLINIC INFO CARD */}
                   <AnimatePresence mode="wait">
                     <motion.div
                       key={clinic}
@@ -237,14 +255,14 @@ export default function ContactModal({
                       animate={{ opacity: isChangingClinic ? 0.4 : 1, y: 0 }}
                       exit={{ opacity: 0, y: -4 }}
                       transition={{ duration: 0.18 }}
-                      className="p-3.5 rounded-2xl bg-teal-50/80 border border-teal-200/80 space-y-2"
+                      className="p-3 rounded-xl bg-teal-50/90 border border-teal-200/80 space-y-1.5"
                     >
                       <div className="flex items-center justify-between gap-2">
-                        <span className="text-xs font-extrabold text-slate-900 flex items-center gap-1.5">
+                        <span className="text-xs font-extrabold text-slate-900 flex items-center gap-1.5 truncate">
                           <MapPin className="w-3.5 h-3.5 text-[#00A896] shrink-0" />
                           <span className="truncate">{activeConfig.name}</span>
                         </span>
-                        <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-[#00A896]/10 text-[#00A896] shrink-0">
+                        <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-[#00A896]/15 text-[#00A896] shrink-0">
                           {activeConfig.openDaysText}
                         </span>
                       </div>
@@ -259,14 +277,14 @@ export default function ContactModal({
                           href={activeConfig.mapLink}
                           target="_blank"
                           rel="noreferrer"
-                          className="flex-1 py-1.5 px-3 rounded-lg bg-white border border-teal-200 text-[#00A896] hover:bg-[#00A896] hover:text-white font-bold text-[11px] flex items-center justify-center gap-1 transition-colors shadow-2xs"
+                          className="flex-1 h-9 min-h-[36px] px-2.5 rounded-lg bg-white border border-teal-200 text-[#00A896] hover:bg-[#00A896] hover:text-white font-bold text-[11px] flex items-center justify-center gap-1 transition-colors shadow-2xs"
                         >
                           <Navigation className="w-3 h-3" />
-                          <span>View Location</span>
+                          <span>Directions</span>
                         </a>
                         <a
                           href={`tel:${PRIMARY_PHONE_NUMBER}`}
-                          className="flex-1 py-1.5 px-3 rounded-lg bg-white border border-teal-200 text-slate-700 hover:text-[#00A896] font-bold text-[11px] flex items-center justify-center gap-1 transition-colors shadow-2xs"
+                          className="flex-1 h-9 min-h-[36px] px-2.5 rounded-lg bg-white border border-teal-200 text-slate-700 hover:text-[#00A896] font-bold text-[11px] flex items-center justify-center gap-1 transition-colors shadow-2xs"
                         >
                           <Phone className="w-3 h-3 text-[#00A896]" />
                           <span>Call Clinic</span>
@@ -277,14 +295,14 @@ export default function ContactModal({
 
                   {/* Treatment Select */}
                   <div>
-                    <label className="block text-xs font-bold text-[#2C4238] uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                    <label className="block text-[11px] sm:text-xs font-bold text-[#2C4238] uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                       <Sparkles className="w-3.5 h-3.5 text-[#10B981]" />
                       2. Treatment / Consultation
                     </label>
                     <select
                       value={service}
                       onChange={(e) => setService(e.target.value)}
-                      className="w-full px-4 py-2.5 rounded-xl bg-[#F4F7F4] border border-emerald-900/10 text-sm font-semibold text-[#122820] focus:outline-none focus:ring-2 focus:ring-[#10B981]"
+                      className="w-full h-12 min-h-[48px] px-3.5 sm:px-4 rounded-xl bg-[#F4F7F4] border border-emerald-900/15 text-base sm:text-sm font-semibold text-[#122820] focus:outline-none focus:ring-2 focus:ring-[#10B981]"
                     >
                       <option value="root-canal">Root Canal Treatment (Single-Visit)</option>
                       <option value="consultation">General Dental Consultation</option>
@@ -300,7 +318,7 @@ export default function ContactModal({
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {/* Step 3: Preferred Date */}
                     <div>
-                      <label className="block text-xs font-bold text-[#2C4238] uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                      <label className="block text-[11px] sm:text-xs font-bold text-[#2C4238] uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                         <Calendar className="w-3.5 h-3.5 text-[#10B981]" />
                         3. Preferred Date
                       </label>
@@ -310,9 +328,9 @@ export default function ContactModal({
                         min={getTodayStr()}
                         value={date}
                         onChange={(e) => setDate(e.target.value)}
-                        className={`w-full px-3.5 py-2.5 rounded-xl bg-[#F4F7F4] border text-sm font-semibold focus:outline-none focus:ring-2 ${
+                        className={`w-full h-12 min-h-[48px] px-3.5 rounded-xl bg-[#F4F7F4] border text-base sm:text-sm font-semibold focus:outline-none focus:ring-2 ${
                           isDateOpen
-                            ? "border-emerald-900/10 text-[#122820] focus:ring-[#10B981]"
+                            ? "border-emerald-900/15 text-[#122820] focus:ring-[#10B981]"
                             : "border-rose-300 bg-rose-50/50 text-rose-900 focus:ring-rose-400"
                         }`}
                       />
@@ -320,7 +338,7 @@ export default function ContactModal({
 
                     {/* Step 4: Session Time */}
                     <div>
-                      <label className="block text-xs font-bold text-[#2C4238] uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                      <label className="block text-[11px] sm:text-xs font-bold text-[#2C4238] uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                         <Clock className="w-3.5 h-3.5 text-[#10B981]" />
                         4. Available Time Slot
                       </label>
@@ -328,7 +346,7 @@ export default function ContactModal({
                         value={sessionTime}
                         onChange={(e) => setSessionTime(e.target.value)}
                         disabled={!isDateOpen || availableSlots.length === 0}
-                        className="w-full px-3.5 py-2.5 rounded-xl bg-[#F4F7F4] border border-emerald-900/10 text-sm font-semibold text-[#122820] focus:outline-none focus:ring-2 focus:ring-[#10B981] disabled:opacity-60"
+                        className="w-full h-12 min-h-[48px] px-3.5 rounded-xl bg-[#F4F7F4] border border-emerald-900/15 text-base sm:text-sm font-semibold text-[#122820] focus:outline-none focus:ring-2 focus:ring-[#10B981] disabled:opacity-60"
                       >
                         {availableSlots.length > 0 ? (
                           availableSlots.map((slot, idx) => (
@@ -366,7 +384,7 @@ export default function ContactModal({
                   {/* Patient Name & Phone Row */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-xs font-bold text-[#2C4238] uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                      <label className="block text-[11px] sm:text-xs font-bold text-[#2C4238] uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                         <User className="w-3.5 h-3.5 text-[#10B981]" />
                         Patient Name
                       </label>
@@ -376,11 +394,11 @@ export default function ContactModal({
                         placeholder="Enter full name"
                         value={patientName}
                         onChange={(e) => setPatientName(e.target.value)}
-                        className="w-full px-4 py-2.5 rounded-xl bg-[#F4F7F4] border border-emerald-900/10 text-sm font-medium text-[#122820] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#10B981]"
+                        className="w-full h-12 min-h-[48px] px-3.5 rounded-xl bg-[#F4F7F4] border border-emerald-900/15 text-base sm:text-sm font-medium text-[#122820] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#10B981]"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-bold text-[#2C4238] uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                      <label className="block text-[11px] sm:text-xs font-bold text-[#2C4238] uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                         <Phone className="w-3.5 h-3.5 text-[#10B981]" />
                         Phone Number
                       </label>
@@ -390,7 +408,7 @@ export default function ContactModal({
                         placeholder="10-digit mobile no."
                         value={patientPhone}
                         onChange={(e) => setPatientPhone(e.target.value)}
-                        className="w-full px-4 py-2.5 rounded-xl bg-[#F4F7F4] border border-emerald-900/10 text-sm font-medium text-[#122820] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#10B981]"
+                        className="w-full h-12 min-h-[48px] px-3.5 rounded-xl bg-[#F4F7F4] border border-emerald-900/15 text-base sm:text-sm font-medium text-[#122820] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#10B981]"
                       />
                     </div>
                   </div>
@@ -399,7 +417,7 @@ export default function ContactModal({
                   <button
                     type="submit"
                     disabled={!isDateOpen || !sessionTime}
-                    className="w-full mt-2 py-3.5 rounded-2xl bg-[#122820] hover:bg-[#10B981] disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-semibold text-sm shadow-md hover:shadow-lg flex items-center justify-center gap-2 transition-all duration-300 active:scale-[0.99] cursor-pointer"
+                    className="w-full h-13 sm:h-14 min-h-[52px] mt-2 py-3.5 rounded-2xl bg-[#122820] hover:bg-[#10B981] disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-bold text-base sm:text-sm shadow-md hover:shadow-lg flex items-center justify-center gap-2 transition-all duration-300 active:scale-[0.99] cursor-pointer"
                   >
                     <Send className="w-4 h-4 text-emerald-300" />
                     <span>Confirm Appointment Request</span>
@@ -430,7 +448,7 @@ export default function ContactModal({
                       href={getWhatsAppUrl()}
                       target="_blank"
                       rel="noreferrer"
-                      className="w-full py-3.5 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-white font-semibold text-sm flex items-center justify-center gap-2 shadow-sm transition-all"
+                      className="w-full h-12 min-h-[48px] rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold text-base sm:text-sm flex items-center justify-center gap-2 shadow-sm transition-all"
                     >
                       <WhatsAppIcon className="w-5 h-5 text-white" />
                       <span>Instant Confirmation via WhatsApp</span>
@@ -438,10 +456,10 @@ export default function ContactModal({
 
                     <a
                       href={`tel:${PRIMARY_PHONE_NUMBER}`}
-                      className="w-full py-3 rounded-xl bg-[#F4F7F4] hover:bg-emerald-50 border border-emerald-900/10 text-[#122820] font-semibold text-sm flex items-center justify-center gap-2 transition-all"
+                      className="w-full h-12 min-h-[48px] rounded-xl bg-[#F4F7F4] hover:bg-emerald-50 border border-emerald-900/10 text-[#122820] font-bold text-base sm:text-sm flex items-center justify-center gap-2 transition-all"
                     >
                       <Phone className="w-4 h-4 text-[#10B981]" />
-                      <span>Call Clinic Directly ({PRIMARY_PHONE_NUMBER})</span>
+                      <span>Call Clinic Directly</span>
                     </a>
                   </div>
                 </div>
