@@ -14,7 +14,6 @@ const NAV_ITEMS = [
   { name: "About",        path: "/about" },
   { name: "Treatments",   path: "/treatments" },
   { name: "Clinics",      path: "/clinics" },
-  { name: "Testimonials", path: "/testimonials" },
   { name: "Reviews",      path: "/reviews" },
   { name: "FAQ",          path: "/faq" },
   { name: "Contact",      path: "/contact" },

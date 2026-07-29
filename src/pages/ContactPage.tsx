@@ -10,7 +10,7 @@ import { Phone, Mail, MapPin, Clock } from "lucide-react";
 
 export default function ContactPage() {
   return (
-    <div className="min-h-screen font-sans bg-slate-50 text-slate-900 overflow-x-hidden selection:bg-teal-500/30">
+    <div className="min-h-screen font-sans bg-[#FAFCFA] text-slate-900 overflow-x-hidden selection:bg-teal-500/30">
       <SEO 
         title="Contact Us & Clinical Locations — Dr. Nilay Saha" 
         description="Get in touch with Dr. Nilay Saha Dental Care centers in Nabadwip and Belerhat. Call, WhatsApp, or send an inquiry for urgent clinical care and pre-booked appointments."

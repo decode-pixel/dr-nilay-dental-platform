@@ -573,31 +573,27 @@ export default function TreatmentDetails() {
                 <ChevronDown className="w-4 h-4 text-[#4B6358] absolute right-4 top-4 pointer-events-none" />
               </div>
 
-              {/* Price card box */}
-              {activePricing ? (
-                <div className="bg-[#F4F7F4] rounded-2xl p-5 border border-emerald-900/10 space-y-4">
-                  <div className="flex items-baseline justify-between">
-                    <span className="text-xs text-[#4B6358] uppercase font-semibold tracking-wider">Treatment Cost</span>
-                    <div className="flex items-baseline gap-2">
-                      {activePricing.sale_price ? (
-                        <>
-                          <span className="text-2xl font-display font-bold text-[#C5A059]">₹{activePricing.sale_price}</span>
-                          <span className="text-sm text-[#4B6358] line-through font-medium">₹{activePricing.base_price}</span>
-                        </>
-                      ) : (
-                        <span className="text-2xl font-display font-bold text-[#122820]">₹{activePricing.base_price}</span>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-2.5 text-xs text-[#4B6358] pt-1 border-t border-emerald-900/10">
-                    <ShieldCheck className="w-4 h-4 text-[#10B981] shrink-0" />
-                    <span>{activePricing.insurance_covered ? 'Eligible for Dental Insurance claim' : 'Direct pay / Card / UPI'}</span>
-                  </div>
+              {/* Clinical Protocol & Care Guarantee Box */}
+              <div className="bg-[#F8FAF9] rounded-2xl p-5 border border-teal-500/20 space-y-3">
+                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-teal-800">
+                  <ShieldCheck className="w-4 h-4 text-teal-600" />
+                  <span>Clinical Care Protocol</span>
                 </div>
-              ) : (
-                <p className="text-xs text-[#4B6358] italic">No pricing registered for this clinic location.</p>
-              )}
+                <ul className="text-xs text-slate-700 space-y-2">
+                  <li className="flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-teal-500 shrink-0" />
+                    <span>WHO Class-B Autoclave Sterilization</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-teal-500 shrink-0" />
+                    <span>Digital RVG Low-Radiation Imaging</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-teal-500 shrink-0" />
+                    <span>100% Pain-Free Local Anesthesia</span>
+                  </li>
+                </ul>
+              </div>
 
               {/* Booking CTA */}
               <button

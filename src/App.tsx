@@ -47,7 +47,7 @@ export default function App() {
             <Route path="/treatments" element={<TreatmentsPage />} />
             <Route path="/treatments/:id" element={<TreatmentDetails />} />
             <Route path="/clinics" element={<ClinicsPage />} />
-            <Route path="/testimonials" element={<TestimonialsPage />} />
+            <Route path="/testimonials" element={<ReviewsPage />} />
             <Route path="/reviews" element={<ReviewsPage />} />
             <Route path="/faq" element={<FaqPage />} />
             <Route path="/contact" element={<ContactPage />} />

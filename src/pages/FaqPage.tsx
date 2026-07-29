@@ -10,7 +10,7 @@ import { HelpCircle, Sparkles, MessageCircle } from "lucide-react";
 
 export default function FaqPage() {
   return (
-    <div className="min-h-screen font-sans bg-slate-50 text-slate-900 overflow-x-hidden selection:bg-teal-500/30">
+    <div className="min-h-screen font-sans bg-[#FAFCFA] text-slate-900 overflow-x-hidden selection:bg-teal-500/30">
       <SEO 
         title="Frequently Asked Questions (FAQ) — Dr. Nilay Saha" 
         description="Find answers to common questions regarding root canal treatments, costs, sterilization, appointment bookings, emergency care, and clinic timings at Dr. Nilay Saha Dental Care."

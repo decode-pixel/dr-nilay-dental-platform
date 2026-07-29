@@ -53,27 +53,27 @@ const trustFeatures = [
   "Personalized Plans",
 ];
 
-const treatmentMetaMap: Record<string, { priceRange: string; duration: string; doctorNote: string }> = {
-  "root-canal": { priceRange: "₹2,500 – ₹4,500", duration: "60–90 Mins (1–2 Visits)", doctorNote: "100% Rotary Endodontics & Local Anesthesia for zero discomfort." },
-  "re-root-canal": { priceRange: "₹3,500 – ₹6,000", duration: "90 Mins (2 Visits)", doctorNote: "Microscopic disinfection to save previously treated failed teeth." },
-  "fillings": { priceRange: "₹800 – ₹2,000", duration: "30–45 Mins (Single Visit)", doctorNote: "Tooth-colored biocompatible composite resin matching exact enamel." },
-  "crowns": { priceRange: "₹2,500 – ₹12,000", duration: "2 Visits (Lab Precision)", doctorNote: "Zirconia & E-Max digital CAD/CAM crowns with multi-year warranty." },
-  "bridges": { priceRange: "₹6,000 – ₹25,000", duration: "2–3 Visits", doctorNote: "Custom fixed prosthetics to seamlessly bridge missing gaps." },
-  "dentures": { priceRange: "₹8,000 – ₹35,000", duration: "3–4 Visits", doctorNote: "High-impact flexible & complete BPS dentures for effortless chewing." },
-  "smile-design": { priceRange: "₹15,000 – ₹60,000", duration: "2–3 Visits", doctorNote: "Digital smile preview with porcelain veneers & aesthetic contouring." },
-  "whitening": { priceRange: "₹4,000 – ₹10,000", duration: "45 Mins (In-Clinic)", doctorNote: "Advanced laser & LED whitening lifting up to 8 shades in 1 sitting." },
-  "braces": { priceRange: "₹25,000 – ₹80,000", duration: "12–18 Months", doctorNote: "Self-ligating metal, ceramic, and invisible aligners tailored for all ages." },
-  "implants": { priceRange: "₹20,000 – ₹45,000", duration: "Surgical + Restoration", doctorNote: "Titanium biocompatible implants acting as natural permanent roots." },
-  "extraction": { priceRange: "₹500 – ₹2,500", duration: "20–45 Mins", doctorNote: "Atraumatic extraction protocol preserving bone and gum contour." },
-  "wisdom-tooth": { priceRange: "₹2,500 – ₹7,000", duration: "45–60 Mins", doctorNote: "Surgical extraction of impacted molars with painless healing protocol." },
-  "oral-surgery": { priceRange: "Consultation Based", duration: "Varies by Procedure", doctorNote: "Precision surgical management of cysts, bone grafting, and trauma." },
-  "emergency": { priceRange: "₹500 – ₹2,000", duration: "Immediate Attention", doctorNote: "Priority management for acute pain, broken teeth, and infection." },
-  "scaling": { priceRange: "₹800 – ₹2,000", duration: "30–45 Mins", doctorNote: "Ultrasonic tartar & plaque removal with gum polishing and protection." },
-  "pediatric": { priceRange: "₹500 – ₹3,000", duration: "Child-Friendly Sessions", doctorNote: "Gentle fluoride treatments, pit & fissure sealants, and painless care." },
-  "gum-treatment": { priceRange: "₹1,500 – ₹8,000", duration: "1–2 Visits", doctorNote: "Deep curettage, laser flap surgery, and periodontal strengthening." },
-  "preventive": { priceRange: "₹500 – ₹1,500", duration: "30 Mins", doctorNote: "Complete oral health screening, cavity prevention, and hygiene coaching." },
-  "xray": { priceRange: "₹150 – ₹500", duration: "5 Mins (Instant RVG)", doctorNote: "Low-radiation digital RVG diagnostics with instant chairside imaging." },
-  "consultation": { priceRange: "₹300 – ₹500", duration: "20–30 Mins", doctorNote: "1-on-1 evaluation by Dr. Nilay Saha with custom treatment roadmaps." }
+const treatmentMetaMap: Record<string, { duration: string; doctorNote: string }> = {
+  "root-canal": { duration: "60–90 Mins (1–2 Visits)", doctorNote: "100% Rotary Endodontics & Local Anesthesia for zero discomfort." },
+  "re-root-canal": { duration: "90 Mins (2 Visits)", doctorNote: "Microscopic disinfection to save previously treated failed teeth." },
+  "fillings": { duration: "30–45 Mins (Single Visit)", doctorNote: "Tooth-colored biocompatible composite resin matching exact enamel." },
+  "crowns": { duration: "2 Visits (Lab Precision)", doctorNote: "Zirconia & E-Max digital CAD/CAM crowns with multi-year warranty." },
+  "bridges": { duration: "2–3 Visits", doctorNote: "Custom fixed prosthetics to seamlessly bridge missing gaps." },
+  "dentures": { duration: "3–4 Visits", doctorNote: "High-impact flexible & complete BPS dentures for effortless chewing." },
+  "smile-design": { duration: "2–3 Visits", doctorNote: "Digital smile preview with porcelain veneers & aesthetic contouring." },
+  "whitening": { duration: "45 Mins (In-Clinic)", doctorNote: "Advanced laser & LED whitening lifting up to 8 shades in 1 sitting." },
+  "braces": { duration: "12–18 Months", doctorNote: "Self-ligating metal, ceramic, and invisible aligners tailored for all ages." },
+  "implants": { duration: "Surgical + Restoration", doctorNote: "Titanium biocompatible implants acting as natural permanent roots." },
+  "extraction": { duration: "20–45 Mins", doctorNote: "Atraumatic extraction protocol preserving bone and gum contour." },
+  "wisdom-tooth": { duration: "45–60 Mins", doctorNote: "Surgical extraction of impacted molars with painless healing protocol." },
+  "oral-surgery": { duration: "Varies by Procedure", doctorNote: "Precision surgical management of cysts, bone grafting, and trauma." },
+  "emergency": { duration: "Immediate Attention", doctorNote: "Priority management for acute pain, broken teeth, and infection." },
+  "scaling": { duration: "30–45 Mins", doctorNote: "Ultrasonic tartar & plaque removal with gum polishing and protection." },
+  "pediatric": { duration: "Child-Friendly Sessions", doctorNote: "Gentle fluoride treatments, pit & fissure sealants, and painless care." },
+  "gum-treatment": { duration: "1–2 Visits", doctorNote: "Deep curettage, laser flap surgery, and periodontal strengthening." },
+  "preventive": { duration: "30 Mins", doctorNote: "Complete oral health screening, cavity prevention, and hygiene coaching." },
+  "xray": { duration: "5 Mins (Instant RVG)", doctorNote: "Low-radiation digital RVG diagnostics with instant chairside imaging." },
+  "consultation": { duration: "20–30 Mins", doctorNote: "1-on-1 evaluation by Dr. Nilay Saha with custom treatment roadmaps." }
 };
 
 export default function Treatments() {
@@ -226,18 +226,8 @@ export default function Treatments() {
                     {treatment.desc}
                   </p>
 
-                  {/* Price Range & Duration Chips */}
+                  {/* Duration & Care Standard Chips */}
                   <div className="grid grid-cols-2 gap-2 mb-5">
-                    <div className="p-2.5 rounded-2xl bg-teal-50/50 border border-teal-100 flex flex-col gap-1">
-                      <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase text-slate-500">
-                        <Banknote className="w-3 h-3 text-[#00A896]" />
-                        <span>Price Range</span>
-                      </span>
-                      <span className="text-xs font-bold font-mono text-slate-900 truncate">
-                        {meta.priceRange}
-                      </span>
-                    </div>
-
                     <div className="p-2.5 rounded-2xl bg-teal-50/50 border border-teal-100 flex flex-col gap-1">
                       <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase text-slate-500">
                         <Clock className="w-3 h-3 text-[#00A896]" />
@@ -245,6 +235,16 @@ export default function Treatments() {
                       </span>
                       <span className="text-xs font-bold text-slate-900 truncate">
                         {meta.duration}
+                      </span>
+                    </div>
+
+                    <div className="p-2.5 rounded-2xl bg-emerald-50/50 border border-emerald-100 flex flex-col gap-1">
+                      <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase text-slate-500">
+                        <ShieldCheck className="w-3 h-3 text-[#00A896]" />
+                        <span>Care Protocol</span>
+                      </span>
+                      <span className="text-xs font-bold text-emerald-800 truncate">
+                        100% Pain-Free
                       </span>
                     </div>
                   </div>

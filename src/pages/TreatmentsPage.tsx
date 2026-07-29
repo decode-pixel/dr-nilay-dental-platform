@@ -10,7 +10,7 @@ import { Sparkles, ShieldCheck, Clock, Award, Stethoscope } from "lucide-react";
 
 export default function TreatmentsPage() {
   return (
-    <div className="min-h-screen font-sans bg-slate-50 text-slate-900 overflow-x-hidden selection:bg-teal-500/30">
+    <div className="min-h-screen font-sans bg-[#FAFCFA] text-slate-900 overflow-x-hidden selection:bg-teal-500/30">
       <SEO 
         title="Dental Treatments & Clinical Procedures — Dr. Nilay Saha" 
         description="Explore comprehensive dental care procedures by Dr. Nilay Saha (BDS): Painless Root Canals, Laser Whitening, Tooth Extractions, Cosmetic Smile Design, Dental Implants, and Scaling across Belerhat & Nabadwip."

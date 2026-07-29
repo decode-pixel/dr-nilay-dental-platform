@@ -57,7 +57,7 @@ export default function BookAppointmentPage() {
   };
 
   return (
-    <div className="min-h-screen font-sans bg-slate-50 text-slate-900 overflow-x-hidden selection:bg-teal-500/30">
+    <div className="min-h-screen font-sans bg-[#FAFCFA] text-slate-900 overflow-x-hidden selection:bg-teal-500/30">
       <SEO 
         title="Book Appointment — Dr. Nilay Saha Dental Care" 
         description="Book your dental consultation online with Dr. Nilay Saha (BDS). Select Nabadwip or Belerhat clinic, preferred date & time slot, and get fast confirmation."

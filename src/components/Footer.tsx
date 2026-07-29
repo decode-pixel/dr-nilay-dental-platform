@@ -198,7 +198,6 @@ export default function Footer() {
               <Link to="/about" className="text-[#94B0A3] hover:text-white transition-colors">About Dr. Nilay</Link>
               <Link to="/treatments" className="text-[#94B0A3] hover:text-white transition-colors">Treatments</Link>
               <Link to="/clinics" className="text-[#94B0A3] hover:text-white transition-colors">Our Clinics</Link>
-              <Link to="/testimonials" className="text-[#94B0A3] hover:text-white transition-colors">Testimonials</Link>
               <Link to="/reviews" className="text-[#94B0A3] hover:text-white transition-colors">Patient Reviews</Link>
               <Link to="/faq" className="text-[#94B0A3] hover:text-white transition-colors">FAQ</Link>
               <Link to="/contact" className="text-[#94B0A3] hover:text-white transition-colors">Contact</Link>
