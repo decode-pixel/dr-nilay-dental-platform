@@ -43,8 +43,8 @@ export default function ContactSection() {
 
   const clinicsCoords = [
     {
-      name: "Dr. Nilay Saha Dental Care (Nabadwip)",
-      location: "Anandebitala, Near Bus Stand, Nabadwip, Nadia",
+      name: "Dr. Nilay Saha Dental Care",
+      location: "Bhumi Apartment 2, Oladebitala Bazar, Nabadwip, Nadia, West Bengal",
       hours: "Mon, Wed, Fri & Sun",
       mapLink: CLINIC_MAP_LINKS.nabadwip
     },

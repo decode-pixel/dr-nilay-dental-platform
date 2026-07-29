@@ -156,8 +156,8 @@ export default function Footer() {
             <div className="space-y-4 text-xs">
               {/* Nabadwip */}
               <div className="p-3.5 rounded-xl bg-white/[0.04] border border-white/10 space-y-1.5">
-                <div className="font-bold text-white text-sm">Dr. Nilay Saha Dental Care (Nabadwip)</div>
-                <p className="text-[#94B0A3] leading-relaxed">Anandebitala, Near Bus Stand, Nabadwip, Nadia</p>
+                <div className="font-bold text-white text-sm">Dr. Nilay Saha Dental Care</div>
+                <p className="text-[#94B0A3] leading-relaxed">Bhumi Apartment 2, Oladebitala Bazar, Nabadwip, Nadia, West Bengal</p>
                 <div className="text-[11px] text-emerald-400 font-semibold">Days: Mon, Wed, Fri &amp; Sun</div>
                 <a
                   href={CLINIC_MAP_LINKS.nabadwip}

@@ -12,7 +12,7 @@ export const CLINIC_SLUGS = {
 };
 
 export const CLINIC_NAMES: Record<string, string> = {
-  [CLINIC_SLUGS.NABADWIP]: 'Dr. Nilay Saha Dental Care (Nabadwip)',
+  [CLINIC_SLUGS.NABADWIP]: 'Dr. Nilay Saha Dental Care',
   [CLINIC_SLUGS.BELERHAT]: 'Nilay Saha Dental Care (Belerhat)',
 };
 
@@ -35,7 +35,7 @@ export interface ClinicScheduleConfig {
 export const CLINIC_SCHEDULES: Record<string, ClinicScheduleConfig> = {
   [CLINIC_SLUGS.NABADWIP]: {
     slug: CLINIC_SLUGS.NABADWIP,
-    name: 'Dr. Nilay Saha Dental Care (Nabadwip)',
+    name: 'Dr. Nilay Saha Dental Care',
     shortName: 'Nabadwip Center',
     mapLink: 'https://maps.app.goo.gl/gPvowvKGbheXV6uTA?g_st=ic',
     openDays: [0, 1, 3, 5], // Sun, Mon, Wed, Fri
