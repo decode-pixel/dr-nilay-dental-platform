@@ -13,6 +13,14 @@ import { RefreshCw } from "lucide-react";
 
 // Route-based code splitting
 const HomePage = lazy(() => import("./pages/HomePage"));
+const AboutPage = lazy(() => import("./pages/AboutPage"));
+const TreatmentsPage = lazy(() => import("./pages/TreatmentsPage"));
+const ClinicsPage = lazy(() => import("./pages/ClinicsPage"));
+const TestimonialsPage = lazy(() => import("./pages/TestimonialsPage"));
+const ReviewsPage = lazy(() => import("./pages/ReviewsPage"));
+const FaqPage = lazy(() => import("./pages/FaqPage"));
+const ContactPage = lazy(() => import("./pages/ContactPage"));
+const BookAppointmentPage = lazy(() => import("./pages/BookAppointmentPage"));
 const TreatmentDetails = lazy(() => import("./pages/TreatmentDetails"));
 const ErrorPages = lazy(() => import("./pages/ErrorPages"));
 const LegalPage = lazy(() => import("./pages/LegalPage"));
@@ -35,7 +43,17 @@ export default function App() {
         <Suspense fallback={<PageSuspenseFallback />}>
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/treatments" element={<TreatmentsPage />} />
             <Route path="/treatments/:id" element={<TreatmentDetails />} />
+            <Route path="/clinics" element={<ClinicsPage />} />
+            <Route path="/testimonials" element={<TestimonialsPage />} />
+            <Route path="/reviews" element={<ReviewsPage />} />
+            <Route path="/faq" element={<FaqPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route path="/book-appointment" element={<BookAppointmentPage />} />
+
+            {/* Legal Pages */}
             <Route path="/privacy" element={<LegalPage type="privacy" />} />
             <Route path="/privacy-policy" element={<LegalPage type="privacy" />} />
             <Route path="/terms" element={<LegalPage type="terms" />} />

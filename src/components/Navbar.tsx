@@ -1,91 +1,39 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { CalendarDays, Menu, X, Phone, ChevronRight, Sparkles } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { WhatsAppIcon, ToothIcon } from "./Icons";
 import { useLocation, useNavigate, Link } from "react-router-dom";
-import { PRIMARY_PHONE_NUMBER, buildWhatsAppUrl } from "../lib/constants";
+import { PRIMARY_PHONE_NUMBER } from "../lib/constants";
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Constants
+// Constants — Multi-Page Navigation Architecture
 // ─────────────────────────────────────────────────────────────────────────────
 
 const NAV_ITEMS = [
-  { name: "Home",         id: "home" },
-  { name: "About",        id: "about" },
-  { name: "Treatments",   id: "treatments" },
-  { name: "Clinics",      id: "locations" },
-  { name: "Testimonials", id: "reviews" },
-  { name: "FAQ",          id: "faq" },
-  { name: "Contact",      id: "contact" },
+  { name: "Home",         path: "/" },
+  { name: "About",        path: "/about" },
+  { name: "Treatments",   path: "/treatments" },
+  { name: "Clinics",      path: "/clinics" },
+  { name: "Testimonials", path: "/testimonials" },
+  { name: "Reviews",      path: "/reviews" },
+  { name: "FAQ",          path: "/faq" },
+  { name: "Contact",      path: "/contact" },
 ] as const;
 
-/**
- * ID resolution map — maps a nav ID to all element IDs to try in order.
- * This handles aliasing (e.g. "locations" → ["locations", "clinics"]) and
- * sections that have their ID on a parent wrapper vs the inner section tag.
- */
-const ID_ALIASES: Record<string, string[]> = {
-  home:         ["home"],
-  about:        ["about", "doctor-profile"],
-  credentials:  ["credentials", "trust", "about", "doctor-profile"],
-  experience:   ["experience", "trust", "about", "doctor-profile"],
-  treatments:   ["treatments", "treatments-wrapper"],
-  locations:    ["locations", "clinics", "locations-wrapper"],
-  clinics:      ["locations", "clinics", "locations-wrapper"],
-  reviews:      ["reviews", "reviews-wrapper", "testimonials"],
-  testimonials: ["reviews", "reviews-wrapper", "testimonials"],
-  faq:          ["faq", "faq-wrapper"],
-  contact:      ["contact", "contact-info"],
-};
-
-const NAV_OFFSET = 110; // px — accounts for fixed floating pill navbar height
-
 // ─────────────────────────────────────────────────────────────────────────────
-// ID Resolution Map
-// ─────────────────────────────────────────────────────────────────────────────
-
-function resolveElement(navId: string): HTMLElement | null {
-  const aliases = ID_ALIASES[navId] ?? [navId];
-  for (const id of aliases) {
-    const el = document.getElementById(id);
-    if (el) return el;
-  }
-  return null;
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// MobileMenu — Rendered as a React Portal sibling (outside <nav>)
-// so it is NOT constrained by nav's stacking context.
+// MobileMenu Component
 // ─────────────────────────────────────────────────────────────────────────────
 
 interface MobileMenuProps {
   isOpen: boolean;
   onClose: () => void;
-  activeSection: string;
-  onNavClick: (id: string) => void;
+  currentPath: string;
 }
 
-function MobileMenu({ isOpen, onClose, activeSection, onNavClick }: MobileMenuProps) {
-  // Trap focus — close on Escape / Android Back (popstate)
-  useEffect(() => {
-    if (!isOpen) return;
+function MobileMenu({ isOpen, onClose, currentPath }: MobileMenuProps) {
+  const navigate = useNavigate();
 
-    document.documentElement.classList.add("mobile-menu-open");
-
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    const handlePop = () => onClose();
-
-    window.addEventListener("keydown", handleKey);
-    window.addEventListener("popstate", handlePop);
-
-    return () => {
-      document.documentElement.classList.remove("mobile-menu-open");
-      window.removeEventListener("keydown", handleKey);
-      window.removeEventListener("popstate", handlePop);
-    };
-  }, [isOpen, onClose]);
+  if (!isOpen) return null;
 
   return (
     <AnimatePresence>
@@ -105,7 +53,7 @@ function MobileMenu({ isOpen, onClose, activeSection, onNavClick }: MobileMenuPr
         >
           {/* Header row */}
           <div className="flex items-center justify-between px-5 py-5 border-b border-white/10">
-            <div className="flex items-center gap-3">
+            <Link to="/" onClick={onClose} className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-2xl bg-[#10B981]/20 border border-[#10B981]/40 flex items-center justify-center">
                 <ToothIcon className="w-5 h-5 text-[#34D399]" />
               </div>
@@ -113,7 +61,7 @@ function MobileMenu({ isOpen, onClose, activeSection, onNavClick }: MobileMenuPr
                 <span className="font-display font-bold text-base text-white block leading-tight">DR. Nilay Saha</span>
                 <span className="text-[10px] uppercase tracking-widest text-[#34D399] font-semibold">Advanced Dental Studio</span>
               </div>
-            </div>
+            </Link>
             <button
               type="button"
               onClick={onClose}
@@ -128,92 +76,47 @@ function MobileMenu({ isOpen, onClose, activeSection, onNavClick }: MobileMenuPr
           <div className="flex-1 flex flex-col justify-center px-6 py-8 space-y-1.5 max-w-md mx-auto w-full">
             <div className="text-xs font-semibold uppercase tracking-widest text-[#34D399] mb-4 px-2 flex items-center gap-1.5">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>Navigation</span>
+              <span>Navigation Pages</span>
             </div>
 
             {NAV_ITEMS.map((item) => {
-              const isActive = activeSection === item.id;
+              const isActive = item.path === "/" ? currentPath === "/" : currentPath.startsWith(item.path);
               return (
-                <button
-                  key={item.id}
-                  type="button"
-                  onClick={() => onNavClick(item.id)}
-                  className={`w-full text-left text-xl sm:text-2xl font-display font-bold py-3.5 px-5 rounded-2xl flex items-center justify-between group transition-all duration-150 border active:scale-[0.98] cursor-pointer ${
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  onClick={onClose}
+                  className={`flex items-center justify-between w-full px-4 py-3.5 rounded-2xl text-base font-medium transition-all duration-150 active:scale-[0.98] ${
                     isActive
-                      ? "text-white bg-[#10B981]/20 border-[#10B981]/40 shadow-sm"
-                      : "text-slate-300 hover:text-white hover:bg-white/[0.06] border-transparent"
+                      ? "bg-[#10B981] text-slate-950 font-bold shadow-[0_0_20px_rgba(16,185,129,0.35)]"
+                      : "text-slate-200 hover:bg-white/10 hover:text-white"
                   }`}
                 >
                   <span>{item.name}</span>
-                  <ChevronRight
-                    className={`w-5 h-5 transition-transform group-hover:translate-x-1 ${
-                      isActive ? "text-[#34D399]" : "text-slate-500 group-hover:text-[#34D399]"
-                    }`}
-                  />
-                </button>
+                  <ChevronRight className={`w-4 h-4 ${isActive ? "text-slate-950" : "text-white/40"}`} />
+                </Link>
               );
             })}
-
-            {/* Secondary links */}
-            <div className="pt-5 border-t border-white/10 flex flex-wrap gap-x-5 gap-y-2.5 px-3 justify-center text-xs">
-              <a
-                href={`tel:${PRIMARY_PHONE_NUMBER}`}
-                onClick={onClose}
-                className="text-slate-400 hover:text-[#34D399] font-medium transition-colors py-1"
-              >
-                Emergency Care
-              </a>
-              <Link
-                to="/privacy"
-                onClick={onClose}
-                className="text-slate-400 hover:text-[#34D399] font-medium transition-colors py-1"
-              >
-                Privacy Policy
-              </Link>
-              <Link
-                to="/terms"
-                onClick={onClose}
-                className="text-slate-400 hover:text-[#34D399] font-medium transition-colors py-1"
-              >
-                Terms &amp; Conditions
-              </Link>
-            </div>
           </div>
 
-          {/* CTA footer */}
-          <div className="p-5 border-t border-white/10 space-y-3">
-            <button
-              type="button"
-              onClick={() => {
-                onClose();
-                window.dispatchEvent(new CustomEvent("openContactModal"));
-              }}
-              className="w-full py-4 rounded-full bg-gradient-to-r from-[#10B981] to-[#059669] text-white font-semibold text-base shadow-lg flex items-center justify-center gap-2.5 active:scale-[0.98] transition-transform cursor-pointer"
+          {/* Bottom CTAs */}
+          <div className="p-6 border-t border-white/10 space-y-3 max-w-md mx-auto w-full">
+            <Link
+              to="/book-appointment"
+              onClick={onClose}
+              className="w-full h-12 rounded-2xl bg-[#10B981] text-slate-950 font-extrabold text-sm flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(16,185,129,0.3)] active:scale-95 transition-all"
             >
-              <CalendarDays className="w-5 h-5 text-emerald-100" />
-              <span>Book Appointment Now</span>
-            </button>
+              <CalendarDays className="w-4 h-4 text-slate-950" />
+              <span>Book Appointment</span>
+            </Link>
 
-            <div className="grid grid-cols-2 gap-3">
-              <a
-                href={buildWhatsAppUrl()}
-                target="_blank"
-                rel="noreferrer"
-                onClick={onClose}
-                className="py-3.5 rounded-full border border-white/15 bg-white/[0.06] text-white font-semibold text-sm flex items-center justify-center gap-2 active:scale-[0.98] transition-transform"
-              >
-                <WhatsAppIcon className="w-4 h-4 text-[#25D366]" />
-                <span>WhatsApp</span>
-              </a>
-              <a
-                href={`tel:${PRIMARY_PHONE_NUMBER}`}
-                onClick={onClose}
-                className="py-3.5 rounded-full border border-white/15 bg-[#122820] text-slate-200 font-semibold text-sm flex items-center justify-center gap-2 active:scale-[0.98] transition-transform"
-              >
-                <Phone className="w-4 h-4 text-[#34D399]" />
-                <span>Call Clinic</span>
-              </a>
-            </div>
+            <a
+              href={`tel:${PRIMARY_PHONE_NUMBER}`}
+              className="w-full h-11 rounded-2xl bg-white/10 border border-white/15 text-white font-semibold text-xs flex items-center justify-center gap-2 hover:bg-white/20 transition-all"
+            >
+              <Phone className="w-3.5 h-3.5 text-[#34D399]" />
+              <span>Call Reception</span>
+            </a>
           </div>
         </motion.div>
       )}
@@ -227,191 +130,36 @@ function MobileMenu({ isOpen, onClose, activeSection, onNavClick }: MobileMenuPr
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [activeSection, setActiveSection] = useState<string>("home");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
-  const navigate = useNavigate();
-  const isClickScrolling = useRef(false);
-  const clickScrollTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // ── Scroll position listener for sticky navbar blur background ───────────
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 15);
+      setIsScrolled(window.scrollY > 30);
     };
+
     window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // ── Interrupt scroll if user manually interacts (wheel / touch) ─────────
-  useEffect(() => {
-    const handleUserInterrupt = () => {
-      if (isClickScrolling.current) {
-        isClickScrolling.current = false;
-        if (clickScrollTimeout.current) clearTimeout(clickScrollTimeout.current);
-      }
-    };
-
-    window.addEventListener("wheel", handleUserInterrupt, { passive: true });
-    window.addEventListener("touchstart", handleUserInterrupt, { passive: true });
-    return () => {
-      window.removeEventListener("wheel", handleUserInterrupt);
-      window.removeEventListener("touchstart", handleUserInterrupt);
-    };
-  }, []);
-
-  // ── Active Section Tracking via IntersectionObserver ─────────────────────
-  useEffect(() => {
-    if (location.pathname !== "/") return;
-
-    const handleIntersect = () => {
-      // Ignore scroll-spy updates during explicit programmatic smooth scroll
-      if (isClickScrolling.current) return;
-
-      // Handle top of page edge case
-      if (window.scrollY < 100) {
-        setActiveSection("home");
-        return;
-      }
-
-      // Handle bottom of page edge case
-      const scrollBottom = window.scrollY + window.innerHeight;
-      const docHeight = document.documentElement.scrollHeight;
-      if (scrollBottom >= docHeight - 40) {
-        setActiveSection("contact");
-        return;
-      }
-
-      // Find section closest to the top viewport focus area
-      let currentActive = "home";
-      let minDistance = Infinity;
-
-      NAV_ITEMS.forEach((item) => {
-        const el = resolveElement(item.id);
-        if (el) {
-          const rect = el.getBoundingClientRect();
-          // Distance from navbar offset
-          const dist = Math.abs(rect.top - NAV_OFFSET);
-          if (rect.top <= window.innerHeight * 0.5 && rect.bottom >= 100) {
-            if (dist < minDistance) {
-              minDistance = dist;
-              currentActive = item.id;
-            }
-          }
-        }
-      });
-
-      setActiveSection(currentActive);
-    };
-
-    const observer = new IntersectionObserver(
-      () => {
-        handleIntersect();
-      },
-      {
-        root: null,
-        rootMargin: "-20% 0px -45% 0px",
-        threshold: [0, 0.15, 0.5, 0.75, 1.0],
-      }
-    );
-
-    NAV_ITEMS.forEach((item) => {
-      const el = resolveElement(item.id);
-      if (el) observer.observe(el);
-    });
-
-    // Also run on scroll passive fallback
-    window.addEventListener("scroll", handleIntersect, { passive: true });
-    handleIntersect();
-
-    return () => {
-      observer.disconnect();
-      window.removeEventListener("scroll", handleIntersect);
-    };
-  }, [location.pathname]);
-
-  // ── Close mobile menu on route change ────────────────────────────────────
-  useEffect(() => {
-    setIsMobileMenuOpen(false);
-  }, [location.pathname]);
-
-  const closeMobileMenu = useCallback(() => setIsMobileMenuOpen(false), []);
-
-  // ── Nav click handler (Immediate state update + cancellable scroll) ──────
-  const handleNavClick = useCallback(
-    (navId: string) => {
-      setIsMobileMenuOpen(false);
-
-      if (navId === "schedule") {
-        window.dispatchEvent(new CustomEvent("openContactModal"));
-        return;
-      }
-
-      // Synchronously update active section so highlight pill moves IMMEDIATELY
-      setActiveSection(navId);
-
-      isClickScrolling.current = true;
-      if (clickScrollTimeout.current) clearTimeout(clickScrollTimeout.current);
-      clickScrollTimeout.current = setTimeout(() => {
-        isClickScrolling.current = false;
-      }, 1000);
-
-      if (location.pathname !== "/") {
-        navigate("/");
-        // Retry scroll once target page mounts
-        setTimeout(() => {
-          const el = resolveElement(navId);
-          if (el) {
-            const top = navId === "home" ? 0 : Math.max(0, el.getBoundingClientRect().top + window.pageYOffset - NAV_OFFSET);
-            window.scrollTo({ top, behavior: "smooth" });
-          } else if (navId === "home") {
-            window.scrollTo({ top: 0, behavior: "smooth" });
-          }
-        }, 120);
-        return;
-      }
-
-      const el = resolveElement(navId);
-      if (el) {
-        const top = navId === "home" ? 0 : Math.max(0, el.getBoundingClientRect().top + window.pageYOffset - NAV_OFFSET);
-        window.scrollTo({ top, behavior: "smooth" });
-      } else if (navId === "home") {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }
-    },
-    [location.pathname, navigate]
-  );
-
-  const handleAnchorClick = useCallback(
-    (e: React.MouseEvent<HTMLAnchorElement>, navId: string) => {
-      e.preventDefault();
-      handleNavClick(navId);
-    },
-    [handleNavClick]
-  );
-
-  const isHomePage = location.pathname === "/";
-
   return (
     <>
-      {/* ── Floating pill header ─────────────────────────────────────────── */}
       <header
-        className="fixed top-2 xs:top-3 sm:top-5 inset-x-0 z-[100] px-2 xs:px-3 sm:px-6 lg:px-8 max-w-7xl mx-auto pointer-events-none font-sans transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"
-        aria-label="Site header"
+        className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 pointer-events-none ${
+          isScrolled ? "py-2 sm:py-3" : "py-3 sm:py-5"
+        }`}
       >
         <nav
-          className={`w-full flex items-center justify-between rounded-full pointer-events-auto transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+          className={`pointer-events-auto transition-all duration-300 flex items-center justify-between ${
             isScrolled
               ? "apple-liquid-glass-scrolled px-3 sm:px-7 py-2 sm:py-2.5 max-w-[94%] sm:max-w-6xl mx-auto"
-              : "apple-liquid-glass px-3.5 sm:px-8 py-2.5 sm:py-3.5"
+              : "apple-liquid-glass px-3.5 sm:px-8 py-2.5 sm:py-3.5 max-w-[96%] sm:max-w-7xl mx-auto"
           }`}
           aria-label="Main navigation"
         >
           {/* Brand logo */}
-          <a
-            href="/#home"
-            onClick={(e) => handleAnchorClick(e, "home")}
+          <Link
+            to="/"
             className="flex items-center gap-1.5 xs:gap-2.5 sm:gap-3.5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00A896] rounded-2xl min-w-0 shrink"
           >
             <div className="relative w-8 h-8 xs:w-9 xs:h-9 sm:w-11 sm:h-11 shrink-0 rounded-full bg-gradient-to-br from-teal-500/15 to-teal-500/5 border border-teal-500/30 shadow-xs flex items-center justify-center">
@@ -425,17 +173,16 @@ export default function Navbar() {
                 ADVANCED DENTAL STUDIO
               </span>
             </div>
-          </a>
+          </Link>
 
           {/* Desktop nav links */}
           <div className="hidden lg:flex items-center gap-1 text-[13.5px] xl:text-[14px] font-medium bg-slate-200/40 p-1.5 rounded-full border border-white/60 backdrop-blur-md shrink-0 relative">
             {NAV_ITEMS.map((item) => {
-              const isActive = isHomePage && activeSection === item.id;
+              const isActive = item.path === "/" ? location.pathname === "/" : location.pathname.startsWith(item.path);
               return (
-                <a
-                  key={item.id}
-                  href={`/#${item.id}`}
-                  onClick={(e) => handleAnchorClick(e, item.id)}
+                <Link
+                  key={item.path}
+                  to={item.path}
                   aria-current={isActive ? "page" : undefined}
                   className={`relative py-1.5 px-3.5 sm:px-4 rounded-full transition-colors duration-200 flex items-center justify-center focus-visible:outline-none group cursor-pointer ${
                     isActive
@@ -451,7 +198,7 @@ export default function Navbar() {
                       transition={{ type: "spring", stiffness: 350, damping: 30, mass: 0.8 }}
                     />
                   )}
-                </a>
+                </Link>
               );
             })}
           </div>
@@ -466,16 +213,15 @@ export default function Navbar() {
               <Phone className="w-3.5 h-3.5 xs:w-4 xs:h-4 sm:w-4.5 sm:h-4.5" />
             </a>
 
-            <button
-              type="button"
-              onClick={() => handleNavClick("schedule")}
+            <Link
+              to="/book-appointment"
               aria-label="Book Appointment"
               className="flex btn-crystal px-2.5 xs:px-3.5 sm:px-6 py-1.5 xs:py-2 sm:py-3 text-[11px] xs:text-xs sm:text-sm font-bold shrink-0 items-center justify-center cursor-pointer"
             >
               <CalendarDays className="w-3.5 h-3.5 xs:w-4 xs:h-4 text-emerald-100 shrink-0" />
               <span className="hidden sm:inline">Book Appointment</span>
               <span className="inline sm:hidden">Book</span>
-            </button>
+            </Link>
 
             <button
               type="button"
@@ -493,9 +239,8 @@ export default function Navbar() {
 
       <MobileMenu
         isOpen={isMobileMenuOpen}
-        onClose={closeMobileMenu}
-        activeSection={activeSection}
-        onNavClick={handleNavClick}
+        onClose={() => setIsMobileMenuOpen(false)}
+        currentPath={location.pathname}
       />
     </>
   );

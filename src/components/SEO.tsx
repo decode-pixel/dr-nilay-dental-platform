@@ -5,7 +5,7 @@ import { PRIMARY_PHONE_NUMBER } from "../lib/constants";
 interface SEOProps {
   title: string;
   description: string;
-  url: string;
+  url?: string;
   schemaData?: any[];
 }
 

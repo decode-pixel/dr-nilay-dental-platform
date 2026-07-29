@@ -194,12 +194,15 @@ export default function Footer() {
               Quick Navigation
             </h4>
             <div className="flex flex-col gap-2.5 text-sm">
-              <Link to="/#home" className="text-[#94B0A3] hover:text-white transition-colors">Home</Link>
-              <Link to="/#about" className="text-[#94B0A3] hover:text-white transition-colors">About Dr. Nilay</Link>
-              <Link to="/#treatments" className="text-[#94B0A3] hover:text-white transition-colors">Treatments</Link>
-              <Link to="/#locations" className="text-[#94B0A3] hover:text-white transition-colors">Our Clinics</Link>
-              <Link to="/#reviews" className="text-[#94B0A3] hover:text-white transition-colors">Patient Reviews</Link>
-              <Link to="/#faq" className="text-[#94B0A3] hover:text-white transition-colors">FAQ</Link>
+              <Link to="/" className="text-[#94B0A3] hover:text-white transition-colors">Home</Link>
+              <Link to="/about" className="text-[#94B0A3] hover:text-white transition-colors">About Dr. Nilay</Link>
+              <Link to="/treatments" className="text-[#94B0A3] hover:text-white transition-colors">Treatments</Link>
+              <Link to="/clinics" className="text-[#94B0A3] hover:text-white transition-colors">Our Clinics</Link>
+              <Link to="/testimonials" className="text-[#94B0A3] hover:text-white transition-colors">Testimonials</Link>
+              <Link to="/reviews" className="text-[#94B0A3] hover:text-white transition-colors">Patient Reviews</Link>
+              <Link to="/faq" className="text-[#94B0A3] hover:text-white transition-colors">FAQ</Link>
+              <Link to="/contact" className="text-[#94B0A3] hover:text-white transition-colors">Contact</Link>
+              <Link to="/book-appointment" className="text-[#94B0A3] hover:text-white transition-colors font-semibold text-emerald-400">Book Appointment</Link>
               <Link to="/privacy" className="text-[#94B0A3] hover:text-white transition-colors">{footerContent.privacy_link_label}</Link>
               <Link to="/terms" className="text-[#94B0A3] hover:text-white transition-colors">{footerContent.terms_link_label}</Link>
             </div>
