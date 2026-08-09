@@ -5,39 +5,26 @@ export const ToothIcon = ({ className }: { className?: string }) => (
     fill="none"
     className={className}
   >
-    <g fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
-      <path
-        strokeWidth="8"
-        d="
-          M 100,50
-          C 86,34 66,32 52,48
-          C 36,66 34,92 46,114
-          C 54,128 50,146 48,162
-          C 46,178 54,188 64,186
-          C 76,184 88,162 100,126
-          C 112,162 124,184 136,186
-          C 146,188 154,178 152,162
-          C 150,146 146,128 154,114
-          C 166,92 164,66 148,48
-          C 134,32 114,34 100,50
-          Z
-        "
-      />
-      <path strokeWidth="6" d="M 58,74 C 54,64 64,52 78,48" />
-    </g>
-    <g
-      fill="currentColor"
-      fontFamily="'Playfair Display', 'Cinzel', 'Georgia', serif"
-      fontWeight="700"
-      textAnchor="middle"
-    >
-      <text x="81" y="104" fontSize="44" letterSpacing="-1">
-        N
-      </text>
-      <text x="119" y="104" fontSize="44" letterSpacing="-1">
-        S
-      </text>
-    </g>
+    <path
+      stroke="currentColor"
+      strokeWidth="12"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="
+        M 100,45
+        C 86,29 64,27 50,43
+        C 34,61 32,87 44,109
+        C 52,123 48,141 46,157
+        C 44,173 52,183 62,181
+        C 74,179 88,157 100,121
+        C 112,157 126,179 138,181
+        C 148,183 156,173 154,157
+        C 152,141 148,123 156,109
+        C 168,87 166,61 150,43
+        C 136,27 114,29 100,45
+        Z
+      "
+    />
   </svg>
 );
 
