@@ -121,7 +121,7 @@ export default function LegalPage({ type }: LegalPageProps) {
   };
 
   return (
-    <div className="min-h-screen text-[#0F172A] font-sans bg-[#FAFCFB] flex flex-col justify-between">
+    <div className="min-h-screen text-[#0F172A] font-sans bg-[#F6F9F8] flex flex-col justify-between">
       <div>
         <Navbar />
         

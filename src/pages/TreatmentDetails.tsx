@@ -114,7 +114,7 @@ export default function TreatmentDetails() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#F4F7F4] flex flex-col items-center justify-center text-[#122820] font-sans">
+      <div className="min-h-screen bg-[#F6F9F8] flex flex-col items-center justify-center text-[#122820] font-sans">
         <Clock className="w-10 h-10 animate-spin text-[#10B981] mb-4" />
         <span className="text-xs text-[#4B6358] uppercase tracking-widest font-semibold">Loading Treatment Details...</span>
       </div>
@@ -127,7 +127,7 @@ export default function TreatmentDetails() {
   const activeClinic = clinics.find((c) => c.id === selectedClinicId);
 
   return (
-    <div className="min-h-screen bg-[#F4F7F4] text-[#122820] overflow-x-hidden font-sans relative">
+    <div className="min-h-screen bg-[#F6F9F8] text-[#122820] overflow-x-hidden font-sans relative">
       
       {/* Dynamic SEO Overrides & Structured JSON-LD Schema */}
       <SEO
@@ -238,7 +238,7 @@ export default function TreatmentDetails() {
                       className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-semibold shrink-0 transition-all ${
                         isActive
                           ? 'bg-gradient-to-r from-[#10B981] to-[#059669] text-white shadow-[0_4px_15px_rgba(16,185,129,0.35)]'
-                          : 'bg-[#F4F7F4] text-[#4B6358] hover:text-[#122820] hover:bg-emerald-50'
+                          : 'bg-[#F6F9F8] text-[#4B6358] hover:text-[#122820] hover:bg-emerald-50'
                       }`}
                     >
                       <Icon className="w-4 h-4" />
@@ -260,14 +260,14 @@ export default function TreatmentDetails() {
 
                     {/* Render dynamic overview blocks if registered in CMS */}
                     {blocks.filter(b => b.block_type === 'Overview').map(block => (
-                      <div key={block.id} className="bg-[#F4F7F4] rounded-2xl p-6 border border-emerald-900/10 space-y-3">
+                      <div key={block.id} className="bg-[#F6F9F8] rounded-2xl p-6 border border-emerald-900/10 space-y-3">
                         {block.title && <h3 className="text-lg font-display font-bold text-[#122820]">{block.title}</h3>}
                         <p className="text-sm text-[#2C4238] leading-relaxed whitespace-pre-line">{block.content}</p>
                       </div>
                     ))}
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-emerald-900/10">
-                      <div className="bg-[#F4F7F4] rounded-2xl p-5 border border-emerald-900/10 flex items-start gap-3.5">
+                      <div className="bg-[#F6F9F8] rounded-2xl p-5 border border-emerald-900/10 flex items-start gap-3.5">
                         <div className="w-10 h-10 rounded-xl bg-emerald-50 text-[#10B981] border border-emerald-200 flex items-center justify-center shrink-0">
                           <ShieldCheck className="w-5 h-5" />
                         </div>
@@ -276,7 +276,7 @@ export default function TreatmentDetails() {
                           <p className="text-xs text-[#4B6358] mt-1">Conducted under strict WHO sterilization guidelines and surgical isolation.</p>
                         </div>
                       </div>
-                      <div className="bg-[#F4F7F4] rounded-2xl p-5 border border-emerald-900/10 flex items-start gap-3.5">
+                      <div className="bg-[#F6F9F8] rounded-2xl p-5 border border-emerald-900/10 flex items-start gap-3.5">
                         <div className="w-10 h-10 rounded-xl bg-emerald-50 text-[#10B981] border border-emerald-200 flex items-center justify-center shrink-0">
                           <CheckCircle className="w-5 h-5" />
                         </div>
@@ -299,7 +299,7 @@ export default function TreatmentDetails() {
                     {blocks.filter(b => b.block_type === 'Procedure' || b.block_type === 'Preparation').length > 0 ? (
                       <div className="space-y-4">
                         {blocks.filter(b => b.block_type === 'Procedure' || b.block_type === 'Preparation').map((b, idx) => (
-                          <div key={b.id} className="bg-[#F4F7F4] rounded-2xl p-5 border border-emerald-900/10 flex items-start gap-4">
+                          <div key={b.id} className="bg-[#F6F9F8] rounded-2xl p-5 border border-emerald-900/10 flex items-start gap-4">
                             <span className="w-8 h-8 rounded-full bg-emerald-50 border border-emerald-200 flex items-center justify-center text-xs font-bold text-[#10B981] shrink-0">
                               {idx + 1}
                             </span>
@@ -318,7 +318,7 @@ export default function TreatmentDetails() {
                           { step: '03', title: 'Precision Treatment Execution', desc: 'Microsurgical or laser-assisted intervention adhering to modern dental protocols.' },
                           { step: '04', title: 'Restoration & Quality Verification', desc: 'Final polishing, bite articulation check, and post-operative instructions.' }
                         ].map((item, idx) => (
-                          <div key={idx} className="bg-[#F4F7F4] rounded-2xl p-5 border border-emerald-900/10 flex items-start gap-4 hover:border-emerald-300 transition-colors">
+                          <div key={idx} className="bg-[#F6F9F8] rounded-2xl p-5 border border-emerald-900/10 flex items-start gap-4 hover:border-emerald-300 transition-colors">
                             <span className="w-8 h-8 rounded-full bg-emerald-50 border border-emerald-200 flex items-center justify-center text-xs font-bold text-[#10B981] shrink-0">
                               {item.step}
                             </span>
@@ -343,7 +343,7 @@ export default function TreatmentDetails() {
                     {blocks.filter(b => b.block_type === 'Benefits').length > 0 ? (
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         {blocks.filter(b => b.block_type === 'Benefits').map(b => (
-                          <div key={b.id} className="bg-[#F4F7F4] rounded-2xl p-5 border border-emerald-900/10 space-y-2">
+                          <div key={b.id} className="bg-[#F6F9F8] rounded-2xl p-5 border border-emerald-900/10 space-y-2">
                             <h4 className="text-base font-semibold text-[#122820] flex items-center gap-2">
                               <CheckCircle className="w-4 h-4 text-[#10B981]" />
                               {b.title}
@@ -360,7 +360,7 @@ export default function TreatmentDetails() {
                           { title: 'High Aesthetic Integrity', desc: 'Tooth-colored biocompatible materials seamlessly match natural enamel luster and shade.' },
                           { title: 'Long-Term Functional Stability', desc: 'Restores full masticatory forces allowing comfortable chewing and proper speech articulation.' }
                         ].map((adv, idx) => (
-                          <div key={idx} className="bg-[#F4F7F4] rounded-2xl p-5 border border-emerald-900/10 space-y-2 hover:border-emerald-300 transition-colors">
+                          <div key={idx} className="bg-[#F6F9F8] rounded-2xl p-5 border border-emerald-900/10 space-y-2 hover:border-emerald-300 transition-colors">
                             <h4 className="text-base font-semibold text-[#122820] flex items-center gap-2">
                               <CheckCircle className="w-4 h-4 text-[#10B981]" />
                               {adv.title}
@@ -376,12 +376,12 @@ export default function TreatmentDetails() {
                 {activeTab === 'recovery' && (
                   <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div className="bg-[#F4F7F4] rounded-2xl p-5 border border-emerald-900/10 space-y-2">
+                      <div className="bg-[#F6F9F8] rounded-2xl p-5 border border-emerald-900/10 space-y-2">
                         <span className="text-xs uppercase font-bold text-[#10B981] tracking-wider">Estimated Recovery</span>
                         <h4 className="text-xl font-display font-bold text-[#122820]">{treatment.recovery_time || '1-2 Days'}</h4>
                         <p className="text-xs text-[#4B6358]">Most patients resume regular daily routine immediately post-treatment.</p>
                       </div>
-                      <div className="bg-[#F4F7F4] rounded-2xl p-5 border border-emerald-900/10 space-y-2">
+                      <div className="bg-[#F6F9F8] rounded-2xl p-5 border border-emerald-900/10 space-y-2">
                         <span className="text-xs uppercase font-bold text-[#C5A059] tracking-wider">Follow-up Schedule</span>
                         <h4 className="text-xl font-display font-bold text-[#122820]">{treatment.follow_up_required ? 'Required (7-10 Days)' : 'Optional Review'}</h4>
                         <p className="text-xs text-[#4B6358]">Brief clinical evaluation to verify tissue healing and bite balance.</p>
@@ -396,7 +396,7 @@ export default function TreatmentDetails() {
                     {blocks.filter(b => b.block_type === 'Recovery' || b.block_type === 'Aftercare' || b.block_type === 'Risks').length > 0 ? (
                       <div className="space-y-4">
                         {blocks.filter(b => b.block_type === 'Recovery' || b.block_type === 'Aftercare' || b.block_type === 'Risks').map(b => (
-                          <div key={b.id} className="bg-[#F4F7F4] rounded-2xl p-5 border border-emerald-900/10 space-y-1">
+                          <div key={b.id} className="bg-[#F6F9F8] rounded-2xl p-5 border border-emerald-900/10 space-y-1">
                             <h4 className="text-base font-semibold text-[#122820]">{b.title}</h4>
                             <p className="text-sm text-[#2C4238] leading-relaxed whitespace-pre-line">{b.content}</p>
                           </div>
@@ -410,7 +410,7 @@ export default function TreatmentDetails() {
                           'Abstain from chewing hard or sticky foods directly on newly restored structures for at least 24 hours.',
                           'Take recommended anti-inflammatory medications exactly as advised if mild post-operative tenderness occurs.'
                         ].map((rule, idx) => (
-                          <div key={idx} className="bg-[#F4F7F4] rounded-2xl p-4 border border-emerald-900/10 flex items-start gap-3">
+                          <div key={idx} className="bg-[#F6F9F8] rounded-2xl p-4 border border-emerald-900/10 flex items-start gap-3">
                             <AlertCircle className="w-4 h-4 text-[#10B981] shrink-0 mt-0.5" />
                             <p className="text-sm text-[#2C4238]">{rule}</p>
                           </div>
@@ -488,7 +488,7 @@ export default function TreatmentDetails() {
                       <div
                         key={faq.id}
                         className={`rounded-2xl overflow-hidden border transition-all duration-300 ${
-                          isOpen ? 'bg-[#FAFDFB] border-emerald-500/40 shadow-[0_8px_24px_rgba(16,185,129,0.15)]' : 'bg-[#F4F7F4] border-emerald-900/10 hover:border-emerald-300'
+                          isOpen ? 'bg-[#FAFDFB] border-emerald-500/40 shadow-[0_8px_24px_rgba(16,185,129,0.15)]' : 'bg-[#F6F9F8] border-emerald-900/10 hover:border-emerald-300'
                         }`}
                       >
                         <button
@@ -564,7 +564,7 @@ export default function TreatmentDetails() {
                 <select
                   value={selectedClinicId}
                   onChange={(e) => setSelectedClinicId(e.target.value)}
-                  className="w-full px-4 py-3 bg-[#F4F7F4] border border-emerald-900/15 rounded-2xl text-sm text-[#122820] font-medium focus:outline-none focus:border-[#10B981] appearance-none transition-colors"
+                  className="w-full px-4 py-3 bg-[#F6F9F8] border border-emerald-900/15 rounded-2xl text-sm text-[#122820] font-medium focus:outline-none focus:border-[#10B981] appearance-none transition-colors"
                 >
                   {clinics.map((c) => (
                     <option key={c.id} value={c.id}>{c.name}</option>

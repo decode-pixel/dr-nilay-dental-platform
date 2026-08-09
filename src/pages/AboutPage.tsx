@@ -11,7 +11,7 @@ import { Award, ShieldCheck, Sparkles, UserCheck, GraduationCap, MapPin } from "
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen font-sans bg-[#FAFCFA] text-slate-900 overflow-x-hidden selection:bg-teal-500/30">
+    <div className="min-h-screen font-sans bg-[#F6F9F8] text-slate-900 overflow-x-hidden selection:bg-teal-500/30">
       <SEO 
         title="About Dr. Nilay Saha — Qualifications & Credentials" 
         description="Learn about Dr. Nilay Saha (BDS), WBDC Reg. No. 4858-A, 10+ years of endodontic clinical mastery, qualifications, timeline, and patient care philosophy across West Bengal."

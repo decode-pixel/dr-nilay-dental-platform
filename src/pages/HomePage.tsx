@@ -72,7 +72,7 @@ export default function HomePage() {
   return (
     <div
       id="home"
-      className="min-h-screen font-sans overflow-x-hidden selection:bg-teal-500/30 bg-white"
+      className="min-h-screen font-sans overflow-x-hidden selection:bg-teal-500/30 bg-[#F6F9F8]"
     >
       <SEO
         title="Dr. Nilay Saha — Advanced Dental Care & Endodontic Specialist"

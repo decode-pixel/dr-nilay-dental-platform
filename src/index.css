@@ -79,7 +79,7 @@
 }
 
 :root {
-  --bg-primary: #F4F7F4;
+  --bg-primary: #F6F9F8;
   --bg-elevated: #FAFDFB;
   --bg-surface: rgba(255, 255, 255, 0.85);
   --bg-surface-hover: rgba(255, 255, 255, 0.95);

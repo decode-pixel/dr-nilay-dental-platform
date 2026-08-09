@@ -157,7 +157,7 @@ export default function ReviewsPage() {
     : allCombinedReviews.filter((r) => r.category === filter);
 
   return (
-    <div className="min-h-screen font-sans bg-[#FAFCFA] text-slate-900 overflow-x-hidden selection:bg-teal-500/30">
+    <div className="min-h-screen font-sans bg-[#F6F9F8] text-slate-900 overflow-x-hidden selection:bg-teal-500/30">
       <SEO 
         title="Patient Reviews & Verified Testimonials — Dr. Nilay Saha" 
         description="Read 4.9/5 star Google reviews, verified patient stories, and treatment feedback for Dr. Nilay Saha Dental Care across Nabadwip & Belerhat centers."

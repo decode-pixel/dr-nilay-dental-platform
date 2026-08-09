@@ -10,7 +10,7 @@ import { MapPin, Navigation, Clock, ShieldCheck } from "lucide-react";
 
 export default function ClinicsPage() {
   return (
-    <div className="min-h-screen font-sans bg-[#FAFCFA] text-slate-900 overflow-x-hidden selection:bg-teal-500/30">
+    <div className="min-h-screen font-sans bg-[#F6F9F8] text-slate-900 overflow-x-hidden selection:bg-teal-500/30">
       <SEO 
         title="Our Regional Dental Clinics — Nabadwip & Belerhat Centers" 
         description="Visit Dr. Nilay Saha Dental Care centers in Nabadwip (Bhumi Apartment 2, Oladebitala Bazar) and Belerhat (Main Road, Opp. Railway Station). Check timings, directions, and pre-book consultations."
