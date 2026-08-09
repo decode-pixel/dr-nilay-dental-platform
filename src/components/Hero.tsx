@@ -60,11 +60,11 @@ export default function Hero() {
             </p>
 
             {/* CTA Buttons */}
-            <div className="flex flex-wrap items-center gap-4 mb-10">
+            <div className="flex flex-col sm:flex-row flex-wrap items-center gap-3 sm:gap-4 mb-10">
               <button
                 type="button"
                 onClick={handleBooking}
-                className="btn-crystal px-7 py-4 rounded-full text-base font-bold text-white flex items-center gap-3 shadow-[0_10px_30px_rgba(0,168,150,0.35)] hover:shadow-[0_15px_40px_rgba(0,168,150,0.5)] transition-all duration-300 cursor-pointer active:scale-98"
+                className="btn-crystal w-full sm:w-auto justify-center px-7 py-4 rounded-full text-base font-bold text-white flex items-center gap-3 shadow-[0_10px_30px_rgba(0,168,150,0.35)] hover:shadow-[0_15px_40px_rgba(0,168,150,0.5)] transition-all duration-300 cursor-pointer active:scale-98"
               >
                 <CalendarDays className="w-5 h-5 text-emerald-100" />
                 <span>Book Appointment</span>
@@ -73,7 +73,7 @@ export default function Hero() {
 
               <a
                 href={`tel:${PRIMARY_PHONE_NUMBER}`}
-                className="px-7 py-4 rounded-full bg-white/80 hover:bg-white border border-white/90 backdrop-blur-xl text-slate-800 font-bold text-base shadow-[0_8px_25px_rgba(15,23,42,0.06)] hover:shadow-[0_12px_32px_rgba(15,23,42,0.1)] transition-all duration-300 flex items-center gap-2.5 active:scale-98"
+                className="w-full sm:w-auto justify-center px-7 py-4 rounded-full bg-white/80 hover:bg-white border border-white/90 backdrop-blur-xl text-slate-800 font-bold text-base shadow-[0_8px_25px_rgba(15,23,42,0.06)] hover:shadow-[0_12px_32px_rgba(15,23,42,0.1)] transition-all duration-300 flex items-center gap-2.5 active:scale-98"
               >
                 <Phone className="w-4 h-4 text-[#00A896]" />
                 <span>Call Now</span>
@@ -83,7 +83,7 @@ export default function Hero() {
                 href={buildWhatsAppUrl()}
                 target="_blank"
                 rel="noreferrer"
-                className="px-6 py-4 rounded-full bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-800 font-bold text-base shadow-xs transition-all duration-300 flex items-center gap-2 active:scale-98"
+                className="w-full sm:w-auto justify-center px-6 py-4 rounded-full bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-800 font-bold text-base shadow-xs transition-all duration-300 flex items-center gap-2 active:scale-98"
               >
                 <WhatsAppIcon className="w-5 h-5 text-[#25D366]" />
                 <span>WhatsApp</span>

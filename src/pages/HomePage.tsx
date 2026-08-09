@@ -291,7 +291,7 @@ export default function HomePage() {
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
               to="/book-appointment"
-              className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-base shadow-xl shadow-teal-500/20 transition-all hover:scale-105 active:scale-95 cursor-pointer"
+              className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold text-base shadow-xl shadow-teal-500/20 transition-all hover:scale-105 active:scale-95 cursor-pointer flex items-center justify-center text-center"
             >
               Book Appointment Online
             </Link>

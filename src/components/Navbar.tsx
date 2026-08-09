@@ -65,7 +65,7 @@ function MobileMenu({ isOpen, onClose, currentPath }: MobileMenuProps) {
               type="button"
               onClick={onClose}
               aria-label="Close menu"
-              className="w-10 h-10 rounded-full bg-white/10 border border-white/15 flex items-center justify-center text-slate-300 hover:text-white hover:bg-white/20 transition-all duration-150 active:scale-95 cursor-pointer"
+              className="w-11 h-11 rounded-full bg-white/10 border border-white/15 flex items-center justify-center text-slate-300 hover:text-white hover:bg-white/20 transition-all duration-150 active:scale-95 cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -207,9 +207,9 @@ export default function Navbar() {
             <a
               href={`tel:${PRIMARY_PHONE_NUMBER}`}
               aria-label={`Call clinic: ${PRIMARY_PHONE_NUMBER}`}
-              className="w-8 h-8 xs:w-9 xs:h-9 sm:w-10 sm:h-10 rounded-full bg-white/90 border border-teal-500/20 hover:border-teal-500/60 flex items-center justify-center text-[#00A896] hover:bg-teal-50 shadow-xs transition-all duration-200 focus-visible:outline-none shrink-0"
+              className="w-10 h-10 xs:w-11 xs:h-11 sm:w-11 sm:h-11 rounded-full bg-white/90 border border-teal-500/20 hover:border-teal-500/60 flex items-center justify-center text-[#00A896] hover:bg-teal-50 shadow-xs transition-all duration-200 focus-visible:outline-none shrink-0"
             >
-              <Phone className="w-3.5 h-3.5 xs:w-4 xs:h-4 sm:w-4.5 sm:h-4.5" />
+              <Phone className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
             </a>
 
             <Link
@@ -228,9 +228,9 @@ export default function Navbar() {
               aria-label="Open navigation menu"
               aria-expanded={isMobileMenuOpen}
               aria-controls="mobile-menu"
-              className="lg:hidden w-8 h-8 xs:w-9 xs:h-9 sm:w-10 sm:h-10 rounded-full bg-[#122820] text-white flex items-center justify-center hover:bg-[#10B981] shadow-sm transition-all duration-200 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981] shrink-0 cursor-pointer"
+              className="lg:hidden w-10 h-10 xs:w-11 xs:h-11 sm:w-11 sm:h-11 rounded-full bg-[#122820] text-white flex items-center justify-center hover:bg-[#10B981] shadow-sm transition-all duration-200 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#10B981] shrink-0 cursor-pointer"
             >
-              <Menu className="w-4 h-4 xs:w-4.5 xs:h-4.5 sm:w-5 sm:h-5" />
+              <Menu className="w-5 h-5 sm:w-5 sm:h-5" />
             </button>
           </div>
         </nav>
